@@ -1,0 +1,38 @@
+import { CommonModule } from '@angular/common';
+
+import { CollectionRoutingModule } from './collection-routing.module';
+import { CollectionComponent } from './collection.component';
+import { LoanIssueEntryComponent } from './loan-issue-entry/loan-issue-entry.component';
+import { LoanIssueDetailsComponent } from './loan-issue-details/loan-issue-details.component';
+import { LoanCollectionEntryComponent } from './loan-collection-entry/loan-collection-entry.component';
+import { LoanCollectionDetailsComponent } from './loan-collection-details/loan-collection-details.component';
+import { EmiLoanIssueComponent } from './emi-loan-issue/emi-loan-issue.component';
+import { EmiLoanCollectionComponent } from './emi-loan-collection/emi-loan-collection.component';
+import { GroupDetailsComponent } from './group-details/group-details.component';
+import { GroupEntryComponent } from './group-entry/group-entry.component';
+import { ActionDetailsComponent } from './action-details/action-details.component';
+import { ActionEntryComponent } from './action-entry/action-entry.component';
+import { SharedModule } from '../shared/shared.module';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CollectionHomeComponent } from './collection-home/collection-home.component';
+import { CustomerOverviewComponent } from './customer-overview/customer-overview.component';
+import { OverviewPendingComponent } from './overview-pending/overview-pending.component';
+import { OverviewTransactionComponent } from './overview-transaction/overview-transaction.component';
+import { LoanwiseOutstandingComponent } from './loanwise-outstanding/loanwise-outstanding.component';
+import { EmiLoanDetailsComponent } from './emi-loan-details/emi-loan-details.component';
+
+
+
+@NgModule({
+  declarations: [CollectionComponent, LoanIssueEntryComponent, LoanIssueDetailsComponent, LoanCollectionEntryComponent, LoanCollectionDetailsComponent, EmiLoanIssueComponent, EmiLoanCollectionComponent, GroupDetailsComponent, ActionDetailsComponent, ActionEntryComponent,GroupEntryComponent, CollectionHomeComponent, CustomerOverviewComponent, OverviewPendingComponent, OverviewTransactionComponent, LoanwiseOutstandingComponent, EmiLoanDetailsComponent],
+  imports: [
+    CommonModule,
+    CollectionRoutingModule,
+    SharedModule,
+    FormsModule,
+
+
+  ],
+})
+export class CollectionModule { }

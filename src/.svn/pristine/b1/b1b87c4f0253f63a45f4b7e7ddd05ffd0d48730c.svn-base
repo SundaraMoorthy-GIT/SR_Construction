@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-add-customer-auto',
+  templateUrl: './add-customer-auto.component.html',
+  styleUrls: ['./add-customer-auto.component.scss']
+})
+export class AddCustomerAutoComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

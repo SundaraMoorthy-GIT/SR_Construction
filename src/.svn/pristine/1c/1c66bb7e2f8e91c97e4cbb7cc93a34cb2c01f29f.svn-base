@@ -1,0 +1,91 @@
+
+    <div class="row">
+      <div class="col-md-12 nopad">
+        <div class="card content ">
+    
+            <div class=" Head ">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>
+                      Sstting Dashboard
+                    </h3>
+                    
+                </div>
+            </div>
+            <div class="content_body">
+    
+              <div class="row" style="background-color: white;">
+                <div class="col-md-12" >              
+                 
+                            
+                        <form >
+                          
+                          <div class="row">
+    
+                          <div class="col-sm-6">
+                            <div class="form-group">
+    
+                              <label>Setings</label>
+                              </div>
+                               </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                 <div>
+                            <i class='bx bx-right-arrow-alt'></i> <label (click)=" addReset()"  >Page Settup</label>
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                 <div>
+                            <i class='bx bx-right-arrow-alt'></i> <label (click)=" field()"  >Field Setting</label>
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                 <div>
+                            <i class='bx bx-right-arrow-alt'></i> <label (click)=" user()"  >User & Role</label>
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                 <div>
+                            <i class='bx bx-right-arrow-alt'></i> <label (click)="areamapping()"> Area Mapping</label>
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                 <div>
+                            <i class='bx bx-right-arrow-alt'></i> <label (click)=" company()"> Compnay Setting</label>
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                 <div>
+                            <i class='bx bx-right-arrow-alt'></i> <label (click)=" menu()"> Menu Master</label>
+                            </div>
+                            </div>
+                            </div>
+                          </div>
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>

@@ -1,0 +1,69 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+declare let $: any;
+@Component({
+  selector: 'app-outstanding-supplier',
+  templateUrl: './outstanding-supplier.component.html'
+})
+export class OutstandingSupplierComponent implements OnInit {
+
+  constructor(public appservice: AppService) {
+
+
+    
+
+    try {
+      if (appservice.Supplier_Out.length <= 0)
+        this.appservice.get_OutStanding_Supplier();
+    }
+    catch{
+      this.appservice.get_OutStanding_Supplier();
+    }
+  }
+
+  select_Customer(rowData) {
+    this.appservice.selected_Out_supplier = rowData;
+    this.appservice.load_page('/transaction/add-payment');
+  }
+
+ 
+  selected_row1(row_No, dt) {
+
+
+    var len = 0;
+    try {
+      len = dt.filteredValue.length;
+
+    } catch { }
+
+
+    if (len == 0) {
+      this.select_Customer(dt.value[row_No]);
+      
+    }
+    else {
+      this.select_Customer(dt.filteredValue[row_No]);
+      
+    }
+    
+  }
+
+
+  row_No = -1;
+
+  up() {
+    if (this.row_No >= 0) {
+      this.row_No = this.row_No - 1;
+    }
+  }
+
+  down() {
+    this.row_No = this.row_No + 1;
+  }
+
+
+
+  ngOnInit(): void {
+    $(".itext").focus();
+  }
+}

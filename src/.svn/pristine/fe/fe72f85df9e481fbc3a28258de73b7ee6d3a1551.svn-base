@@ -1,0 +1,121 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+
+declare let $: any;
+@Component({
+  selector: 'app-add-variable-settings',
+  templateUrl: './add-variable-settings.component.html',
+  styleUrls: ['./add-variable-settings.component.scss']
+})
+export class AddVariableSettingsComponent implements OnInit {
+
+  ngOnInit() { }
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  public Room_Types = [];
+  public Room_Floor = [];
+  public item_Cateogry = [];
+
+  public btndisable:boolean=false;
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  
+
+    if(this.appservice.isEdit)
+    {
+      this.add=appservice.Edit_Row;
+    }
+    else
+    {
+      
+      this.add.ID="0";
+      this.Clear();
+
+    }
+
+   
+  }
+
+
+
+
+ 
+
+
+ 
+
+  addData(f) {
+
+    f.form.value.Company = this.appservice.Company;
+    
+    if (f.invalid === true)
+      this.addValidation = true;
+    else {
+      this.addValidation = false;
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+      
+    this.btndisable=true;
+      this.http.post(this.appservice.Server_URL + 'api/master/insert_Variable_Setting', f.form.value, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+
+            this.btndisable=false;
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.get_Variable_Settings();
+
+              this.Clear();
+             
+              
+              f.submitted=false;
+              if (this.isadd != "0") {
+                this._location.back();
+              }
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+  }
+  Back() {
+    this._location.back();
+  }
+
+
+
+  
+
+  uploadedFiles: any[] = [];
+
+  server;
+  onUpload(event) {
+      for(let file of event.files) {
+          this.uploadedFiles.push(file);
+      }
+
+      this.toastr.success("File Uploaded  Success", 'Msg');
+      
+  }
+Clear() {
+  this.add =
+    {
+      'ID': '0',
+      'IS_VariableD': '',
+      'S_Value': '',
+      'S_Default':''
+           }; 
+}
+}

@@ -1,0 +1,38 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-customerwise-out',
+  templateUrl: './customerwise-out.component.html',
+  styleUrls: ['./customerwise-out.component.scss']
+})
+export class CustomerwiseOutComponent implements OnInit {
+
+  constructor(public appservice:AppService) { }
+  export_excel()
+  {
+ 
+  //  this.appservice.Excel_Data.Header=this.appservice.Customerwise_out_Export;
+   
+   this.appservice.Excel_Data.items=this.appservice.Customerwise_Out
+   this.appservice.Excel_Data.Report_Name="Customerwise Out"
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+ {
+
+  // this.appservice.Excel_Data.Header=this.appservice.Customerwise_out_Export;
+  this.appservice.Excel_Data.Total_Row= "Total Rows : "+this.appservice.length_of(data);
+  this.appservice.Excel_Data.Total_Amount="Total Amount : "+this.appservice.sum_of(data,'Amount');
+  this.appservice.Excel_Data.items=this.appservice.Customerwise_Out
+  this.appservice.Excel_Data.Report_Name="Customerwise Out"
+  this.appservice.export_pdf();
+  }
+
+  ngOnInit(): void {
+  }
+
+}

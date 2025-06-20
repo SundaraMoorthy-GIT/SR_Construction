@@ -1,0 +1,56 @@
+import { Component } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-paymodewise-purchase',
+  templateUrl: './paymodewise-purchase.component.html',
+  styleUrls: ['./paymodewise-purchase.component.scss']
+})
+export class PaymodewisePurchaseComponent {
+    public btndisable: boolean = false;
+
+
+ constructor(public appservice:AppService) {
+    if(this.appservice.Branch_ID!=0)
+      {
+       this.btndisable=true;
+      }
+      else{
+        this.btndisable=false;
+      }
+    this.appservice.get_Purchase_Report();
+   }
+  export_excel()
+  {
+ 
+   this.appservice.Excel_Data.Header=this.appservice.Paymodewise_Purchase_Export;
+   this.appservice.Excel_Data.items=this.appservice.Paymodewise_Purchase_Sum_Row;
+   this.appservice.Excel_Data.Report_Name="Paymodewise Purchase"
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+ {
+
+  this.appservice.Excel_Data.Header=this.appservice.Paymodewise_Purchase_Export;
+  this.appservice.Excel_Data.Total_Row= "Total Rows : "+this.appservice.length_of(data);
+  this.appservice.Excel_Data.Total_Amount="Total Amount : "+this.appservice.sum_of(data,'Amount');
+  this.appservice.Excel_Data.items=this.appservice.Paymodewise_Purchase_Sum_Row;
+  this.appservice.Excel_Data.Report_Name="Paymodewise Purchase"
+  this.appservice.export_pdf();
+  }
+
+
+  Print_Data()
+  {
+    this.appservice.getc("Api/Hotel/Print_DaySales").subscribe((res: any) => {
+    
+    });
+  }
+
+  ngOnInit(): void {
+  }
+
+}

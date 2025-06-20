@@ -1,0 +1,100 @@
+
+<div class="row">
+    <div class="col-md-12 nopad">
+    <div class="card content ">
+
+        <div class=" Head ">
+            <div class="card-header  d-flex justify-content-between align-items-center">
+                <h3>Branch Details</h3>
+
+                <div class="dropdown">
+                    <button class="dropdown-toggle mhide abutton" type="button" (click)="addReset()" title="Add New" >
+                        <i style="font-size: 19px;" class='bx bx-list-plus'></i> 
+                        <span >Add New</span>
+                      </button>
+                      <button class="dropdown-toggle mhide mbutton" type="button" data-toggle="dropdown" title="Excel" aria-haspopup="true"
+                      aria-expanded="false" (click)="export_excel()" style="margin-top: -3px !important;height: 36px;">
+                     <i style="font-size: 19px;" class='bx bx-download'></i> 
+                      <span >Excel</span>
+                     </button>
+          
+                      <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+                      title="search" >
+                        <i style="    font-size: 20px;" class='bx bx-search'></i> 
+                      </a>
+                    <a class="dropdown-toggle mshow"  (click)="addReset()"  data-toggle="tooltip" data-placement="bottom" title="Add New" routerlink="">
+                        <i class='bx bx-list-plus'></i>
+                    </a>
+                   
+   
+                 
+                  
+                </div>
+            </div>
+
+        </div>
+
+            <!-- <div class="search-bar_Ext mhide  show_bar " style="">
+          
+              <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+    
+                  <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+                  class="search-form-control text"
+                  placeholder="Search...">
+      
+            </div> -->
+           
+        <div class="content_body">
+            
+            <div >
+          <div style="padding-top: 5px">
+            <p-table class="table table-striped custom-table" #dt1 class="table table-striped custom-table" 
+            [value]="Branch_Details_Row" 
+            [style]="{'display': 'grid', 'height': 'calc(100vh - 165px)'}"
+            [globalFilterFields]="Branch_Details_GF"
+            selectionMode="single">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [pSortableColumn]="'Branch_Name'">Branch Name</th>              
+                        <th  [pSortableColumn]="'Branch_Address'" >Branch Address</th>      
+                        <th  [pSortableColumn]="'City'" >City</th>   
+                        <th  [pSortableColumn]="'State'" >State</th>   
+                        <th  [pSortableColumn]="'Pincode'" >Pincode</th>   
+                        <th  [pSortableColumn]="'Email'" >Email</th>   
+                        <th  [pSortableColumn]="'Mobile_No'" >Mobile No</th>   
+                        <th  [pSortableColumn]="'Phone_No'" >Phone No</th>   
+                              <th width=90>Action</th>
+                              <!-- <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+                            </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+                    <tr [pSelectableRow]="rowData">
+                        <td>{{rowIndex+1}}</td>
+                        <td  >{{rowData.Branch_Name}}</td>
+                        <td  >{{rowData.Branch_Address}}</td>    
+                        <td  >{{rowData.City}}</td>    
+                        <td  >{{rowData.State}}</td>    
+                        <td  >{{rowData.Pincode}}</td>    
+                        <td  >{{rowData.Email}}</td>    
+                        <td  >{{rowData.Mobile_No}}</td>    
+                        <td  >{{rowData.Phone_No}}</td>    
+      
+                        <td class="text-right">
+                          <a href="javascript:" style="font-size: 18px;padding: 5px" title="Edit" (click)="onEdit(rowData)"><i
+                              class="bx bxs-pencil m-r-5"></i>
+                          </a>
+                          <a title="Delete" style="font-size: 18px;padding: 5px;color: firebrick" (click)="onDelete(rowData.hq_id)"><i
+                              class="bx bxs-trash"></i>
+                          </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+          </div>
+          </div>
+            <br>
+        </div>
+    </div>
+</div>
+</div>
+

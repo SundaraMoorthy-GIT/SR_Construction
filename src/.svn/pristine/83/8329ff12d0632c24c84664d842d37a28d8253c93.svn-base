@@ -1,0 +1,34 @@
+  import { Component, OnInit } from '@angular/core';
+  import { ToastrService } from 'ngx-toastr';
+  import { HttpClient } from '@angular/common/http';
+  import { Router, ActivatedRoute } from '@angular/router';
+  import { AppService } from '../app.service';
+  import { Location } from '@angular/common';
+  
+  @Component({
+    selector: 'app-view-order-details1',
+    templateUrl: './view-order-details1.component.html',
+    styleUrls: ['./view-order-details1.component.scss']
+  })
+  export class ViewOrderDetails1Component implements OnInit {  
+   
+
+    btndisable:boolean=false;
+    constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute)  
+    { 
+  
+  
+    }
+   
+
+    load_invoice()
+    {
+      this.appservice.load_from_make_invoice=true;
+      this.appservice.load_page('sales/sales-entry');
+     
+    }
+     ngOnInit(): void {
+     }
+   
+   }
+   

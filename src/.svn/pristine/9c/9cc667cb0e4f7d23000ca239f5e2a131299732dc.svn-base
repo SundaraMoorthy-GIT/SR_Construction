@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ProductMarginEntryComponent } from './product-margin-entry.component';
+
+describe('ProductMarginEntryComponent', () => {
+  let component: ProductMarginEntryComponent;
+  let fixture: ComponentFixture<ProductMarginEntryComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ProductMarginEntryComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ProductMarginEntryComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

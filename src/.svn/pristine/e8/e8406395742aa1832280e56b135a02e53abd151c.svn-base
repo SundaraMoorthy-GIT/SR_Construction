@@ -1,0 +1,31 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { IMyDpOptions } from 'mydatepicker';
+@Component({
+  selector: 'app-customer-overview',
+  templateUrl: './customer-overview.component.html',
+  styleUrls: ['./customer-overview.component.scss']
+})
+export class CustomerOverviewComponent implements OnInit {
+
+  data :any={
+  }
+  rowdata :any={
+  }
+ 
+ 
+  constructor(public appservice:AppService) { 
+  this.data = appservice.Edit_Row;
+  this.appservice.get_Customer_Details(appservice.Edit_Row.ID)
+  this.appservice.get_Group_Overview(appservice.Edit_Row.ID)
+
+  }
+ 
+  ngOnInit(): void {
+  }
+
+}

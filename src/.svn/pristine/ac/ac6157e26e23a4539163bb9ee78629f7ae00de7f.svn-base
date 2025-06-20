@@ -1,0 +1,115 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppService } from '../app.service';
+declare let $: any;
+
+@Component({
+  selector: 'app-cutomer-search',
+  templateUrl: './cutomer-search.component.html',
+  styleUrls: ['./cutomer-search.component.scss']
+})
+export class CutomerSearchComponent implements OnInit {
+
+  Row = [];
+  constructor(public appservice: AppService,private router: Router) {
+
+
+    this.get_Area();
+
+    $(".itext").focus();
+    this.appservice.Ledger_Master_GF = [...new Set(this.appservice.get_fields_of('Ledger_Master').map(item => item.Field))];
+    try {
+      if (appservice.Ledger_Master_Rows.length <= 0)
+        this.appservice.get_Ledger_Master();
+    }
+    catch {
+      this.appservice.get_Ledger_Master();
+    }
+    this.get_ledger();
+  }
+  addReset() {
+    this.appservice.isadd = "0";
+    this.appservice.Edit_Row ={};
+
+    this.appservice.isEdit=false;
+    return this.router.navigate(['/master/ledger-entry']);
+  }
+
+  get_ledger() {
+    try {
+      //this.appservice.get_Ledger_Master();
+     // 
+
+     this.appservice.SLedger_Rows=[];
+     if(this.appservice.S_Area=='All')
+     {
+       
+     this.appservice.SLedger_Rows=this.appservice.Ledger_Master_Rows;
+     }
+     else
+     {
+       
+       this.appservice.SLedger_Rows= this.appservice.Ledger_Master_Rows.filter(e => e.Area.toLowerCase().includes(this.appservice.S_Area.toLocaleLowerCase())); 
+     }
+     this.appservice.SLedger_Rows = this.appservice.SLedger_Rows.filter(e => e.Group_ID == this.appservice.Ledger_Type || e.Group_ID == "3");
+
+     
+      
+    } catch { }
+  }
+  public Area_Row = [];
+  get_Area() {
+    this.Area_Row = this.appservice.Reference_Rows.filter(e => e.Ref_ID == "Area");
+  }
+  txt_search = "";
+
+  select_Ledger(rowData) {
+
+    this.appservice.from_customer_page=true;
+    this.appservice.Selected_Customer = rowData;
+    // this.appservice.load_page('/report/customer-ledger');
+    this.appservice.back();
+
+
+  }
+
+  selected_row1(row_No, dt) {
+
+
+    var len = 0;
+    try {
+      len = dt.filteredValue.length;
+
+    } catch { }
+
+
+    if (len == 0) {
+      this.select_Ledger(dt.value[row_No]);
+      
+    }
+    else {
+      this.select_Ledger(dt.filteredValue[row_No]);
+      
+    }
+    
+  }
+
+
+  row_No = -1;
+
+  up() {
+    if (this.row_No >= 0) {
+      this.row_No = this.row_No - 1;
+    }
+  }
+
+  down() {
+    this.row_No = this.row_No + 1;
+  }
+
+
+  ngOnInit(): void {
+    $(".itext").focus();
+  }
+
+}

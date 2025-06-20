@@ -1,0 +1,115 @@
+
+
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Area Mapping</h3>
+  
+           
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+            <div class="row filter-row">
+
+                <div class="col-sm-6 col-md-2 col-xs-6">
+                    <div class="form-group ">
+        
+                        <label class="control-label">User Name </label>
+                        <select placeholder="Select Area" class="area form-control form-control-sm"
+                        [(ngModel)]="User_ID" name="User_ID1" #User_ID1="ngModel"
+                        style="width:100%" aria-hidden="true">
+
+                       
+
+                        <option *ngFor="let data of User_Row" value="{{data.User_ID}}">
+                          {{data.User_Name}}
+                        </option>
+
+
+
+
+                      </select>
+        
+                    </div>
+                </div>
+        
+                
+                <div class="col-sm-6 col-md-2 col-xs-6">
+                    <label class="control-label">&nbsp;</label>
+        
+                    <a href="javascript:" (click)="display()" class="btn btn-success btn-block" style="height: 35px"> Show </a>
+                </div>
+        
+                <div class="col-sm-6 col-md-2 col-xs-6">
+                  <label class="control-label">&nbsp;</label>
+      
+                  <button  (click)="save()"  [disabled]="btndisable" class="btn btn-info btn-block" style="height: 35px"> 
+                    
+                    
+                   
+                          <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                 
+                    Save
+                  </button>
+              </div>
+        
+        
+            </div>
+        
+        
+            <div class="row">
+              <div class="col-md-12">
+                 &nbsp;  <input type="checkbox"  [(ngModel)]="Selected"  (change)="select()" > Check All
+                </div>
+              <div class="col-md-12">
+      
+                  <div class="entry_table1">
+      
+                      <div class="header">
+                          <div style="width:50px; text-align: center;">#</div>
+                          <div *ngFor="let data of rs" style="padding-left: 8px; padding-right: 10px;"  [style.text-align]="data.align" [style.width]="data.width">{{data.Name}}</div>
+      
+                      </div>
+      
+      
+      
+                      <div class="body" *ngFor="let rowData of Row;index as i">
+                          <div class="row_hover" style="width:50px; text-align: center;">{{i+1}}</div>
+                          <div *ngFor="let data of rs" class="in cell row_hover" [style.width]="data.width">
+      
+                              <input *ngIf="data.Field=='Check'"  [(ngModel)]="rowData[data.Field]" [style.text-align]="data.align"
+                              type="Checkbox" class="in tbtext" style="width: 100%;">
+                            
+      
+      
+                              <input  *ngIf="!(data.Field=='Check')"  [(ngModel)]="rowData[data.Field]" [style.text-align]="data.align"
+                                  type="{{data.type}}" class="in tbtext" style="width: 100%;"
+                                  value="{{rowData[data.Field]}}">
+      
+      
+                          </div>
+      
+      
+                      </div>
+      
+      
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+

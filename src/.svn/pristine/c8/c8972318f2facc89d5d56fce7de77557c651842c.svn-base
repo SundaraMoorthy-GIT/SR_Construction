@@ -1,0 +1,53 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { ReportComponent } from './report.component';
+import { BillwiseOutComponent } from './Outstanding/billwise-out/billwise-out.component';
+import { CustomerwiseOutComponent } from './Outstanding/customerwise-out/customerwise-out.component';
+import { AreawiseOutComponent } from './Outstanding/areawise-out/areawise-out.component';
+import { SalespersonwiseOutComponent } from './Outstanding/salespersonwise-out/salespersonwise-out.component';
+import { DuedaywiseOutComponent } from './Outstanding/duedaywise-out/duedaywise-out.component';
+import { OutStandingCustomersComponent } from './Outstanding/out-standing-customers/out-standing-customers.component';
+import { DayBookComponent } from './Ledger/day-book/day-book.component';
+import { CustomerLedgerComponent } from './Ledger/customer-ledger/customer-ledger.component';
+import { EntrywiseColComponent } from './Collection/entrywise-col/entrywise-col.component';
+import { CustomerwiseColComponent } from './Collection/customerwise-col/customerwise-col.component';
+import { AreawiseColComponent } from './Collection/areawise-col/areawise-col.component';
+import { UserwiseColComponent } from './Collection/userwise-col/userwise-col.component';
+import { PaymodewiseColComponent } from './Collection/paymodewise-col/paymodewise-col.component';
+import { SupplierLedgerComponent } from './Ledger/supplier-ledger/supplier-ledger.component';
+import { BankBalanceComponent } from './bank-balance/bank-balance.component';
+
+import { OutstandingSupplierComponent } from './outstanding-supplier/outstanding-supplier.component';
+const routes: Routes = [
+  { path: '', component: ReportComponent },
+  { path: 'bank-balance', component: BankBalanceComponent },
+
+
+  //Outstanding
+{ path: 'billwise-out', component: BillwiseOutComponent },
+{ path: 'customerwise-out', component: CustomerwiseOutComponent },
+{ path: 'salespersonwise-out', component: SalespersonwiseOutComponent },
+{ path: 'duedaywise-out', component: DuedaywiseOutComponent },
+{ path: 'areawise-out', component: AreawiseOutComponent },
+{ path: 'Outstanding-customer', component: OutStandingCustomersComponent },
+{ path: 'outstanding_supplier', component: OutstandingSupplierComponent },
+
+
+{ path: 'supplier-ledger', component: SupplierLedgerComponent },
+{ path: 'customer-ledger', component: CustomerLedgerComponent },
+{ path: 'day-book', component: DayBookComponent },
+
+//Collection
+{ path: 'customerwise-col', component: CustomerwiseColComponent },
+{ path: 'entrywise-col', component: EntrywiseColComponent },
+{ path: 'userwise-col', component: UserwiseColComponent },
+{ path: 'areawise-col', component: AreawiseColComponent },
+{ path: 'paymodewise-col', component: PaymodewiseColComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ReportRoutingModule { }

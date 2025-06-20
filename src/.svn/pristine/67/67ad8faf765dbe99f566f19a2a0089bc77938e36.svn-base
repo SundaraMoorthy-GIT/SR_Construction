@@ -1,0 +1,47 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-deportmentwise-report',
+  templateUrl: './deportmentwise-report.component.html',
+  styleUrls: ['./deportmentwise-report.component.scss']
+})
+export class DeportmentwiseReportComponent implements OnInit {
+
+  constructor(public appservice:AppService) { 
+
+    this.appservice.get_Visitor_Details();
+  }
+
+
+ 
+
+
+  
+  export_excel()
+  {
+ 
+   this.appservice.Excel_Data.Header=this.appservice.Departmentwise_Export;
+   this.appservice.Excel_Data.items=this.appservice.Deportmentwise_Row
+   this.appservice.Excel_Data.Report_Name="Departmentwise Report"
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+ {
+
+  this.appservice.Excel_Data.Header=this.appservice.Departmentwise_Export;
+  this.appservice.Excel_Data.Total_Row= "Total Rows : "+this.appservice.length_of(data);
+  this.appservice.Excel_Data.Total_Amount="Total Amount : "+this.appservice.sum_of(data,'Amount');
+  this.appservice.Excel_Data.items=this.appservice.Deportmentwise_Row
+  this.appservice.Excel_Data.Report_Name="Departmentwise Report"
+  this.appservice.export_pdf();
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+

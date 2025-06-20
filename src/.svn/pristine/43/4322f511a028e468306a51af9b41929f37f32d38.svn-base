@@ -1,0 +1,319 @@
+  import { Component, OnInit } from '@angular/core';
+  import { AppService } from 'src/app/app.service';
+  import { ToastrService } from 'ngx-toastr';
+  import { HttpClient } from '@angular/common/http';
+import { ConfirmationService } from 'primeng/api';
+import {Subject, Observable} from 'rxjs';
+import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
+  
+  @Component({
+    selector: 'app-add-approved-list',
+    templateUrl: './add-approved-list.component.html',
+    styleUrls: ['./add-approved-list.component.scss']
+  })
+  export class AddApprovedListComponent implements OnInit {
+   
+
+    public showWebcam = true;
+    public allowCameraSwitch = true;
+    public multipleWebcamsAvailable = false;
+    public deviceId: string;
+    public videoOptions: MediaTrackConstraints = {
+      // width: {ideal: 1024},
+      // height: {ideal: 576}
+    };
+    public errors: WebcamInitError[] = [];
+  
+    // latest snapshot
+    public webcamImage: WebcamImage = null;
+  
+    // webcam snapshot trigger
+    private trigger: Subject<void> = new Subject<void>();
+    // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
+    private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
+  
+   
+  add: any = {};
+  public btndisable: boolean = false;
+
+
+  Street_Row = [];
+  rs=[];
+  get_Street_Row() {
+    this.Street_Row = this.appservice.get_street(this.add.Area);
+  }
+
+
+  txt_name="x";
+  ac_text="Save";
+  constructor(public confirmationService: ConfirmationService,public appservice: AppService, private toastr: ToastrService, private http: HttpClient) {
+
+    
+
+    this.rs = this.appservice.get_fields_of('Visiting_Member');
+
+    if(this.appservice.isEdit)
+    {
+      this.add=appservice.Edit_Row;
+      this.add.V_From_Time = appservice.datetimefromat(this.appservice.Edit_Row.V_From_Time);
+      this.add.V_To_Time = appservice.datetimefromat(this.appservice.Edit_Row.V_To_Time);
+    }
+    else
+    {
+      this.clear();
+      this.add.ID="0";
+      this.appservice.Details_Row=[];
+      this.appservice.Sales_Temp_Row.Visitor_Name="";
+      this.appservice.Sales_Temp_Row.Phone_No="";
+    }
+
+
+    this.add.Approval_Status="Approved";
+
+    if(this.add.Visitior_Status.toLowerCase()=="scheduled")
+    {
+      this.add.Visitior_Status="Waiting at gate";
+      this.ac_text="Req to Allow inside"
+    }
+    else if(this.add.Visitior_Status.toLowerCase()=="allow inside")
+    {
+      this.add.Visitior_Status="Check in";
+      this.ac_text="Check in"
+
+    }
+    else if(this.add.Visitior_Status.toLowerCase()=="check in")
+    {
+      this.add.Visitior_Status="Check out";
+      this.ac_text="Check out"
+    }
+  
+
+  }
+
+
+
+  
+  load_ledg1()
+  {
+    this.appservice.Sales_Temp_Row.Visitor_Name=this.appservice.filter_data;
+  }
+  
+  add_data(data) {
+
+    
+    this.appservice.Details_Row.push(this.appservice.Sales_Temp_Row);
+    this.appservice.Sales_Temp_Row={};
+    this.appservice.filter_data="";
+    
+    this.appservice.Sales_Temp_Row.Visitor_Name="";
+  }
+
+
+  Ph_No="";
+
+  
+
+  del_row(item) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(item)
+      }
+    });
+  }
+
+  Delete(item) {
+
+    var index = item;
+
+
+    if (index > -1) {
+      this.appservice.Details_Row.splice(index, 1);
+    }
+    this.appservice.Details_Row = this.appservice.Details_Row;
+    
+  }
+
+
+  clear() {
+
+    this.appservice.get_fields_of('Visitor_Details').forEach((activity) => {
+      if (activity.Default_Value == "T_Date") {
+        this.add[activity.Field] = this.appservice.T_Date;
+      }
+      else if (activity.Default_Value == "T_Datetime") {
+      
+        this.add[activity.Field] = this.appservice.T_Date_Time;
+      }
+      else {
+        this.add[activity.Field] = activity.Default_Value;
+      }
+
+      
+    });
+  }
+  Valid;
+
+   convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;   
+}
+
+  addData(f) {
+
+
+
+ 
+
+    this.Valid = true;
+    this.appservice.get_fields_of('Visitor_Details').filter(e => String(e.Validate).toLocaleLowerCase() == "true").forEach((data) => {
+
+      if (this.add[data.Field] == "") {
+        this.Valid = false;
+        return;
+      }
+
+    });
+
+
+    try{
+      this.add.image=this.webcamImage.imageAsDataUrl;
+      }catch
+      {
+       this.add.image=null;
+      }
+    
+    this.add.Company = this.appservice.Company;
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Created_by = this.appservice.CREATED_BY;
+    this.add.items = this.appservice.Details_Row;
+
+    this.add.Table_Name = "Visitor_Details";
+    if (this.Valid) {
+      this.btndisable = true;
+
+     
+      this.http.post(this.appservice.Server_URL + 'api/Master/Post_Visitor', this.add, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable = false;
+
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.isEdit = false;
+              this.appservice.get_Visitor_Master();
+              this.appservice.Details_Row=[];
+              this.appservice.back();
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+  }
+
+
+
+  get_Ph_No(ID,name)
+  {
+ 
+    try{
+    this.appservice.Selected_Customer = this.appservice.Employee_Details_Rows.filter(e => e.ID == ID)[0];
+  
+    this.add.V_Person_ID = this.appservice.Selected_Customer.ID;
+    this.add.V_Person_Contact = this.appservice.Selected_Customer.Contact_No;
+    this.add.V_Department = this.appservice.Selected_Customer.Department;
+
+    }catch{}
+  }
+
+
+  get_data()
+  {
+    
+     this.add.Visitor_Name=this.appservice.filter_data;
+  }
+
+ 
+   get_Visitor(ID,name)
+  {
+
+    
+
+    try{
+    this.appservice.Selected_Customer = this.appservice.Ledger_Master_Rows.filter(e => e.ID == ID)[0];
+    this.add.Visitor_Name=this.appservice.Selected_Customer.Ledger_Name;
+    this.add.Company_Name = this.appservice.Selected_Customer.Short_Name;
+    this.add.Address1 = this.appservice.Selected_Customer.Address1;
+    this.add.Address2 = this.appservice.Selected_Customer.Address2;
+    this.add.Address3 = this.appservice.Selected_Customer.Address3;
+    this.add.Email_ID = this.appservice.Selected_Customer.Email_ID;
+    this.add.Contact_No = this.appservice.Selected_Customer.Phone_Number;
+     this.add.State = this.appservice.Selected_Customer.State;
+    this.add.Pincode = this.appservice.Selected_Customer.Pincode;
+    this.add.Country = this.appservice.Selected_Customer.Country;
+
+    }catch{
+
+     //this.add.Visitor_Name=this.appservice.filter_data;
+    }
+  }
+  
+  
+  public ngOnInit(): void {
+    WebcamUtil.getAvailableVideoInputs()
+      .then((mediaDevices: MediaDeviceInfo[]) => {
+        this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
+      });
+  }
+
+  public triggerSnapshot(): void {
+    this.trigger.next();
+  }
+
+  public toggleWebcam(): void {
+    this.showWebcam = !this.showWebcam;
+  }
+
+  public handleInitError(error: WebcamInitError): void {
+    this.errors.push(error);
+  }
+
+  public showNextWebcam(directionOrDeviceId: boolean|string): void {
+    // true => move forward through devices
+    // false => move backwards through devices
+    // string => move to device with given deviceId
+    this.nextWebcam.next(directionOrDeviceId);
+  }
+
+  public handleImage(webcamImage: WebcamImage): void {
+    console.info('received webcam image', webcamImage);
+    this.webcamImage = webcamImage;
+  }
+
+  public cameraWasSwitched(deviceId: string): void {
+    console.log('active device: ' + deviceId);
+    this.deviceId = deviceId;
+  }
+
+  public get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+  public get nextWebcamObservable(): Observable<boolean|string> {
+    return this.nextWebcam.asObservable();
+  }
+}

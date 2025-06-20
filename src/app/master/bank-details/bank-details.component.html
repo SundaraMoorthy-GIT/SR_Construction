@@ -1,0 +1,253 @@
+<div class="row mhide ">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Bank Details</h3>
+
+                    <div class="dropdown">
+
+
+
+                        <a class="dropdown-toggle " (click)=" addReset()"  data-toggle="tooltip"
+                            data-placement="bottom" title="Add New" routerlink="">
+                            <i class='bx bx-list-plus'></i>
+                        </a>
+
+                        <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class='bx bx-dots-vertical'></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)">
+                                <i class='bx bx-download'></i> Exprot
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)">
+                                <i class='bx bx-loader-circle'></i> Refresh
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+                <div>
+                    <p-table #dt class="table table-striped custom-table" [value]="Rows" [columns]="cols"
+                        [paginator]="true" [rows]="10" [resizableColumns]="true" sortMode="multiple"
+                        selectionMode="single">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th *ngFor="let col of cols" [pSortableColumn]="col.field" width="{{col.width}}"
+                                    style="white-space: pre">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                        ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
+                                </th>
+                                <th width=90>Action</th>
+                            </tr>
+
+                            <tr>
+                                <th *ngFor="let col of cols" [ngSwitch]="col.field">
+                                    <input style="height: 30px" class="form-control" pInputText type="text"
+                                        (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                </th>
+                                <th width=90></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-car>
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of cols">
+                                    {{car[col.field]}}
+                                </td>
+                                <td class="text-right" style="white-space: pre">
+                                    <a *ngIf="rowData.ID!=0" href="javascript:" style="font-size: 18px;padding: 5px" title="Edit"
+                                        (click)="onEdit(rowData)"><i class="bx bxs-pencil m-r-5"></i>
+
+                                    </a>
+                                    <a *ngIf="rowData.ID!=0" title="Delete" style="font-size: 18px;padding: 5px;color: firebrick"
+                                        (click)="onDelete(rowData.ID)"><i class="bx bxs-trash m-r-5"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- mobile responsive  -->
+<div class="row mshow">
+    
+    <div class="col-md-12 nopad">
+      <div class="search-bar_Ext   disp" style="right: 50px;">
+          
+        <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+    
+            <label class="h_txex">Bank Details</label>
+    
+    
+            <div class="right-cornerN" >
+            <div class="dropdown" style="display: inline-flex;">
+              
+              <a class="dropdown-toggle   addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+                title="Add New">
+    
+                <i class='bx bx-list-plus'></i>
+              </a>
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" style="padding-right:12px;padding-top: 1px;" (click)="showSearch = !showSearch">
+             
+                <i class='bx bx-search cons py-2'></i> 
+              </a>
+
+              
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+              aria-haspopup="true" aria-expanded="false">
+              <i class='bx bx-dots-vertical cons py-2'></i>
+          </button>
+          <div class="dropdown-menu">
+              <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)">
+                  <i class='bx bx-download'></i> Exprot
+              </a>
+              <a class="dropdown-item d-flex align-items-center" href="javascript:void(0)">
+                  <i class='bx bx-loader-circle'></i> Refresh
+              </a>
+          </div>
+              <!-- <button class="dropdown-toggle  mshow" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button> -->
+    
+        <div class="dropdown-menu" style="width: 325px;">
+          <div style="background-color: teal; color: white; width: 100%; ">
+            &nbsp;&nbsp;Search</div>
+       
+    
+    
+    
+    
+        </div>
+          
+          </div>
+          </div>
+    
+      </div>
+    </div>
+    
+    
+    
+      <div class="col-md-12 nopad">
+    
+    
+        <div class="spin_block" *ngIf="appservice.isload">
+    
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+    
+        </div>
+        <div class="search-bar_Ext mhide  show_bar " style="right: 80px;"
+ [ngClass]="{ 'mhide': !showSearch, 'disp': showSearch }">
+ 
+   <li  class="bx bx-left-arrow-alt mshow  search_back" (click)="showSearch = !showSearch"></li>
+
+       <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+       class="search-form-control text"
+       placeholder="Search...">
+
+ </div>
+
+    
+       
+    
+        <div>
+    
+    
+          <p-table #dt1 class="table table-striped custom-table" 
+          [value]="Rows" [columns]="cols"
+          [paginator]="true" [rows]="10" [resizableColumns]="true" sortMode="multiple"
+          selectionMode="single">
+          <ng-template pTemplate="header">
+              <tr class="vs">
+                <th>#</th>
+                  <th ></th>
+                  
+                  <th ></th>
+              </tr>
+    
+           
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+              <tr class="vs1" [pSelectableRow]="rowData">
+    
+                <td style="width: 50px;"><img style="width: 100%;" src="../../assets/img/empty.png"/></td>
+                <td> <span class="l1_txt">Bank Name : {{rowData.Bank_Name}} </span>
+                  <br><span class="l2_txt">Acc Number : {{rowData.Account_Number}} </span>
+                  <br><span class="l3_txt">Acc Name : {{rowData.Account_Name}} </span>
+                  <br><span class="l3_txt">Branch : {{rowData.Branch}} </span>
+                  <br><span class="l3_txt">7 IFSC Code : {{rowData.IFSC_Code}} </span>
+                  
+              </td>
+                 
+                  <td style="text-align: right;">
+    
+                    <div class="dropdown">
+                      <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                      </button> &nbsp;
+                      &nbsp;
+                      <!-- <br><span class="l4_txt">{{appservice.ago(rowData.Join_Date)}} &nbsp;</span> -->
+    
+                      <div class="dropdown-menu">
+                        <!-- <a class="dropdown-item d-flex align-items-center" (click)="addReset1(rowData)">
+                          <i class='bx bx-show'></i> Overview
+                        </a>
+                       -->
+                        <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                          <i class='bx bx-edit-alt'></i> Edit
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData.ID)" >
+                          <i class='bx bx-trash'></i> Delete
+                        </a>
+    
+                      </div>
+                    </div> 
+                  </td>
+    
+              </tr>
+          </ng-template>
+      </p-table>
+    
+        </div>
+      </div>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Members : {{appservice.length_of(dt)}} </td>
+              
+            </tr>
+          </table>
+        </div>
+    </div>
+    </div>

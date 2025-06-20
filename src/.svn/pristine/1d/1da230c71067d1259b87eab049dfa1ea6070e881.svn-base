@@ -1,0 +1,48 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-upload-items',
+  templateUrl: './upload-items.component.html',
+  styleUrls: ['./upload-items.component.scss']
+})
+export class UploadItemsComponent implements OnInit {
+
+  public add:any ={};
+  public btndisable:boolean=false;
+public server="";
+  constructor(private _location: Location, public appservice: AppService,private toastr: ToastrService, public http: HttpClient) 
+   {
+
+    this.server=this.appservice.Server_URL+"Api/Master/UploadItem_Master?ID=0&Company="+this.appservice.Company+"&Name=Item_master&Description=Data";
+      
+    }
+
+
+   uploadedFiles: any[] = [];
+   onUpload(event) {
+    for(let file of event.files) {
+        this.uploadedFiles.push(file);
+    }
+    this.toastr.success("Details Uploaded Success", 'Msg');
+}
+  
+  export_excel()
+  {
+    this.appservice.Item_Master_Export =  this.appservice.get_fields_of('Item_Master');
+
+ 
+   this.appservice.Excel_Data.Header=this.appservice.Item_Master_Export;
+   this.appservice.Excel_Data.items=this.appservice.Item_Master_Rows
+   this.appservice.upload_excel();
+ 
+  }
+ 
+  ngOnInit(): void {
+  }
+
+}

@@ -1,0 +1,46 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-overview-transaction',
+  templateUrl: './overview-transaction.component.html',
+  styleUrls: ['./overview-transaction.component.scss']
+})
+export class OverviewTransactionComponent implements OnInit {
+  cr=0;
+    db=0;
+    Total=0;
+
+    Rows=[];
+    cols=[];
+  constructor(public appservice: AppService) { 
+    this.get_Amount_OS(appservice.Edit_Row.ID)
+  }
+  get_Amount_OS(data) {
+  
+    this.appservice.get("Api/Collection_/get_Overview_Transaction?ID="+data).subscribe(( res: any) => {
+    this.Rows = JSON.parse(res).record; 
+    this.cols = [
+        { field: 'Date', header: 'Date', width: '' },
+        { field: 'Narration1', header: 'Narration', width: '' },
+        { field: 'Created_by', header: 'User', width: '' },
+        { field: 'billno', header: 'billno', width: '' },
+
+        { field: 'CR_Amt', header: 'Credit', width: 'right' },
+        { field: 'DB_Amt', header: 'Debit', width: 'right' }
+      ];
+      try{
+        this.Total=0;
+        this.cr= (this.Rows.reduce((sum, current) => sum +parseFloat(current.CR_Amt), 0)).toFixed(2);
+        this.db= (this.Rows.reduce((sum, current) => sum +parseFloat(current.DB_Amt), 0)).toFixed(2);
+        this.Total=this.db-this.cr;
+
+    }catch
+    {}
+
+    });
+  }
+  ngOnInit(): void {
+  }
+
+}

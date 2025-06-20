@@ -1,0 +1,20 @@
+
+<div class="row" class="bg-style">
+    <div class="col-4 col-md-3 " style="padding: 10px;" *ngFor="let  menu of appservice.get_childs('Master')">
+
+        <div style="background-color: #fff;
+        border-radius: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        outline: 0;
+        text-align: center;
+        box-shadow: 1px 5px 24px 0 rgba(68,102,242,.05);"> 
+        <a routerLink="{{menu.Route_Link}}" class="nav-link">
+            <span class="icon"><i class='{{menu.Icon}}'></i></span>
+            <br>
+            <span class="menu-title">{{menu.Display_Name}}</span>
+        </a>
+    </div>
+</div>
+
+</div>

@@ -1,0 +1,337 @@
+
+<div class="card content">
+  <div class="Head">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3>Blue Entry</h3>
+      <div class="dropdown">
+        <a (click)="Back()" style="font-size: 20px; font-weight: 900; cursor: pointer; color: black">
+          <b>X</b>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="content_body">
+    <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+      <div class="row">
+
+        <div class="col-sm-6 nopad" >
+          <div class="form-table table-responsive">
+      <table class="table px-3 table-bordered"style="width: 100%;">
+        <tbody>
+          <tr class="">
+            <td>code   <span class="text-danger">*</span></td>
+            <td>
+              <input class="form-control" type="text" [(ngModel)]="add.be_id" name="be_id" #be_id="ngModel" required>
+              <!-- <input class="form-control" type="text" [(ngModel)]="add.Adj_Type" name="Adj_Type" #Adj_Type="ngModel"> -->
+            </td>
+          </tr>
+          <tr>
+            <td >Date<span class="text-danger"></span></td>
+            <td>
+              <input  class="form-control" required type="date" [(ngModel)]="add.be_date" name="be_date" #be_date="ngModel"
+              (ngModelChange)="add_Category()">
+             
+            </td>
+          </tr>
+            <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.be_branch" name="be_branch" #be_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && be_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+          <!-- <tr>
+            <td >Vehicle No<span class="text-danger"></span></td>
+            <td>
+              <select class="select2-option form-control" [(ngModel)]="add.be_product" name="be_product" #be_product="ngModel" style="width:100%" aria-hidden="true"
+              (ngModelChange)="onChange_Item(add.be_product)">
+                <option *ngFor="let row of appservice.get_ref('Bunk Item')" value={{row.label}}>
+                  {{row.label}}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td >Driver<span class="text-danger"></span></td>
+            <td>
+              <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Category_rows" [(ngModel)]="add.be_category_id" required resetFilterOnHide="true" placeholder=" " name="be_category_id" #be_category_id="ngModel" [filter]="(appservice.W_width>500)" (ngModelChange)="onChange(add.be_category_id)">
+                <ng-template let-car pTemplate="item">
+                  <div class="ui-helper-clearfix" style="position: relative; height: 25px;">
+                    <div>{{car.label}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </td>
+          </tr>
+          <tr>
+              <td>KM<span class="text-danger"></span></td>
+              <td>
+                <input class="form-control" required type="number" [(ngModel)]="add.be_km" name="be_km" #be_km="ngModel">             
+              </td>
+            </tr> -->
+            <tr>
+              <td >Product<span class="text-danger"></span></td>
+              <td>
+                <select class="select2-option form-control"
+      [(ngModel)]="add.be_product"
+      name="be_product"
+      #be_product="ngModel"
+      style="width:100%"
+      aria-hidden="true"
+      (ngModelChange)="onChange_Item(add.be_product)">
+<option *ngFor="let item of productList" [value]="item">
+  {{ item }}
+</option>
+</select>
+
+              </td>
+            </tr>
+               <!-- Emulsion Oil start -->
+        <tr *ngIf="add.be_product === 'Emulsion Oil'">
+          <td>V. NUMBER <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" required type="text" [(ngModel)]="add.v_number" name="v_number" #v_number="ngModel">
+          </td>
+        </tr>
+        <tr *ngIf="add.be_product === 'Emulsion Oil'">
+          <td>BILL WEIGHT <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" required type="number" [(ngModel)]="add.bill_weight" name="bill_weight" #bill_weight="ngModel">
+          </td>
+        </tr>
+        <tr  *ngIf="add.be_product === 'Emulsion Oil'">
+          <td>W. WEIGHT <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" required type="number" [(ngModel)]="add.weigh_weight" name="weigh_weight" #weigh_weight="ngModel">
+          </td>
+        </tr>
+        <tr  *ngIf="add.be_product === 'Emulsion Oil'">
+          <td>DIFFERENCE</td>
+          <td>
+            <input class="form-control" type="number" [value]="add.bill_weight - add.weigh_weight" readonly>
+          </td>
+        </tr>
+        <!-- Emulsion Oil end -->
+        <!-- steel start -->
+        
+        <tr *ngIf="add.be_product === 'Steel'">
+          <td>PLACE <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="text" required [(ngModel)]="add.place" name="place" #place="ngModel">
+          </td>
+        </tr>
+        
+        <tr *ngIf="add.be_product === 'Steel'">
+          <td>VEHICLE NUMBER <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="text" required [(ngModel)]="add.vehicle_number" name="vehicle_number" #vehicle_number="ngModel">
+          </td>
+        </tr>
+        
+        <tr *ngIf="add.be_product === 'Steel'">
+          <td>WEIGHT <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="number" required [(ngModel)]="add.weight" name="weight" #weight="ngModel">
+          </td>
+        </tr>
+        
+        <tr *ngIf="add.be_product === 'Steel'">
+          <td>PRICE <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="number" required [(ngModel)]="add.price" name="price" #price="ngModel">
+          </td>
+        </tr>
+        
+         <!-- steel end  -->
+         <!-- LDO Oil start -->
+         <tr *ngIf="add.be_product === 'LDO Oil'">
+
+          <td>TRANSPORT <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="text" required [(ngModel)]="add.transport" name="transport" #transport="ngModel">
+          </td>
+        </tr>
+        
+        <tr *ngIf="add.be_product === 'LDO Oil'">
+          <td>VEHICLE NUMBER <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="text" required [(ngModel)]="add.vehicle_number" name="vehicle_number" #vehicle_number="ngModel">
+          </td>
+        </tr>
+        
+        <tr *ngIf="add.be_product === 'LDO Oil'">
+          <td>QUANTITY <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="number" required [(ngModel)]="add.quantity" name="quantity" #quantity="ngModel">
+          </td>
+        </tr>
+        
+        <tr *ngIf="add.be_product === 'LDO Oil'">
+          <td>SITE <span class="text-danger">*</span></td>
+          <td>
+            <input class="form-control" type="text" required [(ngModel)]="add.site" name="site" #site="ngModel">
+          </td>
+        </tr>
+        
+         <!-- LDO Oil end -->
+          
+          <!-- cement start -->
+          <tr *ngIf="add.be_product === 'Cement'">
+            <td>DESCRIPTION <span class="text-danger">*</span></td>
+            <td>
+              <input class="form-control" type="text" required [(ngModel)]="add.description" name="description" #description="ngModel">
+            </td>
+          </tr>
+          
+          <tr *ngIf="add.be_product === 'Cement'">
+            <td>INCOME <span class="text-danger">*</span></td>
+            <td>
+              <input class="form-control" type="number" required [(ngModel)]="add.income" name="income" #income="ngModel">
+            </td>
+          </tr>
+          
+          <tr *ngIf="add.be_product === 'Cement'">
+            <td>USED <span class="text-danger">*</span></td>
+            <td>
+              <input class="form-control" type="number" required [(ngModel)]="add.used" name="used" #used="ngModel">
+            </td>
+          </tr>
+          
+          <tr *ngIf="add.be_product === 'Cement'">
+            <td>STOCK <span class="text-danger">*</span></td>
+            <td>
+              <input class="form-control" type="number" required [(ngModel)]="add.stock" name="stock" #stock="ngModel">
+            </td>
+          </tr>
+          
+           <!-- cement end  -->
+            <!-- Adblue Oilstart -->
+            <tr *ngIf="add.be_product === 'Adblue Oil'">
+              <td>V. NUMBER <span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" type="text" required [(ngModel)]="add.v_number" name="v_number" #v_number="ngModel">
+              </td>
+            </tr>
+            
+            <tr *ngIf="add.be_product === 'Adblue Oil'">
+              <td>DRIVER <span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" type="text" required [(ngModel)]="add.driver" name="driver" #driver="ngModel">
+              </td>
+            </tr>
+            
+            <tr *ngIf="add.be_product === 'Adblue Oil'">
+              <td>KM <span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" type="number" required [(ngModel)]="add.km" name="km" #km="ngModel">
+              </td>
+            </tr>
+            
+            <tr *ngIf="add.be_product === 'Adblue Oil'">
+              <td>NUMBER <span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" type="text" required [(ngModel)]="add.number" name="number" #number="ngModel">
+              </td>
+            </tr>
+            
+            <tr *ngIf="add.be_product === 'Adblue Oil'">
+              <td>STOCK <span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" type="number" required [(ngModel)]="add.stock" name="stock" #stock="ngModel">
+              </td>
+            </tr>
+            
+            <tr *ngIf="add.be_product === 'Adblue Oil'">
+              <td>MILEAGE <span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" type="number" required [(ngModel)]="add.mileage" name="mileage" #mileage="ngModel">
+              </td>
+            </tr>
+            
+             <!-- Adblue Oil end -->
+              <!-- Bitumen start -->
+              <tr *ngIf="add.be_product === 'Bitumen'">
+                <td>VEHICLE NUMBER <span class="text-danger">*</span></td>
+                <td>
+                  <input class="form-control" type="text" required [(ngModel)]="add.vehicle_number" name="vehicle_number" #vehicle_number="ngModel">
+                </td>
+              </tr>
+              
+              <tr  *ngIf="add.be_product === 'Bitumen'">
+                <td>BILL WEIGHT <span class="text-danger">*</span></td>
+                <td>
+                  <input class="form-control" type="number" required [(ngModel)]="add.bill_weight" name="bill_weight" #bill_weight="ngModel">
+                </td>
+              </tr>
+              
+              <tr *ngIf="add.be_product === 'Bitumen'">
+                <td>W. WEIGHT <span class="text-danger">*</span></td>
+                <td>
+                  <input class="form-control" type="number" required [(ngModel)]="add.w_weight" name="w_weight" #w_weight="ngModel">
+                </td>
+              </tr>
+              
+              <tr *ngIf="add.be_product === 'Bitumen'">
+                <td>DIFFERENCE</td>
+                <td>
+                  <input class="form-control" type="number" [value]="add.bill_weight - add.w_weight" readonly>
+                </td>
+              </tr>
+              
+               <!-- Bitumen end  -->
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="col-sm-6 nopad" >
+    <div class="form-table table-responsive">
+    <table class="table table-bordered" style="width: 100%;">
+      <tbody>
+       
+        <!-- <tr>
+          <td>Number<span class="text-danger"></span></td>
+          <td><input class="form-control" type="number" [(ngModel)]="add.be_rate" required
+              name="be_rate" #be_rate="ngModel"(keyup)="calc_tempdata()">
+          </td>
+        </tr>
+        <tr>
+          <td>Stock<span class="text-danger"></span></td>
+          <td><input class="form-control" type="number" [(ngModel)]="add.be_amount" required
+              name="be_amount" #be_amount="ngModel">
+          </td>
+        </tr>
+        <tr>
+          <td>Milage<span class="text-danger"></span></td>
+          <td><input class="form-control" type="number" [(ngModel)]="add.be_amount" required
+              name="be_amount" #be_amount="ngModel">
+          </td>
+        </tr> -->
+     
+      </tbody>
+    </table>
+  </div>
+ 
+  </div>
+ 
+  
+</div>
+<div class="mt-3 text-right">
+  <button class="btn btn-info rounded-pill" [disabled]="btndisable" type="submit">
+    <span *ngIf="btndisable" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <i *ngIf="!btndisable" class='bx bx-paper-plane'></i>
+    Save
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-secondary" type="button" (click)="Back()">Cancel</button>
+</div>
+    </form>
+  </div>

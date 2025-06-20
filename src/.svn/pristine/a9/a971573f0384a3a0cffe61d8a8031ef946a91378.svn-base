@@ -1,0 +1,66 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
+@Component({
+  selector: 'app-income-details',
+  templateUrl: './income-details.component.html',
+  styleUrls: ['./income-details.component.scss']
+})
+export class IncomeDetailsComponent implements OnInit {
+
+  constructor(public confirmationService:ConfirmationService,public appservice:AppService,public router:Router) {
+    this.appservice.get_Income();
+    
+    }
+ 
+   isload:boolean=false;
+   veiw_data(data)
+   {
+   }
+ 
+ 
+   add()
+   {
+     this.appservice.isadd="0";
+     this.router.navigate(['transaction/Income-entry']);
+   }
+     
+   Total=0;
+   Rows=[];
+  
+ 
+   delete_data(data)
+   {
+     this.confirmationService.confirm({
+       message: 'Are you sure that you want to delete press Yes?',
+       accept: () => {
+         this.Delete(data) 
+       }
+   });
+   }
+ 
+  
+ 
+   
+   Delete(item) { 
+       this.appservice.get("Api/Transaction/delete_Adjustments?Type=Income&ID=" + item).subscribe((res: any) => {
+         
+         this.appservice.get_Income();
+       });
+     }
+   
+ 
+   edit_data(data)
+   {
+     this.appservice.isadd = "1";
+     this.appservice.Edit_Row = data;
+     return this.router.navigate(['transaction/Income-entry']);
+   }
+ 
+ 
+   ngOnInit(): void {
+   }
+ 
+ }
+ 

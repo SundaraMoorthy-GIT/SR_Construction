@@ -1,0 +1,37 @@
+<div style="width: 100%; "  >  
+    <div>  
+
+        <input type="text"    class=" xxx tbtext vin-form " placeholder="{{Placeholder}}" 
+          style="width: 100%; border: 0; border-radius: 0px;"  
+        (keydown.enter)="selected_row(row_No)" 
+        (keydown.arrowup)="up()"  
+        (keydown.arrowdown)="down()"  
+        (keydown.escape)="get_view1()"
+        value="label_"
+        (input)="filter(label_)"
+         [(ngModel)]="label_" 
+         (ngModelChange)="textChange()"
+         [maxlength]="maxLength"  />  
+
+            <div [className]="display_grid==false ? 'vin_ledg hidden' : 'vin_ledg'"   >
+
+               
+                <table class="vinledger_tb" style="margin-top: 2px;  padding: 10px; width: 100%; background-color: white;">
+                      <tr    class="tr trhover"   style="height: 30px;"  style="cursor: pointer;" *ngFor="let rowData of Row1; let rowIndex=index">
+                        
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Code}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.label}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Area}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Phone_Number}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Department}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre; color: rgb(119, 4, 39); text-align: right;  font-weight: 800; padding-left: 10px; " >{{rowData.Stock}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre; color: rgb(119, 4, 39); text-align: right;  font-weight: 800; padding-left: 10px; " >&nbsp;&nbsp;</td>
+                        
+                        
+                      </tr>
+                </table>
+        
+
+            </div>
+    </div>  
+</div>  

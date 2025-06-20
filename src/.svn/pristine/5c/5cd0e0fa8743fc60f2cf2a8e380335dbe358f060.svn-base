@@ -1,0 +1,297 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+    <div class="card content ">
+
+        <div class=" Head ">
+
+
+
+            <div class="card-header  d-flex justify-content-between align-items-center">
+                <h3>Customers</h3>
+
+                <div class="dropdown">
+
+                    <a  (click)="Back()" class="x" >
+                        <b>X</b>
+                    </a>
+
+          
+                </div>
+            </div>
+
+        </div>
+
+        <div class="content_body">
+           
+                
+                
+  <form #addForm="ngForm" (ngSubmit)="addData(addForm)"  (keydown.enter)="$event.preventDefault()" novalidate>
+
+
+
+    <div class="row">
+
+      <div class="col-sm-6">
+   
+    <div class="form-table table-responsive">
+      <table class="table table-bordered">
+          
+
+          <tbody>
+              <tr class="hidden">
+                  <td>ID <span class="text-danger">*</span></td>
+                  <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel" required></td>
+              </tr>
+
+              
+
+              <tr class="hidden">
+                <td >Code<span class="text-danger">*</span></td>
+                <td><input class="form-control" type="text" [(ngModel)]="add.Code" name="Code" #Code="ngModel"></td>
+            </tr>
+
+
+            
+            <tr>
+              <td style="width :25%;min-width: 100px;">Name<span class="text-danger">*</span></td>
+              <td>
+                <input class="form-control" placeholder="Customer Name" autofocus type="text" required [(ngModel)]="add.Name" name="Name" #Name="ngModel">
+                <div *ngIf="addForm.submitted && Name.invalid" class="invalid-feedback d-block">
+                  <div class="error"> Name Should not entry</div>
+              </div>  
+
+              </td>
+          </tr>
+
+          <tr>
+            <td style="width :25%;min-width: 100px;">Nick Name</td>
+            <td>
+              <input class="form-control" placeholder="Nick Name"  type="text"  [(ngModel)]="add.Short_Name" name="Short_Name" #Short_Name="ngModel">
+             
+
+            </td>
+        </tr>
+
+
+
+          <tr>
+            <td>Phone&nbsp;No <span class="text-danger">*</span> </td>
+            <td>   <input class="form-control"  placeholder="Ex. 9597436220"  [pattern]="appservice.Phone_Pattern" required type="number" [(ngModel)]="add.Phone_No" name="Phone_No" #Phone_No="ngModel">
+              <div *ngIf="addForm.submitted && Phone_No.invalid" class="invalid-feedback d-block">
+                  
+                <div *ngIf="Phone_No.errors.pattern">
+                  <div class="error"> Phone No not valid</div>
+              </div>
+
+              <div *ngIf="add.Phone_No==null">
+                <div class="error"> Phone No Should Not Empty</div>
+            </div>
+
+              </div>
+
+              
+             
+            </td>
+        </tr>
+
+
+        
+        <tr>
+          <td>Address <span class="text-danger">*</span>  </td>
+          <td>   <input class="form-control" required type="text" [(ngModel)]="add.Address1" placeholder="DoorNo, Street" name="Address1" #Address1="ngModel">
+
+            
+      <div *ngIf="addForm.submitted && Address1.invalid" class="invalid-feedback d-block">
+        <div class="error"> Address Should not entry</div>
+    </div>  
+            
+          </td>
+      </tr>
+
+
+      
+      <tr>
+        <td> </td>
+        <td><input class="form-control" type="text" [(ngModel)]="add.Address2" placeholder="Post, Taluka" name="Address2" #Address2="ngModel">
+        </td>
+    </tr>
+
+
+    
+    <tr>
+      <td></td>
+      <td><input class="form-control" type="text" [(ngModel)]="add.Address3" name="Address3" placeholder="Land Mark" #Address3="ngModel">
+      </td>
+  </tr>
+
+
+  <tr >
+    <td>Amount <span class="text-danger">*</span>  </td>
+    <td><input class="form-control" type="number"  required [(ngModel)]="add.Amount" name="Amount" placeholder="Santha Amount" #Amount="ngModel">
+      
+      <div *ngIf="addForm.submitted && Amount.invalid" class="invalid-feedback d-block">
+        <div class="error"> Amount Should not entry</div>
+    </div>  
+    </td>
+</tr>
+
+
+  <tr>
+    <td>Area  <span class="text-danger">*</span> <span (click)="add_area()"><li style="font-size: 20px;" class="bx bx-plus-circle"></li></span> </td>
+    <td>
+
+      <select placeholder="Select Area" 
+       required (change)="get_order()" class="select2-option form-control " 
+        [(ngModel)]="add.Area" name="Area" #Area="ngModel" style="width:100%"  
+         aria-hidden="true">
+  
+          <option *ngFor="let data of Area_Row" value={{data.label}}>
+              {{data.label}}
+          </option>
+  
+        </select>
+
+        <div *ngIf="addForm.submitted && Area.invalid" class="invalid-feedback d-block">
+          <div class="error"> Area Should not entry</div>
+      </div>  
+    </td>
+</tr>
+
+<tr>
+  <td><label>Vc No <span class="text-danger">*</span>  </label></td>
+  <td>  <input class="form-control" required type="text" [(ngModel)]="add.GST_NO" name="GST_NO" #GST_NO="ngModel">
+
+    <div *ngIf="addForm.submitted && GST_NO.invalid " class="invalid-feedback d-block">
+      <div class="error"> Vc Should not entry</div>
+  </div>  
+  </td>
+</tr>
+
+<tr>
+  <td><label>Join Date <span class="text-danger">*</span> </label></td>
+  <td>  <input class="form-control" data-date="" data-date-format="dd-MMM-yyyy"  type="date" [(ngModel)]="add.Join_Date" name="Join_Date" #Join_Date="ngModel">
+  </td>
+</tr>
+
+<tr class="hidden">
+  <td>Area Order</td>
+  <td><input class="form-control" type="number" [(ngModel)]="add.Order" name="Order" #Order="ngModel">
+  </td>
+</tr>
+
+
+<tr>
+  <td>Status  <span class="text-danger">*</span> </td>
+  <td>
+
+    <select placeholder="Select Area" 
+     required (change)="get_order()" class="select2-option form-control " 
+      [(ngModel)]="add.Status" name="Status" #Status="ngModel" style="width:100%"  
+       aria-hidden="true">
+
+        <option  value="Active">Active </option>
+        <option  value="Inactive">Inactive </option>
+
+      </select>
+
+      <div *ngIf="addForm.submitted && Status.invalid" class="invalid-feedback d-block">
+        <div class="error"> Status Should not entry</div>
+    </div>  
+  </td>
+</tr>
+
+  
+  <tr class="hidden">
+    <td>City</td>
+    <td>
+      <input class="form-control" type="text" [(ngModel)]="add.City" name="City" #City="ngModel"> 
+      
+    </td>
+</tr>
+
+
+<tr class="hidden">
+  <td >State<span class="text-danger">*</span> </td>
+  <td style="padding: 0px!important;">
+
+    <tr>
+      
+      <td style="width: 100%;">
+        <input class="form-control" type="text" [(ngModel)]="add.State" name="State" #State="ngModel">
+    <div *ngIf="addForm.submitted && State.invalid" class="invalid-feedback d-block">
+        <div class="error">State Should not entry</div>
+    </div>  
+      </td>
+  </tr>
+    
+    </td>
+</tr>
+
+
+
+
+      
+
+              
+          </tbody>
+      </table>
+
+
+      <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+            
+        <button class="btn btn-info rounded-pil" [disabled]="btndisable"  type="submit"> 
+          
+           
+                  <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+          Save </button> &nbsp;&nbsp;
+     <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+    </div>
+
+  </div>
+      </div>
+
+      <div class="col-sm-6">
+   
+        <div class="form-table table-responsive mb-30">
+          <table class="table table-bordered">
+              
+    
+              <tbody>
+                  <tr class="hidden">
+                      <td style="width :25%; min-width: 100px;">Email ID </td>
+                      <td>    <input class="form-control" type="text" [(ngModel)]="add.Email_ID" name="Email_ID" #Email_ID="ngModel">
+                      </td>
+                  </tr>
+    
+                  
+    
+                  
+    
+    
+    
+          
+    
+                  
+              </tbody>
+          </table>
+
+        
+          
+    
+   
+
+      </div>
+          </div>
+
+    </div>
+  
+  
+  </form>
+  
+            <br>
+        
+    </div>
+</div>
+</div>
+

@@ -1,0 +1,85 @@
+
+
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+
+
+
+@Component({
+  selector: 'app-template-setting',
+  templateUrl: './template-setting.component.html',
+  styleUrls: ['./template-setting.component.scss']
+})
+export class TemplateSettingComponent implements OnInit {
+  
+  public add:any ={};
+  public btndisable:boolean=false;
+
+
+  constructor(private _location: Location, public appservice: AppService,private toastr: ToastrService, public http: HttpClient) 
+{
+
+}
+
+
+get_image()
+{
+  return "assets/img/Template/"+this.add.Type+"/"+this.add.Format+".png?Dat=";
+}
+
+
+
+public rows = [];
+  public add1: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+addData(f) {
+
+  f.form.value.Company = this.appservice.Company;
+  
+  if (f.invalid === true)
+    this.addValidation = true;
+  else {
+    this.addValidation = false;
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+    
+  this.btndisable=true;
+    this.http.post(this.appservice.Server_URL + 'api/master/Template_Setting', f.form.value, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+
+          this.btndisable=false;
+          if (val == "True") {
+            this.toastr.success("Details Salved Success", 'Msg');
+            //this.appservice.get_Variable_Settings();
+
+           
+            
+            f.submitted=false;
+            if (this.isadd != "0") {
+              this._location.back();
+            }
+          }
+          else {
+            this.toastr.error(val, "Error", { timeOut: 3000 });
+          }
+        },
+        response => {
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+        });
+  }
+}
+
+  ngOnInit(): void {
+
+
+  }  
+}

@@ -1,0 +1,91 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+
+
+@Component({
+  selector: 'app-approved-list',
+  templateUrl: './approved-list.component.html',
+  styleUrls: ['./approved-list.component.scss']
+})
+export class ApprovedListComponent implements OnInit {
+
+   constructor(public confirmationService: ConfirmationService,public appservice:AppService, private router: Router, private route: ActivatedRoute) { 
+
+    this.appservice.Visitor_Master_GF = [...new Set(this.appservice.get_fields_of('Visitor_Details').map(item => item.Field))];
+
+  
+    this.appservice.get_Visitor_Approved_Master();
+  }
+  
+  addReset() {
+    this.appservice.isadd = "0";
+    this.appservice.Edit_Row ={};
+    this.appservice.isEdit=false;
+    return this.router.navigate(['visitor/add-approved-list']);
+  }
+  
+ 
+
+  onEdit(item) {
+    
+    this.appservice.isEdit =true;
+    this.appservice.Edit_Row = item;
+    this.appservice.Details_Row=[];
+    this.appservice.get("Api/Master/get_Visiting_Member?ID=" + this.appservice.Edit_Row.ID  ).subscribe((res: any) => {
+      this.appservice.Details_Row= JSON.parse(res).record;
+
+      return this.router.navigate(['visitor/add-approved-list']);
+    });    
+
+    
+  }
+  onDelete(item) {
+
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(item)
+      }
+    });
+}
+Delete(item) {
+  this.appservice.get("Api/master/delete_Appoved?ID=" + item).subscribe((res: any) => {
+    var index = this.appservice.Approved_Master_Rows.findIndex(function (items, i) {
+      return items.ID === item
+    });
+    if (index > -1) {
+      this.appservice.Approved_Master_Rows.splice(index, 1);
+    }
+    this.appservice.Approved_Master_Rows = this.appservice.Approved_Master_Rows;
+    this.appservice.get_Visitor_Approved_Master();
+  });
+}
+  export_excel(data)
+  {
+   this.appservice.Visitor_Master_Export =  this.appservice.get_fields_of('Ledger_Master');
+
+   this.appservice.Excel_Data.Header=this.appservice.Visitor_Master_Export1;
+   this.appservice.Excel_Data.items=this.appservice.Approved_Master_Rows
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+ {
+
+  this.appservice.Visitor_Master_Export =  this.appservice.get_grid_fields_of('Ledger_Master');
+  this.appservice.Excel_Data.Total_Row= "Total Rows : "+this.appservice.length_of(data);
+
+  this.appservice.Excel_Data.Header=this.appservice.Visitor_Master_Export1;
+  this.appservice.Excel_Data.items=this.appservice.Approved_Master_Rows
+  this.appservice.export_pdf();
+  }
+
+
+  ngOnInit(): void {
+  }
+
+}

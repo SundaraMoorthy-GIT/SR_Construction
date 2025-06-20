@@ -1,0 +1,38 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-areawise-col',
+  templateUrl: './areawise-col.component.html',
+  styleUrls: ['./areawise-col.component.scss']
+})
+export class AreawiseColComponent implements OnInit {
+
+  constructor(public appservice:AppService) { }
+  export_excel()
+  {
+ 
+   this.appservice.Excel_Data.Header=this.appservice.Areawise_Collection_Export;
+   this.appservice.Excel_Data.items=this.appservice.Collection_Row
+   this.appservice.Excel_Data.Report_Name="Areawise Collection"
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+ {
+
+  this.appservice.Excel_Data.Header=this.appservice.Areawise_Collection_Export;
+  this.appservice.Excel_Data.Total_Row= "Total Rows : "+this.appservice.length_of(data);
+  this.appservice.Excel_Data.Total_Amount="Total Amount : "+this.appservice.sum_of(data,'Amount');
+  this.appservice.Excel_Data.items=this.appservice.Collection_Row
+  this.appservice.Excel_Data.Report_Name="Areawise Collection"
+  this.appservice.export_pdf();
+  }
+
+
+  ngOnInit(): void {
+  }
+
+}

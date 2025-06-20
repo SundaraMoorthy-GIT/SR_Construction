@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+
+        <div class="search-bar">
+            <table style="width: 100%;">
+                <tr style="width:100%;height: 50px;">
+                    <td class="search-bal-li">
+                        <li (click)="appservice.back()" class="bx bx-left-arrow-alt"
+                            style=" font-size: 30px; line-height: 50px;"></li>
+                    </td>
+                    <td><input  type="text" 
+                        (keydown.enter)="selected_row1(row_No,dt)" 
+                        (keydown.arrowup)="up()"  
+                        (keydown.arrowdown)="down()"  
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                        class="search-form-control text   itext"
+                        placeholder="Search..."></td>
+
+                    <td class="search-bal-li">
+
+                        <div class="dropdown"style="display: inline-flex;">
+                            <button class="dropdown-toggle mhide abutton" type="button" (click)="addReset()" title="Add New" >
+                                <i style="font-size: 19px;" class='bx bx-list-plus'></i> 
+                                <span >Add New</span>
+                              </button>
+                              <a class="dropdown-toggle  mshow addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+                                title="Add New">
+                  
+                                <i class='bx bx-list-plus'></i>
+                              </a>
+                                <button class="dropdown-toggle mshow" type="button" data-toggle="dropdown" title="more"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class='bx bx-filter'></i>
+                                </button>
+                                <button class="dropdown-toggle mhide mbutton" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                                aria-expanded="false" >
+                                <i style="font-size: 19px;" class='bx bx-dots-vertical'></i> 
+                                <span
+                                 >More</span>
+                              </button>
+                                <div class="dropdown-menu" style="width: 325px;">
+                                    <div style="background-color: teal; color: white; width: 100%; ">
+                                        &nbsp;&nbsp;Search</div>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td style="width: 80px;">Area </td>
+                                            <td>
+
+
+                                                
+                                                <select style="height: 30px;"  (change)="get_ledger()"  placeholder="Select Area" class="area form-control"  [(ngModel)]="appservice.S_Area" name="Area" #Area="ngModel" style="width:100%"   aria-hidden="true">
+  
+                                                    <option  value="All">
+                                                        All
+                                                    </option>
+                                                    <option *ngFor="let data of Area_Row" value={{data.label}}>
+                                                        {{data.label}}
+                                                    </option>
+                                                
+                                                      </select>
+
+                                            </td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td> </td>
+                                            <td><button type="button"  (click)="get_ledger()"
+                                                    class="btn btn-info btn-sm">Search</button></td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                           
+                        </div>
+
+                    </td>
+
+                  
+
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+<div class="row">
+
+    
+    
+   
+
+
+    <div class="col-md-12 nopad">
+        <div *ngIf="appservice.S_Area!='All'" 
+         style="width: 100%;padding: 5px; text-align:center; ">  Selected Area : {{appservice.S_Area}}</div>
+        <div class="">
+
+            <div class="spin_block" *ngIf="appservice.isload">
+
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+        
+              </div>
+              
+  
+  
+            <p-table #dt class="table table-striped custom-table" 
+            [value]="appservice.SLedger_Rows" 
+            [globalFilterFields]="appservice.Ledger_Master_GF"
+            selectionMode="single">
+            <ng-template pTemplate="header">
+                <tr>
+                  <th>#</th>
+                    <th>Name </th>
+                    <th class="mhide">Area </th>
+                    <th>Phone No </th>
+                    <th>GST No </th>
+                  
+                </tr>
+
+             
+            </ng-template>
+            <ng-template class="trhover"  pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+                <tr  class="trhover"   (click)="select_Ledger(rowData)">
+
+                  <td [className]="rowIndex==row_No ? 'rselected' : ''"  >{{rowIndex+1}}</td>
+                    <td [className]="rowIndex==row_No ? 'rselected' : ''"   > {{rowData.Ledger_Name}}
+                    <span class="text-muted mshow">{{rowData.Area}}</span>
+
+                    </td>
+                    <td  [className]="rowIndex==row_No ? 'rselected mhide' : 'mhide'"   > {{rowData.Area}}</td>
+                    <td [className]="rowIndex==row_No ? 'rselected' : ''"   > {{rowData.Phone_Number}}</td>
+                    <td [className]="rowIndex==row_No ? 'rselected' : ''"   > {{rowData.GSTIN}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+
+          </div>
+    </div>
+</div>

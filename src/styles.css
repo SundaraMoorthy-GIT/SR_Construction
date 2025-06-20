@@ -1,0 +1,329 @@
+.ui-table table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout:auto!important;
+}
+
+
+
+body .ui-widget {
+    /* font-family: "Open Sans", "Helvetica Neue", sans-serif; */
+    font-size: 15px;
+    text-decoration: none;
+    font-family: inherit!important;
+}
+
+
+.shade{
+   padding-top: 5px;
+        box-shadow: inset 0px 15px 39px -15px rgba(200, 0, 0, 0.07);
+      
+}
+
+.add_round
+{
+    color: #e1000a;
+    font-weight: 700;
+    background-color: #f9ecef;
+    border-color: #7b1a1a42;
+}
+
+.Plusi
+    {
+
+        width: 38px!important;
+        height: 38px!important;
+        background-color: #52297f !important;
+        color: rgb(245 245 245) !important;
+        /* //border-radius: 50%!important; */
+        -webkit-transition: .5s!important;
+        transition: .5s!important;
+        font-size: 22px!important;
+         position: absolute!important;
+        /* // bottom: 45px!important;
+        // right: 10px!important;; */
+        z-index: 9999;
+        i{
+
+            position: absolute!important;;
+            left: 8px;
+            right: 0;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+.add-location
+{
+    padding-top: 25px;
+    padding-left: 215px;
+}
+
+
+
+@media only screen and (max-width: 767px)
+{
+.nm
+{
+    margin-top: 0px!important;
+}
+
+.add-location
+{
+    padding-top: 120px;
+    padding-left: 15px;
+}
+}
+
+
+.hfont
+{
+    top: 3px;
+        color: #2a2a2a!important;
+        margin-left: 10px;
+        -webkit-transition: .5s;
+        transition: .5s;
+        font-size: 25px;
+        font-weight: 700;
+}
+
+.hfont1
+{
+    top: 3px;
+        color: #2a2a2a!important;
+        margin-left: 10px;
+        -webkit-transition: .5s;
+        transition: .5s;
+        font-size: 20px;
+        font-weight: 700;
+}
+
+
+
+.sidemenu-area .sidemenu-header {
+    height:56px;
+}
+
+.nopad
+{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.hidden {
+    display: none;
+  }
+
+body .ui-table .ui-table-tbody > tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+body .ui-table .ui-table-tbody > tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+
+body .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+    background-color: #dae8ef;
+    color: #000000;
+}
+
+body .ui-table .ui-table-tbody > tr:nth-child(odd).ui-state-highlight {
+    background-color: #dae8ef;
+    color: #000000;
+}
+
+body .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+    background-color: #dae8ef!important;
+    color: #000000!important;;
+}
+
+body .ui-table .ui-table-tbody > tr:nth-child(odd).ui-state-highlight {
+    background-color: #dae8ef!important;
+    color: #000000!important;;
+}
+
+body .ui-table .ui-table-tbody > tr.ui-state-highlight {
+    background-color: #dae8ef;
+    color: #000000;
+}
+
+body .ui-table .ui-sortable-column.ui-state-highlight {
+    background-color: #dae8ef;
+    color: #000000;
+}
+
+body .ui-table .ui-sortable-column .ui-sortable-column-icon {
+    color: #a6a6a600;
+}
+
+
+body .ui-dialog .ui-dialog-titlebar {
+    border: 0px solid #c8c8c8 !important;
+    background-color: #f4f4f4;
+    color: #333333;
+    padding: 1em;
+    font-weight: 700;
+    border-bottom: 0 none;
+}
+
+
+
+
+
+
+    body .ui-corner-all {
+        border-radius: 0px;
+    }
+    
+
+
+    body .ui-table .ui-table-tbody > tr:focus + tr > td {
+        box-shadow: none!important;
+      }
+      body .ui-table .ui-table-tbody > tr:focus > td {
+          box-shadow: none!important;
+      }
+      body .ui-table .ui-table-tbody > tr:focus > td:first-child {
+        box-shadow: none!important;
+      }
+      body .ui-table .ui-table-tbody > tr:focus > td:last-child {
+        box-shadow: none!important;
+      }
+
+      .ui-dropdown {
+        display: flex!important;
+      }
+      
+      body .ui-table .ui-sortable-column .ui-sortable-column-icon {
+        color:transparent!important;
+    }
+    
+    .table-responsive {
+        
+        overflow-x: inherit!important;
+    }
+
+    .mydp, .mydp .headertodaybtn, .mydp .selection, .mydp .selectiongroup, .mydp .selector {
+        border-radius: 0px!important; 
+    }
+
+    .card .card-header {
+        border-radius: 0!important;
+        margin-bottom: 0px!important;
+        padding: 0px!important;
+    }
+    .card {
+        padding: 20px;
+        border-radius: 0px!important;;
+    }
+
+    .form-control {
+        border-radius: 0rem!important;
+    }
+
+     .content {
+        background-color: #ffffff;
+        box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, 0.05);
+    }
+
+   
+
+    .Head {
+        margin: -20px  -20px  0px -20px;
+        padding: 5px 10px;
+        border-bottom: 1px solid #e8ebf1;
+    }
+
+
+    .Head h3 {
+        font-size: 18px;
+        font-weight: 700!important;
+    }
+    
+    .header-left {
+        position: relative;
+        top: 1px;
+    }
+    
+  .header-right {
+        position: relative;
+        top: 1px;
+    }
+
+    .content_body
+    {
+        margin-left: -5px;
+        margin-right: -5px;
+        padding-top: 10px;
+    }
+
+
+   
+
+
+
+.add_icon
+    {
+        display: inline-flex;
+    vertical-align: inherit;
+    font-size: 20px;
+    cursor: pointer;
+
+    }
+
+
+    .addbtn_d
+    {
+        padding: 10px!important;
+        border: solid!important;;
+        padding-top: 0px!important;;
+        padding-bottom: 0px!important;;
+        border-width: 1px!important;;
+        border-radius: 50px;
+        display: inline;
+
+        
+    }
+
+
+   
+
+
+    .add_a{
+        font-weight: 600;
+    font-size: 15px;
+    margin-top: 0px;
+    display: table-caption;
+    padding-left: 4px;
+    padding-right: 4px;
+    }
+    .buttonload {
+        background-color: #4CAF50; /* Green background */
+        border: none; /* Remove borders */
+        color: white; /* White text */
+        padding: 12px 24px; /* Some padding */
+        font-size: 16px; /* Set a font-size */
+      }
+      .fa {
+        margin-left: -12px;
+        margin-right: 8px;
+      }
+      
+
+     
+   
+      .ui-dropdown .ui-dropdown-trigger .ui-dropdown-trigger-icon {
+        top: 50%;
+        left: 50%;
+        margin-top: -0.5em;
+        margin-left: 0em;
+        position: absolute;
+        font-size: 10px;
+        font-weight: 900;
+        color: black;
+    }

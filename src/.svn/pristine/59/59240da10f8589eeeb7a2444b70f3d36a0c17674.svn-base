@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { EmiLoanCollectionComponent } from './emi-loan-collection.component';
+
+describe('EmiLoanCollectionComponent', () => {
+  let component: EmiLoanCollectionComponent;
+  let fixture: ComponentFixture<EmiLoanCollectionComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ EmiLoanCollectionComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(EmiLoanCollectionComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

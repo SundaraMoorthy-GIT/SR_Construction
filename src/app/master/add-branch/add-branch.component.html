@@ -1,0 +1,119 @@
+
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Add Branch</h3>
+
+                    <div class="dropdown">
+
+                        <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+                <div class="col-sm-12 col-md-6">
+                    <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+                        <div class="form-group row d-none">
+                            <label class="col-6 col-form-label">ID <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel">
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">Branch Name <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="text" required [(ngModel)]="add.Branch_Name" name="Branch_Name" #Branch_Name="ngModel">
+                              <div *ngIf="addForm.submitted && Branch_Name.invalid" class="invalid-feedback d-block">Branch Name Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">Branch Address <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <textarea class="form-control" rows="3" required [(ngModel)]="add.Branch_Address" name="Branch_Address" #Branch_Address="ngModel"></textarea>
+                              <div *ngIf="addForm.submitted && Branch_Address.invalid" class="invalid-feedback d-block">Branch Address Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">City <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="text" required [(ngModel)]="add.City" name="City" #City="ngModel">
+                              <div *ngIf="addForm.submitted && City.invalid" class="invalid-feedback d-block">City Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">State <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="text" required [(ngModel)]="add.State" name="State" #State="ngModel">
+                              <div *ngIf="addForm.submitted && State.invalid" class="invalid-feedback d-block">State Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">Pincode <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="text" required [(ngModel)]="add.Pincode" name="Pincode" #Pincode="ngModel">
+                              <div *ngIf="addForm.submitted && Pincode.invalid" class="invalid-feedback d-block">Pincode Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">Email</label>
+                            <div class="col-6">
+                              <input class="form-control" type="email" [(ngModel)]="add.Email" name="Email" #Email="ngModel"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" style="text-transform: lowercase;">
+                              <p style="color: red;" *ngIf="Email.errors?.pattern">This is not a valid Email</p>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">Mobile No <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="tel" required [(ngModel)]="add.Mobile_No" name="Mobile_No" #Mobile_No="ngModel"
+                                pattern="^[6-9][0-9]{9}$" maxlength="10" minlength="10">
+                              <div *ngIf="addForm.submitted && Mobile_No.invalid" class="invalid-feedback d-block">Mobile No Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <label class="col-6 col-form-label">Phone No <span class="text-danger">*</span></label>
+                            <div class="col-6">
+                              <input class="form-control" type="tel" required [(ngModel)]="add.Phone_No" name="Phone_No" #Phone_No="ngModel"
+                                pattern="^[6-9][0-9]{9}$" maxlength="10" minlength="10">
+                              <div *ngIf="addForm.submitted && Phone_No.invalid" class="invalid-feedback d-block">Phone No Should Not Be Empty</div>
+                            </div>
+                          </div>
+                          
+                        <div class="m-t-20 text-center">
+
+                            <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                                <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                    role="status" aria-hidden="true"></span>
+                                <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                Save </button> &nbsp;&nbsp;
+                            <button class="btn btn-default" type="button" (click)="Back()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>

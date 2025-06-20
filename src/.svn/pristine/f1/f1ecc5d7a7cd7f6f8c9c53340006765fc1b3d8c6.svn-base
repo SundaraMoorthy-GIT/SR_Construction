@@ -1,0 +1,51 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+
+
+@Component({
+  selector: 'app-price-list',
+  templateUrl: './price-list.component.html',
+  styleUrls: ['./price-list.component.scss']
+})
+export class PriceListComponent implements OnInit {
+
+  Columns=[];
+  constructor(public confirmationService: ConfirmationService,public appservice:AppService, private router: Router, private route: ActivatedRoute) { 
+   this.appservice.get_Price_Item_Master1();
+
+  }
+  
+ 
+ 
+ 
+
+  export_excel(data)
+  {
+
+ 
+   this.appservice.Excel_Data.Header=this.appservice.Price_List_Export;
+
+   this.appservice.Excel_Data.items=this.appservice.Item_Master_Rows1
+   this.appservice.Excel_Data.Report_Name="Price List"
+
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+{
+
+
+  this.appservice.Excel_Data.Header=this.appservice.Price_List_Export;
+  this.appservice.Excel_Data.items=this.appservice.Item_Master_Rows1
+  this.appservice.Excel_Data.Report_Name="Price List"
+
+  this.appservice.export_pdf();
+  }
+  ngOnInit(): void {
+  }
+
+}

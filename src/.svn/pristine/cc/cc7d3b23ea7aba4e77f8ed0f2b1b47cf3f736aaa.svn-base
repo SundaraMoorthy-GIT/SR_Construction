@@ -1,0 +1,114 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { ConfirmationService } from 'primeng/api';
+
+@Component({
+  selector: 'app-item-group',
+  templateUrl: './item-group.component.html',
+  styleUrls: ['./item-group.component.scss']
+})
+export class ItemGroupComponent implements OnInit {
+
+  
+
+  ngOnInit(): void {
+  }
+  Rows = [];
+  cols: any[];
+
+  btndisable: boolean = false;
+  filter: boolean = false;
+  headers;
+  data;
+add:any={};
+public access_tocken = "";
+
+  
+
+ 
+  constructor(public confirmationService: ConfirmationService, private toastr: ToastrService, public appservice: AppService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    if(appservice.isEdit==true)
+    {
+   
+    }
+    else{
+      this.add.ID="0";
+    }
+  }
+
+
+  
+
+  onEdit(item) {
+    this.add = item;
+
+  }
+
+  onDelete(item) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(item)
+      }
+    });
+  }
+
+
+  Delete(item) {
+    this.appservice.get("Api/master/delete_Item_Master?ID=" + item).subscribe((res: any) => {
+    
+      this.appservice.get_Item_Group();
+    });
+  }
+  public addValidation: boolean = false;
+  isadd = "0";
+  addData() {
+    if(this.add.Item_Name=="" || this.add.Item_Name==null)
+    {
+      this.toastr.error("invalid", "Error", { timeOut: 3000 });
+    
+      return;
+    }
+    
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Company =this.appservice.Company;
+    this.add.Item_or_Group="G";
+    this.add.Table_Name = "Item_Master"
+    
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+      
+    this.btndisable=true;
+      this.http.post(this.appservice.Server_URL + 'api/master/post_Data', this.add, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+
+            this.btndisable=false;
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.get_Item_Group();
+              
+             this.add={};
+             this.add.ID="0";
+        
+              if (this.isadd != "0") {
+              
+              }
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+  }
+
+
+

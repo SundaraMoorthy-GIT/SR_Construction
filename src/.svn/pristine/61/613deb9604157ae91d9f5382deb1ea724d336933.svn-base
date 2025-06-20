@@ -1,0 +1,88 @@
+<!-- Start Sidemenu Area -->
+<div  class="sidemenu-area">
+    <div class="sidemenu-header right_shade">
+        <a class="navbar-brand d-flex align-items-center">
+            <img class="hidden"  style="height: 36px;width:36px;" src="assets/img/{{appservice.Logo_location}}.png" alt="image">
+
+            <img  style="height: 36px;" src="assets/img/Letter.png" alt="image">
+
+            <div  class="hidden" style="margin-top: -15px">
+
+               
+            <span class="hidden" style="    font-size: 21px;
+            font-family: sans-serif;
+            padding: 0px;
+           ">{{appservice.Logo_Name}}</span><span  class="hidden" style="font-size: 21px;
+            font-family: sans-serif;
+            padding: 0px;color: #ee4141!important;
+            ">{{appservice.Logo_Sub_Name}}</span>
+            </div>
+            <div  class="hidden"
+            style="    font-size: 13px;
+            
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            padding: 0px;
+            color: #3e3d3d94;
+            margin-top: 28px;
+            margin-left: -128px;" >{{appservice.Phone_No}}</div>
+        </a>
+
+        <div class="burger-menu d-none d-lg-block">
+            <span class="top-bar"></span>
+            <span class="middle-bar"></span>
+            <span class="bottom-bar"></span>
+        </div>
+
+        <div class="responsive-burger-menu d-block d-lg-none">
+            <span class="top-bar"></span>
+            <span class="middle-bar"></span>
+            <span class="bottom-bar"></span>
+        </div>
+    </div>
+
+    <div class="sidemenu-body right_shade" style="background-image: url(../../assets/img/Side.jpg);" >
+        
+        <ul    class="sidemenu-nav metisMenu h-100" id="sidemenu-nav" data-simplebar  style="scrollbar-width: 12px; background-color:#ffffffeb;" > 
+            
+            <div   *ngFor="let label of appservice.Label_Menu_Rows">
+
+                <li class="nav-item-title" style="margin-top: 10px;">
+                {{label.Display_Name}} 
+                </li>
+
+            <div  *ngFor="let menu of appservice.get_child(label.ID)">
+                <li *ngIf="menu.Type=='Menu'"   class="nav-item" routerLinkActive="active">
+                    <a routerLink="{{menu.Route_Link}}" class="nav-link">
+                        <span class="icon"><i class='{{menu.Icon}}'></i></span>
+                        <span class="menu-title">{{menu.Display_Name}}</span>
+                    </a>
+                </li>
+
+                <li  *ngIf="menu.Type=='Parent'"  class="nav-item" routerLinkActive="active mm-active">
+                    <a  href="#" class="collapsed-nav-link nav-link" aria-expanded="true" data-toggle="collapse" data-target=".sss">
+                        <span class="icon"><i class='{{menu.Icon}}'></i></span>
+                        <span class="menu-title">{{menu.Display_Name}}</span>
+    
+                    </a>
+    
+                    <ul class="sidemenu-nav-second-level   sss collapse" >
+                        <li  *ngFor="let child of appservice.get_child(menu.ID)"  class="nav-item" routerLinkActive="active">
+                            <a routerLink="{{child.Route_Link}}" class="nav-link">
+                                <span class="icon"><i class='{{child.Icon}}'></i></span>
+                                <span class="menu-title">{{child.Display_Name}}</span>
+                            </a>
+                        </li>
+                      
+                    </ul>
+                </li>
+            </div>
+
+         </div>
+           
+        </ul>
+    
+    </div>
+</div>
+<!-- End Sidemenu Area -->

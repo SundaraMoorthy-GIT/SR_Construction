@@ -1,0 +1,146 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-bom-master',
+  templateUrl: './bom-master.component.html',
+  styleUrls: ['./bom-master.component.scss']
+})
+export class BomMasterComponent implements OnInit {
+
+  add: any = {};
+  constructor(public confirmationService: ConfirmationService, public appservice: AppService, private router: Router, private route: ActivatedRoute
+    , private toastr: ToastrService, private http: HttpClient
+  ) {
+
+    this.add.RM_Name="";
+    this.add.BOM_Name=""
+   
+    this.add.ID = "0";
+    this.add.BOM_Qty = "1";
+    this.add.BOM_UOM = "Nos";
+    this.add.BOM_ID = "";
+
+  }
+
+
+  focus_out()
+  {
+   if(this.appservice.RM_all_item==false)
+   { 
+    this.appservice.Item_Group_="1";
+   }
+  }
+
+  focus()
+  {
+    if(this.appservice.RM_all_item==false)
+    {
+    this.appservice.Item_Group_="2";
+    }
+  }
+
+  get_by_Code(data) {
+    this.add.BOM_ID = data;
+  }
+
+  get() {
+    this.appservice.FG_ID = this.add.BOM_ID;
+    this.appservice.get_BOM_Master();
+  }
+
+  btndisable: boolean = false;
+  addData(f) {
+
+    this.add.Company = this.appservice.Company;
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Created_by = this.appservice.CREATED_BY;
+    this.add.Table_Name = "BOM_Master";
+
+    var len = 0;
+    try {
+      len = this.appservice.BOM_Master_Rows.filter(e => e.RM_ID == this.add.RM_ID).length;
+    } catch
+    { }
+
+    if (len > 0) {
+      this.toastr.error("Item already exist..", "Error", { timeOut: 3000 });
+      return;
+    }
+
+    if (f.invalid === false) {
+      this.btndisable = true;
+      this.http.post(this.appservice.Server_URL + 'api/Master/Post_Data', this.add, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable = false;
+
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+
+              this.appservice.isEdit = false;
+              this.appservice.get_BOM_Master();
+              f.submitted = false;
+              this.add.RM_ID = "";
+              this.add.RM_Name = "";
+
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+
+  }
+
+  onDelete(item) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(item)
+      }
+    });
+  }
+
+  Delete(item) {
+    this.appservice.get("Api/master/delete_BOM_Master?ID=" + item).subscribe((res: any) => {
+      var index = this.appservice.BOM_Master_Rows.findIndex(function (items, i) {
+        return items.ID === item
+      });
+      if (index > -1) {
+        this.appservice.BOM_Master_Rows.splice(index, 1);
+      }
+      this.appservice.BOM_Master_Rows = this.appservice.BOM_Master_Rows;
+      this.appservice.get_BOM_Master();
+    });
+  }
+
+  export_excel(data) {
+    this.appservice.BOM_Master_Export = this.appservice.get_fields_of('BOM_Master');
+    this.appservice.Excel_Data.Header = this.appservice.BOM_Master_Export;
+    this.appservice.Excel_Data.items = this.appservice.BOM_Master_Rows
+    this.appservice.export_excel();
+  }
+
+  export_pdf(data) {
+    this.appservice.BOM_Master_Export = this.appservice.get_fields_of('BOM_Master');
+    this.appservice.Excel_Data.Header = this.appservice.BOM_Master_Export;
+    this.appservice.Excel_Data.items = this.appservice.BOM_Master_Rows
+    this.appservice.export_pdf();
+  }
+
+  ngOnInit(): void {
+  }
+
+}

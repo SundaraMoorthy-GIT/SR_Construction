@@ -1,0 +1,147 @@
+
+
+<div class="row">
+    <div class="mshow" style="width: 100%;margin-top: -10px;">&nbsp;</div>
+
+    <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_To_collect()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon gshade">
+              <i class="bx bx-down-arrow-alt"></i>
+            </div>
+            <p class="card-category">To&nbsp;Collect</p>
+            <h3 class="card-title">{{appservice.Outstand_Amt |currency:'INR':'symbol':'0.0-0'}} 
+              <small></small>
+            </h3>
+          </div>
+         
+        </div>
+      </div>
+
+
+
+      <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_To_Pay()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon oshade">
+              <i class="bx bx-up-arrow-alt"></i>
+            </div>
+            <p class="card-category">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To&nbsp;Pay</p>
+            <h3 class="card-title">  {{appservice.Supplier_Outstand_Amt |currency:'INR':'symbol':'0.0-0'}} 
+              <small></small>
+            </h3>
+          </div>
+         
+        </div>
+      </div>
+ 
+      <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_Today_Collect()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon vshade "style=" background: linear-gradient( 
+              60deg
+               , #883c74, #e81865);">
+              <i class="bx bx-collection"></i>
+            </div>
+            <p class="card-category">Collected</p>
+            <h3 class="card-title"> {{appservice.Receipt_Row_Total |currency:'INR':'symbol':'0.0-0'}}
+              <small>&nbsp;</small>
+            </h3>
+          </div>
+          
+        </div>
+      </div>
+    
+    
+      <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_Today_Payment()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon vshade"style="    background: linear-gradient( 
+              60deg
+               , #de9e11, #fbff07b8);">
+              <i class="bx bx-log-out"></i>
+            </div>
+            <p class="card-category">  &nbsp;Today&nbsp;Paid</p>
+            <h3 class="card-title"> {{appservice.Payment_Row_Total |currency:'INR':'symbol':'0.0-0'}}
+              <small>&nbsp;</small>
+            </h3>
+          </div>
+         
+        </div>
+      </div>
+      
+
+     <!-- <div class="col-6 col-lg-3 col-md-6 col-sm-6" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon bshade" (click)="load_Amt_Hand()">
+              <i class="bx bxs-landmark"></i>
+            </div>
+            <p class="card-category">Available</p>
+            <h3 class="card-title">{{appservice.Total|currency:'INR':'symbol':'0.0-0'}} 
+              <small></small>
+            </h3>
+          </div>
+         
+        </div>
+      </div>
+
+
+      <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_Group_details()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon vshade">
+              <i class="bx bx-group"></i>
+            </div>
+            <p class="card-category">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group's</p>
+            <h3 class="card-title"> {{appservice.Group_Member_Row_count}}
+              <small>&nbsp;</small>
+            </h3>
+          </div>
+          
+        </div>
+      </div>
+
+
+  
+</div>
+
+
+<div  class="row " style="justify-content: center;">
+
+  <div class="pad_15">
+  <div  class="vicon"><i class="bx bxs-user li"></i></div>
+
+    <span class="vtext">Customer</span>
+</div>
+
+<div  class="pad_15">
+  <div  class="vicon"><i class="bx bx-rocket li"></i></div>
+  <span class="vtext">loan</span>
+</div>
+
+<div class="pad_15" >
+  <div   class="vicon"><i class="bx bx-cart-alt li"></i></div>
+  <span class="vtext">Action</span>
+</div>
+
+<div class="pad_15" >
+  <div   class="vicon"><i class="bx bx-cart-alt li"></i></div>
+  <span class="vtext">Customer</span>
+</div>
+
+
+</div>-->
+
+
+<div  class="row">
+
+ 
+
+ 
+
+
+
+ 
+   
+</div>

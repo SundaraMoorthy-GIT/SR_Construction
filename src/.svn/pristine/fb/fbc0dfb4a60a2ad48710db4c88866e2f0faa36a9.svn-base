@@ -1,0 +1,235 @@
+
+
+<div class="row">
+    <div class="mshow" style="width: 100%;margin-top: -10px;">&nbsp;</div>
+
+    <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_To_collect()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon gshade">
+              <i class="bx bx-log-in-circle"></i>
+            </div>
+            <p class="card-category">To Collect</p>
+            <h3 class="card-title">{{appservice.Outstand_Amt | number:'1.0-0'}} 
+              <small>Nos</small>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="bx bx-chevrons-right"></i>
+             <span class="stats1"> more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_To_Pay()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon oshade">
+              <i class="bx bx-log-out-circle"></i>
+            </div>
+            <p class="card-category">To Pay</p>
+            <h3 class="card-title">  {{appservice.Supplier_Outstand_Amt | number:'1.0-0'}} 
+              <small>Nos</small>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="bx bx-chevrons-right"></i>
+             <span class="stats1"> more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div class="col-6 col-lg-3 col-md-6 col-sm-6" (click)="load_Amt_Hand()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon bshade">
+              <i class="bx bx-list-check"></i>
+            </div>
+            <p class="card-category">Amt In Hand</p>
+            <h3 class="card-title">{{appservice.Total|currency:' ':true}} 
+              <small>Nos</small>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="bx bx-chevrons-right"></i>
+             <span class="stats1"> more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_Group_details()" >
+        <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon vshade">
+              <i class="bx bx-user"></i>
+            </div>
+            <p class="card-category">Open Group</p>
+            <h3 class="card-title"> 
+              <small>&nbsp;</small>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="bx bx-chevrons-right"></i>
+              <span class="stats1"> more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+  
+</div>
+
+
+<div  class="row">
+
+
+
+   
+  <div  class="col-md-6" *ngIf="appservice.allowed_visitor>0">
+        <div  class="card mb-30 new-customer-box">
+            <div  class="card-header d-flex justify-content-between align-items-center">
+                <h3 >Accepted Visitor</h3>
+                <div  class="dropdown"><button  aria-expanded="false"
+                        aria-haspopup="true" (click)="appservice.get_Visitor_allowed()" class="dropdown-toggle" data-toggle="dropdown" type="button"><i
+                             class="bx bx-dots-horizontal-rounded"></i></button>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead >
+                            <tr >
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr   *ngFor="let data of appservice.Visitor_allowed_Row"  >
+                                <td  class="name"><img  alt="image"
+                                  src="{{appservice.Server_URL}}/image/V{{appservice.Company}}/V{{data.Contact_No}}.png" ></td>
+
+
+                                    <td style="text-align:left ;"   >
+                                        {{data.Visitor_Name}} from  <span style="color: rgb(221, 49, 58);"> {{data.Company_Name}}</span>
+                                        <br><span >{{data.V_Person}}</span>  for  <span style="color: firebrick;" class="text-muted">{{data.Purpose}}</span>
+                                        <br> <span class="text-muted">   Time : {{data.V_From_Time}} </span>
+                                        
+                                    </td>
+                                <td ><a 
+                                        class="d-inline-block text-success mr-2" data-placement="top" data-toggle="tooltip"
+                                        href="javascript:void(0)" (click)="onEdit_gate(data)"  title="" data-original-title="View"><i
+                                             class="bx bx-edit"></i></a></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div  class="col-md-6">
+        <div  class="card mb-30 new-customer-box">
+            <div  class="card-header d-flex justify-content-between align-items-center">
+                <h3 >Waiting at Gate</h3>
+                <div  class="dropdown"><button  aria-expanded="false"
+                        aria-haspopup="true" (click)="appservice.get_Visitor_at_Gate1()" class="dropdown-toggle" data-toggle="dropdown" type="button"><i
+                             class="bx bx-rotate-left"></i></button>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead >
+                            <tr >
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr   *ngFor="let data of appservice.Visitor_at_Gate_Row1"   [style.background-color]="(data.Visitor_Status=='Allow insdie')? '#abff8d8f': '' " >
+                                <td  class="name"><img  alt="image"
+                                  src="{{appservice.Server_URL}}/image/V{{appservice.Company}}/V{{data.Contact_No}}.png" ></td>
+
+                                    <td style="text-align:left ;"   >
+                                        {{data.Visitor_Name}} from  <span style="color: rgb(221, 49, 58);"> {{data.Company_Name}}</span>
+                                        <br><span >{{data.V_Person}}</span>  for  <span style="color: firebrick;" class="text-muted">{{data.Purpose}}</span>
+                                        <br> <span class="text-muted">   Time : {{data.V_From_Time}} </span>
+                                        <br> <span class="text-muted" style="color: darkviolet;">   Status : {{data.Visitior_Status}} </span>
+                                        
+                                        
+                                    </td>
+                                <td ><a 
+                                        class="d-inline-block text-success mr-2" data-placement="top" data-toggle="tooltip"
+                                        href="javascript:void(0)" (click)="onEdit_gate(data)"  title="" data-original-title="View"><i
+                                             class="bx bx-edit"></i></a></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div  class="col-md-6">
+        <div  class="card mb-30 new-customer-box">
+            <div  class="card-header d-flex justify-content-between align-items-center">
+                <h3 >Check-in Visitors</h3>
+                <div  class="dropdown"><button  aria-expanded="false"
+                        aria-haspopup="true" (click)="appservice.get_Checkin_Visitor()" class="dropdown-toggle" data-toggle="dropdown" type="button"><i
+                             class="bx bx-rotate-left"></i></button>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead >
+                            <tr >
+                              <th ></th>
+                                <th ></th>
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr   *ngFor="let data of appservice.Checkin_Visitor_Row" >
+
+                              <td><img  alt="V"
+                                src="{{appservice.Server_URL}}/image/V{{appservice.Company}}/V{{data.Contact_No}}.png" ></td>
+                                <td  style="text-align: left;" class="name"> {{data.Visitor_Name}}/ {{data.Company_Name}}
+                                        <br><span class="text-muted">{{data.Purpose}}</span>
+                                    
+                                    </td>
+                                    <td>{{data.In_Time}}</td>
+                                <td><a 
+                                        class="d-inline-block text-success mr-2" data-placement="top"  data-toggle="tooltip"
+                                        href="javascript:void(0)" (click)="onEdit_gate(data)"  title="Check Out" data-original-title="View"><i
+                                             class="bx bx-edit"></i></a></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>

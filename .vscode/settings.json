@@ -1,0 +1,32 @@
+{
+  // Light Theme and Icons
+  "workbench.colorTheme": "Default Dark Modern", // Or try "JetBrains Light"
+  "workbench.iconTheme": "material-icon-theme",
+
+  // Editor Font Settings
+  "editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 22,
+  "editor.tabSize": 4,
+
+  // Editor Behavior
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.minimap.enabled": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.wordWrap": "on",
+  "editor.scrollBeyondLastLine": true,
+
+  // Terminal
+  "terminal.integrated.fontFamily": "monospace",
+  "terminal.integrated.fontSize": 13,
+
+  // Files & Auto Save
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "explorer.compactFolders": false,
+
+  // Optional: IntelliJ Keybinding Behavior
+  "keyboard.dispatch": "keyCode"
+}

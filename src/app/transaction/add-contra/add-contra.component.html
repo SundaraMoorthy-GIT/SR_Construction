@@ -1,0 +1,243 @@
+
+
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Contra Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel" required>
+                          <input class="form-control" type="text" [(ngModel)]="add.Adj_Type" name="Adj_Type" #Adj_Type="ngModel">
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Ref No<span class="text-danger">*</span></td>
+                        <td>
+                          <input readonly class="form-control"required type="text" [(ngModel)]="add.Ref_No" name="Ref_No" #Ref_No="ngModel">
+                          <div *ngIf="addForm.submitted && Ref_No.invalid" class="invalid-feedback">
+                            <div class="error"> Ref No Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>                                                                                                                  
+                      
+  
+  
+                      <tr>
+                        <td>Date<span class="text-danger">*</span></td>
+                        <td> 
+  
+                          <input   min='{{appservice.T_Date}}'  class="form-control" required type="date" [(ngModel)]="add.Ref_Date" name="Ref_Date" #Ref_Date="ngModel">
+                          <div *ngIf="addForm.submitted && Ref_Date.invalid" class="invalid-feedback">
+                            <div class="error"> Ref Date Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+                        <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.Branch_ID" name="Branch_ID" #Branch_ID="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && Branch_ID.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+
+                      
+                      <tr>
+                        <td  style="width: 100px;" >From Acc<span class="text-danger">*</span></td>
+                        <td>
+                            <div style="width: 100%;display: inline-flex;">
+
+                                
+
+                                <div style="width: 65%;">
+
+                                  <select class="select2-option form-control " [(ngModel)]="add.From_Account" name="From_Account"
+                                #From_Account="ngModel" style="width:100%" aria-hidden="true"(change)="appservice.get_CR_DB_Amount(add.From_Account)" >
+                                <option  value="0"></option>
+
+                                <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+                            </select>
+                               
+                                </div>
+                                <div style="width: 35%;" *ngIf="appservice.Ledger_Amt>='0'">
+
+                                  <input class="form-control" readonly type="number"style="color: rgb(61, 211, 61);font-weight: 800;"
+                                      [(ngModel)]="appservice.Ledger_Amt" name="Ledger_Amt"
+                                      #Ledger_Amt="ngModel" >
+                                    
+                                  </div>
+                                <div  *ngIf="!(appservice.Ledger_Amt>='0')"style="width: 35%;">
+
+                                  <input class="form-control" readonly type="number"style="color: red;font-weight: 800;"
+                                      [(ngModel)]="appservice.Ledger_Amt" name="Ledger_Amt"
+                                      #Ledger_Amt="ngModel" >
+                                    
+                                  </div>
+
+                              </div>
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                      <td  style="width: 100px;" >To Acc<span class="text-danger">*</span></td>
+                      <td>
+                          <div style="width: 100%;display: inline-flex;">
+
+                              
+
+                              <div style="width: 65%;">
+
+                                <select class="select2-option form-control " [(ngModel)]="add.To_Account" name="To_Account"
+                                #To_Account="ngModel" style="width:100%" aria-hidden="true"(change)="get_CR_DB_Amount(add.To_Account)" >
+                                <option  value="0"></option>
+                             
+
+                                <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+                            </select>
+                             
+                              </div>
+                        
+                            <div style="width: 35%;" *ngIf="appservice.To_Amt>='0'">
+
+                              <input class="form-control" readonly type="number"style="color: rgb(61, 211, 61);font-weight: 800;"
+                                  [(ngModel)]="appservice.To_Amt" name="To_Amt"
+                                  #To_Amt="ngModel" >
+                                
+                              </div>
+                            <div  *ngIf="!(appservice.To_Amt>='0')"style="width: 35%;">
+
+                              <input class="form-control" readonly type="number"style="color: red;font-weight: 800;"
+                                  [(ngModel)]="appservice.To_Amt" name="To_Amt"
+                                  #To_Amt="ngModel" >
+                                
+                              </div>
+                          
+
+                            </div>
+                      
+                      </td>
+                  </tr>
+                 
+    
+    
+  
+                      <tr>
+                        <td>Description</td>
+                        <td> 
+                          <input class="form-control" type="text"required [(ngModel)]="add.Naration" name="Naration" #Naration="ngModel">
+                          <div *ngIf="addForm.submitted && Naration.invalid" class="invalid-feedback d-block">
+                            <div class="error">Naration  Should not entry</div>
+                      
+                        </div></td>
+                      </tr>
+  
+  
+  
+                      <tr>
+                        <td>Amount<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control"required type="number" [(ngModel)]="add.Amount" name="Amount" #Amount="ngModel">
+                          <div *ngIf="addForm.submitted && Amount.invalid" class="invalid-feedback">
+                            <div class="error"> Amount  Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+<!--   
+                      <tr >
+                        <td  style="width: 100px;" >Pay Mode</td>
+                        <td  style="text-align: center;">
+    
+    
+                            <select class="select2-option form-control " [(ngModel)]="add.Pay_Mode" name="Pay_Mode"
+                                #Pay_Mode="ngModel" style="width:100%" aria-hidden="true">
+    
+                                <option *ngFor="let data of appservice.get_ref('Pay_Mode')" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+    
+                            </select>
+    
+    
+    
+    
+    
+                        </td>
+    
+                    </tr> -->
+    
+    
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit" [disabled]="btndisable" type="submit"> 
+                      
+                      
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+  
+                      <i  *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

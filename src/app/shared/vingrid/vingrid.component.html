@@ -1,0 +1,67 @@
+<div style="width: 100%; "  >  
+    <div>  
+
+        <input type="text"    class="in code1 tbtext vin-form" placeholder="{{Placeholder}}"   style="width: 100%; border: 0; border-radius: 0px;"  
+        (keydown.enter)="selected_row(row_No)" 
+        (keydown.arrowup)="up()"  
+        (keydown.arrowdown)="down()"  
+        (keydown.escape)="get_view1()"
+        value="label_"
+        (input)="filter(label_)"
+         [(ngModel)]="label_" 
+         (ngModelChange)="textChange()"
+         [maxlength]="maxLength"  />  
+
+            <div *ngIf="label_!='/'" [className]="display_grid==false ? 'hidden' : ''"  style="z-index: 55;
+            right: 0;
+            min-height: 290px;
+            background-color: white;
+            top: 225px;
+            position: fixed;
+            width: 50%;
+            max-height: 320px;
+            /* width: auto; */
+            overflow-x: hidden;
+            overflow-y: auto;
+            box-shadow: 0 0 3px rgb(0 0 0 / 35%);" >
+
+<table style="margin-top: 2px;  padding: 10px; width: 100%; background-color: white; box-shadow: 0 0 3px rgb(0 0 0 / 35%);">
+<!-- <table  class="vingrid_tb" style="margin-top: 2px;  padding: 10px; width: 100%; background-color: white; box-shadow: 0 0 3px rgb(0 0 0 / 35%);"> -->
+    <tr   class=" tr trhover"   style="height: 30px;"  style="cursor: pointer;" *ngFor="let rowData of Row1; let rowIndex=index">
+      
+      <td *ngIf="appservice.Dispg_code==true"      (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Item_Code}}</td>
+      <td  (click)="selected_row(rowIndex)"        [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.label}}</td>
+      <td   (click)="selected_row(rowIndex)"       [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.UOM}}</td>
+      <td  *ngIf="appservice.STamilName==true"     (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; " >{{rowData.Item_TamilName}}</td>
+      <td  *ngIf="appservice.disp_category==false"  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Description}}</td>
+      <td  *ngIf="appservice.disp_category==false"  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; " > {{rowData.Category}}</td>
+      <td  *ngIf="appservice.Grid_MPR_Disp==true"  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; text-align: right;  " >{{rowData.Rate}}</td>
+      <td  *ngIf="appservice.Grid_MPR_Disp==true" (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; text-align: right;  " >{{rowData.MRP}}</td>
+      <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; " >{{rowData.P_Date}}</td>
+      <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre; color: rgb(119, 4, 39); text-align: right;  font-weight: 800; padding-left: 10px; " >{{rowData.Stock}}</td>
+      <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre; color: rgb(119, 4, 39); text-align: right;  font-weight: 800; padding-left: 10px; " >&nbsp;&nbsp;</td>
+      
+      
+    </tr>
+</table>
+                <!-- <table style="margin-top: 2px;  padding: 10px; width: 100%; background-color: white; box-shadow: 0 0 3px rgb(0 0 0 / 35%);">
+                      <tr   class="trhover"   style="height: 30px;"  style="cursor: pointer;" *ngFor="let rowData of Row1; let rowIndex=index">
+                        
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Item_Code}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.label}}</td>
+                        <td *ngIf="appservice.STamilName==true"  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; " >{{rowData.Item_TamilName}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left;  white-space: pre; padding-left: 10px; " >{{rowData.Description}}</td>
+                        <td *ngIf="appservice.disp_category==true"  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; " > {{rowData.Category}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; text-align: right;  " >{{rowData.Rate}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre;  padding-left: 10px; " >{{rowData.P_Date}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre; color: rgb(119, 4, 39); text-align: right;  font-weight: 800; padding-left: 10px; " >{{rowData.Stock}}</td>
+                        <td  (click)="selected_row(rowIndex)"   [className]="rowIndex==row_No ? 'rselected' : ''"   style="text-align: left; white-space: pre; color: rgb(119, 4, 39); text-align: right;  font-weight: 800; padding-left: 10px; " >&nbsp;&nbsp;</td>
+                        
+                        
+                      </tr>
+                </table> -->
+        
+
+            </div>
+    </div>  
+</div>  

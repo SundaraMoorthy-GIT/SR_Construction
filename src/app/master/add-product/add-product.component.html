@@ -1,0 +1,165 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+      <div class="card content c_pad_5">
+          <div class=" Head  mhide">
+              <div class="card-header  d-flex justify-content-between align-items-center">
+                  <h3>{{appservice.Product_details}}</h3>
+
+                  <div class="dropdown">
+
+                      <a (click)="appservice.back()" class="x">
+                          <b>X</b>
+                      </a>
+
+
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="content_body">
+
+
+
+              <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                  novalidate>
+
+                  <div class="row">
+                      <div class="col-sm-6">
+
+                          <div class="form-table table-responsive">
+                              <table class="table table-bordered">
+                                  <tbody>
+                                      <tr class="hidden">
+                                          <td>ID <span class="text-danger">*</span></td>
+                                          <td><input class="form-control" type="text" [(ngModel)]="add.pm_id" name="pm_id"
+                                                  #pm_id="ngModel" ></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Brand<span class="text-danger"></span></td>
+                                          <td><input class="form-control" type="text" [(ngModel)]="add.pm_brand"required name="pm_brand"
+                                                  #pm_brand="ngModel" >
+                                              </td>
+                                      </tr>
+                                      <tr>
+                                          <td>Category <span class="text-danger"></span></td>
+                                          <td><input class="form-control" type="text" [(ngModel)]="add.pm_category" name="pm_category"
+                                                  #pm_category="ngModel" ></td>
+                                      </tr>
+                                      <tr>
+                                          <td>Product Name<span class="text-danger">*</span></td>
+                                          <td><input class="form-control" type="text" [(ngModel)]="add.pm_item_name"required name="pm_item_name"
+                                                  #pm_item_name="ngModel" >
+                                                  <div *ngIf="addForm.submitted && pm_item_name.invalid" class="invalid-feedback  d-block">
+                                                      <div class="error"> Product Name  Should not entry</div>
+                                                  </div>
+                                              </td>
+                                      </tr>
+                                      <tr class="hidden">
+                                        <td>TProduct Name<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.pm_item_tamilname"required name="pm_item_tamilname"
+                                                #pm_item_tamilname="ngModel" >
+                                            </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Code  <span  class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                                    <input class="form-control" type="text" [(ngModel)]="add.pm_item_code"required name="pm_item_code"
+                                                    #pm_item_code="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td> HSN Code <span  class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                                <input class="form-control" type="text" [(ngModel)]="add.pm_hsn_code"required name="pm_hsn_code"
+                                            #pm_hsn_code="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>UOM <span  class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                            <select class="select2-option form-control "  [(ngModel)]="add.pm_uom" name="pm_uom" #pm_uom="ngModel" style="width:100%"   aria-hidden="true">
+                  
+                                                <option *ngFor="let summary of UOM_Row" value={{summary.value}}>
+                                                    {{summary.label}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+
+                        <div class="form-table table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr >
+                                        <td> PCS Qty <span  class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="number" value="0" [(ngModel)]="add.pm_nqty"required name="pm_nqty"
+                                            #pm_nqty="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>GST %  <span  class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                                    <input class="form-control" type="number" value="0" [(ngModel)]="add.pm_gst_per"required name="pm_gst_per"
+                                                    #pm_gst_per="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td> MRP Price <span  class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="number" value="0" [(ngModel)]="add.pm_mrpprice"required name="pm_mrpprice"
+                                                #pm_mrpprice="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PurPrice <span class="text-danger"></span></td>
+                                        <td><input class="form-control" type="number" value="0" [(ngModel)]="add.pm_purprice"required name="pm_purprice"
+                                             #pm_purprice="ngModel" >
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rate<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="number" value="0" [(ngModel)]="add.pm_rate"required name="pm_rate"
+                                                #pm_rate="ngModel" >
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                    <br><br>
+                        <div class="col-sm-6">
+                       
+                            <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+
+                                <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span>
+                                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                    Save </button> &nbsp;&nbsp;
+                                <button class="btn btn-secondary rounded-pil " type="button"
+                                    (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                            </div>
+
+                            </div>
+                  </div>
+                 
+              </form>
+            
+          </div>
+      </div>
+  </div>

@@ -1,0 +1,31 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { TransactionRoutingModule } from './transaction-routing.module';
+import { TransactionComponent } from './transaction.component';
+import { ReceiptDetailsComponent } from './receipt-details/receipt-details.component';
+import { AddReceiptDetailsComponent } from './add-receipt-details/add-receipt-details.component';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { PaymentDetailsComponent } from './payment-details/payment-details.component';
+import { PaymentEntryComponent } from './payment-entry/payment-entry.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { IncomeDetailsComponent } from './income-details/income-details.component';
+import { IncomeEntryComponent } from './income-entry/income-entry.component';
+import { AddContraComponent } from './add-contra/add-contra.component';
+import { ContraDetailsComponent } from './contra-details/contra-details.component';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { ExpenseDetailsComponent } from './expense-details/expense-details.component';
+
+@NgModule({
+  declarations: [TransactionComponent,ReceiptDetailsComponent,AddPaymentComponent,PaymentDetailsComponent, PaymentEntryComponent,AddReceiptDetailsComponent, IncomeDetailsComponent, IncomeEntryComponent, AddContraComponent, ContraDetailsComponent, AddExpenseComponent, ExpenseDetailsComponent],
+  imports: [
+    CommonModule,
+    TransactionRoutingModule,
+    FormsModule,
+
+    SharedModule,
+
+  ]
+})
+export class TransactionModule { }

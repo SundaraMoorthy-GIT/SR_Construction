@@ -1,0 +1,40 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { MasterRoutingModule } from './master-routing.module';
+import { MasterComponent } from './master.component';
+import { BomMasterComponent } from './bom-master/bom-master.component';
+import { LedgerDetailsComponent } from './ledger-details/ledger-details.component';
+import { LedgerEntryComponent } from './ledger-entry/ledger-entry.component';
+import { SharedModule } from '../shared/shared.module';
+import { ItemMaster1Component } from './item-master1/item-master1.component';
+import { ItemGroupComponent } from './item-group/item-group.component';
+import { LedgerGroupComponent } from './ledger-group/ledger-group.component';
+import { TableMasterComponent } from './table-master/table-master.component';
+import { TableDetailsComponent } from './table-details/table-details.component';
+import { AddTableComponent } from './add-table/add-table.component';
+import { StreetMappingComponent } from './street-mapping/street-mapping.component';
+import { StreetMappingEntryComponent } from './street-mapping-entry/street-mapping-entry.component';
+import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { LedgerDetails1Component } from './ledger-details1/ledger-details1.component';
+import { ItemDetailsNewComponent } from './item-details-new/item-details-new.component';
+import { ProductMarginDetailsComponent } from './product-margin-details/product-margin-details.component';
+import { ProductMarginEntryComponent } from './product-margin-entry/product-margin-entry.component';
+import { PriceListComponent } from './price-list/price-list.component';
+import { FormsModule } from '@angular/forms';
+
+
+
+@NgModule({
+  declarations: [MasterComponent, BomMasterComponent, LedgerDetailsComponent, LedgerEntryComponent, ItemMaster1Component, ItemGroupComponent, LedgerGroupComponent, TableMasterComponent, TableDetailsComponent, AddTableComponent, StreetMappingComponent, StreetMappingEntryComponent, EmployeeDetailsComponent, AddEmployeeComponent, LedgerDetails1Component, ItemDetailsNewComponent, ProductMarginDetailsComponent, ProductMarginEntryComponent, PriceListComponent],
+  imports: [
+    CommonModule,
+
+    MasterRoutingModule,
+    SharedModule,
+    FormsModule,
+
+  ]
+})
+export class MasterModule { }

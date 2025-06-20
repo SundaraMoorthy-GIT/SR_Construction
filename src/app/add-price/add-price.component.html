@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Bunk Price Details</h3>
+
+                    <div class="dropdown">
+
+                        <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+
+
+                <div class="col-sm-12 col-md-6">
+                    <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+                        <div class="form-group hidden">
+                            <label>ID <span class="text-danger">*</span></label>
+                            <input class="form-control" required type="text" [(ngModel)]="add.ID" name="ID"
+                                #ID="ngModel" required>
+                        </div>
+                        <div class="form-group hidden">
+                            <label>Ref_ID</label>
+                            <input  class="form-control" required type="text" [(ngModel)]="add.Ref_ID" name="Ref_ID"
+                                #Ref_ID="ngModel">
+                        </div>
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input class="form-control" required type="text" [(ngModel)]="add.Descrption"
+                                name="Descrption" #Descrption="ngModel">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label> Rate</label>
+                            <input class="form-control" required type="number" [(ngModel)]="add.Code"
+                            name="Code" #Code="ngModel">
+                            
+                        </div>
+                       
+                        <div class="form-group hidden">
+                            <label>Remarks</label>
+                            <input class="form-control" required type="text" [(ngModel)]="add.Remarks" name="Remarks"
+                                #Remarks="ngModel">
+                        </div>
+                        <div class="form-group hidden">
+                            <label>Created_by</label>
+                            <input class="form-control" required type="text" [(ngModel)]="add.Created_by"
+                                name="Created_by" #Created_by="ngModel">
+                        </div>
+                        <div class="m-t-20 text-center">
+
+                            <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                                <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                    role="status" aria-hidden="true"></span>
+                                <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                Save </button> &nbsp;&nbsp;
+                            <button class="btn btn-default" type="button" (click)="Back()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>

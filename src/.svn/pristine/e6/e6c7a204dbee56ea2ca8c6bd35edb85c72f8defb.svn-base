@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="search-bar_Ext  mshow disp" style=" display: inline-flex;">
+        
+        <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+        <label class="h_txex mshow " style="    line-height: 40px;">{{appservice.Edit_Row.Ledger_Name}}
+          <span class="status_txt" >Since {{appservice.ago(appservice.Edit_Row.Join_Date)}}</span> </label>
+  
+      </div>
+      <div class="col-md-12 nopad mobile_hide">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom" style="float: none;">
+            <ul>
+              <li  *ngFor="let data of appservice.Customer_Overview"  
+               [className]="appservice.URL_Location==data.Link ? 'active clo3tab' : ' clo3tab'"  
+                > <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                    
+            </ul>
+          </div>
+          <div class="col-md-12 nopad">
+
+          <p-table class="table table-striped custom-table mhide" [value]="appservice.Pending_Overview"  
+          >
+           <ng-template pTemplate="header">
+             <tr>
+               <th  >Date</th>
+               <th >Narration</th>
+               <th style="text-align: right;">Amount</th>
+               
+             </tr>
+           </ng-template>
+           <ng-template pTemplate="body" let-rowData let-car>
+             <tr [pSelectableRow]="rowData">
+               <td style="width: 130px;" >{{rowData.Due_Date}}</td>
+               <td>{{rowData.Narration}}</td>
+               
+               <td style="text-align: right;">{{rowData.Bill_Amount | number: '1.0-0'}}</td>
+             </tr>
+           </ng-template>
+           <ng-template pTemplate="footer">
+                 
+            <tr>
+                    <td >Balance</td>
+                    
+                   
+                    
+                    <td colspan="2" style="text-align: right;color:darkred;font-size:
+                     14px;font-weight: 900">{{Total|currency:' ':true}}</td>
+                   
+                </tr>
+        </ng-template>
+          
+   
+       </p-table>
+       <p-table  class="table table-striped custom-table mshow" [value]="appservice.Pending_Overview"  
+       >
+        <ng-template pTemplate="header">
+          <tr class="vs">
+            <th >Narration</th>
+            <th style="text-align: right;"></th>
+            
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-car>
+          <tr class="vs"  [pSelectableRow]="rowData">
+            <td >
+              <span class="l1_txt"  >{{rowData.Narration}} </span>
+             <br> <span class="l2_txt ">{{rowData.Due_Date}}</span>
+             <br>  <span class="l3_txt ">{{rowData.Created_by}}</span>
+
+            </td>
+
+
+
+            <td style="text-align: right;">
+              <span class="l1_txt" style="color: darkred;"  >{{rowData.Bill_Amount |currency:'INR':'symbol':'0.0-0'}} </span>
+              
+            </td>
+          </tr>
+        </ng-template>
+
+
+      
+
+      </p-table>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="appservice.Pending_Overview_T>0" class="col-md-12 nopad mshow">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+           <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;"> </td>
+              <td  class="l1_txt" style="text-align: right;     color: midnightblue;"> Balance :
+                {{appservice.Pending_Overview_T |currency:'INR':'symbol':'0.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+     
+    </div>
+  </div>
+  
+  
+  
+  
+  

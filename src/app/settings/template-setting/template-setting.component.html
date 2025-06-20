@@ -1,0 +1,130 @@
+<div>
+    <div class="row">
+      <div class="col-md-12 nopad">
+        <div class="card content ">
+    
+            <div class=" Head ">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>
+                  Print Format Template
+                    </h3>
+                    
+                </div>
+            </div>
+            <div class="content_body">
+    
+              <div class="row" style="background-color: white;">
+                <div class="col-md-8 col-md-offset-2" >              
+                 
+                            
+                  <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                  novalidate>
+    
+                          
+                          <div class="row">
+    
+                          <div class="col-sm-4">
+
+                           
+                                           
+                         
+                            <div class="form-group">
+    
+                                <label>Type<span class="text-danger">*</span></label>
+                                <select class="select2-option form-control" [(ngModel)]="add.Type"required name="Type" #Type="ngModel" >
+
+                                      
+                                  <option value="Bill_Format">
+                                    Bill Format
+                                  </option>
+                                  <option value="Purchase_Order">
+                                    Purchase Order
+                                  </option>
+                                  <option value="Quotation">
+                                      Quotation
+                                  </option>
+                                  <option value="Proforma">
+                                    Proforma
+                                </option>
+
+  
+                                  </select>
+                                 
+                                  <div *ngIf="addForm.submitted && Type.invalid" class="invalid-feedback d-block">
+                                    <div class="error">Type Name Should not entry</div> </div>  
+                                
+                              </div>
+                            <div class="form-group">
+    
+                              <label>Formats<span class="text-danger">*</span></label>
+                              <select class="select2-option form-control" [(ngModel)]="add.Format"required name="Format" #Format="ngModel" >
+                                         
+                                <option value="Format1">
+                                    Format 1
+                                </option>
+                                <option value="Format2">
+                                    Format 2
+                                </option>
+                                <option value="Format3">
+                                    Format 3
+                                </option>
+
+                                <option value="Format4">
+                                    Format 4
+                                </option>
+
+                                <option value="Format5">
+                                    Format 5
+                                </option>
+                                <option value="Klisters">
+                                  Klisters
+                              </option>
+                              <option value="Klister_Proforma">
+                                Klister_Proforma
+                            </option>
+
+
+                                </select>
+                                <div *ngIf="addForm.submitted && Format.invalid" class="invalid-feedback d-block">
+                                  <div class="error">Format Name Should not entry</div> </div>  
+                              
+                            </div>
+
+                            <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+    
+    
+                                <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                    role="status" aria-hidden="true"></span>
+                                <i *ngIf="btndisable==false" class='bx bx-right'></i>
+                                Set As Default </button>
+
+                          </div>
+
+
+                          <div class="col-sm-6">
+                            <img  class="timg" [src]="get_image()">
+
+                          </div>
+
+                          </div>
+                          
+                     
+                     
+                    
+                      
+                       
+    
+                       
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      
+    
+        
+    

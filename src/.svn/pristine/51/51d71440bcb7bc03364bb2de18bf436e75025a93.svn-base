@@ -1,0 +1,397 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+
+
+
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Visitors Details</h3>
+
+                    <div class="dropdown">
+
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+                
+
+
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+
+                    <div class="row">
+
+
+
+
+                        <div class="col-sm-5">
+
+                            <div  class="card user-info-box mb-30" style="margin-top: 70px;">
+                               
+                                <div  class="card-body">
+                                    <br>
+                                    <div class="col-sm-12 nopad">
+                                        
+                                        <img class="image"  style="width: 150px;
+                                        height: 150px;
+                                        border-radius: 50%;
+                                        border: #d8dedc;
+                                        border-style: solid;
+                                        border-width: thick;   
+                                        box-shadow: 1px 5px 13px 0 rgb(140 114 169);
+                                        margin-top: -110px;"
+                                         src="{{appservice.Server_URL}}/image/V{{appservice.Company}}/V{{add.Contact_No}}.png" />
+                                       
+                                         <br>
+                                    </div>
+
+                                    <ul  class="list-unstyled mb-0">
+                                        
+
+                                        <li  style="margin-top: 20px;
+                                        font-weight: 800;
+                                        color: #4e2879;" class="d-flex"><i  class="bx bx-briefcase mr-2"></i><span
+                                                 class="d-inline-block">{{add.Visitor_Name}}  <a 
+                                                    class="d-inline-block" href="javascript:void(0)"></a></span></li>
+                                        <li  class="d-flex"><i  class="bx bxs-graduation mr-2"></i><span
+                                                 class="d-inline-block">{{add.Company_Name}} <a
+                                                     class="d-inline-block" href="javascript:void(0)"></a></span>
+                                        </li>
+
+                                        <li  class="d-flex"><i  class="bx bxs-graduation mr-2"></i><span
+                                            class="d-inline-block">{{add.Purpose}} <a
+                                                class="d-inline-block" href="javascript:void(0)"></a></span>
+                                   </li>
+                                      
+                                        <li  class="d-flex"><i  class="bx bx-home-circle mr-2"></i><span
+                                                 class="d-inline-block"> <a  class="d-inline-block"
+                                                    href="javascript:void(0)">{{add.Address1}} {{add.Address2}} {{add.Address3}}</a></span></li>
+                                        
+                                        <li  class="d-flex"><i  class="bx bx-phone mr-2"></i><span
+                                                 class="d-inline-block">Phone : <a  class="d-inline-block"
+                                                    href="javascript:void(0)">{{add.Contact_No}}</a></span></li>
+                                        <li  class="d-flex"><i  class="bx bx-envelope mr-2"></i><span
+                                                 class="d-inline-block">Email <a  class="d-inline-block"
+                                                    href="javascript:void(0)">{{add.Email_ID}}</a></span></li>
+                                        <li  class="d-flex"><i  class="bx bx-calendar mr-2"></i><span
+                                                 class="d-inline-block">Time : <a  class="d-inline-block"
+                                                    href="javascript:void(0)">{{add.V_From_Time}}</a></span></li>
+                                    </ul>
+
+
+                                    <div class="entry_table1" *ngIf="add.Entry_type=='Group'" >
+
+                                        Visitor Details
+                                         <div class="header">
+                                                 <div style="width:30px">#</div>
+                                                 <div *ngFor="let data of rs" [style.width]="data.Width">{{data.Name}}</div>
+                                                 <div style="width: 40px;"></div>
+                                         </div>
+                 
+                                        
+         
+         
+                                         <div class="body" *ngFor="let rowData of appservice.Details_Row;index as i">
+                                             <div class="row_hover" style="width:30px">{{i+1}}</div>
+                                             <div *ngFor="let data of rs" class="in cell row_hover {{data.Class}}" [style.width]="data.Width">
+                                           
+                                                   
+                                                     <input
+                                                     
+                                                    
+                                            [style]="data.Style" [style.text-align]="data.Align"
+                                                             type="{{data.Type}}" class="in tbtext" style="width: 100%;"
+                                                             value="{{rowData[data.Field]}}">
+                                             </div>
+             
+                                     </div>
+         
+                                       
+         
+         
+         
+                                     </div>
+                           
+                                     
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-5">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                       
+                                      
+                                        <tr >
+                                            <td>Unit</td>
+
+                                            <td>
+
+
+
+
+                                                <select   class="select2-option form-control"  aria-hidden="true"
+                                                  [(ngModel)]="add.Unit"
+                                                    name="Unit" #Unit="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref('Unit')" value={{row.label}}>
+                                                       {{row.label}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                              
+                                        </tr>
+
+
+                                        <tr >
+                                            <td>Block</td>
+
+                                            <td>
+
+
+
+
+                                                <select   class="select2-option form-control"  aria-hidden="true"
+                                                  [(ngModel)]="add.Block"
+                                                    name="Block" #Block="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref('Block')" value={{row.label}}>
+                                                       {{row.label}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                              
+                                        </tr>
+
+
+
+
+                                        <tr >
+                                            <td>Floor</td>
+
+                                            <td>
+
+
+
+
+                                                <select   class="select2-option form-control"  aria-hidden="true"
+                                                  [(ngModel)]="add.Floor"
+                                                    name="Floor" #Floor="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref('Floor')" value={{row.label}}>
+                                                       {{row.label}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                              
+                                        </tr>
+
+
+                                        <tr >
+                                            <td>Date & Time</td>
+
+                                            <td>
+
+
+
+
+                                                <input type="datetime-local"  class=" form-control"
+                                                  [(ngModel)]="add.V_From_Time"
+                                                    name="V_From_Time" #V_From_Time="ngModel">
+                                                   
+
+                                                
+                                              
+                                        </tr>
+
+
+                                      
+
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+                        </div>
+
+
+                      
+
+                        <div class="col-sm-5 hidden">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID"
+                                                    #ID="ngModel" ></td>
+                                        </tr>
+
+
+
+                                        <tr *ngFor="let data of appservice.get_pos_field('Visitor_Details','1TL')">
+                                            <td>{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_ID')"  class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                                <input *ngIf="!(data.Type=='Select' || data.Field=='Street')" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-5 hidden">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                       
+                                        <tr *ngFor="let data of appservice.get_pos_field('Visitor_Details','2TR')">
+                                            <td>{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+
+
+                                                <app-vinledger     *ngIf="(data.Field=='V_Person')"
+                                                class="form-control"
+                                                [(inputModel)]="add.V_Person"
+                                                [(label_)]="add.V_Person"
+                                                [(values_)]="add.V_Person"
+                                                 [Row]="appservice.Employee_Details_Rows"
+                                                (inputModelChange)="add.V_Person = $event"
+                                                (valueModelChange)="get_Ph_No($event,'Name')"
+                                                
+                                                [(ngModel)]="add.V_Person"
+                                                    name="V_Person" #V_Person="ngModel">
+                                        </app-vinledger>
+                                        <span style="font-size: 12px;" *ngIf="(data.Field=='V_Person')" >{{add.V_Person_Contact}}</span>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field=='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let s of appservice.Ledger_Group" value={{s.ID}}>
+                                                       {{s.Ledger_Name}}
+                                                   </option>
+                                                 </select>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                                <input *ngIf="data.Type!='Select' && data.Field!='V_Person'" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+
+                                        <tr >
+                                            <td>Approval Status</td>
+
+                                            <td>
+
+
+
+
+                                                <select   class="select2-option form-control"  aria-hidden="true"
+                                                  [(ngModel)]="add.Approval_Status"
+                                                    name="Approval_Status" #Approval_Status="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref('Approval_Status')" value={{row.label}}>
+                                                       {{row.label}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                              
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                        <div class="col-sm-6">
+                           
+                            <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+
+                                <button class="btn btn-success rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span>
+                                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                    Allow & Inside </button> &nbsp;&nbsp;
+                                <button class="btn btn-secondary rounded-pil " type="button"
+                                    (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                            </div>
+
+                            </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

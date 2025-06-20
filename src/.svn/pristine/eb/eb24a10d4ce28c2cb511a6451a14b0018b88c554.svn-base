@@ -1,0 +1,391 @@
+<div style="margin-left: -15px; margin-right: -15px;">
+        <div class="card mb-30 nopad" style="padding: 5px!important;" >
+
+                <div class="card-header d-flex justify-content-between align-items-center" style="padding-top: 8px!important;padding-left: 5px!important; ">
+                        <h3>Dashboard</h3>
+
+                        <a  style="padding-right: 50px;" style="font-size: 22px;
+                        font-weight: 600;
+                        color: #3e3edc;
+                        right: 35px;
+                        top: 11px;
+                        position: absolute;" (click)="appservice.dashboard_data()" data-toggle="tooltip" data-placement="bottom"
+                        title="Refresh">
+
+                           <i class='bx bx-rotate-left'></i>
+
+                           </a>
+                       
+                      
+                        <div class="dropdown"><button aria-expanded="false" aria-haspopup="true" class="dropdown-toggle"
+                                style="padding-right: 20px;" data-toggle="dropdown" type="button"><i  style="margin-right: -15px;" 
+                                                class="bx bx-dots-vertical-rounded"></i></button>
+
+
+                                <div class="dropdown-menu" style="width: 275px;">
+                                        <div style="background-color: teal; color: white; width: 100%; ">
+                                                &nbsp;&nbsp;Search</div>
+                                        <table>
+
+                                                <tr>
+                                                        <td style="width: 80px;">From </td>
+                                                        <td>
+                                                                <input type="date" class="form-control form-control-sm"
+                                                                        [(ngModel)]="appservice.S_From" name="From_"
+                                                                        #From_="ngModel">
+                                                        </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                        <td style="width: 80px;">To </td>
+                                                        <td>
+                                                                <input type="date"
+                                                                        class="area form-control form-control-sm"
+                                                                        [(ngModel)]="appservice.S_To" name="To_"
+                                                                        #To_="ngModel">
+                                                        </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                        <td> </td>
+                                                        <td><button type="button" (click)="appservice.dashboard_data()"
+                                                                        class="btn btn-info btn-sm">Search</button>
+                                                        </td>
+                                                </tr>
+                                        </table>
+
+                                </div>
+
+                        </div>
+                </div>
+
+                <div class=" col-md-12 nopad"  >
+
+                        <div class="ecommerce-stats-area hidden">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-6 col-md-6">
+                                        <div class="single-stats-card-box">
+                                            <div class="icon">
+                                                <i class='bx bxs-user-check'></i>
+                                            </div>
+                                            <span class="sub-title">Pending Orders</span>
+                                            <h3>23.7k <span class="badge"><i class='bx bx-up-arrow-alt'></i> 26.0%</span></h3>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-lg-3 col-sm-6 col-md-6">
+                                        <div class="single-stats-card-box">
+                                            <div class="icon">
+                                                <i class='bx bxs-badge-dollar'></i>
+                                            </div>
+                                            <span class="sub-title">Minimum Stock</span>
+                                            <h3>15.1k <span class="badge badge-red"><i class='bx bx-down-arrow-alt'></i> 45.5%</span></h3>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-lg-3 col-sm-6 col-md-6">
+                                        <div class="single-stats-card-box">
+                                            <div class="icon">
+                                                <i class='bx bx-purchase-tag'></i>
+                                            </div>
+                                            <span class="sub-title">Purchase Pending</span>
+                                            <h3>30.9k <span class="badge"><i class='bx bx-up-arrow-alt'></i> 32.1%</span></h3>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-lg-3 col-sm-6 col-md-6">
+                                        <div class="single-stats-card-box">
+                                            <div class="icon">
+                                                <i class='bx bx-shopping-bag'></i>
+                                            </div>
+                                            <span class="sub-title">Cheque  to Deposit </span>
+                                            <h3>10.5k <span class="badge"><i class='bx bx-up-arrow-alt'></i> 56.9%</span></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                       
+
+                        <div class="row  home" style="padding-top: 5px;">
+
+
+                             
+                                    
+
+
+
+                                <div class="col-6 col-md-3  nopad prb5">
+
+                                        <div class="col-md-12  mboxx">
+                                                <a (click)="addPurchase()">
+
+                                                        <div class="iboxx">
+
+
+                                                                <li style="color:darkcyan;" class="bx bx-cart"></li>
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Purchase}}</span>
+
+                                                </a>
+                                                <li class="bx bx-table li" (click)="addPurchase_detais()"></li>
+                                                <div style="color:darkcyan;"  *ngIf="appservice.DB_Purchase_Total!=0" class="amt">{{appservice.DB_Purchase_Total|currency:' ':true}}</div>
+
+                                        </div>
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5 mprb5">
+
+                                        <div class="col-md-12  mboxx">
+                                                <a (click)="load_sales()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color:rgb(139, 0, 120);"class="bx bx-purchase-tag"></li>
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Sales}}</span>
+
+                                                </a>
+                                                <li class="bx bx-table li" (click)="load_sales_details()"></li>
+
+                                                <li *ngIf="appservice.Print_Button"   style="color: brown; left: 35px;" class="bx bx-printer li" (click)="Print()" ></li>
+                                               
+                                                <div  style="color:rgb(139, 0, 120);"class="amt">{{appservice.DB_Sales_Total|currency:' ':true}}</div>
+
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5">
+
+                                        <div class="col-md-12  mboxx">
+                                                <a (click)="add_receipt()">
+                                                        <div class="iboxx">
+
+                                                                <li class="bx bx-receipt" style="color: maroon;" ></li>
+                                                        </div>
+                  
+                                                        <span class="head">{{this.appservice.Lable_Receipt}}</span>
+
+                                                </a>
+                                                <li class="bx bx-table li" (click)="add_receipt_details()"></li>
+                                                <div *ngIf="appservice.Receipt_Row_Total!=0" style="color: maroon;"   class="amt">{{appservice.DB_Receipt|currency:' ':true}}</div>
+
+                                        </div>
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad pb5 mprb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_payment()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(173, 136, 14);" class="bx bx-bolt-circle"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Payment}}</span>
+                                                </a>
+                                                <li class="bx bx-table li" (click)="add_payment_details()"></li>
+                                                <div  *ngIf="appservice.Payment_Row_Total!=0"style="color: rgb(173, 136, 14);" class="amt">{{appservice.DB_Payment|currency:' ':true}}</div>
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_Expense()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(11, 39, 197);"class="bx bx-money"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Expence}}</span>
+                                                </a>
+
+                                                <li class="bx bx-table li" (click)="add_Expense_details()"></li>
+                                                <div *ngIf="appservice.Exp_Total!=0" style="color: rgb(11, 39, 197);"class="amt">{{appservice.Exp_Total|currency:' ':true}}</div>
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5 mprb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_Day()">
+                                                        <div class="iboxx">
+
+                                                                <li class="bx bx-rupee" style="color: darkgreen;"></li>
+
+                                                        </div>
+                                                       <span class="head">{{this.appservice.Lable_Daybook}}</span>
+                                                </a>
+                                                <li class="bx bx-table li" (click)="addBank_detais()"></li>
+
+                                                <div *ngIf="appservice.Total!=0"  style="color: darkgreen;"  class="amt">{{appservice.Total|currency:' ':true}}</div>
+
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_Receivable_out()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(211, 15, 178);" class="bx bx-file-blank"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Receivable}}</span>
+                                                </a>
+                                                <div *ngIf="appservice.DB_Customer_Total!=0" style="color: rgb(211, 15, 178);"class="amt">{{appservice.DB_Customer_Total|currency:' ':true}}</div>
+
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad pb5 mprb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_payable_out()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(96, 9, 117);" class="bx bx-log-out"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Payable}}</span>
+                                                </a>
+                                                <div style="color: rgb(96, 9, 117);" class="amt">{{appservice.DB_payable|currency:' ':true}}</div>
+
+                                        </div>
+
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_Item()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(9, 117, 45);" class="bx bx-calendar-week"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Item_Master}}</span>
+                                                </a>
+                                                <li class="bx bx-table li" (click)="add_Item_Detais()"></li>
+
+                                                <div style="color: rgb(9, 117, 45);"  class="amt">{{appservice.Item_Row_Cout}}</div>
+
+                                        </div>
+
+
+
+                                </div>
+
+
+                                <div class="col-6 col-md-3  nopad prb5 mprb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_Ledger()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(211, 13, 23);"   class="bx bx-group"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Ledger}}</span>
+                                                </a>
+                                                <li class="bx bx-table li" (click)="add_Ledger_Detais()"></li>
+
+                                                <div  style="color: rgb(211, 13, 23);"class="amt">{{appservice.ledger_count}}</div>
+
+                                        </div>
+
+                                </div>
+
+                                <div class="col-6 col-md-3  nopad prb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="add_Reports()">
+                                                        <div class="iboxx">
+
+                                                                <li class="bx bx-chart"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Reports}}</span>
+                                                </a>
+                                                
+
+                                                <li class="bx bx-table li" (click)="Print_Stock_Detais()"></li>
+
+                                               
+                                                  <li class="bx bx-table li" style="color: brown; left: 35px;"  (click)="Print_Bill_Detais()"></li>
+
+
+                                        </div>
+
+                                </div>
+                                <div *ngIf="appservice.Minimum_Stock_count>0"class="col-6 col-md-3  nopad prb5 mprb5">
+
+                                        <div class="col-md-12  mboxx">
+
+                                                <a (click)="Stock_Detais()">
+                                                        <div class="iboxx"style="background-color: currentColor;
+                                                        color: wheat;">
+
+                                                                <li style="color: rgb(211, 13, 23);-webkit-animation: ring 4s 0.7s ease-in-out infinite;
+                                                                animation: ring 4s 0.7s ease-in-out infinite;
+                                                                margin-top: -20px;"   class="bx bx-bell"></li>
+
+                                                        </div>
+                                                        <span class="head">{{this.appservice.Lable_Minimum_Stock}}</span>
+                                                </a>
+
+                                                <div  style="color: rgb(211, 13, 23);"class="amt">{{appservice.Minimum_Stock_count}}</div>
+
+                                        </div>
+
+                                </div>
+                                        <div  *ngIf="appservice.DB_Vadi_display"  class="col-6 col-md-3  nopad prb5">
+
+                                        <div  class="col-md-12  mboxx">
+
+                                                <a (click)="add_Vadi_Entry()">
+                                                        <div class="iboxx">
+
+                                                                <li style="color: rgb(211, 13, 23);"   class="bx bx-group"></li>
+
+                                                        </div>
+                                                        <span class="head">Vadi Details</span>
+                                                </a>
+                                                <li class="bx bx-table li" (click)="add_Vadi_Details()"></li>
+
+                                                <div  style="color: rgb(211, 13, 23);"class="amt">{{appservice.DB_Vadi_Total}}</div>
+                                        
+                                        
+                                </div>
+
+                                </div>
+                        </div>
+                </div>
+        </div>
+

@@ -1,0 +1,138 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+declare let $: any;
+@Component({
+  selector: 'app-loan-issue-entry',
+  templateUrl: './loan-issue-entry.component.html',
+  styleUrls: ['./loan-issue-entry.component.scss']
+})
+export class LoanIssueEntryComponent implements OnInit {
+  add: any = {};
+  add1: any = {};
+
+  public btndisable: boolean = false;
+
+  constructor(public appservice: AppService, private toastr: ToastrService, private router: Router, private http: HttpClient) {
+    this.appservice.get_Loan_Issue_Details();
+
+    if (this.appservice.isEdit) {
+      this.add = appservice.Edit_Row;
+
+      try {
+        this.add.Loan_Issue_Date = appservice.datefromat(this.appservice.Edit_Row.Loan_Issue_Date);
+        this.add.Loan_Due_Date = appservice.datefromat(this.appservice.Edit_Row.Loan_Due_Date);
+        this.add.Cheque_Date = appservice.datefromat(this.appservice.Edit_Row.Cheque_Date);
+
+
+      } catch { }
+    }
+    else {
+      this.clear();
+      this.add1.Join_Date = appservice.datefromat(this.add1.Join_Date);
+      this.get_Loan_No()
+      this.add.ID = "0";
+      this.add1.ID = "0";
+      this.add.Pay_Mode=appservice.Cash_ID;
+    this.add.Received_Bank=0;
+
+    }
+    if (this.appservice.from_customer_page == true) {
+      this.add.Phone_Number = this.appservice.Selected_Customer.Phone_Number;
+      this.add.Ledger_ID = this.appservice.Selected_Customer.ID;
+      this.add.Ledger_Name = this.appservice.Selected_Customer.Ledger_Name;
+      this.add.Address1 = this.appservice.Selected_Customer.Address1;
+      this.add.Address2 = this.appservice.Selected_Customer.Address2;
+      this.add.Address3 = this.appservice.Selected_Customer.Address3;
+      this.add.Area = this.appservice.Selected_Customer.Area;
+
+      this.appservice.from_customer_page = false;
+    }
+
+  }
+
+
+  get_customers() {
+    this.appservice.Ledger_Type = "1";
+    return this.router.navigate(['/cutomer-search']);
+
+  }
+  get_Loan_No() {
+    this.appservice.getc("Api/Collection_/get_Loan_No").subscribe((res: any) => {
+      this.add.Loan_No = res;
+    });
+  }
+  clear() {
+
+    this.appservice.get_fields_of('Loan_Issue').forEach((activity) => {
+      if (activity.Default_Value == "T_Date") {
+        this.add[activity.Field] = this.appservice.T_Date;
+      }
+      else {
+        this.add[activity.Field] = activity.Default_Value;
+      }
+    });
+  }
+
+
+  Calc_Sum() {
+    this.add.Per_Month_Due = (parseFloat(this.add.Loan_Amount) * parseFloat(this.add.Intrest_Per) / 100).toFixed(2);
+  }
+
+  Valid;
+
+  
+  addData(f) {
+
+    this.Valid = true;
+    this.appservice.get_fields_of('Loan_Issue').filter(e => String(e.Validate).toLocaleLowerCase() == "true").forEach((data) => {
+
+      if (this.add[data.Field] == "") {
+        this.Valid = false;
+        return;
+      }
+
+    });
+
+    this.add.Company = this.appservice.Company;
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Created_by = this.appservice.CREATED_BY;
+
+    this.add.Table_Name = "Loan_Issue";
+    if (this.Valid) {
+      this.btndisable = true;
+
+      this.http.post(this.appservice.Server_URL + 'api/Collection_/Post_Loan_Details', this.add, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable = false;
+            if (JSON.parse(val)[0]["status"] == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.get_Loan_Issue_Billsout(this.add.Loan_No);
+              this.add.ID = JSON.parse(val)[0]["ID"];
+              this.appservice.isEdit = false;
+              this.appservice.get_Loan_Issue_Details();
+              this.appservice.back();
+            }
+            else {
+              this.toastr.error(JSON.parse(val)[0]["status"], "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+  }
+  ngOnInit(): void {
+  }
+
+}

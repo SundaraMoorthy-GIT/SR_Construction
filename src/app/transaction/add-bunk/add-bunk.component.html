@@ -1,0 +1,241 @@
+
+
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Bunk Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control" type="text" [(ngModel)]="add.be_id" name="be_id" #be_id="ngModel" required>
+                          <input class="form-control" type="text" [(ngModel)]="add.Adj_Type" name="Adj_Type" #Adj_Type="ngModel">
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Voucher No<span class="text-danger">*</span></td>
+                        <td>
+                          <input readonly class="form-control"required type="text" [(ngModel)]="add.be_voucherno" name="be_voucherno" #be_voucherno="ngModel">
+                          <div *ngIf="addForm.submitted && be_voucherno.invalid" class="invalid-feedback">
+                            <div class="error"> vouchero Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>                                                                                                                  
+                      
+  
+  
+                      <tr>
+                        <td>Date<span class="text-danger">*</span></td>
+                        <td> 
+  
+                          <input   min='{{appservice.T_Date}}'  class="form-control" required type="date" [(ngModel)]="add.be_date" name="be_date" #be_date="ngModel">
+                          <div *ngIf="addForm.submitted && be_date.invalid" class="invalid-feedback">
+                            <div class="error">  Date Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+                         <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.be_branch" name="be_branch" #be_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && be_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+
+                
+
+                  
+                      <!-- <tr>
+                        <td>Type<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.be_type" name="be_type" #be_type="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="bank">bunk</option>
+                            <option  value="bank-Return"> bunk-Return</option>
+                        </select>
+                        </td>
+                      </tr> -->
+
+                      <tr>
+                        <td>Product<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.be_product" name="be_product" #be_product="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="Petrol">Petrol</option>
+                            <option  value="Diesel"> Diesel</option>
+                        </select>
+                        </td>
+                      </tr>
+                      <!-- <tr>
+                        <td> Product<span class="text-danger">*</span></td>
+                        <td>
+                          <input readonly class="form-control"required type="text" [(ngModel)]="add.be_product" name="be_product" #be_product="ngModel">
+                          <div *ngIf="addForm.submitted && be_product.invalid" class="invalid-feedback">
+                            <div class="error"> Product Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>    -->
+                      <tr>
+                        <td>Category<span class="text-danger">*</span></td>
+                        <td>
+                          <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Category_rows" 
+                          [(ngModel)]="add.be_category_id"required   resetFilterOnHide="true" placeholder=" " name="be_category_id" 
+                          #be_category_id="ngModel" [filter]="(appservice.W_width>500)"
+                          (ngModelChange)="onChange(add.be_category_id)">
+               
+                         <ng-template let-car pTemplate="item">
+                           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                             <div>{{car.label}}</div>
+                           </div>
+                         </ng-template>
+                       </p-dropdown>
+                       <!-- <div *ngIf="addForm.submitted && be_category_id.invalid" class="invalid-feedback d-block">
+                         <div class="error">Category  Should not entry</div>
+                     </div> -->
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Description</td>
+                        <td> 
+                          <input class="form-control" type="text"required [(ngModel)]="add.be_narration1" name="be_narration1" #be_narration1="ngModel">
+                          <div *ngIf="addForm.submitted && be_narration1.invalid" class="invalid-feedback d-block">
+                            <div class="error">Description  Should not entry</div>
+                      
+                        </div></td>
+                      </tr>
+  
+
+                      <tr >
+                        <td>Project <span class="text-danger"></span></td>
+                        <td>
+                            <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.SProject_Rows" 
+            [(ngModel)]="add.be_projectid"required   resetFilterOnHide="true" [showClear]="true" placeholder=" " name="be_projectid" #be_projectid="ngModel" [filter]="(appservice.W_width>500)"
+            (ngModelChange)="onChange1(add.be_projectid)">
+        
+           <ng-template let-car pTemplate="item">
+             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+               <div>{{car.label}}</div>
+             </div>
+           </ng-template>
+         </p-dropdown>
+        </td>
+                    </tr>
+  
+                    <tr>
+                        <td>Liter<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control"required type="number" [(ngModel)]="add.be_qty" name="be_qty" #be_qty="ngModel" (keyup)="calc_tempdata()">
+                          <div *ngIf="addForm.submitted && be_qty.invalid" class="invalid-feedback">
+                            <div class="error"> Liter  Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Rate<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control"required type="number" [(ngModel)]="add.be_rate" name="be_rate" #be_rate="ngModel"(keyup)="calc_tempdata()">
+                          <div *ngIf="addForm.submitted && be_rate.invalid" class="invalid-feedback">
+                            <div class="error"> Rate  Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Amount<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control"required type="number" [(ngModel)]="add.be_amount" name="be_amount" #be_amount="ngModel">
+                          <div *ngIf="addForm.submitted && be_amount.invalid" class="invalid-feedback">
+                            <div class="error"> Amount  Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+<!--   
+                      <tr >
+                        <td  style="width: 100px;" >Pay Mode</td>
+                        <td  style="text-align: center;">
+    
+    
+                            <select class="select2-option form-control " [(ngModel)]="add.Pay_Mode" name="Pay_Mode"
+                                #Pay_Mode="ngModel" style="width:100%" aria-hidden="true">
+    
+                                <option *ngFor="let data of appservice.get_ref('Pay_Mode')" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+    
+                            </select>
+    
+    
+    
+    
+    
+                        </td>
+    
+                    </tr> -->
+    
+    
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit" [disabled]="btndisable" type="submit"> 
+                      
+                      
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+  
+                      <i  *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

@@ -1,0 +1,580 @@
+<div class="row mhide">
+  <div class="col-md-12 nopad">
+
+    <div class="col-md-12 nopad mobile_hide">
+     
+      <div class="w_79" style="position: fixed;z-index: 99; ">
+      
+        <div class="tabs-header border-bottom">
+          <ul>
+            <li  *ngFor="let data of appservice.Ledger_Report" 
+              [className]="appservice.URL_Location==data.Link ? 'active' : ''"  class="" > 
+              <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                  
+          </ul>
+        </div>
+
+        <div class="right-corner">
+          <div class="dropdown"style="display: inline-flex;">
+            
+            <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+            title="search" >
+           
+              <i style="    font-size: 20px;" class='bx bx-search'></i> 
+            </a>
+
+
+            <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+              aria-expanded="false">
+              
+              <i class='bx bx-filter'></i>
+            </button>
+            <div class="dropdown-menu" style="width: 325px;">
+              <div style="background-color: teal; color: white; width: 100%; ">
+                &nbsp;&nbsp;Search</div>
+              <table>
+               
+             
+                <tr>
+                  <td style="width: 80px;">From </td>
+                  <td>
+                    <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_From"
+                      name="From_" #From_="ngModel">
+                  </td>
+                </tr>
+                     
+                <tr>
+                  <td style="width: 80px;">To </td>
+                  <td>
+                    <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                      name="To_" #To_="ngModel">
+                  </td>
+                </tr>
+                
+                       <tr>
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="width: 80px;">Bank</td>
+                  <td>
+                    <select class="select2-option form-control " [(ngModel)]="appservice.S_Bank"  name="Received_Bank"
+                    #Received_Bank="ngModel" style="width:100%" aria-hidden="true"(change)="appservice.get_CR_DB_Amount(appservice.S_Bank)" >
+                    <option value="0">
+                      
+                  </option>
+
+                    <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                        {{data.label}}
+                    </option>
+                </select>
+                 
+                  </td>
+                </tr>
+                
+           
+                
+               
+
+                <tr>
+                  <td> </td>
+                  <td><button type="button" (click)="appservice.get_day_Book()"
+                      class="btn btn-info btn-sm">Search</button></td>
+                </tr>
+              </table>
+              <div  class="search_Footer border-top" style="color: green;"> 
+                <div (click)="export_excel()"  class="buttons">
+                  <span><li class="bx bx-download"></li></span>
+                 <span> Export Excel</span>
+                 
+                </div>
+    
+               
+                <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                  <span><li class="bx bx-download"></li></span>
+                 <span> Export PDF</span>
+                 
+                </div>
+    
+    
+            </div>
+           
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-12 nopad">
+      <div class="spin_block" *ngIf="appservice.isload">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <div class="m_2 res_table"  style="overflow: scroll; white-space: pre; max-height: calc(98vh - 150px);">
+        <div class="search-bar_Ext mhide  show_bar " style="right: 80px;">
+        
+          <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+              <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+              class="search-form-control text"
+              placeholder="Search...">
+  
+        </div>
+
+        <table>
+
+          <tr>
+          
+            <td class="mhide">
+             <span style="font-size: 11px;">From</span>
+              <input type="date" style="max-width:160px;" class="form-control form-control-sm" [(ngModel)]="appservice.S_From" name="From_"
+                #From_="ngModel">
+            </td>
+        
+
+
+          
+          
+            <td class="mhide">
+
+              <span style="font-size: 11px;">To</span>
+              <input type="date" style="max-width:160px;" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                name="To_" #To_="ngModel">
+            </td>
+         
+
+            <td class="mhide">
+              <span style="font-size: 11px;">Bank</span>
+              <select class="select2-option form-control " [(ngModel)]="appservice.S_Bank"  name="Received_Bank"
+              #Received_Bank="ngModel" style="width:100%" aria-hidden="true"(change)="appservice.get_CR_DB_Amount(appservice.S_Bank)" >
+              <option value="0">
+              
+            </option>
+
+              <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                  {{data.label}}
+              </option>
+          </select>
+            </td>
+
+
+        
+            
+        
+            
+            <td class="mhide">
+              <span style="font-size: 11px;">&nbsp;</span>
+              <button type="button" style="    margin-top: 22px;" (click)="appservice.get_day_Book()"
+                class="btn btn-info btn-sm ">Search</button>
+                <span style="font-size: 11px;">&nbsp;&nbsp;&nbsp;</span>
+
+                <!-- <button type="button" style="    margin-top: 22px;" (click)="appservice.Open_Daybook_PDF(dt)"
+                class="btn btn-danger btn-sm ">Pdf</button> -->
+              </td>
+                <td class="mhide"style="padding-left: 390px;padding-top: 20px;">Balance: <span style="color: red;">{{appservice.Total|currency:' ':true}}</span></td>
+
+          </tr>
+        </table>
+        <p-table #dt class="table table-striped custom-table " [value]="appservice.Day_Book_Row"
+          selectionMode="single"[globalFilterFields]="appservice.Day_book_GF">
+          <ng-template pTemplate="header">
+            <tr>
+              <th  class="mhide">#</th>
+              <th class="mhide">Date</th>
+              <th>Group</th>
+              <th>ProjectName</th>
+              <th>Ledger</th>
+              
+              <th>Narration</th>
+
+              <th>Credit</th>
+              <th>Debit</th>
+              <th>Balance</th>
+
+            </tr>
+            
+          <tr>
+            <th class="mhide"></th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'AC_Date', 'contains')">
+            </th>
+            <th>
+              <p-columnFilter field="Ledger_Name" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                <ng-template pTemplate="header">
+                    <div class="px-3 pt-3 pb-0">
+                        <span class="font-bold">Group Picker</span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                    <p-multiSelect [ngModel]="value" [options]="appservice.representatives" placeholder="Any" (onChange)="filter($event.value)" optionLabel="value"
+                    optionValue="value">
+                        <ng-template let-option pTemplate="item">
+                            <div class="inline-block vertical-align-middle">
+                                <span class="ml-1 mt-1">{{ option.value }}</span>
+                            </div>
+                        </ng-template>
+                    </p-multiSelect>
+                </ng-template>
+            </p-columnFilter>
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'ProjectName', 'contains')">
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'Ledger', 'contains')">
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'Narration1', 'contains')">
+            </th>
+              <th>
+                <input pInputText type="text" (input)="dt.filter($event.target.value, 'Credit', 'contains')">
+              </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'Debit', 'contains')">
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($event.target.value, 'Balance', 'contains')">
+            </th>
+          </tr>
+          </ng-template>
+
+  
+           
+          
+          <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+
+          
+
+            <tr>
+              <td class="mhide">{{rowIndex+1}}</td>
+              <td class="mhide">{{rowData.AC_Date}}</td>
+              <td>{{rowData.Ledger_Name}}</td> 
+              <td>{{rowData.ProjectName}}</td> 
+              <td>{{rowData.Ledger}}</td> 
+
+              <td>{{rowData.Narration1}}</td> 
+
+              <td style="text-align: right;">{{rowData.Credit}}</td>
+              <td style="text-align: right;">{{rowData.Debit}}</td>
+              <td style="text-align: right;">{{rowData.Balance}}</td>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <tr>
+              <td  [attr.colspan]="5-x">Total</td>
+              <td>
+              </td>
+                <td style="text-align: right;color:midnightblue;font-size: 14px;font-weight: 900">{{appservice.cr|currency:' ':true}}</td>
+                <td style="text-align: right;color:midnightblue;font-size: 14px;font-weight: 900">{{appservice.db|currency:' ':true}}</td>
+                <td style="text-align: right;color:midnightblue;font-size: 14px;font-weight: 900">{{appservice.Total|currency:' ':true}}</td>
+            </tr>
+    
+        </ng-template>
+        </p-table>
+        
+      </div>
+    </div>
+    <div  class="col-md-12 nopad mshow">
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+          
+              
+              border: 1px solid #c8c8c8;">
+         <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;"> </td>
+            <td  class="l1_txt" style="text-align: right;     color: midnightblue;"> Balance  :₹
+              {{appservice.Total |currency:'INR':'symbol':'0.0-0'}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row mshow">
+  <div class="col-md-12 nopad">
+
+    <div class="search-bar_Ext   disp" style="right: 50px;">
+  
+  
+      <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+      <label class="h_txex">Day Book</label>
+
+        <div class="right-cornerN">
+          <div class="dropdown"style="display: inline-flex;">
+            
+            <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+            title="search" style="padding-right:12px;padding-top: 1px;" (click)="showSearch = !showSearch">
+           
+              <i  class='bx bx-search cons py-2'></i> 
+            </a>
+
+
+            <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+              aria-expanded="false" style="padding-right:11px;">
+              
+              <i class='bx bx-filter cons py-2'></i>
+            </button>
+            <div class="dropdown-menu" style="width: 325px;">
+              <div style="background-color: teal; color: white; width: 100%; ">
+                &nbsp;&nbsp;Search</div>
+              <table>
+               
+             
+                <tr>
+                  <td style="width: 80px;">From </td>
+                  <td>
+                    <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_From"
+                      name="From_" #From_="ngModel">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="width: 80px;">To </td>
+                  <td>
+                    <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                      name="To_" #To_="ngModel">
+                  </td>
+                </tr>
+                 <tr>
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+
+
+                <tr>
+                  <td style="width: 80px;">Bank</td>
+                  <td>
+                    <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Bank" 
+                      name="Received_Bank" #Received_Bank="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="All">
+                        All
+                    </option>
+
+                      
+                      <option value="0">
+                        Cash
+                    </option>
+
+                      <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                          {{data.label}}
+                      </option>
+
+                    </select>
+                  </td>
+                </tr>
+                
+                <tr *ngIf="!((appservice.S_Bank=='0') || (appservice.S_Bank=='All' ))">
+                  <td style="width: 80px;">Pay Mode</td>
+                  <td>
+                    <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Pay_Mode"
+                      name="S_Pay_Mode" #S_Pay_Mode="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+
+                      <option *ngFor="let data of this.appservice.Pay_Mode_Rows" value="{{data.value}}">
+                        {{data.label}}
+                      </option>
+
+                    </select>
+                  </td>
+                </tr>
+                
+               
+
+                <tr>
+                  <td> </td>
+                  <td><button type="button" (click)="appservice.get_day_Book()"
+                      class="btn btn-info btn-sm">Search</button></td>
+                </tr>
+              </table>
+              <div  class="search_Footer border-top" style="color: green;"> 
+                <div (click)="export_excel()"  class="buttons">
+                  <span><li class="bx bx-download"></li></span>
+                 <span> Export Excel</span>
+                 
+                </div>
+    
+               
+                <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                  <span><li class="bx bx-download"></li></span>
+                 <span> Export PDF</span>
+                 
+                </div>
+    
+    
+            </div>
+           
+            </div>
+          </div>
+        </div>
+
+     
+    </div>
+
+    <div class="col-md-12 nopad">
+      <div class="spin_block" *ngIf="appservice.isload">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <div class="m_2 ">
+      
+        <div class="search-bar_Ext mhide  show_bar " style="right: 80px;"
+        [ngClass]="{ 'mhide': !showSearch, 'disp': showSearch }">
+        
+          <li  class="bx bx-left-arrow-alt mshow  search_back" (click)="showSearch = !showSearch"></li>
+
+              <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+              class="search-form-control text"
+              placeholder="Search...">
+  
+        </div>
+       
+        <p-table #dt1 class="table table-striped custom-table mshow" [value]="appservice.Day_Book_Row"style="margin:top -100px;"
+        selectionMode="single"[globalFilterFields]="appservice.Day_book_GF">
+        <ng-template pTemplate="header">
+          <tr class="vs">
+            <th style="text-align: center">Details</th>
+            <th style="text-align: right;">Balance</th>
+            
+          </tr>
+        </ng-template>
+
+       
+         
+        <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+          <tr class="vs"  [pSelectableRow]="rowData">
+            <td >
+       
+              <span class="l1_txt">  {{ rowData.ProjectName }}</span>
+           
+          <br />
+              <span class="l2_txt"
+                  >Ledger : {{ rowData.Ledger_Name }}
+              </span>
+              <br />
+              <span class="l2_txt"
+                  >Group : {{ rowData.Ledger }}
+              </span>
+              <br /><span class="l3_txt"
+                  > Date : {{ rowData.AC_Date }} 
+              </span>
+              <br /><span class="l3_txt"
+              >Narration : {{ rowData.Narration1 }} 
+              <br />
+              Credit : {{ rowData.Credit }} <br />
+              Debit : {{ rowData.Debit }}
+              
+          </span>
+            </td>
+            <td style="text-align: right">
+              <span
+                   class="l1_txt"
+                   style="color: darkred"
+                   >{{
+                       rowData.Balance
+                           | currency
+                               : "INR"
+                               : "symbol"
+                               : "0.0-0"
+                   }}
+               </span>
+           </td>
+
+
+            <!-- <td style="text-align: right;">
+              <span class="l1_txt" style="color: darkred;" *ngIf="rowData.DB_AMT>0"   >{{rowData.DB_AMT |currency:'INR':'symbol':'0.0-0'}} </span>
+              <span class="l1_txt" style="color: green;" *ngIf="rowData.CR_AMT>0"  >{{rowData.CR_AMT |currency:'INR':'symbol':'0.0-0'}} </span>
+              <span *ngIf="rowData.Pay_Mode_=='Cash'" class="badge badge-info ng-star-inserted">{{rowData.Pay_Mode_}}</span>
+              <span *ngIf="rowData.Pay_Mode_!='Cash'" class="badge badge-primary ng-star-inserted">{{rowData.Pay_Mode_}}</span>
+
+            </td> -->
+          </tr>
+        </ng-template>
+
+        
+      
+      </p-table>
+<!--      
+      <table style="width: 100%; padding: 10px;"*ngIf="appservice.cr>0 || appservice.db>0" >
+        <tr class="vs"  >
+            
+          
+          <td  style="text-align: right;">
+            <span class="l1_txt" style="color: darkred;"  >Cr. {{appservice.cr|currency:'INR':'symbol':'0.0-0'}}&nbsp;&nbsp;</span>
+          </td>
+
+
+          <td  style="text-align: right;">
+          
+          <span class="l1_txt" style="color: green;"  >De. {{appservice.db|currency:'INR':'symbol':'0.0-0'}}&nbsp;&nbsp;</span>
+          
+        </td>
+      </tr>
+      </table> -->
+        
+     
+      </div>
+    </div>
+   
+    <div  class="col-md-12 nopad mshow">
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+          
+              
+              border: 1px solid #c8c8c8;">
+         <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;"> </td>
+            <td  class="l1_txt" style="text-align: right;     color: midnightblue;"> Balance  :
+              {{appservice.Total |currency:'INR':'symbol':'0.0-0'}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

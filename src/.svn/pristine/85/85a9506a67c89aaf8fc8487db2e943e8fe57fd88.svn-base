@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-emi-loan-collection',
+  templateUrl: './emi-loan-collection.component.html',
+  styleUrls: ['./emi-loan-collection.component.scss']
+})
+export class EmiLoanCollectionComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

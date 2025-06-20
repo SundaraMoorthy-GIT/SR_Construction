@@ -1,0 +1,113 @@
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { AppService } from 'src/app/app.service';
+
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import {DropdownModule} from 'primeng/dropdown';
+import {SelectItem, ConfirmationService,} from 'primeng/api';
+
+
+@Component({
+  selector: 'app-search-customer',
+  templateUrl: './search-customer.component.html',
+  styleUrls: ['./search-customer.component.scss']
+})
+export class SearchCustomerComponent implements OnInit {
+
+  Row=[];
+  constructor(public appservice:AppService) { 
+   
+  this.search_data('');
+   this.get_Area();
+
+  }
+  public btndisable: boolean = false;
+
+  public Area_Row = [];
+  get_Area() {
+
+    this.Area_Row = this.appservice.Reference_Rows.filter(e => e.Ref_ID=="Area");
+   
+  }
+  txt_search="";
+
+
+ filter(data)
+    {
+      
+      this.appservice.Customer_Area=data;
+      localStorage.setItem('Area',data);
+      this.search_data(this.txt_search);   
+      
+      
+    }
+
+
+  select_customer(data)
+  {
+
+    this.appservice.Temp_Order_Row=[];
+    this.appservice.Details_Row=[];
+    this.appservice.Selected_Customer=data;
+    this.appservice.isEdit=false;
+    this.get_Order_No();  
+    if(this.appservice.Order_enty_type=="Type1" && this.appservice.page_Name=='Order_Entry')
+    {
+      this.appservice.load_page('/add-product1')
+    }
+    else
+    {
+    this.appservice.back();
+    }
+  }
+
+
+  get_Order_No() {
+    if (this.appservice.isEdit == false) {
+      this.appservice.getc("Api/Invoice/get_Order_No").subscribe((res: any) => {
+        this.appservice.Order_No = res;
+
+      });
+    }
+  } 
+
+  search_data(data)
+  {
+  
+    if (data == "") {
+      if(this.appservice.Customer_Area=='All')
+      {
+        
+      this.Row=this.appservice.Ledger_Master_Rows;
+      }
+      else
+      {
+        this.Row=this.appservice.Ledger_Master_Rows;
+        this.Row = this.Row.filter(e => e.Area.toLowerCase().includes(this.appservice.Customer_Area.toLocaleLowerCase())); 
+      }
+  
+     }
+     else {
+      
+      if(this.appservice.Customer_Area=='All')
+      {
+        
+      this.Row=this.appservice.Ledger_Master_Rows;
+      }
+      else
+      {
+        this.Row=this.appservice.Ledger_Master_Rows;
+        this.Row = this.Row.filter(e => e.Area.toLowerCase().includes(this.appservice.Customer_Area.toLocaleLowerCase())); 
+      }
+
+      this.Row = this.Row.filter(e => e.Ledger_Name.toLowerCase().includes(data.toLocaleLowerCase()));
+      this.Row.sort((a, b) => a["Order"].localeCompare(b["Order"]))
+     }
+
+  }
+
+  ngOnInit(): void {
+  }
+
+}

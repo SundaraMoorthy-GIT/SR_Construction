@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+  import { HttpClient } from '@angular/common/http';
+  import { utc } from 'moment';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+  
+@Component({
+  selector: 'app-upload-emplyees',
+  templateUrl: './upload-emplyees.component.html',
+  styleUrls: ['./upload-emplyees.component.scss']
+})
+export class UploadEmplyeesComponent implements OnInit {
+
+  constructor(private location: Location, public appservice: AppService,private toastr: ToastrService, public http: HttpClient) 
+   { }
+   public add:any ={};
+   public btndisable:boolean=false;
+ 
+  
+   
+   export_excel()
+   {
+    this.appservice.Employee_Details_Export =  this.appservice.get_fields_of('Employee_Details');
+
+    this.appservice.Excel_Data.Header=this.appservice.Employee_Details_Export;
+    this.appservice.Excel_Data.items=this.appservice.Employee_Details_Rows
+    this.appservice.upload_excel();
+  
+   }
+  
+   ngOnInit(): void {
+   }
+ 
+ }
+ 
+  
+ 
+ 
+ 

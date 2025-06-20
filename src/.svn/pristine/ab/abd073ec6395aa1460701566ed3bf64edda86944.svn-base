@@ -1,0 +1,68 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-payment-details',
+  templateUrl: './payment-details.component.html',
+  styleUrls: ['./payment-details.component.scss']
+})
+export class PaymentDetailsComponent implements OnInit {
+
+  constructor(public confirmationService:ConfirmationService,public appservice:AppService,public router:Router) {
+    
+    try
+    {
+      if(appservice.Payment_Details_Row.length<=0)
+      {
+        appservice.get_Payment()
+      }
+    }
+    catch{
+      appservice.get_Payment()
+    }
+
+   }
+
+
+   add()
+   {
+    this.router.navigate(['/transaction/add-payment']);
+   }
+
+ 
+
+  delete_data(data)
+  {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(data.ID) ;
+
+      }
+  });
+  }
+
+ 
+
+  
+  Delete(item) { 
+ 
+      this.appservice.get("Api/Collection_/delete_Paid_Amount?ID=" + item).subscribe((res: any) => {
+        this.appservice.get_Payment();
+        
+      });
+    }
+  
+
+  edit_data(data)
+  {
+    this.appservice.isadd = "1";
+    this.appservice.Edit_Row = data;
+    return this.router.navigate(['transaction/add-expense']);
+  }
+  ngOnInit(): void {
+  }
+
+}

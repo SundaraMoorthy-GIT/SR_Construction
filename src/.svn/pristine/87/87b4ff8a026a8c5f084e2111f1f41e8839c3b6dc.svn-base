@@ -1,0 +1,234 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import {Subject, Observable} from 'rxjs';
+import { last } from 'rxjs/operators';
+
+
+declare const $: any;
+@Component({
+  selector: 'app-customers',
+  templateUrl: './customers.component.html',
+  styleUrls: ['./customers.component.scss']
+})
+export class CustomersComponent implements OnInit {
+
+  public showWebcam = true;
+  public allowCameraSwitch = true;
+  public multipleWebcamsAvailable = false;
+  public deviceId: string;
+
+  public btndisable:boolean =false;
+  public videoOptions: MediaTrackConstraints = {
+    // width: {ideal: 1024},
+    // height: {ideal: 576}
+  };
+
+ 
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  public Room_Types = [];
+  public Room_Floor = [];
+  Comp_yes_No:boolean=false;
+
+
+  
+  public Area_Row = [];
+  get_Area() {
+
+    this.Area_Row = this.appservice.Area_Row;
+   
+  }
+
+  Last_Order=0;
+
+  get_order()
+  {
+    
+    try{
+    this.Last_Order=this.appservice.Ledger_Master_Rows.filter(e=>e.Area==this.add.Area).length;
+
+    this.add.Order=this.Last_Order+1;
+    this.appservice.Customer_Area=this.add.Area;
+    }catch{}
+  }
+
+  add_area()
+  {
+    this.appservice.Ref_ID='Area';
+    this.router.navigate(['add-reference']);
+  }
+
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    this.isadd = appservice.isadd;
+    this.get_Area();
+
+    this.add.Join_Date=this.appservice.T_Date;
+
+    this.add.Gender="Male";
+    this.add.State_code="33";
+    this.add.S_State_code="33";
+    this.add.State="Tamil Nadu";
+    this.add.S_State="Tamil Nadu";
+    this.add.County="India";
+    this.add.S_County="india";
+    this.add.Status="Active";
+ 
+    if (this.isadd == "0") {
+      this.add.ID = "0";
+      this.get_Customer_code();
+      this.get_order();
+    }
+    else {
+    this.add.ID=appservice.Edit_Row.ID;
+    this.add.Code=appservice.Edit_Row.Code;
+    this.add.Name=appservice.Edit_Row.Ledger_Name;
+
+    this.add.Phone_No=appservice.Edit_Row.Ledger_Name;
+    this.add.Address1=appservice.Edit_Row.Address1;
+    this.add.Address2=appservice.Edit_Row.Address2;
+
+    this.add.Address3=appservice.Edit_Row.Address3;
+    
+    this.add.State=appservice.Edit_Row.State;
+    this.add.Phone_No=appservice.Edit_Row.Phone_Number;
+
+    this.add.Area=appservice.Edit_Row.Area;
+    this.add.Order=appservice.Edit_Row.Order;
+
+
+    this.add.Email_ID=appservice.Edit_Row.EmailID;
+    this.add.GST_NO=appservice.Edit_Row.GSTIN;
+
+    this.add.Short_Name=appservice.Edit_Row.Short_name;
+    this.add.Amount=appservice.Edit_Row.Amount;
+    this.add.Status=appservice.Edit_Row.Status;
+ 
+    this.add.Join_Date= appservice.datefromat(appservice.Edit_Row.Join_Date);
+
+    
+  
+    }
+  }
+
+
+  
+  get_Customer_code() {
+    this.appservice.getc("Api/Master/get_Customer_Code").subscribe(( res: any) => {
+      this.add.Code=res;
+    });
+  }
+
+  get_Ledger_Master() { 
+
+    this.appservice.Ledger_Master_Rows=[];
+    this.appservice.isload=true;
+    this.appservice.getc("Api/Master/get_Ledger_Master").subscribe((res: any) => { 
+      this.appservice.Ledger_Master_Rows = JSON.parse(res).record; 
+      this.appservice.isload=false;
+      this.appservice.from_customer=true;
+              this.appservice.from_customer_Code=this.add.Code;
+              this.Clear();
+              this._location.back();
+              
+    }); 
+    } 
+
+    
+
+  addData(f) {
+      f.form.value.image=null;
+    
+    f.form.value.Company = this.appservice.Company;
+    
+    if (f.invalid === true)
+      this.addValidation = true;
+    else {
+      this.addValidation = false;
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+      this.btndisable=true;
+      this.http.post(this.appservice.Server_URL + 'api/master/insert_Ledger_Master', f.form.value, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable=false;
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.get_Ledger_Master();
+              this.appservice.from_customer=true;
+              this.appservice.from_customer_Code=this.add.Code;
+              this.Clear();
+              this._location.back();
+              
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+  }
+  Back() {
+    this._location.back();
+  }
+  Clear() {
+    this.add =
+      {
+        'ID': '',
+        'Code': '',
+        'Name': '',
+        'Short_Name': '',
+        'Address1': '',
+        'Address2': '',
+        'Address3': '',
+        'Address4': '',
+        'City': '',
+        'State': '',
+        'State_code': '',
+        'County': '',
+        'Pincode': '',
+        'Contact_Person': '',
+        'Designation': '',
+        'Cell_No': '',
+        'Phone_No': '',
+        'Email_ID': '',
+        'GST_NO': '',
+        'Acc_type': '',
+        'Gender': '',
+        'Age': '',
+        'Occupation': '',
+        'Father_Name': '',
+        'Vehicle_No': '',
+        'Shipping_Name': '',
+        'S_Address1': '',
+        'S_Address2': '',
+        'S_Address3': '',
+        'S_Address4': '',
+        'S_City': '',
+        'S_State': '',
+        'S_State_code': '',
+        'S_County': '',
+        'S_Pincode': '',
+        'Created_Date': '',
+        'Created_by': '',
+        'Status': '',
+      };
+  }
+
+
+
+  public ngOnInit(): void {
+  
+  }
+}

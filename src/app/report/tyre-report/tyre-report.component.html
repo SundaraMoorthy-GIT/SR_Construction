@@ -1,0 +1,346 @@
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+      <div class="col-md-12 nopad mobile_hide">
+        <div class="w_79" style="position: fixed; z-index: 99;">
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li *ngFor="let data of appservice.Tyre_Report" [class.active]="appservice.URL_Location == data.Link">
+                <a (click)="appservice.load_page(data.Link)">{{ data.Menu }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="right-corner">
+            <div class="dropdown" style="display: inline-flex;">
+              <a class="dropdown-toggle serch_icon mshow" data-toggle="tooltip" data-placement="bottom" title="search">
+                <i style="font-size: 20px;" class='bx bx-search'></i>
+              </a>
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true" aria-expanded="false">
+                <a (click)="appservice.back()" style="font-size: 20px; font-weight: 900; cursor: pointer; color: black">
+                  <b class="px-2 text-muted">X</b>
+                </a>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 res_table">
+          <div class="search-bar_Ext mhide show_bar" style="right: 80px;">
+            <li class="bx bx-left-arrow-alt mshow search_back"></li>
+            <input type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" class="search-form-control text" placeholder="Search...">
+          </div>
+          <table>
+            <tr>
+              <td class="mhide">
+                <label style="font-size: 15px;" class="font-weight-bold">From :</label>
+              </td>
+              <td>
+                <input type="date" style="max-width: 160px;" class="form-control form-control-sm" [(ngModel)]="appservice.S_From" name="From_" #From_="ngModel">
+              </td>
+              <td class="mhide">
+                <label style="font-size: 15px;" class="font-weight-bold">To :</label>
+              </td>
+              <td>
+                <input type="date" style="max-width: 160px;" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To" name="To_" #To_="ngModel">
+              </td>
+               
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                
+
+              <td class="mhide">
+                <span style="font-size: 11px;">&nbsp;</span>
+                <button type="button" class="pt-2 btn btn-info btn-sm " (click)="appservice.get_Bunk_Entry_Reports()">Search</button>
+                <span style="font-size: 10px;">&nbsp;&nbsp;&nbsp;</span>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="float-right">
+                <button type="button" (click)="export_pdf(dt)" class="btn btn-danger btn-sm">PDF</button>
+              </td>
+              <td class="float-right">
+                <button type="button" (click)="export_excel(dt)" class="btn-success btn-sm">Excel</button>
+              </td>
+            </tr>
+          </table>
+          <div style="overflow: scroll; white-space: pre; max-height: calc(90vh - 150px);">
+          <p-table #dt class="table table-striped custom-table" [value]="appservice.Tyre_Entry_Rows1" selectionMode="single" [globalFilterFields]="appservice.Tyre_Entry_col_GF">
+            <ng-template pTemplate="header">
+              <tr class="pt-3">
+                <th class="mhide">#</th>
+                 <th>Date
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'trr_date', 'contains')" class="form-control">
+                </th>
+                <th>Qty
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'trr_qty', 'contains')" class="form-control">
+                </th>
+               
+                <th>Billno
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'ty_purno', 'contains')" class="form-control">
+                </th>
+                
+                <th>SL.NO
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'trr_tyre_no', 'contains')" class="form-control">
+                </th>
+                <th>Brand
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'ty_Brand', 'contains')" class="form-control">
+                </th>
+                 <th style="text-align: right;">Size
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'ty_size', 'contains')" class="form-control">
+                </th>
+                <th>VehicleNo
+                    <p-columnFilter field="trr_vehicle_no" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                      <ng-template pTemplate="header">
+                          <div class="px-3 pt-3 pb-0">
+                              <span class="font-bold"> VehicleNo</span>
+                          </div>
+                      </ng-template>
+                      <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                          <p-multiSelect [ngModel]="value" [options]="appservice.representatives" placeholder="Any" (onChange)="filter($event.value)" optionLabel="value"
+                          optionValue="value">
+                              <ng-template let-option pTemplate="item">
+                                  <div class="inline-block vertical-align-middle">x
+                                      <span class="ml-1 mt-1">{{ option.value }}</span>
+                                  </div>
+                              </ng-template>
+                          </p-multiSelect>
+                      </ng-template>
+                  </p-columnFilter>
+                  </th>
+                  <th>Wheel Position
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'trr_position', 'contains')" class="form-control">
+                  </th>
+                   <th style="text-align: right;">KM
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'trr_km', 'contains')" class="form-control">
+                  </th>
+                <th style="text-align: right;">Amount
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'trr_amount', 'contains')" class="form-control">
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+              <tr>
+                <td class="mhide">{{ rowIndex + 1 }}</td>
+                <td>{{ rowData.trr_date }}</td>
+              <td>{{ rowData.trr_qty }}</td> 
+                <td>{{ rowData.ty_purno }}</td>
+                <td>{{[rowData.trr_tyre_no]}}</td>
+                <td>{{[rowData.ty_Brand]}}</td>
+                <td>{{[rowData.ty_size]}}</td>
+             <td>{{ rowData.trr_vehicle_no }}</td> 
+             <td>{{ rowData.trr_position }}</td> 
+             <td>{{ rowData.trr_km }}</td> 
+             <!-- <td>{{ rowData.trr_amount }}</td>  -->
+                <!-- <td>{{ rowData.Site }}</td> -->
+                <!-- <td style="text-align: right;">{{ rowData.Liter }}</td>
+                <td style="text-align: right;">{{ rowData.Rate }}</td> -->
+                <td style="text-align: right;">{{ rowData.trr_amount }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        </div>
+      </div>
+      <div class="col-md-12 nopad mhide">
+        <div class="w_79" style="bottom: 0; font-weight: 700; color: #333; background-color: #f4f4f4; padding: 0.571em 0.857em; position: fixed; bottom: 0; border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+              <td style="text-align: right;     color: midnightblue;"> Amount :
+                {{appservice.sum_of (dt,'trr_amount')| number:'1.0-0'}}</td>
+             
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row mshow">
+    <div class="col-md-12 nopad">
+  
+      <div class="search-bar_Ext   disp" style="right: 50px;">
+    
+    
+        <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+        <label class="h_txex"> Tyre Report</label>
+  
+          <div class="right-cornerN">
+            <div class="dropdown"style="display: inline-flex;">
+              
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" style="padding-right:12px;padding-top: 1px;" (click)="showSearch = !showSearch">
+             
+                <i  class='bx bx-search cons py-2'></i> 
+              </a>
+  
+  
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false" style="padding-right:11px;">
+                
+                <i class='bx bx-filter cons py-2'></i>
+              </button>
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+                 
+               
+                  <tr>
+                    <td style="width: 80px;">From </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_From"
+                        name="From_" #From_="ngModel">
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td style="width: 80px;">To </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                        name="To_" #To_="ngModel">
+                    </td>
+                  </tr>
+                     <tr>
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+  
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="appservice.get_Tyre_Entry_Report()"
+                        class="btn btn-info btn-sm">Search</button>&nbsp;</td>
+                  </tr>
+                </table>
+                <div  class="search_Footer border-top" style="color: green;"> 
+                  <div (click)="export_excel(dt1)"  class="buttons">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export Excel</span>
+                   
+                  </div>
+      
+                 
+                  <div (click)="export_pdf(dt1)"  class="buttons " style="color: red;">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export PDF</span>
+                   
+                  </div>
+      
+      
+              </div>
+             
+              </div>
+            </div>
+          </div>
+  
+       
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 ">
+        
+          <div class="search-bar_Ext mhide  show_bar " style="right: 80px;"
+          [ngClass]="{ 'mhide': !showSearch, 'disp': showSearch }">
+          
+            <li  class="bx bx-left-arrow-alt mshow  search_back" (click)="showSearch = !showSearch"></li>
+  
+                <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text"
+                placeholder="Search...">
+    
+          </div>
+         
+          <p-table #dt1 class="table table-striped custom-table mshow" [value]="appservice.Tyre_Entry_Rows1"style="margin:top -100px;"
+          selectionMode="single"[globalFilterFields]="appservice.Tyre_Entry_col_GF">
+          <ng-template pTemplate="header">
+            <tr class="vs">
+              <th style="text-align: center">Details</th>
+              <th style="text-align: center">Amount</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+            <tr class="vs"  [pSelectableRow]="rowData">
+                <td> <span class="l1_txt"> ({{rowData.trr_vehicle_no}}) </span>
+              <span class="l1_txt"> ({{rowData.trr_qty}}) </span>
+                  <br><span class="l2_txt">Date : {{rowData.trr_date}}</span>
+                  <br><span class="l3_txt">Sl.No : {{rowData.trr_tyre_no}} </span>
+                  <br><span class="l3_txt">Brand : {{rowData.ty_Brand}} </span>
+                  <br><span class="l3_txt">KM : {{rowData.trr_km}} </span>
+                 <!-- <br><span class="l3_txt">Amount : {{rowData.trr_amount}} </span>  -->
+                </td>
+                  <td style="text-align: right;">
+                      <span class="l1_txt" style="color: darkred;" >{{rowData.trr_amount |currency:'INR':'symbol':'0.0-0'}} </span>
+                  </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        </div>
+      </div>
+     
+      <div  class="col-md-12 nopad mshow">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+           <table style="width: 100%;">
+            <tr>
+              <td style="text-align: right;     color: midnightblue;"> Amount :
+                {{appservice.sum_of (dt,'trr_amount')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

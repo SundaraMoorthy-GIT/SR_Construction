@@ -1,0 +1,253 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+    <div class="search-bar_Ext  mshow disp" style=" display: inline-flex;">
+        
+      <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+      <label class="h_txex mshow">Overview</label>
+
+    </div>
+    <div class="col-md-12 nopad mobile_hide">
+     
+      <div class="w_79" style="position: fixed;z-index: 99; ">
+      
+        <div class="tabs-header border-bottom">
+          <ul>
+            <li  *ngFor="let data of appservice.Customer_Overview"  
+             [className]="appservice.URL_Location==data.Link ? 'active clo3tab' : ' clo3tab'"  
+             class="" > <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                  
+          </ul>
+        </div>
+
+        <div class="content_body">
+
+                
+
+
+          <form >
+
+              <div class="row">
+
+
+
+
+                  <div class="col-md-12 ">
+
+                      <div  class="card user-info-box mb-30" style="margin-top: 0px;">
+                         
+                          <div  class="card-body">
+                              
+                             
+
+                              <ul  class="list-unstyled mb-0">
+                                  
+
+                                  <li  style="margin-top: 0px;
+                                  font-weight: 800;
+                                  color: #4e2879;" class="d-flex"><i  class="bx bx-user-circle mr-2"></i><span
+                                           class="d-inline-block">{{appservice.Edit_Row.Ledger_Name}}  <a 
+                                              class="d-inline-block" href="javascript:void(0)"></a></span></li>
+                                  <li  class="d-flex"><i  class="bx bx-home-circle mr-2"></i><span
+                                           class="d-inline-block">{{appservice.Edit_Row.Address1}} <a
+                                               class="d-inline-block" href="javascript:void(0)"></a></span>
+                                  </li>
+
+                                  <li  class="d-flex"><span
+                                      class="d-inline-block">{{appservice.Edit_Row.Address2}} <a
+                                          class="d-inline-block" href="javascript:void(0)"></a></span>
+                             </li>
+                                
+                                  <li  class="d-flex"><span
+                                           class="d-inline-block"> <a  class="d-inline-block"
+                                              href="javascript:void(0)"> {{appservice.Edit_Row.Address3}}</a></span></li>
+                                  
+                                  <li  class="d-flex"><i  class="bx bx-phone mr-2"></i><span
+                                           class="d-inline-block">Phone : <a  class="d-inline-block"
+                                              href="javascript:void(0)">{{appservice.Edit_Row.Phone_Number}}</a></span></li>
+                                  <li  class="d-flex"><i  class="bx bx-envelope mr-2"></i><span
+                                           class="d-inline-block">Email <a  class="d-inline-block"
+                                              href="javascript:void(0)">{{appservice.Edit_Row.Email_ID}}</a></span></li>
+                                 <li  class="d-flex"><i  class="bx bx-group mr-2"></i><span
+                                            class="d-inline-block"style="font-weight: 800;">Group Details </span></li>
+                                            <p-table #dt class="table table-striped custom-table mhide" [value]="appservice.Group_Overview"
+                                            selectionMode="single">
+                                            <ng-template pTemplate="header">
+                                              <tr>
+                                                <th>#</th>
+                                                <th [pSortableColumn]="'Group_Code'">Group Code</th>
+                                                <th [pSortableColumn]="'Group_Name'" >Group Name</th>
+                                                <th [pSortableColumn]="'Group_Status'">Group Status</th>
+                                               
+                                                <th [pSortableColumn]="'Start_Date'">Start Date</th>
+
+                                                <th [pSortableColumn]="'End_Date'">End Date</th>
+                                                <th [pSortableColumn]="'Chit_Month'">Chit Month</th>
+                                                <th [pSortableColumn]="'Chit_Amount'" style="text-align: right;">Chit Amount</th>
+
+                                                
+                                              </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                                              <tr>
+                                                <td>{{rowIndex+1}}</td>
+                                                <td>{{rowData.Group_Code}}</td>                   
+                                                <td>{{rowData.Group_Name}}</td>
+                                                <td>{{rowData.Group_Status}}</td>
+                                                <td>{{rowData.Start_Date}}</td>
+                                                <td>{{rowData.End_Date}}</td>
+
+                                                <td>{{rowData.Chit_Month}}</td>
+                                                <td  style="text-align: right;">{{rowData.Chit_Amount}}</td>
+
+                                              </tr>
+                                            </ng-template>
+                                          </p-table>
+                                          <p-table #dt1 class="table table-striped custom-table mshow" [value]="appservice.Group_Overview"
+                                          selectionMode="single">
+                                          <ng-template pTemplate="header">
+                                            <tr class="vs">
+                                              <th>#</th>
+                                                <th></th>
+                                                <th ></th>
+                                            </tr>
+                              
+                                         
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+                                          <tr class="vs1" [pSelectableRow]="rowData">
+                            
+                                            <td style="width: 30px;">{{rowIndex+1}}</td>
+                                              <td > <span class="l1_txt">{{rowData.Group_Code}}/{{rowData.Group_Name}}</span>
+                                                <br><span class="l2_txt">{{rowData.Chit_Month}}-Months/ {{rowData.Group_Members}}-Members</span>                               
+                                                <br><span class="l4_txt">Stared : {{appservice.ago(rowData.Start_Date)}} </span>                               
+                                       
+
+                                             
+                            
+                                              </td>
+                            
+                                              <td  style="text-align: right; color: darkviolet;"> <span class="l1_txt">{{rowData.Chit_Amount|currency:'INR':'symbol':'0.0-0'}} </span>
+                                                <br><span *ngIf="rowData.Group_Status=='open'" class="badge badge-success ng-star-inserted">{{rowData.Group_Status}} </span>
+                                                <span *ngIf="rowData.Group_Status!='open'" class="badge badge-primary ng-star-inserted">{{rowData.Group_Status}}</span>
+
+                                              </td>
+                                             
+                                             
+                            
+                                          </tr>
+                                      </ng-template>
+                                         
+                                        </p-table>
+                                         
+                                        <li  class="d-flex"><i  class="bx bx-user-circle mr-2"></i><span
+                                          class="d-inline-block"style="font-weight: 800;">Loan Details </span></li>
+                                          <p-table #dt class="table table-striped custom-table mhide" [value]="appservice.Loan_Overview"
+                                          selectionMode="single">
+                                          <ng-template pTemplate="header">
+                                            <tr>
+                                              <th>#</th>
+                                              <th [pSortableColumn]="'Loan_No'">Loan No</th>
+
+                                              <th [pSortableColumn]="'Loan_Date'">Loan Date</th>
+
+                                              <th [pSortableColumn]="'Loan_Type'" >Loan Type</th>
+                                              <th [pSortableColumn]="'No_of_Due'">No of Dues</th>
+                                              <th [pSortableColumn]="'Loan_Amount'"style="text-align: right;">Loan Amount</th>
+
+                                              <th [pSortableColumn]="'Per_Due_Amount'"style="text-align: right;">Due Amount</th>
+
+                                              
+                                            </tr>
+                                          </ng-template>
+                                          <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                                            <tr>
+                                              <td>{{rowIndex+1}}</td>
+                                              <td>{{rowData.Loan_No}}</td>
+
+                                              <td>{{rowData.Loan_Date}}</td>
+
+                                              <td>{{rowData.Loan_Type}}</td>
+                                              <td style="text-align: right;">{{rowData.No_of_Due}}
+                                              </td>
+                                              <td style="text-align: right;">{{rowData.Loan_Amount}} </td>                                  
+
+                                              <td style="text-align: right;">{{rowData.Per_Due_Amount}}</td>
+
+                                            </tr>
+                                          </ng-template>
+                                        </p-table>
+                                        <p-table #dt1 class="table table-striped custom-table mshow" [value]="appservice.Loan_Overview"
+                                        selectionMode="single">
+                                        <ng-template pTemplate="header">
+                                          <tr class="vs">
+                                            <th>#</th>
+                                              <th></th>
+                                              <th ></th>
+                                          </tr>
+                            
+                                       
+                                      </ng-template>
+                                      <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+                                        <tr class="vs" [pSelectableRow]="rowData">
+                          
+                                          <td style="width: 30px;">{{rowIndex+1}}</td>
+                                            <td > <span class="l1_txt">{{rowData.Loan_No}}/{{rowData.No_of_Due}}-No of Due</span>
+                                              <br><span class="l2_txt">Due Amt:{{rowData.Per_Due_Amount|currency:'INR':'symbol':'0.0-0'}} </span>                               
+                                              <br><span class="l3_txt">{{rowData.Loan_Date}} </span>                               
+
+                                           
+                          
+                                            </td>
+                          
+                                            <td  style="text-align: right; color: darkviolet;"> <span class="l1_txt">{{rowData.Loan_Amount|currency:'INR':'symbol':'0.0-0'}} &nbsp; </span>
+                                              <br><span  *ngIf="rowData.Loan_Type=='Daily'"class="badge badge-success ng-star-inserted">{{rowData.Loan_Type}} </span>&nbsp;&nbsp;&nbsp;
+                                              <span *ngIf="rowData.Loan_Type=='Weakly'" class="badge badge-primary ng-star-inserted">{{rowData.Loan_Type}}</span>
+                                              <span *ngIf="rowData.Loan_Type=='Monthly'" class="badge badge-info ng-star-inserted">{{rowData.Loan_Type}}</span>
+
+                                            </td>
+                                           
+                                           
+                          
+                                        </tr>
+                                    </ng-template>
+                                       
+                                      </p-table>
+                              </ul>
+
+
+                            
+                               
+                          </div>
+                      </div>
+                  </div>
+
+
+
+               
+
+
+
+
+
+
+
+
+
+                      </div>
+
+              
+          </form>
+      </div>
+
+      </div>
+    </div>
+
+   
+   
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,63 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-visitor-checkin',
+  templateUrl: './visitor-checkin.component.html',
+  styleUrls: ['./visitor-checkin.component.scss']
+})
+export class VisitorCheckinComponent implements OnInit {
+
+  constructor(public confirmationService: ConfirmationService,public appservice:AppService, private router: Router, private route: ActivatedRoute) { 
+
+
+    this.appservice.get_Checkin_Visitor();
+  }
+
+
+  onEdit(item) {
+    
+    this.appservice.isEdit =true;
+    this.appservice.Edit_Row = item;
+    this.appservice.Details_Row=[];
+    this.appservice.get("Api/Master/get_Visiting_Member?ID=" + this.appservice.Edit_Row.ID  ).subscribe((res: any) => {
+      this.appservice.Details_Row= JSON.parse(res).record;
+      return this.router.navigate(['visitor/add-approved-list']);
+    });
+  }
+
+  Print(item) {
+
+  window.open(this.appservice.Server_URL+"report/Print_Pass?ID="+item.ID+"&Company="+this.appservice.Company, "_blank");
+  }
+
+  
+  export_excel()
+  {
+ 
+   this.appservice.Excel_Data.Header=this.appservice.Visitorwise_Export;
+   this.appservice.Excel_Data.items=this.appservice.Checkin_Visitor_Row
+   this.appservice.Excel_Data.Report_Name="Checkin Report"
+   this.appservice.export_excel();
+ 
+  }
+
+
+  export_pdf(data)
+ {
+
+  this.appservice.Excel_Data.Header=this.appservice.Visitorwise_Export;
+  this.appservice.Excel_Data.Total_Row= "Total Rows : "+this.appservice.length_of(data);
+  this.appservice.Excel_Data.Total_Amount="Total Amount : "+this.appservice.sum_of(data,'Amount');
+  this.appservice.Excel_Data.items=this.appservice.Checkin_Visitor_Row
+  this.appservice.Excel_Data.Report_Name="Checkin Report"
+  this.appservice.export_pdf();
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+

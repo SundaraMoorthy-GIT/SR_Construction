@@ -1,0 +1,176 @@
+
+<div class="row">
+    <div class="mshow" style="width: 100%;margin-top: -10px;">&nbsp;</div>
+    
+    <div class="col-lg-3 col-md-6">
+        <div class="stats-card-box">
+            <div class="icon-box"><i class="bx bx-log-in-circle"></i></div>
+            <span class="sub-title">Check-in</span>
+            <h3>{{appservice.Checkin_admin_count}}  </h3>
+           
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mhide">
+        <div class="stats-card-box">
+            <div class="icon-box"><i class="bx bx-log-out-circle"></i></div>
+            <span class="sub-title">Check-Out</span>
+            <h3>{{appservice.Checkout_admin_count}}</h3>
+            
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mhide">
+        <div class="stats-card-box">
+            <div class="icon-box"><i class="bx bx-list-check"></i></div>
+            <span class="sub-title"> Schedule</span>
+            <h3>{{appservice.Visitor_Approved_count}} 
+                &nbsp;</h3>
+            
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stats-card-box" (click)="load_approval_Entry()">
+            <div class="icon-box"><i class="bx bx-paper-plane"></i></div><span class="sub-title">New Schedule</span>
+            <h3> &nbsp;</h3>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div  class="row">
+   
+
+
+    <div  class="col-md-6" *ngIf="appservice.Visitor_at_Gate_count1>0">
+        <div  class="card mb-30 new-customer-box">
+            <div  class="card-header d-flex justify-content-between align-items-center">
+                <h3 >Waiting at Gate</h3>
+                <div  class="dropdown"><button  aria-expanded="false"
+                        aria-haspopup="true" (click)="appservice.get_Visitor_at_Gate()" class="dropdown-toggle" data-toggle="dropdown" type="button"><i
+                             class="bx bx-dots-horizontal-rounded"></i></button>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead >
+                            <tr >
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr   *ngFor="let data of appservice.Visitor_at_Gate_Row" >
+                                <td  class="name"><img  alt="image"
+                                        src="assets/img/user1.jpg"> 
+                                    
+                                    </td>
+
+                                    <td  style="text-align: left;" > {{data.Visitor_Name}}/ {{data.Company_Name}}
+                                        <br><span class="text-muted">{{data.Purpose}}</span>
+                                    
+                                    </td>
+
+                                <td ><a 
+                                        class="d-inline-block text-success mr-2" data-placement="top" data-toggle="tooltip"
+                                        href="javascript:void(0)" (click)="onEdit(data)"  title="" data-original-title="View"><i
+                                             class="bx bx-edit"></i></a></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div  class="col-md-6" *ngIf="appservice.Visior_approval_count>0">
+        <div  class="card mb-30 new-customer-box">
+            <div  class="card-header d-flex justify-content-between align-items-center">
+                <h3 >Waiting For Approval</h3>
+                <div  class="dropdown"><button  aria-expanded="false"
+                        aria-haspopup="true" (click)="appservice.get_Visitor_Master1()" class="dropdown-toggle" data-toggle="dropdown" type="button"><i
+                             class="bx bx-dots-horizontal-rounded"></i></button>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead >
+                            <tr >
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr   *ngFor="let data of appservice.Visior_Master_Rows1" >
+                                <td  class="name"><img  alt="image"
+                                        src="assets/img/user1.jpg">
+                                    
+                                    </td>
+                                    <td style="text-align: left;">
+                                        {{data.Visitor_Name}}/ {{data.Company_Name}}
+                                        <br><span class="text-muted">{{data.Purpose}}</span>
+                                    </td>
+                                <td ><a 
+                                        class="d-inline-block text-success mr-2" data-placement="top" data-toggle="tooltip"
+                                        href="javascript:void(0)" (click)="onEdit_App(data)"  title="" data-original-title="View"><i
+                                             class="bx bx-edit"></i></a></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+    <div  class="col-md-6">
+        <div  class="card mb-30 new-customer-box">
+            <div  class="card-header d-flex justify-content-between align-items-center">
+                <h3 >Today Schedule</h3>
+                <div  class="dropdown"><button  aria-expanded="false"
+                        aria-haspopup="true" (click)="appservice.get_Visitor_Approved()" class="dropdown-toggle" data-toggle="dropdown" type="button"><i
+                             class="bx bx-dots-horizontal-rounded"></i></button>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+                <div  class="table-responsive">
+                    <table  class="table">
+                        <thead >
+                            <tr >
+                                <th ></th>
+                                <th ></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr   *ngFor="let data of appservice.Visitor_Approved_Row" >
+                                <td  class="name"><img  alt="image"
+                                        src="assets/img/user1.jpg"> 
+                                    
+                                    </td>
+                                    <td style="text-align: left;"> {{data.Visitor_Name}}/ {{data.Company_Name}}
+                                      <br><span class="text-muted">{{data.Purpose}}</span>
+                                    
+                                    </td>
+                                <td ><a 
+                                        class="d-inline-block text-success mr-2" data-placement="top" data-toggle="tooltip"
+                                        href="javascript:void(0)" (click)="onEdit(data)"  title="" data-original-title="View"><i
+                                             class="bx bx-edit"></i></a></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+</div>

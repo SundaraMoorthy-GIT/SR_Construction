@@ -1,0 +1,59 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { BomMasterComponent } from './bom-master/bom-master.component';
+import { MasterComponent } from './master.component';
+import { LedgerDetailsComponent } from './ledger-details/ledger-details.component';
+import { LedgerEntryComponent } from './ledger-entry/ledger-entry.component';
+import { ItemMaster1Component } from './item-master1/item-master1.component';
+import { ItemGroupComponent } from './item-group/item-group.component';
+import { LedgerGroupComponent } from './ledger-group/ledger-group.component';
+import { TableMasterComponent } from './table-master/table-master.component';
+import { TableDetailsComponent } from './table-details/table-details.component';
+import { AddTableComponent } from './add-table/add-table.component';
+import { StreetMappingComponent } from './street-mapping/street-mapping.component';
+import { StreetMappingEntryComponent } from './street-mapping-entry/street-mapping-entry.component';
+import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { LedgerDetails1Component } from './ledger-details1/ledger-details1.component';
+import { ItemDetailsNewComponent } from './item-details-new/item-details-new.component';
+import { ProductMarginDetailsComponent } from './product-margin-details/product-margin-details.component';
+import { ProductMarginEntryComponent } from './product-margin-entry/product-margin-entry.component';
+import { PriceListComponent } from './price-list/price-list.component';
+
+const routes: Routes = [
+  { path: '', component: MasterComponent },
+  
+  { path: 'price-list', component: PriceListComponent },
+
+  { path: 'bom-master', component: BomMasterComponent },
+  { path: 'ledger-details', component: LedgerDetailsComponent },
+  { path: 'ledger-details1', component: LedgerDetails1Component },
+  { path: 'ledger-entry', component: LedgerEntryComponent },
+  { path: 'item-master1', component: ItemMaster1Component },
+  { path: 'item-group', component: ItemGroupComponent },
+  { path: 'ledger-group', component: LedgerGroupComponent },
+  { path: 'Item-details-New', component: ItemDetailsNewComponent },
+  { path: 'table-master', component: TableMasterComponent },
+  { path: 'table-details', component: TableDetailsComponent },
+  { path: 'add-table', component: AddTableComponent },
+  { path: 'street-mapping', component: StreetMappingComponent },
+  { path: 'street-mapping-entry', component: StreetMappingEntryComponent },
+  { path: 'employee-details', component: EmployeeDetailsComponent },
+  { path: 'add-employee', component: AddEmployeeComponent },
+  { path: 'product-details', component: ProductMarginDetailsComponent },
+  { path: 'product-entry', component: ProductMarginEntryComponent },
+
+   
+   
+
+   
+
+
+
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class MasterRoutingModule { }

@@ -1,0 +1,44 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+
+@Component({
+  selector: 'app-street-mapping',
+  templateUrl: './street-mapping.component.html',
+  styleUrls: ['./street-mapping.component.scss']
+})
+export class StreetMappingComponent implements OnInit {
+
+  constructor(public confirmationService: ConfirmationService,public appservice:AppService, private router: Router, private route: ActivatedRoute) { 
+    this.appservice.Area_Street_Details_GF = [...new Set(this.appservice.get_fields_of('Area_Street').map(item => item.Field))];
+
+    appservice.get_Area_Street();
+  }
+  addReset() {
+    this.appservice.isadd = "0";
+    return this.router.navigate(['master/street-mapping-entry']);
+  }
+  onEdit(item) {
+    this.appservice.isEdit =true;
+    this.appservice.Edit_Row = item;
+    return this.router.navigate(['master/street-mapping-entry']);
+  }
+    onDelete(item) {
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to delete press Yes?',
+        accept: () => {
+          this.Delete(item)
+        }
+      });
+  }
+  Delete(item) {
+    this.appservice.get("Api/master/delete_Area_Street?ID=" + item).subscribe((res: any) => {
+      this.appservice.get_Area_Street();
+    });
+  }
+
+  ngOnInit(): void {
+  }
+
+}

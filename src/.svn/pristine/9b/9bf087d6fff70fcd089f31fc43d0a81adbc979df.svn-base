@@ -1,0 +1,56 @@
+<!-- Start Login Area -->
+<div class="login-area"  style=" background-image: url('../../assets/img/Res.jpg'); background-size: cover; position: fixed; top: 0px;left: 0px; width: 100% ; z-index: 9999999; bottom:0px;">
+    
+    <div class="spin_block" *ngIf="isload"   > 
+
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+          </div>
+      </div>
+
+       </div>
+       
+    <div class="d-table d-table1" >
+        <div class="d-table-cell">
+            <div class="login-form">
+                <div class="logo">
+                    <a  ><img style="height: 60px;" src="assets/img/{{appservice.Logo_location_Loin}}.png" alt="image"></a>
+                </div>
+
+                <h2>Welcome</h2>
+
+                <form #addForm="ngForm" (ngSubmit)="login(addForm)">
+                    <div class="form-group">
+                        <input type="text" style="background-color: #f8f9fa0d;" class="form-control" [(ngModel)]="addD.Username"   name="Username" #Username="ngModel"  placeholder="User Name">
+                        <span class="label-title"><i class='bx bx-user'></i></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" style="background-color: #f8f9fa0d;" class="form-control" [(ngModel)]="addD.Password"   name="Password" #Password="ngModel"  required placeholder="Password">
+                        <span class="label-title"><i class='bx bx-lock'></i></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="remember-forgot">
+                            <label class="checkbox-box">Remember me
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+
+                            <a class="forgot-password">Forgot password?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit"  [disabled]="btndisable" class="login-btn">
+                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+                        Login</button>
+
+                    <p class="mb-0">Don’t have an account? <a >Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Login Area -->

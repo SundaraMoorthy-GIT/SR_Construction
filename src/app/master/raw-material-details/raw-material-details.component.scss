@@ -1,0 +1,40 @@
+/* Table wrapper for scrollable content */
+.table-wrapper {
+    overflow: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 1em;
+  }
+  
+  /* Scrollable table */
+  .p-table {
+    width: 100%;
+    table-layout: auto;
+  }
+  
+  /* Styling for table headers and body rows */
+  .p-table th {
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+  .p-table td {
+    padding: 10px;
+    vertical-align: top;
+  }
+  
+  /* Bottom fixed footer for total items and amount */
+  .bottom-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-weight: 700;
+    color: #333;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+  }
+  

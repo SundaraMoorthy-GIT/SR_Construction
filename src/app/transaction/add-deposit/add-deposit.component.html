@@ -1,0 +1,193 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>EMD Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_id" name="oc_id" #oc_id="ngModel" required>
+                        </td>
+                      </tr>
+  
+                      <tr>
+                        <td>EMD No<span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_no" name="oc_no" #oc_no="ngModel" required>
+                        </td>
+                      </tr>
+                     
+                      <tr >
+                        <td>Project <span class="text-danger"></span></td>
+                        <td>
+                            <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.SProject_Rows" 
+            [(ngModel)]="add.oc_projectid"required   resetFilterOnHide="true" placeholder=" " name="oc_projectid" #oc_projectid="ngModel" [filter]="(appservice.W_width>500)"
+            (ngModelChange)="onChange(add.oc_projectid)">
+        
+           <ng-template let-car pTemplate="item">
+             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+               <div>{{car.label}}</div>
+             </div>
+           </ng-template>
+         </p-dropdown>
+        </td>
+                    </tr>
+                    <tr>
+                      <td>Date <span class="text-danger"></span></td>
+                      <td><input class="form-control"  type="date"
+                          [(ngModel)]="add.oc_date" name="oc_date" #oc_date="ngModel"></td>
+                  </tr>
+                   <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.oc_branch" name="oc_branch" #oc_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && oc_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+
+                      <tr>
+                        <td>Type<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.oc_vtype" name="oc_vtype" #oc_vtype="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="EMD"> EMD</option>
+                            <option  value="EMD-Return"> EMD-Return</option>
+                        </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Description<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_narration1" required
+                            name="oc_narration1" #oc_narration1="ngModel">
+                        </td>
+                      </tr>
+                      <tr >
+                          <td>Pay Mode <span class="text-danger"></span></td>
+                      <td>
+                          <select class="select2-option form-control "  [(ngModel)]="add.oc_pay_mode" name="oc_pay_mode" #oc_pay_mode="ngModel" style="width:100%" 
+                          (change)="onChange(add.oc_pay_mode)"  aria-hidden="true">
+
+                              <option *ngFor="let summary of appservice.get_ref('Pay_Mode')" value={{summary.value}}>
+                                  {{summary.label}}
+                              </option>
+                          </select>
+                      </td>
+                      </tr>
+                      <tr class="disabled">
+                        <td  style="width: 120px;" >Bank Acc</td>
+                        <td>
+                            <div style="width: 100%;display: inline-flex;">
+  
+                                
+  
+                                <div style="width: 65%;">
+  
+                                  <select class="select2-option form-control " [(ngModel)]="add.oc_received_bank" name="oc_received_bank"
+                                #oc_received_bank="ngModel" style="width:100%" aria-hidden="true"(change)="appservice.get_CR_DB_Amount(add.oc_received_bank)" >
+                                <option  value="0"></option>
+  
+                                <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+                            </select>
+                               
+                                </div>
+                                <div style="width: 35%;" *ngIf="appservice.Ledger_Amt>='0'">
+  
+                                  <input class="form-control" readonly type="number"style="color: rgb(61, 211, 61);font-weight: 800;"
+                                      [(ngModel)]="appservice.Ledger_Amt" name="Ledger_Amt"
+                                      #Ledger_Amt="ngModel" >
+                                    
+                                  </div>
+                                <div  *ngIf="!(appservice.Ledger_Amt>='0')"style="width: 35%;">
+  
+                                  <input class="form-control" readonly type="number"style="color: red;font-weight: 800;"
+                                      [(ngModel)]="appservice.Ledger_Amt" name="Ledger_Amt"
+                                      #Ledger_Amt="ngModel" >
+                                    
+                                  </div>
+  
+                              </div>
+                        
+                        </td>
+                    </tr>
+                      <tr>
+                        <td>Amount<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="number" [(ngModel)]="add.oc_amount" required
+                            name="oc_amount" #oc_amount="ngModel">
+                        </td>
+                      </tr>
+                      <tr class="disabled">
+                        <td>Image</td>
+                        <td>
+                          <p-fileUpload name="myfile[]" url="{{server}}" (onUpload)="onUpload($event)"
+                            multiple="multiple" maxFileSize="1000000">
+                            <ng-template pTemplate="content">
+                              <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                              </ul>
+                            </ng-template>
+                          </p-fileUpload>
+                        </td>
+                      </tr>
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit"> <i class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <img   [src]="get_image()"/>
+    
+               </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

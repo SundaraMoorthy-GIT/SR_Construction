@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { StreetMappingEntryComponent } from './street-mapping-entry.component';
+
+describe('StreetMappingEntryComponent', () => {
+  let component: StreetMappingEntryComponent;
+  let fixture: ComponentFixture<StreetMappingEntryComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ StreetMappingEntryComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(StreetMappingEntryComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

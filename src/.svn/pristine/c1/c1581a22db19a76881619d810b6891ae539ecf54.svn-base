@@ -1,0 +1,296 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="search-bar_Ext  mshow disp" style=" display: inline-flex;">
+        
+            <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+      
+                <label class="h_txex mshow">Action Entry</label>
+      
+      
+               
+      
+          </div>
+        <div class="card content c_pad_5">
+
+            <div class=" Head mhide">
+
+
+
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Action Entry</h3>
+
+                    <div class="dropdown">
+
+
+                        
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+
+
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID"
+                                                    #ID="ngModel" ></td>
+                                        </tr>
+
+
+
+                                        <tr *ngFor="let data of appservice.get_pos_field('Action_Details','1TL')">
+                                            <td class="lbl_width_80">{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+                                               
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field=='Group_Code')" class="select2-option form-control"  aria-hidden="true"
+                                                class="form-control"(change)="get_Group(add.Group_Code)"
+
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel" >
+                                                   <option *ngFor="let row of appservice.Group_Member_Code" 
+                                                   value={{row.Group_Code}}>
+                                                       {{row.Group_Code}}
+                                                   </option>
+                                                 </select>
+
+                                                 <select  *ngIf="(data.Type=='Select' && data.Field=='Ledger_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 class="form-control"
+ 
+                                                  required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                     name="{{data.Field}}" #{{data.Field}}="ngModel" >
+                                                    <option *ngFor="let row of appservice.Group_Member" 
+                                                    value={{row.Ledger_ID}}>
+                                                        {{row.Ledger_Name}}
+                                                    </option>
+                                                  </select>
+                                            
+                                                
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_Code' && data.Field!='Ledger_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                 <input *ngIf="!(data.Type=='Select'|| data.Field=='Ledger_ID' || data.Field=='Group_Code')"
+                                                 class="form-control {{data.Class}}"   
+                                                 [style]="data.Style"
+                                                [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" 
+                                                type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel" 
+                                                      >
+
+                                                
+                                     
+                                                
+                                                
+                                       
+                                         <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")'  class="invalid-feedback d-block">
+                                             <div class="error"> {{data.Name}} Should not entry</div>
+                                         </div>  
+                                                </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-4">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                       
+                                        <tr *ngFor="let data of appservice.get_pos_field('Action_Details','2TM')">
+                                            <td class="lbl_width_80">{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field=='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let s of appservice.Ledger_Group" value={{s.ID}}>
+                                                       {{s.Ledger_Name}}
+                                                   </option>
+                                                 </select>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                                <input *ngIf="data.Type!='Select'" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel" (keyup)="Calc_Sum(add.Bid_Amount)"  >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-4">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                       
+                                        <tr *ngFor="let data of appservice.get_pos_field('Action_Details','3TR')">
+                                            <td class="lbl_width_80">{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field=='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let s of appservice.Ledger_Group" value={{s.ID}}>
+                                                       {{s.Ledger_Name}}
+                                                   </option>
+                                                 </select>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                                <input *ngIf="data.Type!='Select'" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                            
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+                               
+                                
+
+                            </div>
+                            <br>
+                            <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+
+                                <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+    
+    
+                                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span>
+                                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                    Save </button> &nbsp;&nbsp;
+                                <button class="btn btn-secondary rounded-pil " type="button"
+                                    (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                                    <button class="btn btn-info rounded-pil"  >
+    
+                                        Send SMS </button>
+                            </div>
+                        </div>
+                      
+                    </div>
+                   
+                    <div class="m_2 res_table"style="margin-top: -35px;">
+                        <label style="padding-top: 20px;">Due details</label>
+                        <p-table #dt class="table table-striped custom-table"style="padding: left 2px;padding: top: 0px;" [value]="appservice.Group_Bills_Out"
+                            selectionMode="single" [globalFilterFields]="appservice.Group_Member_GF">
+                            <ng-template pTemplate="header">
+                                <tr class="vs">
+                                    <th>#</th>
+                                    <th [pSortableColumn]="'BillNO'">Bill NO</th>
+                                    <th class="mhide"[pSortableColumn]="'Ledger_Name'">Ledger Name</th>
+
+                                    <th class="mhide"[pSortableColumn]="'Due'">Due</th>
+                                    <th [pSortableColumn]="'Paid'">Paid</th>
+                                    <th class="mhide"[pSortableColumn]="'Balance'">Balance</th>
+                                   
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                                <tr class="vs">
+                                    <td>{{rowIndex+1}}</td>
+                                        <td class="mhide">{{rowData.BillNO}} </td>
+                                    <td >
+                                        <span class="l1_txt"> {{rowData.Ledger_Name}} </span>
+                                        <span class="mshow l2_txt"> {{rowData.BillNO}} </span>
+                                       
+                                    </td>
+
+                                    <td class="mhide">{{rowData.Due}}</td>
+
+
+                                    <td style="text-align: right;"> <span class="l4_txt mhide"> {{rowData.Paid}} </span>
+                                        <span class="mshow l1_txt"> {{rowData.Due |currency:'INR':'symbol':'0.0-0'}} </span>
+                                        <span class=" mshow l2_txt"> Bal :{{rowData.Balance |currency:'INR':'symbol':'0.0-0'}} </span>
+                                        
+
+
+                                    </td>
+                                    <td class="mhide">{{rowData.Balance}}</td>
+
+                                   
+                    
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>

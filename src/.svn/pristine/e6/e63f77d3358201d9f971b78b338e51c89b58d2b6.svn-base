@@ -1,0 +1,225 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Order Details</h3>
+                    <a (click)="appservice.back()"  class="x">
+                        <b>X</b>
+                    </a>
+                    
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+                <div class="invoice-middle mb-30">
+                    <div class="row">
+                        <div class="col-6 col-md-9">
+                            <div class="text" >
+                               
+                                <div >
+                                <h4 class="mb-2">To:-</h4>
+
+
+                                <span class="d-block mb-1">{{appservice.header_Row.Customer_Name}}</span>
+                                <span class="d-block mb-1">{{appservice.header_Row.Customer_Address1}}</span>
+                                <span class="d-block mb-1">{{appservice.header_Row.Customer_Address2}} </span>
+                                <span class="d-block mb-1">{{appservice.header_Row.Customer_Address3}}</span>
+                                
+        
+        
+                            </div>
+                            </div>
+                        </div>
+            
+                     
+            
+                        <div class="col-6 col-md-3" >
+                            <div class="text text-right">
+                                <table style="width: 98%;">
+                                    <tr>
+                                        <td>Order No</td>
+                                        <td>:</td>
+                                        
+                                        <td style="text-align: right; font-weight: 700;">{{appservice.header_Row.Order_No}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        
+                                        <td>:</td>
+                                        <td style="text-align: right;font-weight: 700;">{{appservice.header_Row.Order_Date}}</td>
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+           
+
+
+                <div class="row"   *ngIf="appservice.Details_Row.length>0">
+
+                    <div class="col-md-8 mpx" >
+                        <div class="cart-view">
+                            <div class="head_text">Items Details
+                            
+                            </div> 
+                            <table>
+
+
+                
+                                <tr class="border-bottom" *ngFor="let data of appservice.Details_Row; let i=index">
+                
+                                    <td style="width: 50px;  padding-left: 5px;
+                                    padding-right: 0px;">
+                                    {{i+1}}
+                                        <img  *ngIf="appservice.Image_disp==true" style="height: 40px; width: 40px;" src="{{appservice.Server_URL}}/image/C{{appservice.Company}}/I{{data.ITEM_ID}}.jpg" class="rounded-circle" alt="image">
+                                    </td>
+                                    <td style=" padding-left: 5px;padding-top: 0px;
+                                    padding-right: 2px;">
+                                        <div class="name">
+                                            {{data.Item_Name}}  &nbsp;&nbsp; Rs.{{data.MRP}}
+                                        </div>
+                                        <div class="desc">
+                                            {{data.Category}}
+                                        </div>
+                
+                
+                                    </td>
+                                    <td style="text-align: right; ">
+                                       
+                                        <div class="mrp">
+                                            Qty : <span >{{data.Qty}} <span *ngIf="data.Free!=0"> + {{data.Free}}</span> X ₹ {{data.Unit_Price}}</span>
+                                        </div>
+                
+                                        <div class="price">
+                                            ₹ {{(data.Qty*data.Unit_Price).toFixed(2)}}
+                                        </div>
+                
+                                    </td>
+                
+                                </tr>
+                            </table>
+                
+                        </div>
+                
+                    </div>
+                    <div class="col-md-4 mpx" *ngIf="appservice.Details_Row.length>0">
+                
+                
+                        <div class="cart-summary">
+                
+                        <div class="head_text">Order summary</div> 
+                            <table>
+                
+                                <tr>
+                
+                                    <td>
+                                        <div class="name">
+                                            Sub Total
+                                        </div>
+                
+                
+                
+                                    </td>
+                                    <td style="text-align: right; ">
+                                        <div class="price">
+                                            ₹ {{this.appservice.header_Row.Sub_Total}}
+                                        </div>
+                
+                
+                                    </td>
+                
+                                </tr>
+                
+                
+                       
+                
+                                <tr>
+                
+                                    <td style="    border-bottom: 1px dotted #dee2e6 !important;">
+                                        <div class="name">
+                                            GST
+                                        </div>
+                
+                
+                
+                                    </td>
+                                    <td style="text-align: right;   border-bottom: 1px dotted #dee2e6 !important;">
+                                        <div class="price">
+                                            ₹ {{this.appservice.header_Row.Tax_Amt}}
+                                        </div>
+                
+                
+                                    </td>
+                
+                                </tr>
+                
+                
+                
+                                <tr>
+                
+                                    <td>
+                                        <div class="name">
+                                            Order Value
+                                        </div>
+                
+                
+                
+                                    </td>
+                                    <td style="text-align: right; ">
+                                        <div class="price">
+                                            ₹ {{this.appservice.header_Row.Net_Amt}}
+                                        </div>
+                
+                
+                                    </td>
+                
+                                </tr>
+                
+                                
+                
+                
+                                <tr>
+                
+                                    <td colspan="2" style="text-align: center;">
+                                        
+                                        <button  class="btn btn-info btn-block" style="border-radius: 0px;color: white;" 
+                                        [disabled]="btndisable"  (click)="load_invoice()"  > 
+                                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  
+                                        <i   *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Make as Invoice
+                                        </button>
+                                        
+                                        <a style="border-radius: 0px;color: white;"  (click)="appservice.back()"   class="btn btn-danger btn-block">Back</a>
+                        
+                        
+
+                                        
+                
+                                    </td>
+                                   
+                
+                                </tr>
+                
+                
+                            </table>
+                
+                        </div>
+                    </div>
+                
+                
+                
+                </div>
+
+            </div>
+        </div>
+     </div>
+</div>

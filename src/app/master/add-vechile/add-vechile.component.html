@@ -1,0 +1,151 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content c_pad_5">
+            <div class=" Head  mhide">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Vehicle Master</h3>
+  
+                    <div class="dropdown">
+  
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+  
+  
+                    </div>
+                </div>
+  
+            </div>
+  
+            <div class="content_body">
+  
+  
+  
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+  
+                    <div class="row">
+                        <div class="col-sm-6">
+  
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.Veh_ID" name="Veh_ID"
+                                                    #Veh_ID="ngModel" ></td>
+                                        </tr>                                      
+                                      <tr >
+                                        <td>Code  <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.Veh_Code"required name="Veh_Code"
+                                            #Veh_Code="ngModel" >
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>Vehicle Number<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.Veh_VehicleNo"required name="Veh_VehicleNo"
+                                                #Veh_VehicleNo="ngModel" >
+                                                <div *ngIf="addForm.submitted && Veh_VehicleNo.invalid" class="invalid-feedback  d-block">
+                                                    <div class="error">Vehicle Number  Should not entry</div>
+                                                </div>
+                                            </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Vehicle Type <span  class="text-danger"></span>
+                                        </td>
+                                        <td  style="text-align: center;">
+                                            <select class="select2-option form-control " [(ngModel)]="Selected_VehType" name="Veh_Type"
+                                                #Veh_Type="ngModel" style="width:100%" aria-hidden="true">
+                                                <option  value="0"> </option>
+                                                <option *ngFor="let data of VehType_Row" value={{data.value}}>
+                                                    {{data.label}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                        <tr>
+                                            <td>Type<span class="text-danger"></span></td>
+                                            <td  style="text-align: center;">
+                                                <select class="select2-option form-control " [(ngModel)]="add.Veh_Make" name="add.Veh_Make"
+                                                    #add.Veh_Make="ngModel" style="width:100%" aria-hidden="true">
+                                                    <option  value="0"> </option>
+                                                    <option *ngFor="let data of Type_Row" value={{data.label}}>
+                                                        {{data.label}}
+                                                    </option>
+                                                    <!-- <option  value="Company"> Company</option>
+                                                    <option  value="Rent"> Rent</option> -->
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Model<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.Veh_Model"required name="Veh_Model"
+                                                    #Veh_Model="ngModel" >
+                                                </td>
+                                        </tr>
+                                        
+                                    <tr >
+                                        <td>Insurance Date<span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="date" [(ngModel)]="add.Veh_Insurance"required name="Veh_Insurance"
+                                            #Veh_Insurance="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>FC Date <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="date" [(ngModel)]="add.Veh_FCDate"required name="Veh_FCDate"
+                                            #Veh_FCDate="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Permit Date <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="date" [(ngModel)]="add.Veh_PermitDate"required name="Veh_PermitDate"
+                                            #Veh_PermitDate="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr   class="hidden">
+                                        <td>Created By<span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.Veh_CreatedBy"required name="Veh_CreatedBy"
+                                            #Veh_CreatedBy="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr  class="hidden">
+                                        <td>Company<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.Company"required name="Company"
+                                                #Company="ngModel" >
+                                            </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <div class="col-sm-6">
+                               
+                                    <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+        
+                                        <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+        
+        
+                                            <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                                role="status" aria-hidden="true"></span>
+                                            <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                            Save </button> &nbsp;&nbsp;
+                                        <button class="btn btn-secondary rounded-pil " type="button"
+                                            (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                                    </div>
+        
+                                    </div>
+                            </div>
+                        </div>
+                        
+                     
+                    </div>
+                   
+                </form>
+              
+            </div>
+        </div>
+    </div>

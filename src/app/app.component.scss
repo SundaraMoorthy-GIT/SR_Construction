@@ -1,0 +1,15 @@
+$font-family: 'Nunito', sans-serif;
+$main-color: #045a28!important;
+$back-color:#f9ecef;
+$black-color: #2a2a2a;
+
+.simplebar-content-wrapper {
+    direction: inherit;
+    box-sizing: border-box!important;
+    background: currentColor!important;
+}
+
+:host ::ng-deep .p-datatable>.p-datatable-wrapper {
+    overflow: unset !important;
+    /* or set any other desired styles */
+}

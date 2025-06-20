@@ -1,0 +1,141 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Form } from '@angular/forms';
+
+declare const $: any;
+
+@Component({
+  selector: 'app-role-roles-permissions',
+  templateUrl: './role-roles-permissions.component.html',
+  styleUrls: ['./role-roles-permissions.component.scss']
+})
+export class RoleRolesPermissionsComponent implements OnInit {
+
+  Selected_Rights = "";
+  Selected_Module = ""
+  btndisable: boolean = false;
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  public Module_Row = [];
+  public Rights_Row = [];
+  Row = [];
+  rs = [];
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    this.Rights_Row = this.appservice.Reference_Rows.filter(e => e.Ref_ID == "User_Role");
+    this.get_Module();
+
+
+    this.rs = [
+
+      { Field: 'Check', Name: 'Check', width: '10%', align: 'left', type: 'checkbox' },
+      { Field: 'Display_Name', Name: 'Name', width: '25%', align: 'left', type: 'text' },
+    ];
+
+  }
+
+
+  Back() {
+    this._location.back();
+
+  }
+
+
+  Selected = false;
+  select() {
+
+    for (var i = 0; i < this.Row.length; i++) {
+      this.Row[i].Check = this.Selected;
+    }
+  }
+
+
+
+
+  display() {
+
+    this.appservice.get("Api/Setting/get_Menu_Module?rights=" + this.Selected_Rights + "&Module=" + this.Selected_Module).subscribe((res: any) => {
+      this.Row = JSON.parse(res).record;
+
+      for (var i = 0; i < this.Row.length; i++) {
+        var stringValue = this.Row[i].Check;
+        this.Row[i].Check = stringValue.toLowerCase() == "true";
+      }
+
+
+    });
+  }
+
+  ngOnInit() {
+  }
+
+
+
+
+  save() {
+
+    this.add.Rights = this.Selected_Rights;
+    this.add.Created_by = this.appservice.CREATED_BY;
+    this.add.Module = this.Selected_Module;
+
+    this.add.Company = this.appservice.Company;
+    this.add.items = this.Row.filter(e => e.Check == true);
+
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+    this.btndisable = true;
+    this.http.post(this.appservice.Server_URL + 'api/Setting/Post_Rights_Master', this.add, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+          this.btndisable = false;
+          if (val == "True") {
+            this.toastr.success("Submtted Successfully", 'Msg');
+            this.appservice.isEdit = false;
+          }
+          else {
+            this.toastr.error(val, "Error", { timeOut: 3000 });
+          }
+        },
+        response => {
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+        });
+
+  }
+
+
+  Module_Name = [];
+  get_Module() {
+    this.appservice.getc("Api/Setting/get_ModuleName").subscribe((res: any) => {
+      this.Module_Row = JSON.parse(res).record;
+    });
+  }
+
+  change(data) {
+    var index = this.Row.findIndex(function (item, i) {
+      return item.ID === data.ID
+    });
+
+
+
+    if (index > -1) {
+
+      var chk = this.Row[index]["Visble"];
+
+      if (chk == "0")
+        this.Row[index]["Visble"] = "1";
+      else
+
+        this.Row[index]["Visble"] = "0";
+    }
+  }
+
+}
+

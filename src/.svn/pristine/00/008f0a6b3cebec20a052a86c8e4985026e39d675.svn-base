@@ -1,0 +1,452 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+   
+    <div class="search-bar_Ext  mshow disp" style=" display: inline-flex;">
+        
+      <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+          <label class="h_txex mshow">Payment Entry</label>
+
+    </div>
+
+  <div class="card content tm_25"  >
+      <div class=" Head  mhide">
+        <div class="card-header  d-flex justify-content-between align-items-center">
+          <h3>Payment Entry</h3>
+
+          <div class="dropdown">
+
+            <a (click)="Back()" class="x">
+              <b>X</b>
+            </a>
+
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="content_body">
+
+
+
+        <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+
+
+
+          <div class="row">
+
+            <div class="col-sm-5 nopad" style="padding-left: 4px;">
+
+              <div class="form-table table-responsive">
+                <table class="table table-bordered">
+
+
+                  <tbody>
+                    <tr class="hidden">
+                      <td>ID <span class="text-danger">*</span></td>
+                      <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel" required>
+
+                        <input class="form-control" type="text" [(ngModel)]="add.Narration1" name="Narration1"
+                          #Narration1="ngModel">
+                        <input class="form-control" type="text" [(ngModel)]="add.Narration2" name="Narration2"
+                          #Narration2="ngModel">
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td style="width: 100px;">Customer<span class="text-danger">*</span></td>
+                      <td style="padding: 0px!important;">
+
+                        <table style="width: 100%;">
+                          <tr>
+                            <td class="hidden">
+
+                              <input class="form-control" style="background-color: white;" readonly type="number"
+                                required [(ngModel)]="add.Ledger_ID" name="Ledger_ID" #Ledger_ID="ngModel">
+
+                              <div *ngIf="addForm.submitted && Ledger_ID.invalid" class=" invalid-feedback d-block">
+                                <div class="error">Customer Should not entry</div>
+                              </div>
+                            </td>
+
+                            <td>
+
+                              <input class="form-control" readonly (focus)="load_p()" type="text" required
+                                [(ngModel)]="add.Ledger_Name" name="Ledger_Name" #Ledger_Name="ngModel">
+
+                              <div *ngIf="addForm.submitted && Ledger_Name.invalid" class=" invalid-feedback d-block">
+                                <div class="error">Customer Should not entry</div>
+                              </div>
+
+                              <li (click)="load_p()" class="bx bx-search sicon"></li>
+
+                            </td>
+
+
+
+                          </tr>
+                        </table>
+
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Date<span class="text-danger">*</span></td>
+                      <td>
+                        <input class="form-control" type="date" [(ngModel)]="add.Receipt_Date" name="Receipt_Date"
+                          #Receipt_Date="ngModel">
+
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td>Bill No<span class="text-danger">*</span></td>
+                      <td>
+
+
+                        <select class="select2-option form-control " required [(ngModel)]="add.Bill_No" name="Bill_No"
+                          #Bill_No="ngModel" style="width:100%" (change)="get_OS_Bill_Amount(add.Bill_No)"
+                          aria-hidden="true">
+
+                          <option *ngFor="let data of Bill_No_" value={{data.value}}>
+                            {{data.Narration}}
+                          </option>
+
+
+                        </select>
+
+                        <div *ngIf="addForm.submitted && Bill_No.invalid" class=" invalid-feedback d-block">
+                          <div class="error">Bill No Should not entry</div>
+                        </div>
+
+
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td>Bill Amount<span class="text-danger">*</span></td>
+                      <td>
+                        <input class="form-control" readonly type="number" required [(ngModel)]="add.Bill_Amount"
+                          name="Bill_Amount" #Bill_Amount="ngModel">
+                        <div *ngIf="addForm.submitted && Bill_Amount.invalid" class=" invalid-feedback d-block">
+                          <div class="error">Bill Amount Should not entry</div>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td> Amount<span class="text-danger">*</span></td>
+                      <td>
+                        <input class="form-control" type="number" required [(ngModel)]="add.Received_Amount"
+                          name="Received_Amount" #Received_Amount="ngModel">
+                        <div *ngIf="addForm.submitted && Received_Amount.invalid" class=" invalid-feedback d-block">
+                          <div class="error">Paid Amount Should not entry</div>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr class="hidden">
+                      <td> Cash Disc<span class="text-danger">*</span></td>
+                      <td>
+                        <input class="form-control" type="number" required [(ngModel)]="add.Cash_Disc" name="Cash_Disc"
+                          value="0" #Cash_Disc="ngModel">
+                        <div *ngIf="addForm.submitted && Cash_Disc.invalid" class=" invalid-feedback d-block">
+                          <div class="error">Cash Discount Should not entry</div>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td>Pay Mode</td>
+                      <td style="text-align: center;">
+
+
+                        <select class="select2-option form-control " [(ngModel)]="add.Pay_Mode" name="Pay_Mode"
+                          #Pay_Mode="ngModel" style="width:100%" aria-hidden="true">
+
+                          <option *ngFor="let data of Pay_Mode_" value={{data.value}}>
+                            {{data.label}}
+                          </option>
+
+                        </select>
+
+
+
+                        <div *ngIf="addForm.submitted && Pay_Mode.invalid" class=" invalid-feedback d-block">
+                          <div class="error">Pay Mode Should not entry</div>
+                        </div>
+
+
+
+                      </td>
+
+                    </tr>
+
+                    <tr [className]="add.Pay_Mode==appservice.Cash_ID ? 'hidden' : ''">
+
+                      <td colspan="2" style="padding: 0px;">
+                        <table style="width: 100%; padding: 0px;">
+                          <tr style="padding: 0px;">
+                            <td style="width: 100px;">Pay. Bank</td>
+                            <td>
+
+                              <select class="select2-option form-control " [(ngModel)]="add.Received_Bank"
+                                name="Received_Bank" #Received_Bank="ngModel" style="width:100%" aria-hidden="true">
+
+                                <option *ngFor="let data of Banks_" value={{data.value}}>
+                                  {{data.label}}
+                                </option>
+
+                              </select>
+
+                            </td>
+                          </tr>
+
+                          <tr [className]="add.Pay_Mode==appservice.Cheque_ID ? '' : 'hidden'">
+                            <td>Cheque No </td>
+                            <td> <input class="form-control" type="text" [(ngModel)]="add.Cheque_No" name="Cheque_No"
+                                #Cheque_No="ngModel"></td>
+                          </tr>
+
+                          <tr [className]="add.Pay_Mode==appservice.Cheque_ID ? '' : 'hidden'">
+                            <td>Cheque Date</td>
+                            <td><input class="form-control" type="text" [(ngModel)]="add.Cheque_Date" name="Cheque_Date"
+                                #Cheque_Date="ngModel"></td>
+                          </tr>
+
+                          <tr [className]="add.Pay_Mode==appservice.Card_ID ? '' : 'hidden'">
+                            <td>Card Charge</td>
+                            <td><input class="form-control" type="text" [(ngModel)]="add.Card_Charge" name="Card_Charge"
+                                #Card_Charge="ngModel"></td>
+                          </tr>
+
+
+                        </table>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>Remarks</td>
+                      <td> <input class="form-control" type="text" [(ngModel)]="add.Remarks" name="Remarks"
+                          #Remarks="ngModel"></td>
+                    </tr>
+                  </tbody>
+
+                </table>
+
+                <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+
+                  <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+
+
+                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+
+
+                    Save </button> &nbsp;&nbsp;
+                  <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>
+                  &nbsp;&nbsp;
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-7 nopad">
+                
+              <div class="col-md-12 nopad"  style="font-size: 12px; color: rgb(7, 56, 102);">
+                 <span class="mhide"> Ledger : <span style="font-size: 12px; color: rgb(50, 43, 112);">{{txt_Ledger_Name}}</span></span>
+                 <span class="mshow">&nbsp;&nbsp;Transaction Details</span>
+
+
+                <div class="dropdown" style="right: -15px;
+              top: -5px;
+              position: absolute;"><button aria-expanded="false" aria-haspopup="true" class="dropdown-toggle"
+                    style="padding-right: 20px;" data-toggle="dropdown" type="button"><i
+                      class="bx bx-dots-horizontal-rounded"></i></button>
+
+
+                  <div class="dropdown-menu" style="width: 275px;">
+                    <div style="background-color: teal; color: white; width: 100%; ">
+                      &nbsp;&nbsp;Search</div>
+                    <table>
+
+                      <tr>
+                        <td style="width: 80px;">From </td>
+                        <td>
+                          <input type="date" class="form-control form-control-sm" [(ngModel)]="appservice.S_From"
+                            name="From_" #From_="ngModel">
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td style="width: 80px;">To </td>
+                        <td>
+                          <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                            name="To_" #To_="ngModel">
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td> </td>
+                        <td><button type="button" (click)="appservice.dashboard_data()"
+                            class="btn btn-info btn-sm">Search</button>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <p-table style="font-size: 12px;" class="table table-striped custom-table mhide" [value]="Rows"
+                [columns]="cols" [paginator]="true" [rows]="10" [resizableColumns]="true" sortMode="multiple"
+                selectionMode="single">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Date</th>
+                    <th>Narration</th>
+
+                    <th style="text-align: right;">User</th>
+
+                    <th style="text-align: right;">Credit</th>
+                    <th style="text-align: right;">Debit</th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-car>
+                  <tr [pSelectableRow]="rowData">
+                    <td style="width: 130px;">{{rowData.AC_Date}}</td>
+                    <td>{{rowData.Narration1}}
+                      <br> <span class="l2_txt">{{rowData.Narration2}}</span>
+                    </td>
+                    <td style="text-align: right;">{{rowData.Created_by}}</td>
+                    <td style="text-align: right;">{{rowData.CR_Amt | number: '1.0-0'}}</td>
+                    <td style="text-align: right;">{{rowData.DB_Amt | number: '1.0-0'}}</td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                  <tr>
+                    <td colspan="3">Total</td>
+
+                    <td style="text-align: right;color:midnightblue;font-size: 14px;font-weight: 900">
+                      {{cr|currency:' ':true}}</td>
+                    <td style="text-align: right;color:midnightblue;font-size: 14px;font-weight: 900">
+                      {{db|currency:' ':true}}</td>
+
+                  </tr>
+                  <tr>
+                    <td colspan="3">Balance</td>
+
+
+
+                    <td colspan="2" style="text-align: right;color:darkred;font-size:
+                       14px;font-weight: 900">{{Total|currency:' ':true}}</td>
+
+                  </tr>
+                </ng-template>
+
+              </p-table>
+
+              <p-table style="font-size: 12px;" class="table table-striped custom-table mshow" [value]="Rows"
+                [columns]="cols">
+                <ng-template pTemplate="header">
+                  <tr class="vs">
+                    <th>Narration</th>
+                    <th style="text-align: right;"></th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-car>
+                  <tr class="vs" [pSelectableRow]="rowData">
+                    <td>
+                      <span class="l1_txt">{{rowData.Narration1}} </span>
+
+                      <br> <span class="l2_txt ">{{rowData.Date}}</span>
+                      <br> <span class="l3_txt ">{{rowData.Created_by}}</span>
+
+                    </td>
+
+
+
+                    <td style="text-align: right;">
+                      <span class="l1_txt" style="color: darkred;"
+                        *ngIf="rowData.DB_Amt>0">{{rowData.DB_Amt |currency:'INR':'symbol':'0.0-0'}} </span>
+                      <span class="l1_txt" style="color: green;"
+                        *ngIf="rowData.CR_Amt>0">{{rowData.CR_Amt |currency:'INR':'symbol':'0.0-0'}} </span>
+                    </td>
+                  </tr>
+                </ng-template>
+
+
+
+
+
+              </p-table>
+
+              <table class="mshow" style="width: 100%; padding: 10px;" *ngIf="cr>0 || db>0">
+                <tr class="vs">
+
+
+                  <td style="text-align: right;">
+                    <span class="l1_txt" style="color: darkred;">Cr.
+                      {{cr |currency:'INR':'symbol':'0.0-0'}}&nbsp;&nbsp;</span>
+                  </td>
+
+
+                  <td style="text-align: right; width: 150px;">
+
+                    <span class="l1_txt" style="color: green;">Dr.
+                      {{db |currency:'INR':'symbol':'0.0-0'}}&nbsp;&nbsp;</span>
+
+                  </td>
+                </tr>
+              </table>
+
+
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+<br>
+<br>
+    <div *ngIf="Total>0" class="col-md-12 nopad mshow">
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+          
+              
+              border: 1px solid #c8c8c8;">
+        <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;"> </td>
+            <td class="l1_txt" style="text-align: right;     color: midnightblue;"> Balance :
+              {{Total |currency:'INR':'symbol':'0.0-0'}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

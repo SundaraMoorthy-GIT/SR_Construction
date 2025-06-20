@@ -1,0 +1,148 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { ConfirmationService } from 'primeng/api';
+
+@Component({
+  selector: 'app-ledger-entry',
+  templateUrl: './ledger-entry.component.html',
+  styleUrls: ['./ledger-entry.component.scss']
+})
+export class LedgerEntryComponent implements OnInit {
+
+  add: any = {};
+  public btndisable: boolean = false;
+
+
+  Street_Row = [];
+
+  get_Street_Row() {
+    this.Street_Row = this.appservice.get_street(this.add.Area);
+  }
+
+  constructor(public confirmationService: ConfirmationService,public appservice: AppService, private toastr: ToastrService, private http: HttpClient) {
+
+
+    if (this.appservice.isEdit) {
+      this.add = appservice.Edit_Row;
+      this.add.Join_Date = appservice.datefromat(this.appservice.Edit_Row.Join_Date);
+      this.appservice.get_Ledger_Document(this.add.ID)
+
+      try {
+        this.get_Street_Row();
+      } catch{ }
+    }
+    else {
+      this.clear();
+      this.add.ID = "0";
+    }
+
+
+  }
+  onDelete(item) {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(item)
+      }
+    });
+}
+open_file(data)
+{
+
+  window.open(this.appservice.Server_URL+""+data,"_blank");
+}
+Delete(item) {
+  
+  this.appservice.get("Api/Collection_/delete_Ledger_Document?ID=" + item).subscribe((res: any) => {
+    
+    
+    this.appservice.get_Ledger_Document(this.add.ID)
+  });
+}
+  get_Document(data)
+  {
+    this.server=this.appservice.Server_URL+"Api/Master/Upload_Ledger_Document?ID="+this.add.ID+"&Company="+this.appservice.Company+"&Name="+data;
+
+  }
+  clear() {
+
+    this.appservice.get_fields_of('Ledger_Master').forEach((activity) => {
+      if (activity.Default_Value == "T_Date") {
+        this.add[activity.Field] = this.appservice.T_Date;
+      }
+      else {
+        this.add[activity.Field] = activity.Default_Value;
+      }
+    });
+  }
+    
+
+  uploadedFiles: any[] = [];
+
+  server;
+  onUpload(event) {
+      for(let file of event.files) {
+          this.uploadedFiles.push(file);
+
+      }
+
+      this.toastr.success("File Uploaded  Success", 'Msg');
+      this.appservice.get_Ledger_Document(this.add.ID)
+
+  }
+
+  Valid;
+
+  addData(f) {
+
+
+
+
+    this.Valid = true;
+    this.appservice.get_fields_of('Ledger_Master').filter(e => String(e.Validate).toLocaleLowerCase() == "true").forEach((data) => {
+
+      if (this.add[data.Field] == "") {
+        this.Valid = false;
+        return;
+      }
+
+    });
+
+    this.add.Company = this.appservice.Company;
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Created_by = this.appservice.CREATED_BY;
+    this.add.Table_Name = "Ledger_Master";
+    if (this.Valid) {
+      this.btndisable = true;
+
+      this.http.post(this.appservice.Server_URL + 'api/Master/Post_Ledger', this.add, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable = false;
+
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.isEdit = false;
+              this.appservice.get_Ledger_Master();
+              
+              this.appservice.back();
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+  }
+  ngOnInit(): void {
+  }
+
+}

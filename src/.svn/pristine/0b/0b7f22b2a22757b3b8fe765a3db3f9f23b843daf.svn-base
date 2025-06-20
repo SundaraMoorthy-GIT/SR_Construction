@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { LoanwiseOutstandingComponent } from './loanwise-outstanding.component';
+
+describe('LoanwiseOutstandingComponent', () => {
+  let component: LoanwiseOutstandingComponent;
+  let fixture: ComponentFixture<LoanwiseOutstandingComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ LoanwiseOutstandingComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoanwiseOutstandingComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

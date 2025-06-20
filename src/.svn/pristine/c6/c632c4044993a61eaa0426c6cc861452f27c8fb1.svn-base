@@ -1,0 +1,196 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+    <div class="col-md-12 nopad mobile_hide">
+
+
+      <div class="w_79" style="position: fixed;z-index: 99; ">
+        <div class="tabs-header border-bottom">
+          <ul>
+
+            <li> <a style="display: inline-flex;">Item Group</a></li>
+
+
+          </ul>
+        </div>
+
+
+        <div class="right-corner">
+
+          <div class="dropdown" style="display: inline-flex;">
+
+
+            <a class="dropdown-toggle  serch_icon   mshow" data-toggle="tooltip" data-placement="bottom" title="search">
+
+              <i style="    font-size: 20px;" class='bx bx-search'></i>
+            </a>
+
+
+
+            <a style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle "
+              (click)="appservice.get_Item_Group()" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+
+              <i class='bx bx-rotate-left'></i>
+            </a>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-md-12 nopad">
+
+
+      <div class="spin_block" *ngIf="appservice.isload">
+
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+      </div>
+        
+  
+  
+          <div class="m_2 res_table">
+  
+  
+            <div class="search-bar_Ext mhide  show_bar " style="right: 60px;">
+          
+              <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                  <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                  class="search-form-control text"
+                  placeholder="Search...">
+      
+            </div>
+            <div class="row filter-row">
+              <div class="col-sm-6 col-md-2 col-xs-6">
+              <div class="form-group ">
+              <label class="control-label"> Under Group</label>
+              <select class="select2-option form-control "  [(ngModel)]="add.Group_ID" 
+                   name="Group_ID" #Group_ID="ngModel" style="width:100%"   aria-hidden="true">
+              
+                  <option value="0">
+                  Accounts
+                   </option>
+                  <option *ngFor="let summary of appservice.Item_Group" value={{summary.ID}}>
+                      {{summary.Item_Name}}
+                  </option>
+              </select>
+              </div>
+              </div>
+          
+              <div class="col-sm-6 col-md-2 col-xs-6">
+              <div class="form-group ">
+              <label class="control-label"> Group ID</label>
+              <input class="form-control afocus"  type="text" [(ngModel)]="add.Item_Name"
+                 name="Item_Name" #Item_Name="ngModel">
+              </div>
+              </div>
+              <div class="col-sm-6 col-md-2 col-xs-6">
+                  <label class="control-label">&nbsp;</label>
+      
+                  <button (click)="addData()" [disabled]="btndisable" class="btn btn-info btn-block" style="height: 35px"> 
+                                    
+                   
+                          <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                 
+                    Save
+                  </button>
+              </div>
+             
+          </div>
+      
+            <p-table #dt  [globalFilterFields]="['Item_Name','Created_by','Created_Date','Item_Group']"  
+             class="table table-striped custom-table" [value]="appservice.Item_Group" >
+              <ng-template pTemplate="header">
+                <tr>
+  
+              
+                 
+                  <th>#</th>
+
+                  <th [pSortableColumn]="'Item_Group'" >Item Group </th>
+                  <th [pSortableColumn]="'Item_Name'" class="mhide">Item Name</th>
+                  
+                  
+                  <th [pSortableColumn]="'Created_by'" >Created by</th>
+                  <th [pSortableColumn]="'Created_Date'" class="mhide">Created Date</th>
+                 
+  
+                  <th *ngIf="appservice.img_visible" width=90></th>
+                  <th ></th>
+                </tr>
+  
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr>
+                 
+                  <td>{{rowIndex+1}}</td>
+                  <td>{{rowData.Item_Group}}
+                
+                    <td>{{rowData.Item_Name}}</td>
+                  
+     
+                  
+                  <td class="mhide">{{rowData.Created_by}}</td>
+                  
+                
+                  
+                  <td class="mhide">{{rowData.Created_Date}}</td>
+                 
+                  
+                  
+  
+                  <td *ngIf="appservice.img_visible" > <img height="50" src="{{appservice.Server_URL}}/image/C{{appservice.Company}}/I{{rowData.ID}}.png?{{appservice.Today_Date}}"> </td>
+                  <td class="text-right" style="white-space: pre">
+                    <a href="javascript:"(click)="onEdit(rowData)" style="font-size: 18px;padding: 5px" title="Edit" ><i
+                        class="bx bxs-pencil"></i>
+                    </a>
+                    <a title="Delete" style="font-size: 18px;padding: 5px;color: firebrick"
+                      (click)="onDelete(rowData.ID)"><i class="bx bxs-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+  
+  
+          </div>
+        </div>
+      
+     
+        <div class="col-md-12 nopad">
+  
+          <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+              
+              border: 1px solid #c8c8c8;">
+              
+              
+              <table style="width: 100%;"><tr>
+                <td style="color: darkslategray;">Total Rows : {{appservice.Item_Master_Rows.length}} </td>
+                <td style="text-align: right;     color: crimson;"></td>
+            </tr></table>
+  
+              
+        </div>
+     
+    </div>
+  </div>
+  
+  
+  
+  

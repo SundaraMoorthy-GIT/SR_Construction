@@ -1,0 +1,139 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-add-user',
+  templateUrl: './add-user.component.html',
+  styleUrls: ['./add-user.component.scss']
+})
+export class AddUserComponent implements OnInit {
+
+
+  ngOnInit() { }
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  public Room_Types = [];
+  public Room_Floor = [];
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient,  private router: Router, private route: ActivatedRoute) {
+    this.isadd = appservice.isadd;
+    this.add.UM_Edit = "Yes";
+    this.add.UM_Delete = "Yes";
+
+    this. get_Rights();
+    if (this.isadd == "0") {
+      this.add.UM_ID = "0";
+    }
+    else {
+      this.add = appservice.Edit_Row;
+    }
+  }
+
+  get_Area() {
+
+    this.appservice.Area_Row = this.appservice.Reference_Rows.filter(e => e.Ref_ID=="Area");
+   
+  }
+
+
+
+  get_Ph_No(ID,name)
+  {
+ 
+    try{
+    this.appservice.Selected_Customer = this.appservice.Employee_Details_Rows.filter(e => e.ID == ID)[0];
+  
+    this.add.EMP_ID = this.appservice.Selected_Customer.ID;
+    this.add.V_Person_Contact = this.appservice.Selected_Customer.Contact_No;
+    this.add.V_Department = this.appservice.Selected_Customer.Department;
+    
+    }catch{}
+  }
+
+
+  Last_Order=0;
+
+  get_order()
+  {
+    
+    try{
+    this.Last_Order=this.appservice.Ledger_Master_Rows.filter(e=>e.Area==this.add.Area).length;
+
+    this.add.Order=this.Last_Order+1;
+    this.appservice.Customer_Area=this.add.Area;
+    }catch{}
+  }
+
+
+  public Rights_Row = [];
+  get_Rights() {
+
+    this.Rights_Row = this.appservice.Reference_Rows.filter(e => e.Ref_ID=="User_Role");
+   
+  }
+
+  public btndisable:boolean=false;
+
+  addData(f) {
+    f.form.value.Company = this.appservice.Company;
+    f.form.value.EMP_ID = this.add.EMP_ID;
+    if (f.invalid === true)
+      this.addValidation = true;
+    else {
+      this.addValidation = false;
+      this.btndisable=true;
+
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+      this.http.post(this.appservice.Server_URL + 'api/Common/insert_User_Master', f.form.value, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable=false;
+
+            if (val == "True") {
+              this.toastr.success("Details Saved Success", 'Msg');
+              this.appservice.get_User_Master();
+              this.Clear();
+              if (this.isadd != "0") {
+                this._location.back();
+              }
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+  }
+  Back() {
+    this._location.back();
+  }
+  Clear() {
+    this.add =
+    {
+      'UM_ID': '',
+      'UM_Full_Name': '',
+      'UM_User_Name': '',
+      'UM_Password': '',
+      'UM_Rights': '',
+      'UM_Edit': '',
+      'UM_Delete': '',
+      'UM_Company': '',
+      'UM_Created_By': '',
+      'UM_Created_Date': '',
+      'UM_Status': '',
+    };
+  }
+}
+

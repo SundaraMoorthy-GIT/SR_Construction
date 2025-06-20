@@ -1,0 +1,229 @@
+
+    <div class="card content">
+      <div class="Head">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3>Bunk Entry</h3>
+          <div class="dropdown">
+            <a (click)="Back()" style="font-size: 20px; font-weight: 900; cursor: pointer; color: black">
+              <b>X</b>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="content_body">
+        <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+          <div class="row">
+
+            <div class="col-sm-6 nopad" >
+              <div class="form-table table-responsive">
+          <table class="table table-bordered"style="width: 100%;">
+            <tbody>
+              <tr class="hidden">
+                <td>ID <span class="text-danger">*</span></td>
+                <td>
+                  <input class="form-control" type="text" [(ngModel)]="add.be_id" name="be_id" #be_id="ngModel" required>
+                  <input class="form-control" type="text" [(ngModel)]="add.Adj_Type" name="Adj_Type" #Adj_Type="ngModel">
+                </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 8px;width: 120px;">Voucher No<span class="text-danger">*</span></td>
+                <td>
+                  <input readonly class="form-control" required type="text" [(ngModel)]="add.be_voucherno" name="be_voucherno" #be_voucherno="ngModel">
+   
+                </td>
+              </tr>
+              <tr>
+                <td >Date<span class="text-danger"></span></td>
+                <td>
+                  <input  class="form-control" required type="date" [(ngModel)]="add.be_date" name="be_date" #be_date="ngModel"
+                  (ngModelChange)="add_Category()">
+                 
+                </td>
+              </tr>
+               <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.be_branch" name="be_branch" #be_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && be_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+
+              <tr>
+                <td >Product<span class="text-danger"></span></td>
+                <td>
+                  <select class="select2-option form-control" [(ngModel)]="add.be_product" name="be_product" #be_product="ngModel" style="width:100%" aria-hidden="true"
+                  (ngModelChange)="onChange_Item(add.be_product)">
+                    <option *ngFor="let row of appservice.get_ref('Bunk Item')" value={{row.label}}>
+                      {{row.label}}
+                    </option>
+                    <!-- <option value="Petrol">Petrol</option>
+                    <option value="SpeedPetrol">SpeedPetrol</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Engine Oil">Engine Oil</option>
+                    <option value="Distilled water">Distilled water</option> -->
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td >Category<span class="text-danger"></span></td>
+                <td>
+                  <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Category_rows" [(ngModel)]="add.be_category_id" required resetFilterOnHide="true" placeholder=" " name="be_category_id" #be_category_id="ngModel" [filter]="(appservice.W_width>500)" (ngModelChange)="onChange(add.be_category_id)">
+                    <ng-template let-car pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative; height: 25px;">
+                        <div>{{car.label}}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </td>
+              </tr>
+              <tr>
+                <td >Ledger<span class="text-danger"></span></td>
+                <td>
+                  <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Ledger" [(ngModel)]="add.be_ledger_id" required resetFilterOnHide="true" placeholder=" " name="be_ledger_id" #be_ledger_id="ngModel" [filter]="(appservice.W_width>500)" (ngModelChange)="onChange2(add.be_ledger_id)">
+                    <ng-template let-car pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative; height: 25px;">
+                        <div>{{car.label}}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                  <div *ngIf="addForm.submitted && be_ledger_id.invalid" class="invalid-feedback d-block">
+                    <div class="error"> Ledger should not be empty </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-6 nopad" >
+        <div class="form-table table-responsive">
+        <table class="table table-bordered" style="width: 100%;">
+          <tbody>
+            <tr>
+              <td style="padding-left: 8px;width: 120px;">Description<span class="text-danger"></span></td>
+              <td><input class="form-control" type="text" [(ngModel)]="add.be_narration1" required
+                  name="be_narration1" #be_narration1="ngModel">
+              </td>
+            </tr>
+            <tr>
+              <td>Project <span class="text-danger"></span></td>
+              <td>
+                <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.SProject_Rows"
+                  [(ngModel)]="add.be_projectid" required resetFilterOnHide="true" placeholder=" " name="be_projectid"
+                  #be_projectid="ngModel" [filter]="(appservice.W_width>500)" (ngModelChange)="onChange(add.be_projectid)">
+            
+                  <ng-template let-car pTemplate="item">
+                    <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                      <div>{{car.label}}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </td>
+          </tr>
+            <tr>
+              <td>Liter<span class="text-danger"></span></td>
+              <td>
+                <input class="form-control" required type="number" [(ngModel)]="add.be_qty" name="be_qty" #be_qty="ngModel" (keyup)="calc_tempdata()">             
+              </td>
+            </tr>
+            <tr>
+              <td>KM<span class="text-danger"></span></td>
+              <td>
+                <input class="form-control" required type="number" [(ngModel)]="add.be_km" name="be_km" #be_km="ngModel">             
+              </td>
+            </tr>
+            <tr>
+              <td>Rate<span class="text-danger"></span></td>
+              <td><input class="form-control" type="number" [(ngModel)]="add.be_rate" required
+                  name="be_rate" #be_rate="ngModel"(keyup)="calc_tempdata()">
+              </td>
+            </tr>
+            <tr>
+              <td>Amount<span class="text-danger"></span></td>
+              <td><input class="form-control" type="number" [(ngModel)]="add.be_amount" required
+                  name="be_amount" #be_amount="ngModel">
+              </td>
+            </tr>
+            <tr>
+              <!-- <td colspan="2" class="text-right">
+                <div class="invoice-btn-box" style="padding-bottom:20px">    
+                  <button class="btn btn-info rounded-pil" type="submit" [disabled]="btndisable">
+                    <span *ngIf="btndisable" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <i *ngIf="!btndisable" class='bx bx-paper-plane'></i> Save
+                  </button>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-secondary rounded-pil" type="button" (click)="Back()">Cancel</button>
+                  &nbsp;&nbsp;
+                </div>
+              </td> -->
+              <td> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="m-t-20 text-center">
+
+        <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+            <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                role="status" aria-hidden="true"></span>
+            <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+            Save </button> &nbsp;&nbsp;
+        <button class="btn btn-secondary" type="button" (click)="Back()">Cancel</button>
+    </div>
+      </div>
+      <div class="col-md-12 nopad" style="padding-top: 25px;">
+
+        <table class="table table-bordered table-sm">
+            <tr>
+                <th>#</th>
+                <th>Voucherno</th>
+                <th>Date</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Ledger</th>
+                <th>Project</th>
+                <th>liter</th>
+                <th>KM</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <!-- <th>Due Amount</th> -->
+            </tr>
+
+            <tr *ngFor="let data of Bill_No_; let i=index">
+                <td>{{(i+1)}}</td>
+                <td>{{data.be_voucherno}}</td>
+                <td>{{data.be_date}}</td>
+                <td>{{data.be_product}}</td>
+                <td>{{data.be_category}}</td>
+                <td>{{data.be_narration1}}</td>
+                <td>{{data.be_ledger_name}}</td>
+                <td>{{data.be_projectname}}</td>
+                <td>{{data.be_qty}}</td>
+                <td>{{data.be_km}}</td>
+                <td style="text-align:right ;">{{data.be_rate}}</td>
+                <td style="text-align:right ;">{{data.be_amount}}</td>
+               <td>
+                <a title="Edit" style="font-size: 18px;padding: 5px;color: rgb(34, 116, 178)" (click)="edit_data(data)"><i class="bx bx-edit-alt m-r-5"></i>      
+                </a>         
+               </td>
+               <td>
+                <a title="Delete" style="font-size: 18px;padding: 5px;color: firebrick" (click)="delete_data(data.be_id)"><i class="bx bxs-trash m-r-5"></i>
+                </a>
+               </td>
+            </tr>
+        </table>
+
+    </div>
+    </div>
+        </form>
+      </div>

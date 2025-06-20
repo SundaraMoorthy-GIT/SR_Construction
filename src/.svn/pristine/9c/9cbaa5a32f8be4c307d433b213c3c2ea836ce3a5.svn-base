@@ -1,0 +1,245 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location, DatePipe } from '@angular/common';
+import { IMyDpOptions, IMyDateModel, IMyDate, IMyOptions } from 'mydatepicker';
+@Component({
+  selector: 'app-add-expense',
+  templateUrl: './add-expense.component.html',
+  styleUrls: ['./add-expense.component.scss']
+})
+export class AddExpenseComponent implements OnInit {
+
+
+  ngOnInit() { }
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  public Room_Types = [];
+  public Room_Floor = [];
+
+  public myDatePickerOptions: IMyDpOptions = {
+    todayBtnTxt: 'Today',
+    dateFormat: 'dd-mmm-yyyy',
+    firstDayOfWeek: 'su',
+    sunHighlight: true,
+    inline: false,
+    height: '35px'
+  };
+  
+
+  onDateChanged(data) {
+ 
+  }
+
+  private selectedDate:Object = {};
+  private selDate: IMyDate = {year: 0, month: 0, day: 0};
+
+  public Min_Date="";
+  public btndisable:boolean=false;
+  constructor(public datePipe :DatePipe,private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    this.add.Pay_Mode=appservice.DF_Paymode;
+    this.get_Banks();
+    this.get_Category();
+    this.isadd = appservice.isadd;
+    this.add.Adj_Date = appservice.T_Date;
+    this.add.Adj_Type = "Expense";
+
+
+    if (this.isadd == "0") {
+      this.add.ID = "0";
+      this.get_Receipt_no() ;
+      this.Clear();
+
+    }
+    else {
+      this.add = appservice.Edit_Row;
+     // this.add.Adj_Date = 1;
+      this.add.Adj_Date=appservice.datefromat(appservice.Edit_Row.Adj_Date_);
+
+      this.appservice.Pay_Mode=appservice.Edit_Row.Pay_Mode;
+      this.appservice.Receiving_Bank= this.appservice.Edit_Row.Received_Bank;
+      this.appservice.Cheque_No= this.appservice.Edit_Row.Cheque_No;
+      this.appservice.Cheque_Date=this.appservice.Edit_Row.Cheque_Date;
+      this.add.Card_Charge=this.appservice.Edit_Row.Card_Charge;
+      this.appservice.Remarks=this.appservice.Edit_Row.Remarks;
+     
+    }
+   
+  }
+ 
+  get_Receipt_no() {
+    this.appservice.get("Api/Transaction/get_Adjestment_No?Type=Expense").subscribe(( res: any) => {
+      this.add.Adj_No=res;
+      this.server=this.appservice.Server_URL+"Api/Master/UploadExpenceImage?Name="+this.add.Adj_No+"&Company="+this.appservice.Company;
+
+    });
+  }
+  get_image()
+  { 
+     var timeStamp = (new Date()).getTime();
+
+    return this.appservice.Server_URL+"image/C"+this.appservice.Company+"/Expence/"+this.add.Adj_No+".png?data="+timeStamp;
+  }
+  add_Category()
+  {
+    
+    this.appservice.Ref_ID="Exp_Category";
+    this.appservice.isadd="0";
+    return this.router.navigate(['master/add-reference']);
+  }
+
+
+  public Banks_=[];
+  get_Banks() {
+    this.Banks_ =this.appservice.Bank_Master_Rows;
+  }
+
+  
+  
+  public Pay_Mode_=[]
+  get_Pay_Mode() {
+    var data="Pay_Mode";
+    this.Pay_Mode_=this.appservice.Reference_Rows.filter(e => e.Ref_ID.toLowerCase().includes(data.toLocaleLowerCase()));
+
+  }
+
+
+  public Exp_Category_=[]
+  get_Category() {
+    var data="Exp_Category";
+    this.Exp_Category_=this.appservice.Reference_Rows.filter(e => e.Ref_ID.toLowerCase().includes(data.toLocaleLowerCase()));
+
+
+    
+  }
+
+
+  addData(f) {
+    f.form.value.Company = this.appservice.Company;
+    
+    f.form.value.Adj_Type = "Expense";
+
+    if(parseFloat(this.add.Amount)<=0)
+    {
+
+      this.toastr.error("Amount Should not be Zero", "Error", { timeOut: 3000 });
+      return;
+    }
+
+
+    if(this.add.Pay_Mode!=this.appservice.Cash_ID)
+    {
+
+      
+      try{
+      if(this.add.Received_Bank==null ||  this.add.Received_Bank== undefined || Number(this.add.Received_Bank)==0)
+      {
+        this.toastr.error("Please Select Bank ", "Error", { timeOut: 5000 });
+        return;
+      }
+    }catch{
+      
+      this.toastr.error("Please Select Bank ", "Error", { timeOut: 5000 });
+      return;
+    }
+    }
+    else
+    {
+      
+      f.form.value.Received_Bank="0";
+      this.add.Received_Bank="0";
+    }
+
+
+    f.form.value.Created_by = this.appservice.CREATED_BY;
+   
+    if (f.invalid === true)
+      this.addValidation = true;
+      
+    else {
+
+      this.addValidation = false;
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+      this.btndisable=true;
+      this.http.post(this.appservice.Server_URL + 'api/Transaction/insert_Adjustments', f.form.value, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+            
+      this.btndisable=false;
+            if (val == "True") {
+              
+              this.toastr.success("Details Salved Success", 'Msg');
+            //  this.appservice.get_Adjustments();
+              this.Clear();
+              this.appservice.pay_Mode_reset();
+              f.submitted=false;
+             
+              this.get_Receipt_no() ;
+
+              this.isadd = "0";
+                this.add.ID = "0";
+
+                this.appservice.get_expense();
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+ 
+  }
+
+  uploadedFiles: any[] = [];
+
+  server;
+ onUpload(event) {
+     for(let file of event.files) {
+         this.uploadedFiles.push(file);
+     }
+
+     this.toastr.success("File Uploaded  Success", 'Msg');
+     
+ }
+
+ 
+  Back() {
+    this._location.back();
+  }
+  Clear() {
+    this.add =
+      {
+        'ID': '0',
+        'Adj_Type': 'Expense',
+        'Adj_No': '',
+        'Adj_Date': this.appservice.T_Date,
+        'Category': '',
+        'Ledger_ID': '',
+        'Narration1': '',
+        'Narration2': '',
+        'Narration3': '',
+        'Amount': '0',
+        'Pay_Mode': this.appservice.Cash_ID,
+        'Received_Bank': '0',
+        'Cheque_No': '',
+        'Cheque_Date': '',
+        'Remarks': '',
+        'Created_by': '',
+        'Created_Date': '',
+        'Status': '',
+      };
+  }
+}
+
+

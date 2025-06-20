@@ -1,0 +1,34 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-overview-pending',
+  templateUrl: './overview-pending.component.html',
+  styleUrls: ['./overview-pending.component.scss']
+})
+export class OverviewPendingComponent implements OnInit {
+  rowdata :any={}
+  public Rows = [];
+  cr=0;
+  db=0;
+  Total=0;
+
+
+  constructor(public appservice: AppService) {
+    this.rowdata = appservice.Edit_Row;
+
+    this.appservice.get_Pending_Overview(appservice.Edit_Row.ID)
+    try{
+      this.Total=0;
+      this.cr= (this.Rows.reduce((sum, current) => sum +parseFloat(current.CRAMT), 0)).toFixed(2);
+      this.db= (this.Rows.reduce((sum, current) => sum +parseFloat(current.DBAmt), 0)).toFixed(2);
+      this.Total=this.db-this.cr;
+
+  }catch
+  {}
+   }
+
+  ngOnInit(): void {
+  }
+
+}

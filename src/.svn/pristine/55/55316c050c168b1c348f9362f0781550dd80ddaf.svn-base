@@ -1,0 +1,292 @@
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AppService } from '../app.service';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-view-order-details',
+  templateUrl: './view-order-details.component.html',
+  styleUrls: ['./view-order-details.component.scss']
+})
+export class ViewOrderDetailsComponent implements OnInit {
+
+ 
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute)  { 
+
+
+
+    try{
+    this.appservice.header_Row.Contact_No= this.appservice.Selected_Customer.Phone_Number;
+    this.appservice.header_Row.Ledger_ID=this.appservice.Selected_Customer.ID;
+    this.appservice.header_Row.Customer_Name=this.appservice.Selected_Customer.Ledger_Name;
+    this.appservice.header_Row.Customer_Address1=this.appservice.Selected_Customer.Address1;
+    this.appservice.header_Row.Customer_Address2=this.appservice.Selected_Customer.Address2;
+    this.appservice.header_Row.Customer_Address3=this.appservice.Selected_Customer.Address3;
+    
+    this.appservice.header_Row.Area=this.appservice.Selected_Customer.Area;
+    this.appservice.header_Row.GST_No=this.appservice.Selected_Customer.GSTIN;
+
+    this.appservice.header_Row.GST_Type=this.appservice.Selected_Customer.Tax_Type;
+    this.appservice.header_Row.Shiping_Address1=this.appservice.Selected_Customer.Shiping_Address1;
+    this.appservice.header_Row.Shiping_Address2=this.appservice.Selected_Customer.Shiping_Address2;
+    this.appservice.header_Row.Shiping_Address3=this.appservice.Selected_Customer.Shiping_Address3;
+    this.appservice.header_Row.Shiping_Address4=this.appservice.Selected_Customer.Shiping_Address4;
+    this.appservice.header_Row.Shiping_Address5=this.appservice.Selected_Customer.Shiping_Address5;
+    }catch{}
+    try{
+      this.appservice.Details_Row=[];
+    for(var i=0;i<this.appservice.Temp_Order_Row.length;i++)
+    {
+
+      this.get_by_Code(this.appservice.Temp_Order_Row[i]["ID"],this.appservice.Temp_Order_Row[i]["Order_Qty"],this.appservice.Temp_Order_Row[i]["Order_Rate"],this.appservice.Temp_Order_Row[i]["Uni_Code"],this.appservice.Temp_Order_Row[i]["Landing_Cost"],this.appservice.Temp_Order_Row[i]["L_Rate"],this.appservice.Temp_Order_Row[i]["Landing_Cost"],this.appservice.Temp_Order_Row[i]["Stock"],this.appservice.Temp_Order_Row[i]["Free"]);
+    }
+    }catch{}
+  }
+
+
+
+  btndisable:boolean=false;
+  Valid:boolean=true;
+
+  Place_Order() {
+
+    this.appservice.header_Row.Company=this.appservice.Company;
+    this.appservice.header_Row.Created_by=this.appservice.CREATED_BY;
+    this.appservice.header_Row.Order_Status='Pending';
+    this.appservice.header_Row.items=this.appservice.Details_Row;
+    this.appservice.header_Row.Type_Based_Bill_No=this.appservice.Type_Based_Bill_No;
+    
+    this.Valid=true; 
+    
+    if( this.appservice.isEdit==false)
+    {
+      this.appservice.header_Row.ID=0;
+    }
+    
+         this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+        
+          
+          if(this.Valid)
+          {
+            this.btndisable=true;
+          this.http.post(this.appservice.Server_URL + 'api/Invoice/Post_order', this.appservice.header_Row, { headers: this.headers })
+            .subscribe(
+              (val: string) => {
+                this.btndisable=false;
+                if (val == "True") {
+                  this.toastr.success("Submtted Successfully", 'Msg');
+                  this.appservice.isEdit=false;
+                  
+                  this.appservice.get_orders();
+                  this.appservice.header_Row={};
+                  this.appservice.Details_Row=[];
+                  this.appservice.Temp_Order_Row=[];
+                  this.appservice.Selected_Customer={};
+                  this.appservice.Stcok_Row=[];
+                  this.appservice.load_page1('/order-entry')
+                  
+                }
+                else {
+                  this.toastr.error(val, "Error", { timeOut: 3000 });
+                }
+              },
+              response => {
+                this.toastr.error('Error ', response, {
+                  timeOut: 3000
+                });
+              });
+            }
+      }
+
+
+  temp_data: any = {};
+
+  get_by_Code(data, Qty,Rate,Uni_Code,Landing_Cost,L_Rate,Pur_Rate,Stock,Free) {
+
+    var Sales_Temp_Row: any = {};
+      this.temp_data = this.appservice.Item_Master_Rows.filter(e => e.ID == data)[0];
+    
+
+try
+{
+    Sales_Temp_Row.Item_ID = this.temp_data.ID;
+    Sales_Temp_Row.Item_Code = this.temp_data.Item_Code;
+    Sales_Temp_Row.Item_Name = this.temp_data.Item_Name;
+
+    Sales_Temp_Row.Box_Qty = this.temp_data.Box_Qty;
+
+
+    Sales_Temp_Row.Description = this.temp_data.Description;
+    Sales_Temp_Row.UOM = this.temp_data.UOM;
+    Sales_Temp_Row.HSN_Code = this.temp_data.HSN_Code;
+    Sales_Temp_Row.MRP = this.temp_data.MRP;
+    Sales_Temp_Row.GST_Per = this.temp_data.GST_Per;
+    Sales_Temp_Row.Unit_Price = Rate;
+
+
+    Sales_Temp_Row.L_Rate = L_Rate;
+    Sales_Temp_Row.Purchase_Rate = Pur_Rate;
+    Sales_Temp_Row.Stock = Stock;
+
+    Sales_Temp_Row.Bag_Qty = 1;
+    Sales_Temp_Row.Pcs = Qty;
+    Sales_Temp_Row.Qty = Qty;
+
+    Sales_Temp_Row.Uni_Code = Uni_Code;
+
+    Sales_Temp_Row.Disc_Per = "0";
+    Sales_Temp_Row.Disc_Amt = "0";
+    Sales_Temp_Row.Free = Free;
+    Sales_Temp_Row.User_ =this.appservice.CREATED_BY;;
+
+     
+      Sales_Temp_Row.Landing_Cost=Landing_Cost;
+
+
+      
+
+    var GST_Type = "local";
+    try {
+      GST_Type = this.appservice.header_Row.GST_Type;
+    }
+    catch {
+      GST_Type = "local"
+    }
+
+
+    if (String(GST_Type).toLowerCase() == "intra") {
+
+      Sales_Temp_Row.SGST_Per = "0.00";
+      Sales_Temp_Row.CGST_Per = "0.00";
+      Sales_Temp_Row.IGST_Per = Sales_Temp_Row.GST_Per;
+     
+    }
+    else {
+      Sales_Temp_Row.SGST_Per = (Number(Sales_Temp_Row.GST_Per) / 2).toFixed(2);
+      Sales_Temp_Row.CGST_Per = (Number(Sales_Temp_Row.GST_Per) / 2).toFixed(2);
+      Sales_Temp_Row.IGST_Per = "0.00";
+      
+    }
+
+    Sales_Temp_Row.Qty = (Number(Sales_Temp_Row.Pcs) * Number(Sales_Temp_Row.Bag_Qty));
+
+    var Disc_Type = "percentage";
+    try {
+      Disc_Type = this.appservice.header_Row.Disc_Type;
+    }
+    catch {
+      Disc_Type = "percentage"
+    }
+   
+    if (String(Disc_Type).toLowerCase() == "amount") {
+      Sales_Temp_Row.Disc_Per=(( Number(Sales_Temp_Row.Disc_Amt)/Number(Sales_Temp_Row.Unit_Price))/100).toFixed(2);
+      
+    }
+    else
+    {
+      Sales_Temp_Row.Disc_Amt=(((Number(Sales_Temp_Row.Unit_Price)/100)* Number(Sales_Temp_Row.Disc_Per))).toFixed(2);
+    }
+
+
+    Sales_Temp_Row.Total_Disc_Amt=(Number(Sales_Temp_Row.Disc_Amt)*Number(Sales_Temp_Row.Qty)).toFixed(2);
+    
+    Sales_Temp_Row.Final_Price = (Number(Sales_Temp_Row.Unit_Price) - Number(Sales_Temp_Row.Disc_Amt)).toFixed(2);
+
+    var Tax_Type = this.appservice.Tax_Type;
+    /*try {
+      Tax_Type = this.appservice.header_Row.Tax_Type;
+    }
+    catch {
+      Tax_Type = "exclusive"
+    }*/
+
+
+    
+    if (String(Tax_Type).toLowerCase() == "inclusive") {
+
+      Sales_Temp_Row.Final_Price = (
+        (
+          ((Number(Sales_Temp_Row.Unit_Price) - Number(Sales_Temp_Row.Disc_Amt))
+            /
+            (100 + Number(Sales_Temp_Row.GST_Per))
+          )
+          * 100
+        )).toFixed(2);
+
+
+    }
+    Sales_Temp_Row.Sub_total = (Number(Sales_Temp_Row.Final_Price) * Number(Sales_Temp_Row.Qty));
+    Sales_Temp_Row.GST_Amt = ((Number(Sales_Temp_Row.Sub_total) / 100) * Number(Sales_Temp_Row.GST_Per));
+    Sales_Temp_Row.IGST_Amt = ((Number(Sales_Temp_Row.Sub_total) / 100) * Number(Sales_Temp_Row.IGST_Per)).toFixed(2);
+    Sales_Temp_Row.CGST_Amt = ((Number(Sales_Temp_Row.Sub_total) / 100) * Number(Sales_Temp_Row.CGST_Per)).toFixed(2);
+    Sales_Temp_Row.SGST_Amt = ((Number(Sales_Temp_Row.Sub_total) / 100) * Number(Sales_Temp_Row.SGST_Per)).toFixed(2);
+    Sales_Temp_Row.Net_Amt = (Number(Sales_Temp_Row.Sub_total) + Number(Sales_Temp_Row.GST_Amt));
+
+    Sales_Temp_Row.MRP_Disc_Per = ((((Number(Sales_Temp_Row.MRP)*Number(Sales_Temp_Row.Box_Qty))/Number(Sales_Temp_Row.Unit_Price))*100)-100).toFixed(2);
+
+
+    this.appservice.Details_Row.push( Sales_Temp_Row);
+    Sales_Temp_Row={};
+
+    this.Calc_Sum()
+
+    }catch{}
+  
+  }
+
+
+
+  Calc_Sum()
+  {
+ 
+    var len=0;
+    len=this.appservice.Details_Row.length;
+
+  this.appservice.header_Row.Sub_Total= (this.appservice.Details_Row.reduce((sum, current) => sum + (parseFloat(current.Qty)*parseFloat(current.Unit_Price)), 0)).toFixed(2);
+  this.appservice.header_Row.Disc_Per=((this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.Disc_Per), 0))/len).toFixed(2);
+  this.appservice.header_Row.Disc_Amt=(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.Disc_Amt), 0)).toFixed(2);
+  this.appservice.header_Row.Taxable_Amount=(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.Sub_total), 0)).toFixed(2);
+  this.appservice.header_Row.Tax_Per=((this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.GST_Per), 0))/len).toFixed(2);
+  this.appservice.header_Row.Tax_Amt=(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.GST_Amt), 0)).toFixed(2);
+  this.appservice.header_Row.IGST_Per=((this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.IGST_Per), 0))/len).toFixed(2);
+  this.appservice.header_Row.SGST_Per=((this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.SGST_Per), 0))/len).toFixed(2);
+  this.appservice.header_Row.CGST_Per=((this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.CGST_Per), 0))/len).toFixed(2);
+
+  this.appservice.header_Row.IGST_Amt=(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.IGST_Amt), 0)).toFixed(2);
+  this.appservice.header_Row.SGST_Amt=(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.SGST_Amt), 0)).toFixed(2);
+  this.appservice.header_Row.CGST_Amt=(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.CGST_Amt), 0)).toFixed(2);
+  this.appservice.header_Row.Net_Amt=Math.round(Number(this.appservice.Details_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0))).toFixed(2);
+
+  }
+
+
+
+
+
+
+   addReset()
+   {
+      this.appservice.back();
+   }
+
+   s_item:any={}
+   public rows = [];
+   public add: any = {};
+   public addValidation: boolean = false;
+   headers;
+   data;
+   isadd = "0";
+
+   Invoice_Convert()
+   {
+     this.router.navigate(["/sales-entry"]);
+   } 
+ 
+   ngOnInit(): void {
+    this.appservice.Item_Master_Rows=this.appservice.Perment_Item_Master_Row;
+   }
+ 
+ }
+ 

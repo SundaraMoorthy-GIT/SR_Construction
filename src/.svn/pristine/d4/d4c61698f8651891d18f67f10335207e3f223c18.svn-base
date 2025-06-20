@@ -1,0 +1,359 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { IMyDpOptions } from 'mydatepicker';
+
+@Component({
+  selector: 'app-add-receipt-details',
+  templateUrl: './add-receipt-details.component.html',
+  styleUrls: ['./add-receipt-details.component.scss']
+})
+export class AddReceiptDetailsComponent implements OnInit {
+
+  ngOnInit() {
+      
+  }
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  txt_Ledger_Name="";
+
+  Pending_disp ="true";
+
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient,  private router: Router, private route: ActivatedRoute) {
+
+    this.add.Pay_Mode=appservice.Cash_ID;
+    this.isadd = appservice.isadd;
+    this.add.Late_Fee=0;
+    this.get_Pay_Mode();
+    this.get_Banks();
+    this.add.Receipt_Date = appservice.Pay_Date;
+    this.add.ID = "0";
+    this.add.Cash_Disc=0;
+    if(this.appservice.selected_Out_customer)
+    {
+      
+    this.add.Ledger_ID=this.appservice.selected_Out_customer.Customer_ID; 
+    this.add.Ledger_Name=this.appservice.selected_Out_customer.Customer_Name; 
+    this.txt_Ledger_Name=this.appservice.selected_Out_customer.Customer_Name; 
+    this.get_Bill_No(this.add.Ledger_ID);
+    this.get_Amount_OS(this.add.Ledger_ID);
+    this.appservice.selected_Out_customer={};
+    }
+  }
+
+  load_p()
+  {
+    this.appservice.page_Name='Payment_Entry'
+    this.router.navigate(['report/Outstanding-customer']);
+  }
+
+  get_Customer_Name(data)
+  {
+   this.add.Ledger_ID=data;
+   this.get_Amount_OS(this.add.Ledger_ID);
+  }
+
+  Pending_Data=[];
+
+  get_Bill_No(data)
+  {
+    this.appservice.get("Api/Collection_/get_os_bills?ID="+data).subscribe(( res: any) => {
+    this.Bill_No_ = JSON.parse(res).record; 
+    this.Pending_Data=JSON.parse(res).record;
+
+    if(this.Pending_Data)
+    {
+   // this.add.Bill_Amount=this.Bill_No_[0].Bill_Amount;
+    //this.add.Bill_Date_=this.Bill_No_[0].Bill_Date_
+    //this.add.Due_Date_=this.Bill_No_[0].Due_Date_
+    this.add.Bill_Type=this.Bill_No_[0].Bill_Type;
+    this.add.Bill_No=this.Bill_No_[0].BillNo;
+    this.add.Nar=this.Bill_No_[0].Narration;
+
+    
+    
+    this.get_OS_Bill_Amount(this.Bill_No_[0].BillNo)
+    }
+    
+
+    });
+  }
+
+  cal_Bill_Amt()
+  {
+    try{
+    this.add.Bill_Amount=Math.round(parseFloat(this.add.Over_due)+parseFloat(this.add.Principal_Amt)+parseFloat(this.add.Intrest_Amt)).toFixed(2);
+    }catch{}
+  }
+
+  get_OS_Bill_Amount(Bill_No)
+  {
+    var Data_=[];
+    this.appservice.get("Api/Collection_/get_Pending_Loand?loan_No="+Bill_No).subscribe(( res: any) => {
+      Data_ = JSON.parse(res).record; 
+      this.add.Over_due=Data_[0]["Over_Due"];
+      this.add.Principal_Amt=Data_[0]["Principal_Amt"];
+      this.add.Intrest_Amt=Data_[0]["Intrest_Amt"];
+      this.add.Due_Date=this.appservice.datefromat(Data_[0]["Due_Date"]);
+      this.add.Bill_Date=this.appservice.datefromat(Data_[0]["Billdate"]);
+      
+      this.cal_Bill_Amt();
+    });
+
+    if(this.Pending_Data)
+    {
+   // this.add.Bill_Date_=this.Pending_Data.filter(e=>e.label==Bill_No)[0]["Bill_Date"];
+    this.add.Due_Date_=this.Pending_Data.filter(e=>e.label==Bill_No)[0]["Due_Date"];
+    this.add.Bill_Type=this.Pending_Data.filter(e=>e.label==Bill_No)[0]["Bill_Type"];
+    this.add.Bill_No=this.Pending_Data.filter(e=>e.label==Bill_No)[0]["BillNo"];
+    this.add.Nar=this.Pending_Data.filter(e=>e.label==Bill_No)[0]["Narration"];
+
+    }
+  }
+
+  Bill_No_=[];
+  Rows=[];
+  cols=[];
+  
+  get_Amount_OS(data) {
+  
+    this.add.Bill_Amount="0";
+    this.appservice.get("Api/Collection_/get_Amount_OS?ID="+data).subscribe(( res: any) => {
+    this.Rows = JSON.parse(res).record; 
+    this.get_Bill_No(data);
+    this.cols = [
+        { field: 'Date', header: 'Date', width: '' },
+        { field: 'Narration1', header: 'Narration', width: '' },
+        { field: 'Created_by', header: 'User', width: '' },
+        { field: 'billno', header: 'billno', width: '' },
+        { field: 'CR_Amt', header: 'Credit', width: 'right' },
+        { field: 'DB_Amt', header: 'Debit', width: 'right' }
+      ];
+      try{
+        this.Total=0;
+        this.cr= (this.Rows.reduce((sum, current) => sum +parseFloat(current.CR_Amt), 0)).toFixed(2);
+        this.db= (this.Rows.reduce((sum, current) => sum +parseFloat(current.DB_Amt), 0)).toFixed(2);
+        this.Total=this.db-this.cr;
+        this.add.Received_Amount=this.Total;
+
+    }catch
+    {}
+
+    });
+  }
+    cr=0;
+    db=0;
+    Total=0;
+
+
+  get_Receipt_no() {
+    this.appservice.getc("Api/Collection_/get_Receipt_No1").subscribe(( res: any) => {
+      this.add.Receipt_No=res;
+    });
+  }
+ 
+
+  public Banks_=[];
+  get_Banks() {
+    this.Banks_ =this.appservice.Bank_Master_Rows;
+  
+  }
+
+  public Customers_=[];
+  get_Customer() {
+    this.get_Ledger_Master();
+  }
+
+  public Ledger_Master_Rows=[]; 
+  get_Ledger_Master() { 
+          this.appservice.getc("Api/Collection_/get_Out_Standing_Customer").subscribe((res: any) => { 
+          this.Customers_ = JSON.parse(res).record; 
+
+          try{
+         this. add.Ledger_ID=this.appservice.Selected_Customer.ID;
+         this.get_Amount_OS(this.add.Ledger_ID)
+          }catch{}
+  }); 
+} 
+
+
+
+  
+  public Pay_Mode_=[]
+  get_Pay_Mode() {
+    var data="Pay_Mode";
+    this.Pay_Mode_=this.appservice.Reference_Rows.filter(e => e.Ref_ID.toLowerCase().includes(data.toLocaleLowerCase()));
+
+  }
+
+
+  back()
+  {
+    this._location.back();
+    
+  }
+
+  public btndisable:boolean =false;
+  addData(f) {
+
+
+    if(this.add.Bill_No=="")
+    {
+      this.toastr.error("Bill No Should not empty", "Error", { timeOut: 3000 });
+      return;
+    }
+    
+    if(this.add.Bill_Amount=="")
+    {
+      this.toastr.error("Bill Amount Should not empty", "Error", { timeOut: 3000 });
+      return;
+    }
+    
+    if(this.add.Received_Amount=="")
+    {
+      this.toastr.error("Bill No Should not empty", "Error", { timeOut: 3000 });
+      return;
+    }
+
+    if(this.appservice.RC_Bill_Amt_Check)
+    {
+       if(parseFloat(this.add.Received_Amount)>parseFloat(this.add.Bill_Amount)+parseFloat(this.add.Over_due))
+      {
+        this.toastr.error("Received Amount is more than Bill Amount", "Error", { timeOut: 3000 });
+        return;
+      }
+    }
+    
+    f.form.value.Company = this.appservice.Company;
+    f.form.value.Receipt_Date=this.add.Receipt_Date;
+    f.form.value.Room_No=this.add.Room_No;
+    f.form.value.Created_by=this.appservice.CREATED_BY;
+
+
+    f.form.value.Bill_Date=this.add.Bill_Date;
+    f.form.value.Due_Date_=this.add.Due_Date_;
+    f.form.value.Bill_Type=this.add.Bill_Type;
+    f.form.value.Nar=this.add.Nar;
+
+    var x=0;
+    x=parseFloat(this.add.Received_Amount);
+    if(parseFloat(this.add.Over_due)>0 &&  x>=parseFloat(this.add.Over_due))
+    {
+    f.form.value.R_Over_Due=this.add.Over_due;
+    x=x-parseFloat(this.add.Over_due);
+    }
+
+     
+    if( x>=parseFloat(this.add.Intrest_Amt))
+     {
+       f.form.value.R_Intrest_Amt=this.add.Intrest_Amt;
+       x=x-parseFloat(this.add.Intrest_Amt);
+     }
+     else
+     {
+      f.form.value.R_Intrest_Amt=x;
+      x=0;
+
+     }
+
+  
+     f.form.value.R_Principal_Amt=x;
+
+
+    
+   
+    if(this.add.Pay_Mode!=this.appservice.Cash_ID)
+    {
+
+      
+      try{
+      if(this.add.Received_Bank==null ||  this.add.Received_Bank== undefined || Number(this.add.Received_Bank)==0)
+      {
+        this.toastr.error("Please Select Bank ", "Error", { timeOut: 5000 });
+        return;
+      }
+    }catch{
+      
+      this.toastr.error("Please Select Bank ", "Error", { timeOut: 5000 });
+      return;
+    }
+    }
+    else
+    {
+      
+      f.form.value.Received_Bank="0";
+      this.add.Received_Bank="0";
+    }
+
+    if (f.invalid === true)
+      this.addValidation = true;
+    else {
+      this.addValidation = false;
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+      this.btndisable=true;
+      this.http.post(this.appservice.Server_URL + 'api/Collection_/insert_Amount_Collection', f.form.value, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable=false;
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.get_Recipts();
+              this.appservice.get_OutStanding();
+              this.get_Amount_OS(this.add.Ledger_ID);
+              //this.Clear();
+              this.add.Received_Amount="";
+              this.appservice.Pay_Date=this.add.Receipt_Date;
+              f.submitted=false;
+            //  this.appservice.back();
+              this.isadd == "0";
+                this.add.ID = "0";
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+  }
+  Back() {
+    this._location.back();
+  }
+  Clear() {
+    this.add =
+      {
+        'ID': '',
+        'CIN_ID': '',
+        'Receipt_No': '',
+        'Voucher_No': '',
+        'Receipt_Date': this.appservice.T_Date,
+        'Ledger_ID': '',
+        'Received_Amount': '0',
+        'Card_Charge': '0',
+        'Late_Fee': '0',
+        'Narration1': '',
+        'Narration2': '',
+        'Cash_Disc':'0',
+        'Pay_Mode': this.appservice.DF_Paymode,
+        'Received_Bank': '',
+        'Cheque_No': '',
+        'Cheque_Date': '',
+        'Remarks': '',
+        'Created_by': '',
+        'Created_Date': '',
+        'Status': '',
+      };
+  }
+} 
+

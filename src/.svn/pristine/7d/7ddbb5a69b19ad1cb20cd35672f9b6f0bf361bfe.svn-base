@@ -1,0 +1,10 @@
+$font-family: 'Nunito', sans-serif;
+$main-color: #045a28!important;
+$back-color:#f9ecef;
+$black-color: #2a2a2a;
+
+.simplebar-content-wrapper {
+    direction: inherit;
+    box-sizing: border-box!important;
+    background: currentColor!important;
+}

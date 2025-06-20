@@ -1,0 +1,147 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+
+
+
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Add Transport Rate</h3>
+
+                    <div class="dropdown">
+
+                        <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+
+
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+
+
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+
+
+                                    <tbody>
+
+                                        <tr class="hidden">
+                                            <td>Type<span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_type"
+                                                    name="trm_type" #trm_type="ngModel" value="Tipper">
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>From<span class="text-danger">*</span></td>
+                                            <td>
+                                                <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Area_From_Row" 
+                                                [(ngModel)]="add.trm_fid"required   resetFilterOnHide="true" placeholder=" " name="trm_fid" #trm_fid="ngModel" [filter]="(appservice.W_width>500)"
+                                                (ngModelChange)="onChange3(add.trm_fid)">
+                                              
+                                               <ng-template let-car pTemplate="item">
+                                                 <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                                   <div>{{car.label}}</div>
+                                                 </div>
+                                               </ng-template>
+                                              </p-dropdown>
+                                              </td>
+                                            <!-- <td><input class="select2-option form-control " [(ngModel)]="add.trm_from"
+                                                    name="trm_from" #trm_from="ngModel" style="width:100%"
+                                                    aria-hidden="true">
+                                            </td> -->
+                                        </tr>
+                                        <tr>
+                                            <td>To<span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_to"
+                                                    required name="trm_to" #trm_to="ngModel">
+                                                
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>KM One Way<span class="text-danger"></span></td>
+                                            <td> <input class="form-control" type="text" [(ngModel)]="add.trm_km1way"
+                                                    required name="trm_km1way" #trm_km1way="ngModel">
+                                                
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>7 U<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_7U"
+                                                    name="trm_7U" #trm_7U="ngModel" required>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>5.7 U<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_57U"
+                                                    name="trm_57U" #trm_57U="ngModel" required>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5 U<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_5U"
+                                                    name="trm_5U" #trm_5U="ngModel" required>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4 U<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_4U"
+                                                    name="trm_4U" #trm_4U="ngModel" required>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3 U<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_3U"
+                                                    name="trm_3U" #trm_3U="ngModel" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2 U<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.trm_2U"
+                                                    name="trm_2U" #trm_2U="ngModel" required>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                                <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+
+                                    <button class="btn btn-info rounded-pil" type="submit"> <i
+                                            class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                                    <button class="btn btn-secondary rounded-pil " type="button"
+                                        (click)="Back()">Cancel</button> &nbsp;&nbsp;
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

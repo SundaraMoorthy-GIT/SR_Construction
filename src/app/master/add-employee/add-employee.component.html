@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content c_pad_5">
+            <div class=" Head  mhide">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Employee Master</h3>
+  
+                    <div class="dropdown">
+  
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+  
+  
+                    </div>
+                </div>
+  
+            </div>
+  
+            <div class="content_body">
+  
+  
+  
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+  
+                    <div class="row">
+                        <div class="col-sm-6">
+  
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.cus_id" name="cus_id"
+                                                    #cus_id="ngModel" ></td>
+                                        </tr>                                      
+                                      <tr >
+                                        <td>Code  <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_code"required name="cus_code"
+                                            #cus_code="ngModel" >
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>Employee Name<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_name"required name="cus_name"
+                                                #cus_name="ngModel" >
+                                                <div *ngIf="addForm.submitted && cus_name.invalid" class="invalid-feedback  d-block">
+                                                    <div class="error"> Employee Name  Should not entry</div>
+                                                </div>
+                                            </td>
+                                    </tr>
+                                        <tr>
+                                            <td>Address<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.cus_address1"required name="cus_address1"
+                                                    #cus_address1="ngModel" >
+                                                </td>
+                                        </tr>
+                                        
+                                    <tr >
+                                        <td>Contact Number <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_contact_number"required name="cus_contact_number"
+                                            #cus_contact_number="ngModel" >
+                                        </td>
+                                    </tr>
+                                      
+                                    <tr >
+                                        <td>Email <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_email_id"required name="cus_email_id"
+                                            #cus_email_id="ngModel" >
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+  
+                          <div class="form-table table-responsive">
+                              <table class="table table-bordered">
+                                  <tbody>
+                                    <tr >
+                                        <td>Designation <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_designation"required name="cus_designation"
+                                            #cus_designation="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Department <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_department"required name="cus_department"
+                                            #cus_department="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Salary<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="number" value="0" [(ngModel)]="add.cus_Salary"required name="cus_Salary"
+                                                #cus_Salary="ngModel" >
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Commission<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="number" value="0" [(ngModel)]="add.cus_commission"required name="cus_commission"
+                                                #cus_commission="ngModel" >
+                                            </td>
+                                    </tr>
+                                    <tr  class="hidden">
+                                        <td>Company<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.Company"required name="Company"
+                                                #Company="ngModel" >
+                                            </td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          
+                      </div>
+                      <br><br>
+                          <div class="col-sm-6">
+                         
+                              <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+  
+                                  <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+  
+  
+                                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                          role="status" aria-hidden="true"></span>
+                                      <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                      Save </button> &nbsp;&nbsp;
+                                  <button class="btn btn-secondary rounded-pil " type="button"
+                                      (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                              </div>
+  
+                              </div>
+                    </div>
+                   
+                </form>
+              
+            </div>
+        </div>
+    </div>

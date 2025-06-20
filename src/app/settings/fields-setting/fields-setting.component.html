@@ -1,0 +1,114 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Field Setting</h3>
+                    <a  class="x">
+                        <b>X</b>
+                    </a>
+                </div>
+            </div>
+
+            <div class="content_body">
+
+                <div class="col-md-12 nopad" style="display: inline-flex; padding-bottom: 10px;">
+
+                   <label style="padding-top: 10px;">Table Name : &nbsp;</label>  
+
+                    <select class="select2-option form-control" style="max-width: 250px;"  [(ngModel)]="Table_Name" name="Table_Name1" #Table_Name1="ngModel" >
+                        
+                        <option *ngFor="let data of appservice.Field_Setting_Table_Row" value={{data.TAB_Name}}>
+                            {{data.Display_Name}}
+                        </option>
+                    
+                       
+                                     
+                        </select>
+
+                        <button  (click)="display()" style="margin-left: 10px;height: 40px;" class="btn btn-success  rounded-pill"> Show </button>
+
+                        <button (click)="save()" class="btn btn-info  rounded-pill" style="margin: 10px;height: 40px;" 
+                        [disabled]="btndisable" > 
+                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+                        <i   *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save
+                </button>
+
+                </div>
+
+                <div class="col-md-12 nopad">
+
+                    <div class="spin_block" *ngIf="appservice.isload">
+`
+                        <div c  lass="d-flex justify-content-center">
+                          <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </div>
+              
+                      </div>
+
+
+                    <div class="entry_table  " style="overflow-x: scroll;" >
+
+                        <div class="header">
+                            <div style="width:40px">#</div>
+                            <div *ngFor="let data of rs" [style.width]="data.width" > {{data.Name}}</div>
+
+                        </div>
+
+                        <div class="body " *ngFor="let rowData of Details_Row;index as i">
+                            <div class="row_hover" style="width:40px">{{i+1}}</div>
+                            <div  *ngFor="let data of rs" class="in cell row_hover" [style.width]="data.width">
+
+                                <select *ngIf="data.Field=='Type'" class="select2-option form-control" 
+                                [(ngModel)]="rowData[data.Field]" [style.text-align]="data.Align"
+                                class="in tbtext" style="width: 100%;"
+                                value="{{rowData[data.Field]}}"
+                                >
+                                    <option value="Text"> Text </option>
+                                    <option value="Checkbox"> Checkbox </option>
+                                    <option value="Number"> Number </option>
+                                    <option value="Select"> Select </option>
+                                    <option value="Date"> Date </option>
+                                    <option value="datetime-local"> DateTime </option>
+
+                                    <option value="TextArea"> TextArea </option>
+                                    <option value="Label"> Label </option>
+                                    </select>
+
+
+                                <select *ngIf="data.Field=='Align'" class="select2-option form-control" 
+                                [(ngModel)]="rowData[data.Field]" [style.text-align]="data.Align"
+                                class="in tbtext" style="width: 100%;"
+                                value="{{rowData[data.Field]}}"
+                                >
+                                    <option value="Left"> Left </option>
+                                    <option value="Right"> Right </option>
+                                    <option value="Center"> Center </option>
+                                    </select>
+
+                                    
+                                <input *ngIf="data.Field=='Visible' || data.Field=='IsEdit' || data.Field=='GVisible' ||data.Field=='Validate' "  [(ngModel)]="rowData[data.Field]" [style.text-align]="data.align"
+                                type="checkbox" class="in tbtext" style="width: 100%;">
+                              
+                                <input *ngIf="!(data.Field=='Align' || data.Field=='Type' || data.Field=='GVisible' ||data.Field=='Validate'|| data.Field=='IsEdit'  || data.Field=='Visible')"  [(ngModel)]="rowData[data.Field]" [style.text-align]="data.Align"
+                                    type="{{data.Type}}" class="in tbtext" style="width: 100%;"
+                                    value="{{rowData[data.Field]}}">
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

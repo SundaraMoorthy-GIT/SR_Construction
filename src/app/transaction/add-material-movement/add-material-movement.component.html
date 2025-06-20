@@ -1,0 +1,339 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="search-bar_Ext  mshow disp" style=" display: inline-flex;">
+        
+            <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+      
+                <label class="h_txex mshow">Material Movement Entry</label>
+          </div>
+        <div class="card content c_pad_5">
+
+            <div class=" Head mhide">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Material Movement Entry</h3>
+
+                    <div class="dropdown">
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+                    <div class="row">
+                        <div class="col-md-5 nopad">
+
+                            <table style="width: 100%;">
+                    
+                                <tr *ngFor="let data of appservice.get_pos_field('Material_Movement','1TL')">
+                                    <td style="padding-left: 8px;width: 120px;">{{data.Name}} <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+                    
+                                    <td>
+                                        <select *ngIf="data.Type=='Select'" class="select2-option form-control" aria-hidden="true" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                       <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                           {{row[data.Store_Value]}}
+                                                       </option>
+                                                     </select>
+                    
+                    
+                                        <input *ngIf="(data.Field=='mm_projectname' || data.Field=='Customer_Name' )" class="form-control" (focus)="get_customers()" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                                            name="{{data.Field}}" #{{data.Field}}="ngModel">
+                    
+                                        <textarea *ngIf="(data.Type=='TextArea')" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel" rows="2"></textarea>
+                    
+                                        <input *ngIf="!(data.Type=='Select'|| data.Type=='TextArea' || data.Field=='mm_projectname' || data.Field=='Customer_Name')" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                                            name="{{data.Field}}" #{{data.Field}}="ngModel">
+                    
+                                        <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")' class="invalid-feedback d-block">
+                                            <div class="error"> {{data.Name}} Should not entry</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td>Go-Down <span class="text-danger"></span></td>
+                                    <td><select class="select2-option form-control "  [(ngModel)]="appservice.header_Row.mm_go_down" name="mm_go_down" 
+                                        #mm_go_down="ngModel" style="width:100%" (ngModelChange)="onChange(appservice.header_Row.mm_go_down)"  aria-hidden="true">
+                                        <option  value="0"> </option>
+                                        <option *ngFor="let summary of Godown_Rows" value={{summary.value}}>
+                                            {{summary.label}}
+                                        </option>
+                                    </select></td>
+                                </tr>
+                          <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="appservice.header_Row.mm_branch" name="mm_branch" #mm_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && mm_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+                            </table>
+                    
+                        </div>
+                        <!-- <div class="col-sm-6">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="appservice.header_Row.mm_id" name="mm_id"
+                                                    #mm_id="ngModel" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Project Name <span class="text-danger">*</span></td>
+                                        <td>
+  
+                                            <input class="form-control" (focus)="get_customers()"  readonly type="text"required [(ngModel)]="appservice.header_Row.mm_projectname" name="mm_projectname"
+                                            #mm_projectname="ngModel">
+                                            <li  (click)="get_customers()"   class="bx bx-search sicon"></li>
+                                          <div *ngIf="addForm.submitted && mm_projectname.invalid" class=" invalid-feedback d-block">
+                                            <div class="error">Project Should not entry</div>
+                                          </div>
+                                          </td>
+                                        </tr>
+                                        <tr >
+                                            <td>Go-Down <span class="text-danger"></span></td>
+                                            <td><select class="select2-option form-control "  [(ngModel)]="appservice.header_Row.mm_godown" name="mm_godown" 
+                                                #mm_godown="ngModel" style="width:100%" (ngModelChange)="onChange(appservice.header_Row.mm_godown)"  aria-hidden="true">
+                                                <option  value="0"> </option>
+                                                <option *ngFor="let summary of appservice.GoDown" value={{summary.value}}>
+                                                    {{summary.label}}
+                                                </option>
+                                            </select></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> -->
+                        <div class="col-sm-6">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>Purchase No <span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="appservice.header_Row.mm_no" name="mm_no"
+                                                    #mm_no="ngModel" disabled="true"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date <span class="text-danger"></span></td>
+                                            <td><input class="form-control"  type="date"
+                                                [(ngModel)]="appservice.header_Row.mm_date" name="mm_date"
+                                                #mm_date="ngModel"></td>
+                                        </tr>
+                                        <tr >
+                                            <td>Transport <span class="text-danger"></span></td>
+                                            <td>
+                                                <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.Transport_Rows" 
+                            [(ngModel)]="appservice.header_Row.mm_transid"required   resetFilterOnHide="true" placeholder=" " name="mm_transid" #mm_transid="ngModel" [filter]="(appservice.W_width>500)"
+                            (ngModelChange)="onChange1(appservice.header_Row.mm_transid)">
+                 
+                           <ng-template let-car pTemplate="item">
+                             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                               <div>{{car.label}}</div>
+                             </div>
+                           </ng-template>
+                         </p-dropdown>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                            <td>To<span class="text-danger"></span></td>
+                                            <td>
+                                              <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="To_Area_Rows" 
+                                              [(ngModel)]="appservice.header_Row.pur_toid"required   resetFilterOnHide="true" placeholder=" " name="pur_toid" #pur_toid="ngModel" [filter]="(appservice.W_width>500)"
+                                              (ngModelChange)="onChange3(appservice.header_Row.pur_toid)">
+                                   
+                                             <ng-template let-car pTemplate="item">
+                                               <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                                 <div>{{car.label}}</div>
+                                               </div>
+                                             </ng-template>
+                                           </p-dropdown>
+                                            </td>
+                                          </tr> 
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 nopad" >
+                    
+                    
+                                <div class="spin_block" *ngIf="new_load">
+                                        <div class="d-flex justify-content-center">
+                                          <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                    
+                               
+                                <div class="entry_table1">
+                    
+                                        <div class="header">
+                                                <div style="width:30px">#</div>
+                                                <div *ngFor="let data of rs" [style.width]="data.Width">{{data.Name}}</div>
+                                                <div style="width: 40px;"></div>
+                                        </div>
+                    
+                                        <div class="body" *ngFor="let rowData of appservice.Details_Row;index as i">
+                                                <div class="row_hover" style="width:30px">{{i+1}}</div>
+                                                <div *ngFor="let data of rs" class="in cell row_hover {{data.Class}}" [style.width]="data.Width"  [style.background-color]="(rowData.Profit>=0)? '':'#ffe8ec' ">
+                              
+                                                    <label [style.text-align]="data.Align" [style]="data.Style" class="{{data.Class}}"   style=" width: 100%; padding-right: 5px;"  *ngIf="(data.Type=='Label') ">{{rowData[data.Field]}}</label>
+            
+                                            
+            
+                                                    <input  *ngIf="data.Type!='Label'" [readonly]="data.IsEdit=='False'" [(ngModel)]="rowData[data.Field]" (change)="calc_details_Row(i)"
+                                            (keyup)="calc_details_Row(i)" [style]="data.Style" [style.text-align]="data.Align"
+                                                            type="{{data.Type}}" class="in tbtext {{data.Class}}" style="width: 100%;"
+                                                            value="{{rowData[data.Field]}}">
+                                            </div>
+                    
+                                                <div  class="del_bx row_hover">
+                                                     <li (click)="del_row(i)" class="bx bx-trash"></li>
+                                                </div>
+                                        </div>
+                    
+                    
+                                        <div class="body">
+                                                <div style="width:30px"></div>
+                                                <div *ngFor="let data of rs ; index as i" class="cell" [style.width]="data.Width">
+                    
+                    
+                    
+                                                        <input *ngIf="data.Field=='Item_Code'" placeholder="Code"
+                                                                [(ngModel)]="appservice.Sales_Temp_Row.pur_prodcode" name="ID"
+                                                                #ID="ngModel"
+                                                                (keyup.enter)="get_by_Code(appservice.Sales_Temp_Row.pur_prodcode,'Code')"
+                                                                class="code in tbtext" type="text">
+                    
+                    
+                                                        <app-vingrid *ngIf="data.Field=='mm_prodname'" class="Name"
+                                                                [(inputModel)]="appservice.Sales_Temp_Row.mm_prodname"
+                                                                [(label_)]="appservice.Sales_Temp_Row.mm_prodname"
+                                                                [(values_)]="appservice.Sales_Temp_Row.mm_prodname"
+                                                                [(Placeholder)]="place_holder"
+                                                                 [Row]="Stock_Row"
+                                                                (inputModelChange)="appservice.Sales_Temp_Row.mm_prodname = $event"
+                                                               
+                                                                (valueModelChange)="get_by_Code($event,'Name')"  (keyup.enter)="out()" >
+                                                        </app-vingrid>
+                    
+                    
+                                                       
+                                                        <label [style.text-align]="data.Align" [style]="data.Style"  style=" width: 100%; padding-right: 5px;"  *ngIf="(data.Type=='Label') ">{{appservice.Sales_Temp_Row[data.Field]}}</label>
+                    
+                                                        <input *ngIf="!((data.Field=='mm_prodname') || (data.Type=='Label') || (data.Field=='Item_Code')) "
+                                                        [readonly]="data.IsEdit=='False'" [style]="data.Style"   class="in tbtext {{data.Class}}" [(ngModel)]="appservice.Sales_Temp_Row[data.Field]"
+                                                         (keyup)="calc_tempdata()"  (keyup.enter)="out()"   [style.text-align]="data.Align"
+                                                                type="{{data.Type}}"   >
+                    
+                                                </div>
+                    
+                                                <div   class="add_bx">
+                                                        <li *ngIf="(appservice.Sales_Temp_Row.mm_qty)>0" tabindex="0"
+                                                        (keyup.enter)="add_data(appservice.Sales_Temp_Row)"
+                                                                (click)="add_data(appservice.Sales_Temp_Row)"
+                                                       class="bx bx-plus-circle in"></li>
+                                                </div>
+                    
+                                               
+                    
+                    
+                    
+                                        </div>
+                                </div>
+                        </div>
+                        <div>
+                                
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+
+
+    
+                        <div class=" col-md-5 nopad" >
+        
+                                <!-- <table style="width: 100%;">
+                                            
+                                        <tr *ngFor="let data of appservice.get_pos_field('Purchase','4BL')">
+                                            <td style="padding-left: 8px;width: 120px;">{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+                
+                                            <td>
+                                                <select  *ngIf="data.Type=='Select'" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+                
+                                                
+                                                 <textarea *ngIf="data.Type=='TextArea'" class="form-control"  rows="4"  [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]"
+                                                 name="{{data.Field}}" #{{data.Field}}="ngModel"   ></textarea>
+                                                 
+                                                
+                                                <input *ngIf="!(data.Type=='Select' || data.Type=='TextArea')" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                    
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+                
+                                    </table>      -->
+                
+                        </div>
+                
+                
+                <div class="col-md-3 nopad"></div>
+                
+        
+                <div class="col-md-4 nopad">
+                        <table *ngIf="appservice.header_Row.mm_net_amt>0"  class="sum_row">
+                                <tr>
+                                        <td class="left">Net Amount</td>
+                                        <td></td>
+                                        <td class="right">{{appservice.header_Row.mm_net_amt}}</td>
+                                </tr>
+        
+        
+                        </table>
+                </div>
+        
+        
+                <div class="col-md-12 nopad" style="text-align: right;">
+        
+                        <input type="button" class="btn btn-secondary  rounded-pill" (click)="Clear_()" style="margin: 10px;" value="Clear" >
+        
+                        <input type="button" class="btn btn-secondary  rounded-pill" (click)="appservice.back()" style="margin: 10px;" value="Cancel" >
+                        <button (click)="Place_Order()" class="btn btn-info  rounded-pill" style="margin: 10px;" 
+                                [disabled]="btndisable" > 
+                                <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          
+                                <i   *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Submit
+                        </button>
+        
+                        
+                        
+                        </div>
+        </div>

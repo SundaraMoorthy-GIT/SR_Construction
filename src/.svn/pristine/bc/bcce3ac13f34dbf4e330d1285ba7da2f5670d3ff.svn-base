@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-sm-12 nopad ">
+      <div class="card content ">
+  
+        <div class=" Head ">
+          <div class="card-header  d-flex justify-content-between align-items-center  ">
+            <h3>Area Street Entry</h3>  
+            <div class="dropdown">  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+   
+            <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+  
+  
+  
+  
+              <div class="row">
+  
+                <div class="col-sm-6">
+  
+                  <div class="form-table table-responsive">
+                    <table class="table table-bordered">
+  
+  
+                      <tbody>
+                        <tr class="hidden">
+                          <td>ID <span class="text-danger">*</span></td>
+                          <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel"
+                              required></td>
+                        </tr>
+  
+  
+                        <tr>
+                          <td>Area<span class="text-danger">*</span></td>
+                          <td>
+  
+                            
+                            <select  class="select2-option form-control"  aria-hidden="true"
+                            required type="text" [(ngModel)]="add.Area"
+                              name="Area" #Area="ngModel" >
+                              <option *ngFor="let s of appservice.get_ref('Area')" value={{s.label}}>
+                                  {{s.label}}
+                              </option>
+                            </select>
+
+                            <div *ngIf="addForm.submitted && Area.invalid" class="invalid-feedback d-block">
+                              <div class="error">Area Should not entry</div>
+                            </div>
+                          </td>
+                        </tr>
+  
+  
+                        <tr>
+                          <td>Street<span class="text-danger">*</span></td>
+                          <td>
+  
+                            <input class="form-control afocus" required type="text" [(ngModel)]="add.Street"
+                              name="Street" #Street="ngModel">
+                              <div *ngIf="addForm.submitted && Street.invalid" class="invalid-feedback d-block">
+                                <div class="error">Street Should not entry</div>
+                              </div>
+                          </td>
+                        </tr>            
+                       
+  
+                       
+  
+                       
+                       
+  
+                       
+  
+             
+  
+                      
+  
+  
+                     
+  
+  
+  
+                      
+                    </tbody>
+                    </table>
+  
+                    <div class="invoice-btn-box text-right">
+              
+                      <button class="btn btn-primary rounded-pil  sbtn"  [disabled]="btndisable" type="submit"> 
+                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+                        <i   *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save 
+                      
+                      </button> &nbsp;&nbsp;
+  
+                      
+  
+                   <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                  </div>
+                  </div>
+                </div>
+              </div>
+  
+  
+  
+            </form>
+         
+        </div>
+      </div>
+    </div>
+  </div>

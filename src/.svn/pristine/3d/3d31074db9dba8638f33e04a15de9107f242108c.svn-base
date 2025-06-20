@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DeportmentwiseReportComponent } from './deportmentwise-report.component';
+
+describe('DeportmentwiseReportComponent', () => {
+  let component: DeportmentwiseReportComponent;
+  let fixture: ComponentFixture<DeportmentwiseReportComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ DeportmentwiseReportComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DeportmentwiseReportComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

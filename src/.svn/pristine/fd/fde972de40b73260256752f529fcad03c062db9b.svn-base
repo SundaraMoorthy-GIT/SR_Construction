@@ -1,0 +1,69 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-receipt-details',
+  templateUrl: './receipt-details.component.html',
+  styleUrls: ['./receipt-details.component.scss']
+})
+export class ReceiptDetailsComponent implements OnInit {
+
+  constructor(public confirmationService:ConfirmationService,public appservice:AppService,public router:Router) {
+    
+    try
+    {
+      if(appservice.Receipt_Row.length<=0)
+      {
+      appservice.get_Recipts();
+      }
+    }
+    catch{
+
+      appservice.get_Recipts();
+    }
+
+   }
+
+
+   add()
+   {
+    this.router.navigate(['/transaction/add-receipt-details']);
+   }
+
+ 
+
+  delete_data(data)
+  {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete press Yes?',
+      accept: () => {
+        this.Delete(data.ID) ;
+
+      }
+  });
+  }
+
+ 
+
+  
+  Delete(item) { 
+ 
+      this.appservice.get("Api/Collection_/delete_Amount_Collection?ID=" + item).subscribe((res: any) => {
+        this.appservice.get_Recipts();
+        
+      });
+    }
+  
+
+  edit_data(data)
+  {
+    this.appservice.isadd = "1";
+    this.appservice.Edit_Row = data;
+    return this.router.navigate(['transaction/add-expense']);
+  }
+  ngOnInit(): void {
+  }
+
+}

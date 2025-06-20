@@ -1,0 +1,202 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mobile_hide">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li  *ngFor="let data of appservice.Visitor_Report"  
+               [className]="appservice.URL_Location==data.Link ? 'active' : ''" 
+                class="" > <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                    
+            </ul>
+          </div>
+  
+          <div class="right-corner">
+            <div class="dropdown" style="display: inline-flex;">
+              
+             
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" >
+             
+                <i style="    font-size: 20px;" class='bx bx-search'></i> 
+              </a>
+  
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button>
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+                 
+                  <tr >
+                    <td style="width: 80px;">From </td>
+                    <td>
+                      <input type="date" class="form-control form-control-sm" [(ngModel)]="appservice.S_From" name="From_"
+                        #From_="ngModel">
+                    </td>
+                  </tr>
+  
+  
+                  <tr >
+                    <td style="width: 80px;">To </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                        name="To_" #To_="ngModel">
+                    </td>
+                  </tr>
+  
+                
+  
+  
+  
+                
+                  <tr>
+                    <td style="width: 80px;">Visitor</td>
+  
+  
+                    <td>
+  
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Visitor_Type" name="S_Visitor_Type"
+                      #S_Visitor_Type="ngModel" style="width:100%" aria-hidden="true">
+                      <option  value="All">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.get_ref('Visitor_Type')" value="{{data.label}}">
+                        {{data.label}}
+                      </option>
+                    </select>
+  
+                    </td>
+                  </tr>
+  
+                  
+                  <tr>
+                    <td style="width: 80px;">Department </td>
+                    <td>
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Department" name="S_Department"
+                        #S_Department="ngModel" style="width:100%" aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option *ngFor="let data of appservice.get_ref('Department')" value="{{data.label}}">
+                          {{data.label}}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="appservice.get_Visitor_Details()"
+                        class="btn btn-info btn-sm">Search</button></td>
+                  </tr>
+                </table>
+  
+                <div  class="search_Footer border-top" style="color: green;"> 
+                  <div (click)="export_excel()"  class="buttons">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export Excel</span>
+                   
+                  </div>
+  
+                 
+                  <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export PDF</span>
+                   
+                  </div>
+  
+  
+              </div>
+             
+  
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 res_table">
+          <div class="search-bar_Ext mhide  show_bar " style="right: 50px;">
+          
+            <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text"
+                placeholder="Search...">
+    
+          </div>
+  
+        
+          <p-table #dt class="table table-striped custom-table" [value]="appservice.Personwise_Row"
+            selectionMode="single" [globalFilterFields]="appservice.Personwise_GF">
+            <ng-template pTemplate="header">
+              <tr>
+  
+                <th>#</th>
+                <th [pSortableColumn]="'V_Person'">Person</th>
+
+                <th [pSortableColumn]="'V_Department'">Department</th>
+                <th [pSortableColumn]="'Visitor_Name'">Visitor Name </th>
+                <th [pSortableColumn]="'Company_Name'">Company Name</th>
+  
+                
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+              <tr>
+                <td>{{rowIndex+1}}</td>
+                <td>{{rowData.V_Person}}</td>
+
+                <td>{{rowData.V_Department}}</td>
+  
+                <td>{{rowData.Visitor_Name}}</td>
+                <td>{{rowData.Company_Name}}</td>
+  
+                
+                
+               
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+           <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+              
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  

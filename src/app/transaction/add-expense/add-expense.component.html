@@ -1,0 +1,312 @@
+
+
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Expense Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control" type="text" [(ngModel)]="add.oc_id" name="oc_id" #oc_id="ngModel" required>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Exp No<span class="text-danger">*</span></td>
+                        <td>
+                          <input readonly class="form-control"required type="text" [(ngModel)]="add.oc_no" name="oc_no" #oc_no="ngModel">
+                          <div *ngIf="addForm.submitted && oc_no.invalid" class="invalid-feedback d-block">
+                            <div class="error"> Exp No Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Date<span class="text-danger">*</span></td>
+                        <td> 
+  
+                          <input    class="form-control" required type="date" [(ngModel)]="add.oc_date" name="oc_date" #oc_date="ngModel">
+                          <div *ngIf="addForm.submitted && oc_date.invalid" class="invalid-feedback d-block">
+                            <div class="error"> Expense Date Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+                       <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.oc_branch" name="oc_branch" #oc_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && oc_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+  
+                      <tr >
+                        <td>Project <span class="text-danger"></span></td>
+                        <td>
+                            <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.SProject_Rows" 
+            [(ngModel)]="add.oc_projectid"required   resetFilterOnHide="true" placeholder=" " name="oc_projectid" #oc_projectid="ngModel" [filter]="(appservice.W_width>500)"
+            (ngModelChange)="onChange_est(add.oc_projectid)">
+        
+           <ng-template let-car pTemplate="item">
+             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+               <div>{{car.label}}</div>
+             </div>
+           </ng-template>
+         </p-dropdown>
+        </td>
+                    </tr>
+                    <tr>
+                      <td>Category<span class="text-danger">*</span></td>
+                      <td>
+                        <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Exp_Category_" 
+                        [(ngModel)]="add.oc_categoryid"required   resetFilterOnHide="true" placeholder=" " name="oc_categoryid" 
+                        #oc_categoryid="ngModel" [filter]="(appservice.W_width>500)"
+                        (ngModelChange)="onChange(add.oc_categoryid)">
+             
+                       <ng-template let-car pTemplate="item">
+                         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                           <div>{{car.label}}</div>
+                         </div>
+                       </ng-template>
+                     </p-dropdown>
+                     <div *ngIf="addForm.submitted && oc_categoryid.invalid" class="invalid-feedback d-block">
+                       <div class="error">Category  Should not entry</div>
+                   </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Ledger<span class="text-danger">*</span></td>
+                      <td>
+                        <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Ledger" 
+                        [(ngModel)]="add.oc_ledger_id"required   resetFilterOnHide="true" placeholder=" " 
+                        name="oc_ledger_id" #oc_ledger_id="ngModel" [filter]="(appservice.W_width>500)"
+                        (ngModelChange)="onChange1(add.oc_ledger_id)">
+             
+                       <ng-template let-car pTemplate="item">
+                         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                           <div>{{car.label}}</div>
+                         </div>
+                       </ng-template>
+                     </p-dropdown>
+                     <div *ngIf="addForm.submitted && oc_ledger_id.invalid" class="invalid-feedback d-block">
+                       <div class="error">Ledger Should not entry</div>
+                   </div>
+                      </td>
+                    </tr>
+  
+  
+  
+                      <tr>
+                        <td>Description<span class="text-danger">*</span></td>
+                        <td> 
+                          <input class="form-control" type="text"required [(ngModel)]="add.oc_narration1" name="oc_narration1" #oc_narration1="ngModel">
+                          <div *ngIf="addForm.submitted && oc_narration1.invalid" class="invalid-feedback d-block">
+                            <div class="error">Remarks  Should not entry</div>
+                      
+                        </div></td>
+                      </tr>
+  
+  
+  
+                      <tr>
+                        <td>Amount<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control"required type="number" [(ngModel)]="add.oc_amount" name="oc_amount" #oc_amount="ngModel">
+                          <div *ngIf="addForm.submitted && oc_amount.invalid" class="invalid-feedback d-block">
+                            <div class="error"> Amount  Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr >
+                        <td  style="width: 120px;" >Pay Mode</td>
+                        <td  style="text-align: center;">
+    
+    
+                            <select class="select2-option form-control " [(ngModel)]="add.oc_pay_mode" name="oc_pay_mode"
+                            (change)="onChange2(add.oc_pay_mode)" #oc_pay_mode="ngModel" style="width:100%" aria-hidden="true">
+    
+                                <option *ngFor="let data of appservice.get_ref('Pay_Mode')" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+    
+                            </select>
+    
+    
+    
+    
+    
+                        </td>
+    
+                    </tr>
+                    <tr class="disabled">
+                      <td  style="width: 120px;" >Bank Acc</td>
+                      <td>
+                          <div style="width: 100%;display: inline-flex;">
+
+                              
+
+                              <div style="width: 65%;">
+
+                                <select class="select2-option form-control " [(ngModel)]="add.oc_received_bank" name="oc_received_bank"
+                              #oc_received_bank="ngModel" style="width:100%" aria-hidden="true"(change)="appservice.get_CR_DB_Amount(add.oc_received_bank)" >
+                              <option  value="0"></option>
+
+                              <option *ngFor="let data of appservice.Bank_Master_Rows" value={{data.value}}>
+                                  {{data.label}}
+                              </option>
+                          </select>
+                             
+                              </div>
+                              <div style="width: 35%;" *ngIf="appservice.Ledger_Amt>='0'">
+
+                                <input class="form-control" readonly type="number"style="color: rgb(61, 211, 61);font-weight: 800;"
+                                    [(ngModel)]="appservice.Ledger_Amt" name="Ledger_Amt"
+                                    #Ledger_Amt="ngModel" >
+                                  
+                                </div>
+                              <div  *ngIf="!(appservice.Ledger_Amt>='0')"style="width: 35%;">
+
+                                <input class="form-control" readonly type="number"style="color: red;font-weight: 800;"
+                                    [(ngModel)]="appservice.Ledger_Amt" name="Ledger_Amt"
+                                    #Ledger_Amt="ngModel" >
+                                  
+                                </div>
+
+                            </div>
+                      
+                      </td>
+                  </tr>
+             
+    
+             
+  
+                 
+    
+                <tr style="padding: 0px" [className]="appservice.Default_Payment_ID==appservice.Cash_ID ? 'hidden' : ''">
+    
+                    <td colspan="2" style="padding: 0px!important;">
+                    <table style="width: 100%;">
+                   
+                        <tr [className]="appservice.Default_Payment_ID==appservice.Cheque_ID ? '' : 'hidden'">
+                            <td style="width: 120px;">Cheque No </td>
+                            <td> <input class="form-control" type="text" [(ngModel)]="add.oc_cheque_no"
+                                name="oc_cheque_no" #oc_cheque_no="ngModel"></td>
+                        </tr>
+        
+                        <tr [className]="appservice.Default_Payment_ID==appservice.Cheque_ID ? '' : 'hidden'" >
+                            <td style="width: 120px;">Cheque Date</td>
+                            <td><input class="form-control" type="date" [(ngModel)]="add.oc_cheque_date"
+                                name="oc_cheque_date" #oc_cheque_date="ngModel"></td>
+                        </tr>
+        
+                        <tr [className]="appservice.Default_Payment_ID==appservice.Card_ID ? '' : 'hidden'">
+                            <td style="width: 120px;">Card Charge</td>
+                            <td><input class="form-control" type="text" [(ngModel)]="add.oc_card_charge"
+                                name="oc_card_charge" #oc_card_charge="ngModel"></td>
+                        </tr>
+        
+                    
+                    </table>
+                </td>
+                </tr>
+                <tr>
+                  <td style="width:120px">Remarks</td>
+                  <td> <input class="form-control" type="text" [(ngModel)]="add.oc_remarks" name="oc_remarks"
+                      #oc_remarks="ngModel" ></td>
+              </tr>
+                   
+              <tr class="disabled">
+                  <td>Image</td>
+                  <td>
+                    <p-fileUpload name="myfile[]" url="{{server}}" (onUpload)="onUpload($event)"
+                      multiple="multiple" maxFileSize="1000000">
+                      <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                          <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                        </ul>
+                      </ng-template>
+                    </p-fileUpload>
+  
+                  
+  
+                  </td>
+                </tr>
+            
+  
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit" [disabled]="btndisable" type="submit"> 
+                      
+                      
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+  
+                      <i  *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+             <div class="col-sm-6">
+              <img   [src]="get_image()"/>
+  
+             </div>
+  
+  
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

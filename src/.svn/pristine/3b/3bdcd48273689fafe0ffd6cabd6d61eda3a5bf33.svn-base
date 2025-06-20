@@ -1,0 +1,316 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+
+
+
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Approval Entry</h3>
+
+                    <div class="dropdown">
+
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+                
+
+
+                <form #addForm="ngForm"  style="background-image: url(../../assets/img/hero.jpg);
+                background-size: cover;"
+                 (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td ><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID"
+                                                    #ID="ngModel" ></td>
+                                        </tr>
+
+
+
+                                        <tr *ngFor="let data of appservice.get_pos_field('Visitor_Details','1TL')">
+                                            <td style="width: 110px;">{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+                                            
+                                            <div  *ngIf="(data.Field=='Visitor_Name')"  style="width:100%;display: inline-flex;">
+                                            <div style="width:30%;">
+                                            
+                                            <select  class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add.Initial"
+                                                    name="Initial" #Initial="ngModel">
+                                                   <option *ngFor="let k of appservice.get_ref('Initial')" value={{k.label}}>
+                                                       {{k.label}}
+                                                   </option>
+                                                 </select>
+
+                                            </div>
+
+
+                                            <div  style="width:70%">
+                                                <app-vinledger 
+                                                class="form-control"
+                                                [(inputModel)]="add.Visitor_Name"
+                                                [(label_)]="add.Visitor_Name"
+                                                [(values_)]="add.Visitor_Name"
+                                                 [Row]="appservice.Ledger_Master_Rows"
+                                                (valueModelChange)="get_Visitor($event,'Name')"
+                                                (inputModelChange)="add.Visitor_Name = $event"
+                                              (focusout)="get_data()"
+                                               
+                                                [(ngModel)]="add.Visitor_Name"
+                                                    name="Visitor_Name" #Visitor_Name="ngModel">
+                                        </app-vinledger>
+                                        </div>
+                                        
+                                        </div>
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_ID')" (change)="get_Street_Row()" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                 
+
+                                                
+                                                <input *ngIf="!(data.Type=='Select'|| data.Field=='Visitor_Name' || data.Field=='Street')" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-5">
+
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                       
+                                        <tr *ngFor="let data of appservice.get_pos_field('Visitor_Details','2TR')">
+                                            <td style="width: 110px;">{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                                            <td>
+
+
+                                                <app-vinledger     *ngIf="(data.Field=='V_Person')"
+                                                class="form-control"
+                                                [(inputModel)]="add.V_Person"
+                                                [(label_)]="add.V_Person"
+                                                [(values_)]="add.V_Person"
+                                                 [Row]="appservice.Employee_Details_Rows"
+                                                (inputModelChange)="add.V_Person = $event"
+                                                (valueModelChange)="get_Ph_No($event,'Name')"
+                                                
+                                                [(ngModel)]="add.V_Person"
+                                                    name="V_Person" #V_Person="ngModel">
+                                        </app-vinledger>
+                                        <span style="font-size: 12px;" *ngIf="(data.Field=='V_Person')" >{{add.V_Person_Contact}}</span>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field=='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let s of appservice.Ledger_Group" value={{s.ID}}>
+                                                       {{s.Ledger_Name}}
+                                                   </option>
+                                                 </select>
+
+
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Group_ID')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                                <input *ngIf="data.Type!='Select' && data.Field!='V_Person'" class="form-control"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+
+
+                                        <tr >
+                                            <td>Approval Status</td>
+
+                                            <td>
+
+
+
+
+                                                <select   class="select2-option form-control"  aria-hidden="true"
+                                                  [(ngModel)]="add.Approval_Status"
+                                                    name="Approval_Status" #Approval_Status="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref('Approval_Status')" value={{row.label}}>
+                                                       {{row.label}}
+                                                   </option>
+                                                 </select>
+
+                                                
+                                              
+                                        </tr>
+
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                
+
+                            </div>
+
+
+                            <div class="entry_table1" *ngIf="add.Entry_type=='Group'" >
+
+                                Visitor Details
+                                 <div class="header">
+                                         <div style="width:30px">#</div>
+                                         <div *ngFor="let data of rs" [style.width]="data.Width">{{data.Name}}</div>
+                                         <div style="width: 40px;"></div>
+                                 </div>
+         
+                                
+ 
+ 
+                                 <div class="body" *ngFor="let rowData of appservice.Details_Row;index as i">
+                                     <div class="row_hover" style="width:30px">{{i+1}}</div>
+                                     <div *ngFor="let data of rs" class="in cell row_hover {{data.Class}}" [style.width]="data.Width">
+                                   
+                                           
+                                             <input
+                                             
+                                            
+                                    [style]="data.Style" [style.text-align]="data.Align"
+                                                     type="{{data.Type}}" class="in tbtext" style="width: 100%;"
+                                                     value="{{rowData[data.Field]}}">
+                                     </div>
+     
+                                     <div class="del_bx row_hover">
+                                             <li (click)="del_row(i)" class="bx bx-trash"></li>
+                                     </div>
+                             </div>
+ 
+                                 <div class="body">
+                                     <div style="width:30px"></div>
+                                     <div *ngFor="let data of rs ; index as i" class="cell" 
+                                     [style.width]="data.Width">
+     
+                                     <div class="row_hover" style="width:30px"></div>
+ 
+                                     <app-vinledger1 *ngIf="data.Field=='Visitor_Name'" 
+                                     class="Name "  
+                                     [(inputModel)]="appservice.Sales_Temp_Row[data.Field]"
+                                     [(label_)]="appservice.Sales_Temp_Row[data.Field]"
+                                     [(values_)]="appservice.Sales_Temp_Row[data.Field]"
+                                     [Row]="appservice.Ledger_Master_Rows"
+                                    
+                                     (valueModelChange)="appservice.Sales_Temp_Row.Visitor_Name= $event"
+                                     (inputModelChange)="appservice.Sales_Temp_Row.Visitor_Name= $event"
+                                     (focusout)="load_ledg1()"
+                                     [(ngModel)]="appservice.Sales_Temp_Row[data.Field]"
+                                     name="{{data.Field}}1" #{{data.Field}}1="ngModel"
+                                    >
+                             </app-vinledger1>
+ 
+                             <input *ngIf="data.Field!='Visitor_Name'"  class="in tbtext {{data.Class}}"  
+                               [readonly]="data.IsEdit=='False'"
+                             [(ngModel)]="appservice.Sales_Temp_Row[data.Field]"
+                            
+                                                     name="{{data.Field}}" #{{data.Field}}="ngModel"
+                          [style.text-align]="data.Align" [style]="data.Style"
+                                            type="{{data.Type}}">
+ 
+ 
+                                 </div>
+
+
+                                 <div class=" in tbtext">
+
+                                    <input  class="btn btn-secondary btn-sm rounded-pill  in tbtext   bx bx-plus-circle in" (keyup)="add_data(appservice.Sales_Temp_Row)" type="button" value="add"/>
+                                    
+                                    
+                             </div>
+                                 </div>
+ 
+ 
+ 
+ 
+                             </div>
+                           
+                             
+                             
+                        </div>
+
+                        <div class="col-sm-2 nopad">
+                            Person
+                            <img class="image"  style="width: 100%;" src="{{appservice.Server_URL}}/image/V{{appservice.Company}}/V{{add.Contact_No}}.png" />
+                           
+                        </div>
+                        
+                        
+
+
+                        <div class="col-sm-10">
+                           
+                            <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+
+                                <button class="btn btn-success rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                        role="status" aria-hidden="true"></span>
+                                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                    Save & Approve</button> &nbsp;&nbsp;
+                                <button class="btn btn-secondary rounded-pil " type="button"
+                                    (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                            </div>
+
+                            </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

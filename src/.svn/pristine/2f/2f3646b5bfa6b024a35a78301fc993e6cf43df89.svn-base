@@ -1,0 +1,24 @@
+<div style="margin-top: 10px;" >
+    <div class="d-table" style="width:100%;">
+        <div class="d-table-cell">
+            <div class="maintenance-content" style="box-shadow:none">
+              
+                
+
+               
+
+                
+                <a style="height: 100px; width: 100px;" class="logo">
+                    <li style="font-size: 90px; font-weight:900; color :rgb(233, 233, 233) ;" class="bx bxs-bell"></li>
+                </a>
+               
+                
+                <p >
+                    <b style="color: black;"><br> Your notifications live here<br></b>
+                    Subscribe to your favourite channnels to receive notifiation about their latest notificaton.</p>
+
+                
+            </div>
+        </div>
+    </div>
+</div>

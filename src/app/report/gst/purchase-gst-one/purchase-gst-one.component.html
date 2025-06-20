@@ -1,0 +1,249 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mobile_hide">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom">
+            <ul>
+            <li  *ngFor="let data of appservice.Purchase_Gst_Report"  
+             [className]="appservice.URL_Location==data.Link ? 'active' : ''" 
+              class="" > <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                  
+          </ul>
+          </div>
+  
+  
+          <div class="right-corner">
+            <div class="dropdown" style="display: inline-flex;">
+  
+              
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" >
+             
+                <i style="    font-size: 20px;" class='bx bx-search'></i> 
+              </a>
+  
+  
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button>
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+  
+                  <tr>
+                    <td style="width: 80px;">From </td>
+                    <td>
+                      <input type="date" class="form-control form-control-sm" [(ngModel)]="appservice.S_From" name="From_"
+                        #From_="ngModel">
+                    </td>
+                  </tr>
+  
+  
+                  <tr>
+                    <td style="width: 80px;">To </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                        name="To_" #To_="ngModel">
+                    </td>
+                  </tr>
+                    <tr>
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+                  
+                  <tr>
+                    <td style="width: 80px;">Bill Type </td>
+                    <td>
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Bill_Type"
+                        name="S_Bill_Type" #S_Bill_Type="ngModel" style="width:100%" aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option value="Tax Invoice">
+                          Tax Invoice
+                        </option>
+                        <option value="Non Tax Invoice">
+                          Non Tax Invoice
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td style="width: 80px;"> Type </td>
+                    <td>
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_GST_Type"
+                        name="S_GST_Type" #S_GST_Type="ngModel" style="width:100%" aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option value="12345678">
+                          B2B
+                        </option>
+                        <option value="0">
+                          B2C
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+  
+                  
+  
+  
+  
+                 
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="appservice.get_Purchase_Gst_Details()"
+                        class="btn btn-info btn-sm">Search</button></td>
+                  </tr>
+                </table>
+                <div  class="search_Footer border-top" style="color: green;"> 
+                  <div (click)="export_excel(dt)"  class="buttons">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export Excel</span>
+                   
+                  </div>
+  
+                 
+                  <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export PDF</span>
+                   
+                  </div>
+  
+  
+              </div>
+              </div>
+            </div>
+          </div>
+  
+  
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      <div class="m_2 res_table" style="overflow: auto;     max-height:500px">
+          <div class="search-bar_Ext mhide  show_bar " style="right: 80px;">
+          
+            <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text"
+                placeholder="Search...">
+    
+          </div> 
+  
+        
+          <p-table responsiveLayout="scroll"#dt  class="table table-striped custom-table fsize" [value]="appservice.Purchase_Gst_Row"
+            selectionMode="single" [globalFilterFields]="appservice.Sales_Details_GF">
+            <ng-template pTemplate="header">
+              <tr class="fsize">
+                <th >#</th>
+                <th style="min-width: 100px;">Bill No</th>
+                <th class="mhide"style="min-width: 100px;"  >Bill Date </th>
+                <th style="white-space: pre" >Supplier Name</th>
+                <th class="mhide"> Area</th>
+
+                <th style="white-space: pre" class="mhide">GST  No</th>
+                <th style="text-align: right;">Amount</th>
+
+                <th style="text-align: right;">Dis Amt</th>
+                <th style="text-align: right;">Gross Amt</th>
+                <th style="text-align: right;">0 %</th>
+                <th style="text-align: right;">5 %</th>
+                <th style="text-align: right;">12 %</th>
+                <th style="text-align: right;">18 %</th>
+                <th style="text-align: right;">28 %</th>
+                <th style="text-align: right;">Gst Amt</th>
+                <th style="text-align: right;">Net Amount</th>
+
+               
+                
+                
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+              <tr   style="white-space: pre" class="fsize">
+                <td>{{rowIndex+1}}</td>
+                <td   style="white-space: pre">{{rowData.Bill_No}}
+  
+                  <span   style="white-space: pre" class="mshow  text-muted"> {{rowData.Bill_Date}}</span>
+                </td>
+                <td   style="white-space: pre" class="mhide">{{rowData.Bill_Date}}</td>
+                <td   style="white-space: pre">{{rowData.Ledger_Name}}
+                  <span  class="mshow text-muted"> {{rowData.GST_No}}</span>
+                </td>
+                <td   style="white-space: pre" class="mhide">{{rowData.Area}}</td>
+
+                <td  style="white-space: pre"  class="mhide">{{rowData.GST_No}}</td>
+                
+
+                <td style="text-align: right;">{{rowData.Sub_Total}}
+                  <td style="text-align: right;">{{rowData.Disc_Amt}}
+                <td style="text-align: right;">{{rowData.Taxable_Amount}}
+                <td style="text-align: right;">{{rowData.GST_Taxable_0}}
+                <td style="text-align: right;">{{rowData.GST_Taxable_5}}
+                <td style="text-align: right;">{{rowData.GST_Taxable_12}} 
+                <td style="text-align: right;">{{rowData.GST_Taxable_18}}
+                <td style="text-align: right;">{{rowData.GST_Taxable_28}}
+                <td style="text-align: right;">{{rowData.s_Tax}}
+                <td style="text-align: right;font-weight: 700;">{{rowData.Net_Amt}}
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+              
+                
+                <td style="text-align: right;     color: crimson;"> GST Amt :
+                  {{appservice.sum_of(dt,'s_Tax')| number:'1.0-0'}}</td>
+                  <td style="text-align: right;     color: crimson;"> Amount :
+                    {{appservice.sum_of(dt,'Net_Amt')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  

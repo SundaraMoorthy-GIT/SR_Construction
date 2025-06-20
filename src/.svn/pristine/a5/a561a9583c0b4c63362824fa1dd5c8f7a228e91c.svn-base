@@ -1,0 +1,46 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { VisitorRoutingModule } from './visitor-routing.module';
+import { VisitorComponent } from './visitor.component';
+import { AppointmentEntryComponent } from './appointment-entry/appointment-entry.component';
+import { AppointmentApprovalComponent } from './appointment-approval/appointment-approval.component';
+import { VisitorCheckinComponent } from './visitor-checkin/visitor-checkin.component';
+import { VisitorListComponent } from './visitor-list/visitor-list.component';
+import { AdminDashbordComponent } from './admin-dashbord/admin-dashbord.component';
+import { GateDashboardComponent } from './gate-dashboard/gate-dashboard.component';
+import { SharedModule } from '../shared/shared.module';
+import { VisitorDetailsComponent } from './visitor-details/visitor-details.component';
+import { ApprovalEntryComponent } from './approval-entry/approval-entry.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ApprovedListComponent } from './approved-list/approved-list.component';
+import { AddApprovedListComponent } from './add-approved-list/add-approved-list.component';
+import { VisitorTypeReportComponent } from './visitor-type-report/visitor-type-report.component';
+import { DeportmentwiseReportComponent } from './deportmentwise-report/deportmentwise-report.component';
+import { PersonwiseReportComponent } from './personwise-report/personwise-report.component';
+import { PurposewiseReportComponent } from './purposewise-report/purposewise-report.component';
+import { DaywiseReportComponent } from './daywise-report/daywise-report.component';
+import { FormsModule } from '@angular/forms';
+import { UserMasterComponent } from './user-master/user-master.component';
+
+import { AddUserMasterComponent } from './add-user-master/add-user-master.component';
+import { AllowInsideComponent } from './allow-inside/allow-inside.component';
+import { NewVisitorComponent } from './new-visitor/new-visitor.component';
+import { WebcamModule } from 'ngx-webcam';
+
+
+
+@NgModule({
+  declarations: [VisitorComponent, AppointmentEntryComponent, AppointmentApprovalComponent, VisitorCheckinComponent, VisitorListComponent, AdminDashbordComponent, GateDashboardComponent, VisitorDetailsComponent, ApprovalEntryComponent, UserDashboardComponent, ApprovedListComponent, AddApprovedListComponent, VisitorTypeReportComponent, DeportmentwiseReportComponent, PersonwiseReportComponent, PurposewiseReportComponent, DaywiseReportComponent, UserMasterComponent,AddUserMasterComponent, AllowInsideComponent, NewVisitorComponent],
+  imports: [
+    CommonModule,
+    
+    VisitorRoutingModule,
+    SharedModule,
+    FormsModule,
+    WebcamModule,
+  ],
+  
+})
+export class VisitorModule { }

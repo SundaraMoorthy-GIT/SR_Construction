@@ -1,0 +1,468 @@
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mobile_hide">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li  *ngFor="let data of appservice.Product_Menu"   [className]="appservice.URL_Location==data.Link ? 'active' : ''"  class="" > <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                    
+            </ul>
+          </div>
+  
+        
+
+          <!-- <div class="right-corner">
+  
+            <div class="dropdown" style="display: inline-flex;">
+
+              <a class="dropdown-toggle   addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+              title="Add New">
+
+              <i class='bx bx-list-plus'></i>
+            </a>
+             <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle "
+               (click)="this.get_product_Master(this.add.select_mode)" data-toggle="tooltip" data-placement="bottom"
+              title="Refresh">
+
+              <i class='bx bx-rotate-left'></i>
+            </a>
+            </div>
+          </div> -->
+
+          <div class="right-corner">
+
+            <div class="dropdown" style="display: inline-flex;">
+
+              <a class="dropdown-toggle   addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+              title="Add New">
+
+              <i class='bx bx-list-plus'></i>
+            </a>
+            <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+            title="search" >
+           
+              <i style="    font-size: 20px;" class='bx bx-search'></i> 
+            </a>
+
+
+            <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle " (click)="this.appservice.get_product_Master(this.add.select_mode)" data-toggle="tooltip" data-placement="bottom"
+            title="Refresh">
+
+            <i class='bx bx-rotate-left'></i>
+          </a>
+
+
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button>
+
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+                  <tr>
+                    <td style="width: 80px;">Order by </td>
+                    <td>
+
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.Item_Order_by"
+                        name="Ledger_Order_by" #Ledger_Order_by="ngModel" style="width:100%" aria-hidden="true">
+
+                        <option value=" pm_category asc">
+                          Category
+                        </option>
+
+                        <option value=" pm_item_name asc">
+                          Name
+                        </option>
+
+                        <option value=" convert(varchar,pm_created_date,112) desc">
+                          Created Date
+                        </option>
+
+
+                      </select>
+
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="this.appservice.get_product_Master(this.add.select_mode)"
+                        class="btn btn-info btn-sm">Search</button></td>
+                  </tr>
+
+                </table>
+
+
+                <div  class="search_Footer border-top" style="color: green;"> 
+                  <div (click)="export_excel(dt)"  class="buttons">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export Excel</span>
+                   
+                  </div>
+
+                 
+                  <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export PDF</span>
+                   
+                  </div>
+
+
+              </div>
+             
+
+
+              </div>
+
+            </div>
+
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="m_2 res_table">
+        <div class="search-bar_Ext mhide  show_bar " style="right: 120px;">
+      
+          <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+              <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+              class="search-form-control text"
+              placeholder="Search...">
+  
+        </div>
+
+        <div class="col-md-12 text-center" style="display: inline-flex;">
+            <div class="form-check"  style="padding-left: 35px;">
+
+              <input class="form-check-input" type="radio" 
+              name="Active"  
+              [(ngModel)]="add.select_mode"
+                   #Active="ngModel"  checked="true"
+              id="Active" style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="A"
+              (click)="this.get_product_Master('A')">
+              <label class="form-check-label" for="Active">&nbsp;Active</label>
+          </div>
+        
+          <div class="form-check"  style="padding-left: 35px;">
+  
+              <input class="form-check-input" type="radio" 
+              name="Inactive" id="Inactive" 
+              [(ngModel)]="add.select_mode"
+                   #Inactive="ngModel" 
+              style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="D"
+              (click)="this.get_product_Master('D')">
+              <label class="form-check-label" for="Inactive">&nbsp;Inactive</label>
+          </div>
+        </div>
+        <!-- <p-table #dt class="table table-striped custom-table" [value]="appservice.Product_Master_Rows"
+        selectionMode="single"[globalFilterFields]="appservice.Product_Master_col_GF">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th [pSortableColumn]="'Brand'">Brand</th>
+            <th [pSortableColumn]="'Product'" >Product</th>
+            <th [pSortableColumn]="'Code'">Code</th>
+            <th >HSN Code</th>
+            <th style="text-align: right;">PurPrice</th>
+            <th style="text-align: right;">MRP</th>
+            <th style="text-align: right;">Rate</th>
+            <th style="text-align: right;">GST %</th>
+            <th >UOM</th>
+            <th >Date</th>
+            <th >Created By</th>
+            <th ></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+          <tr>
+            <td>{{rowIndex+1}}</td>
+           
+            <td >{{rowData.pm_brand}}</td>
+            <td >{{rowData.pm_name}}</td>
+            <td >{{rowData.pm_Code}}</td>
+            <td >{{rowData.pm_hsncode}}</td>
+            <td style="text-align: right;">{{rowData.pm_purprice}}</td>
+            <td style="text-align: right;">{{rowData.pm_mrpprice}}</td>
+            <td style="text-align: right;">{{rowData.pm_rate}}</td>
+            <td style="text-align: right;">{{rowData.pm_GST}}</td>
+            <td >{{rowData.pm_UOM}} </td>
+            <td >{{rowData.CDate}} </td>
+            <td >{{rowData.pm_CreatedBy}} </td>
+            <td style="text-align: center;">
+  
+              <div class="dropdown">
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                </button>
+                <div class="dropdown-menu">
+                 
+                
+                  <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                    <i class='bx bx-edit-alt'></i> Edit
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData.PM_id)" >
+                    <i class='bx bx-trash'></i> Delete
+                  </a>
+
+                </div>
+              </div>
+
+            </td>
+          </tr>
+        </ng-template>
+      </p-table> -->
+      <p-table responsiveLayout="scroll"#dt class="table table-striped custom-table" 
+      [value]="appservice.Product_Master_Rows" 
+      [globalFilterFields]="appservice.Product_Master_col_GF"
+      selectionMode="single">
+      <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+              <th *ngFor="let col of appservice.get_grid_fields_of('Product_Master')"
+              [ngStyle]="{'text-align': col.Align}"  [pSortableColumn]="col.field"
+              [style]="col.Style"  class="{{col.Class}}"    
+              style="white-space: pre">
+                  {{col.Name}}
+
+              </th>
+              <th ></th>
+          </tr>
+
+
+       
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="rowData">
+
+            <td>{{rowIndex+1}}</td>
+              <td *ngFor="let col of appservice.get_grid_fields_of('Product_Master')"
+              [ngStyle]="{'text-align': col.Align}"  [pSortableColumn]="col.field" [style]="col.Style"
+               class="{{col.Class}}">
+                  {{car[col.Field]}}
+              </td>
+              <td style="text-align: center;" *ngIf="add.select_mode=='A'">
+
+                <div class="dropdown">
+                  <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                  
+                    <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                      <i class='bx bx-edit-alt'></i> Edit
+                    </a>
+                    <!-- <a class="dropdown-item d-flex align-items-center"(click)="Open_Customer_Module(rowData)" >
+                      <i class='bx bx-show'></i> View
+                    </a> -->
+
+                    <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData)" >
+                      <i class='bx bx-trash'></i> Delete
+                    </a>
+                  </div>
+                </div>
+
+              </td>
+              <td style="text-align: center;" *ngIf="add.select_mode=='D'">
+
+                <div class="dropdown">
+                  <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item d-flex align-items-center" (click)="onActive(rowData)">
+                      <i class='bx bx-edit-alt'></i> Active
+                    </a>
+                    
+                  </div>
+                </div>
+
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+    
+      </div>
+    </div>
+    <div class="col-md-12 nopad">
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+              border: 1px solid #c8c8c8;">
+         <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+            
+          </tr>
+        </table>
+      </div>
+    </div>
+      
+  </div>
+  
+  
+
+
+
+  <div class="row mshow">
+    <div class="col-md-12 nopad">
+      <div class="search-bar_Ext  mshow disp" style=" display: inline-flex;">
+        
+        <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+        <label class="h_txex mshow " style="    line-height: 40px;">Product </label>
+        <div class="right_text ">
+            <div class="dropdown" style="display: inline-flex;">
+              <input type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" class="G_Search"
+                placeholder="Search...">
+    
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter m_white'></i>
+              </button>
+              <div class="dropdown-menu Search_Panel " style="width: 325px;">
+                <div class="Filter_Bar">
+                  &nbsp;&nbsp;Search</div>
+                  <table>
+                    <tr>
+                      <td style="width: 80px;">Order by </td>
+                      <td>
+  
+                        <select class="area form-control form-control-sm" [(ngModel)]="appservice.Item_Order_by"
+                          name="Ledger_Order_by" #Ledger_Order_by="ngModel" style="width:100%" aria-hidden="true">
+  
+                          <option value=" pm_category asc">
+                            Category
+                          </option>
+  
+                          <option value=" pm_item_name asc">
+                            Name
+                          </option>
+  
+                          <option value=" convert(varchar,pm_created_date,112) desc">
+                            Created Date
+                          </option>
+  
+  
+                        </select>
+  
+                      </td>
+                    </tr>
+  
+  
+                    <tr>
+                      <td> </td>
+                      <td><button type="button" (click)="this.appservice.get_product_Master(this.add.select_mode)"
+                          class="btn btn-info btn-sm">Search</button></td>
+                    </tr>
+  
+                  </table>
+  
+    
+                <div class="search_Footer border-top" style="color: green;">
+                  <div (click)="export_excel(dt1)" class="buttons">
+                    <span>
+                      <li class="bx bx-download"></li>
+                    </span>
+                    <span> Export Excel</span>
+                  </div>
+                  <div (click)="export_pdf(dt1)" class="buttons " style="color: red;">
+                    <span>
+                      <li class="bx bx-download"></li>
+                    </span>
+                    <span> Export PDF</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  <div class="col-md-12 nopad">
+    <div class="col-md-12 nopad">
+      <div class="tabs-header  border-bottom bg-light">
+        <ul class="nav nav-tabs">
+          <li 
+            class="nav-item" 
+            *ngFor="let data of appservice.Product_Menu" 
+            [class.active]="appservice.URL_Location === data.Link"
+          >
+            <a 
+              class="nav-link" 
+              [class.active]="appservice.URL_Location === data.Link" 
+              (click)="appservice.load_page(data.Link)">
+              {{ data.Menu }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="table-wrapper">
+      <p-table 
+        #dt1 
+        class="table table-striped custom-table"
+        [value]="appservice.Product_Master_Rows" 
+        [scrollable]="true"
+        scrollHeight="100%"
+        [globalFilterFields]="appservice.Product_Master_col_GF"
+        selectionMode="single"
+      >
+        <!-- Table Header -->
+        <ng-template pTemplate="header">
+          <tr class="vs">
+            <th>#</th>
+              <th ></th>    
+              <th ></th>
+          </tr>
+        </ng-template>
+  
+        <!-- Table Body -->
+        <ng-template pTemplate="body" let-rowData>
+          <tr [pSelectableRow]="rowData">
+            <td style="width: 50px;"><img style="width: 100%;" src="../../assets/img/empty.png"/></td>         
+               <td> <br><span class="l1_txt">Category : {{rowData.pm_category}} </span>
+              <br><span class="l2_txt">Item Name    : {{rowData.pm_item_name}} </span>
+              <br><span class="l3_txt">MRP : {{rowData.pm_mrpprice }} </span>
+              <br><span class="l3_txt">Pur-Price  : {{rowData.pm_purprice}} </span>
+              <br><span class="l3_txt">GST % : {{rowData.pm_gst_per}} </span>
+              <br><span class="l3_txt">UOM : {{rowData.pm_uom}} </span>
+              </td>
+              <td style="text-align: right;">
+                <div class="dropdown">
+                  <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                  </button> &nbsp;
+                  &nbsp;
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                      <i class='bx bx-edit-alt'></i> Edit
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData)" >
+                      <i class='bx bx-trash'></i> Delete
+                    </a>
+                  </div>
+                </div> 
+              </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  
+    </div>
+  </div>
+  

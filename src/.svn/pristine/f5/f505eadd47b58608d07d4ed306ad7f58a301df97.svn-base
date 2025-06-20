@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { LedgerDetails1Component } from './ledger-details1.component';
+
+describe('LedgerDetails1Component', () => {
+  let component: LedgerDetails1Component;
+  let fixture: ComponentFixture<LedgerDetails1Component>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ LedgerDetails1Component ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LedgerDetails1Component);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

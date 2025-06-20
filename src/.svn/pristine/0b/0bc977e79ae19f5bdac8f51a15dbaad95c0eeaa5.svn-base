@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ApprovalEntryComponent } from './approval-entry.component';
+
+describe('ApprovalEntryComponent', () => {
+  let component: ApprovalEntryComponent;
+  let fixture: ComponentFixture<ApprovalEntryComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ ApprovalEntryComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ApprovalEntryComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

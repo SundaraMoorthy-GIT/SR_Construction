@@ -1,0 +1,162 @@
+
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+        <div class=" Head ">
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Menu Master</h3>
+            <div class="dropdown">
+              <a (click)="appservice.back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <div class="content_body">
+            
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+                    <tbody>
+                      
+                      <tr>
+                        <td>Module<span class="text-danger">*</span></td>
+                        <td>
+                          <select class="select2-option form-control" 
+                            [(ngModel)]="add.Module" required  (change)="get_parents()"
+                            name="Module" #Module="ngModel">
+                      
+                            <option value="Dashboard">Dashboard </option>
+                            <option value="Master">Master </option>
+                            <option value="Sales">Sales </option>
+                            <option value="Purchase">Purchase </option>
+                            <option value="Accounts">Accounts </option>
+                            <option value="Mobile App ">Mobile App </option>
+                            <option value="Report">Report </option>
+                            <option value="Setting">Setting </option>
+                            <option value="Transaction">Transaction </option>
+                            <option value="Transport-Maintenance">Transport Maintenance </option>
+
+                            </select>
+
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Type<span class="text-danger">*</span></td>
+                        <td>
+                         
+                            <select class="select2-option form-control" 
+                                [(ngModel)]="add.Type" required   (change)="get_parent_Menus()"
+                                name="Type" #Type="ngModel">
+
+                                <option value="Label">Label </option>
+                                <option value="Parent">Parent </option>
+                                <option value="Menu">Menu </option>
+                                
+                                </select>
+
+
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>Parent<span class="text-danger">*</span></td>
+                        <td>
+                       
+                            <select class="select2-option form-control" 
+                            [(ngModel)]="add.Parent_ID" required  (change)="get_lenght()"
+                            name="Parent_ID" #Parent_ID="ngModel">
+                            
+                            
+                            <option *ngFor="let data of modules_Parents" value="{{data.ID}}">{{data.Display_Name}}</option>
+                         
+                          
+                            
+                            </select>
+
+                        </td>
+                      </tr>
+
+
+                      
+                      <tr>
+                        <td>Order No<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control ng-touched" type="number" [(ngModel)]="add.Order_No" required
+                            name="Order_No" #Order_No="ngModel">
+                        
+                        </td>
+                      </tr>
+  
+
+                      <tr>
+                        <td>Display Name<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control ng-touched" type="text" [(ngModel)]="add.Display_Name" required
+                            name="Display_Name" #Display_Name="ngModel">
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>Route Link<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control ng-touched" type="text" [(ngModel)]="add.Route_Link" required
+                            name="Route_Link" #Route_Link="ngModel">
+                        
+                        </td>
+                      </tr>
+
+                      
+
+                      <tr>
+                        <td>Icon<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control ng-touched" type="text" [(ngModel)]="add.Icon" required
+                            name="Icon" #Icon="ngModel">
+                        
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>Remark</td>
+                        <td>
+                          <input class="form-control ng-touched" type="text" [(ngModel)]="add.Remark" 
+                            name="Remark" #Remark="ngModel">
+                        
+                        </td>
+                      </tr>
+
+  
+                  
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" [disabled]="btndisable" (click)="save()">
+
+
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                          role="status" aria-hidden="true"></span>
+                      <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                      Save </button>
+                </div>
+  
+                </div>
+              </div>
+            </div>
+          
+        </div>
+    
+      </div>
+    </div>
+  </div>
+  

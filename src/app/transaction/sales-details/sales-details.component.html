@@ -1,0 +1,360 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mobile_hide">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li><a>Invoices <span style="font-size: 11px;" >({{appservice.S_From}}  to {{appservice.S_To}} )</span></a>
+             
+              </li>
+              
+            </ul>
+          </div>
+  
+  
+          <div class="right-corner" style="margin-top: -1px;
+          padding-top: 0px;">
+            <div class="dropdown" style="display: inline-flex;">
+  
+  
+              <button class="dropdown-toggle mhide abutton" type="button" (click)="load_page()" title="Add New" >
+                <i style="font-size: 19px;" class='bx bx-list-plus'></i> 
+                <span >Add New</span>
+              </button>
+  
+  
+  
+              
+                <a class="dropdown-toggle  mshow addbtn1" (click)="load_page()" data-toggle="tooltip" data-placement="bottom"
+                title="Add New">
+  
+                <i class='bx bx-list-plus'></i>
+              </a>
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" >
+             
+                <i style="    font-size: 20px;" class='bx bx-search'></i> 
+              </a>
+  
+  
+              <button class="dropdown-toggle mhide mbutton" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false" >
+                <i style="font-size: 19px;" class='bx bx-dots-vertical'></i> 
+                <span >More</span>
+              </button>
+  
+              <button class="dropdown-toggle mshow" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                  aria-expanded="false">
+                  <i class='bx bx-filter'></i>
+                </button>
+  
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+  
+                  <tr>
+                    <td style="width: 80px;">From </td>
+                    <td>
+                      <input type="date" class="form-control form-control-sm" [(ngModel)]="appservice.S_From" name="From_"
+                        #From_="ngModel">
+                    </td>
+                  </tr>
+  
+  
+                  <tr>
+                    <td style="width: 80px;">To </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                        name="To_" #To_="ngModel">
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td style="width: 80px;">Bill Type</td>
+                    <td>
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Bill_Type"
+                        name="S_Bill_Type" #S_Bill_Type="ngModel" style="width:100%" aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        
+                        <option *ngFor="let data of this.appservice.get_ref('Bill_Type')" value="{{data.label}}">
+                          {{data.label}}
+                        </option>
+  
+                      </select>
+                    </td>
+                  </tr> 
+  
+  
+                 
+  
+                  <tr *ngIf="appservice.Rights_Name=='Admin'">
+                    <td style="width: 80px;">User </td>
+                    <td>
+                      <select style="height: 30px;" placeholder="Select Area" class="area form-control form-control-sm"
+                        [(ngModel)]="appservice.Search_User" name="Search_User" #Search_User="ngModel" style="width:100%"
+                        aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option *ngFor="let data of this.appservice.User_Master_Rows" value="{{data.UM_User_Name}}">
+                          {{data.UM_User_Name}}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+  
+                     <tr>
+                    <td style="width: 80px;">Area </td>
+                    <td>
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Area" name="Area"
+                        #Area="ngModel" style="width:100%" aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option *ngFor="let data of appservice.Area_Row" value="{{data.label}}">
+                          {{data.label}}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+  
+                 
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="appservice.get_Sale_Details()"
+                        class="btn btn-info btn-sm">Search</button></td>
+                  </tr>
+                </table>
+                <div  class="search_Footer border-top" style="color: green;"> 
+                  <div (click)="export_excel(dt)"  class="buttons">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export Excel</span>
+                   
+                  </div>
+  
+                 
+                  <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export PDF</span>
+                   
+                  </div>
+  
+  
+              </div>
+              </div>
+            </div>
+          </div>
+  
+  
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 res_table">
+          <div class="search-bar_Ext mhide  show_bar " style="right: 250px;">
+          
+            <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text"
+                placeholder="Search...">
+    
+          </div>
+  
+        
+          <p-table #dt class="table table-striped custom-table" 
+          [value]="appservice.Sales_Row" 
+          [globalFilterFields]="appservice.Sales_Details_GF"
+          selectionMode="single">
+          <ng-template pTemplate="header">
+              <tr>
+                <th>#</th>
+                  <th *ngFor="let col of appservice.get_grid_fields_of('Sales')"
+                  [ngStyle]="{'text-align': col.Align}"  [pSortableColumn]="col.Field"
+                  [style]="col.Style"  class="{{col.Class}}" 
+                   style="white-space: pre">
+                      {{col.Name}}
+  
+                  </th>
+                  <th ></th>
+              </tr>
+  
+  
+           
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+              <tr [pSelectableRow]="rowData" [className]="rowIndex==row_No ? 'rselected' : ''" >
+  
+                
+                <td [className]="rowIndex==row_No ? ' rselected' : ''"  >{{rowIndex+1}}</td>
+                  <td class="{{col.Class}}"    *ngFor="let col of appservice.get_grid_fields_of('Sales')" 
+                  [ngStyle]="{'text-align': col.Align}"  
+                  [style]="col.Style"   > 
+                   {{car[col.Field]}}
+                   <span class="mshow text-muted" *ngFor="let l of appservice.get_Array(col.Mobile_Field)">
+                     {{appservice.get_Column_Array(appservice.get_grid_fields_of('Sales'),l)}} : {{ car[l]}}</span>
+                  <td style="text-align: center;">
+  
+                    <div class="dropdown">
+                      <button (click)="row_click(rowData)"  class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                      <a class="dropdown-item d-flex align-items-center" (click)="einvoice(rowData)">
+                          <i class='bx bx-edit-alt'></i> Generate EWB
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center"(click)="edit_data(rowData)" >
+                          <i class='bx bx-edit-alt'></i> Edit
+                        </a>
+                        
+                        <a class="dropdown-item d-flex align-items-center"(click)="Open_Customer_Module(rowData)" >
+                          <i class='bx bx-show'></i> View                      </a>
+                   
+                        
+  
+                        <a  *ngFor="let row of Print_Format_Data" (click)="Print(row.Variable_Name,rowData)"  class="dropdown-item d-flex align-items-center" >
+                          <i class='bx bx-edit-alt'></i>{{row.Display_Name}}
+                        </a>
+                        
+                        <a  *ngFor="let row of Print_Format_Data" (click)="PRI(rowData)"  class="dropdown-item d-flex align-items-center" >
+                          <i class='bx bx-edit-alt'></i>BILL
+                        </a>
+  
+                      
+  
+                        <a class="dropdown-item d-flex align-items-center"(click)="delete_data(rowData)" >
+                          <i class='bx bx-trash'></i> Delete
+                        </a>
+  
+                      </div>
+                    </div>
+  
+                  </td>
+                 
+  
+              </tr>
+          </ng-template>
+      </p-table>
+        </div>
+      </div>
+      <br><br><br>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #443636;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Rows : {{appservice.length_of(dt)}} </td>
+              <td style="text-align: right;     color: crimson;"> Amount :
+                {{appservice.sum_of(dt,'sal_net_amt')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade basicModalLG" id="Customer_Module"  style="    z-index: 9999999;" data-backdrop="static" data-keyboard="false"  role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Item Details</h5>
+                <button type="button" class="close"  (click)="Close_Customer_Module()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+  
+            </div>
+           
+  
+            <div>
+              <div style=" padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">Bill No: 
+                <span style="font-size: 12px;">{{appservice.Sales_Item_Rowdata}}</span>
+  
+                <span style=" padding-left: 35px; color: black;font-size: 15px;">Date:  </span>
+                <span style="font-size: 12px;">{{appservice.Sales_Customer.Date}}</span>
+                <span style=" padding-left: 55px">Customer: </span>
+                <span style="font-size: 12px;">{{appservice.Sales_Customer.Customer_name}}</span>
+  
+               </div>
+            <div class="modal-body" style="padding-top: 0px;
+            padding-bottom: 0px;min-height: 500px;">
+             
+               
+             <p-table #dt1 class="table table-striped custom-table" [value]="appservice.Sales_Item_Row"
+             selectionMode="single" [globalFilterFields]="appservice.Sales_Details_GF">
+             <ng-template pTemplate="header">
+               <tr class="fsize">
+                 <th>#</th>
+                 <th [pSortableColumn]="'Item_Name'">Item Name</th>
+                 <th [pSortableColumn]="'Qty'"style="text-align: right;">Qty</th>
+                 <th [pSortableColumn]="'Unit_Price'"style="text-align: right;"> Rate</th>
+                 <th style="text-align: right;"> Amt</th>
+                 
+                 
+               </tr>
+             </ng-template>
+             <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+               <tr class="fsize" >
+                 <td>{{rowIndex+1}}</td>
+   
+                 <td>{{rowData.Item_Name}}</td>
+  
+                 <td style="text-align: right;">{{rowData.Qty}}</td>
+                 <td style="text-align: right;">{{rowData.Unit_Price}}</td>
+                 <td style="text-align: right;">{{rowData.Net_Amt}}</td>
+   
+                 
+                
+               </tr>
+  
+             </ng-template>
+            
+           </p-table>
+          
+           <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt1)}} </td>
+              
+                   <td style="text-align: right;     color: crimson;"> Amount :
+                  {{appservice.sum_of(dt1,'Net_Amt')| number:'1.0-0'}}</td>
+               
+            </tr>
+          </table>        
+            
+         
+            </div>
+           
+            <div class="modal-footer ">
+                          
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,381 @@
+<div class="row mhide" >
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mar_45">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li>&nbsp;&nbsp;<b>Customers</b></li>
+                    
+            </ul>
+          </div>
+  
+          <div class="right-corner">
+            <div class="dropdown" style="display: inline-flex;">
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+            title="search" >
+           
+              <i style="    font-size: 20px;" class='bx bx-search'></i> 
+            </a>
+             
+  
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button>
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+                 
+               
+                  <tr >
+                    <td style="width: 80px;">Date </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                        name="To_" #To_="ngModel">
+                    </td>
+                  </tr>
+  
+                  
+                  <tr>
+                    <td style="width: 80px;">Area </td>
+                    <td>
+                      <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Area" name="Area"
+                        #Area="ngModel" style="width:100%" aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option *ngFor="let data of appservice.Area_Row" value="{{data.label}}">
+                          {{data.label}}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+
+                  
+                  <tr *ngIf="appservice.Rights_Name=='Admin'">
+                    <td style="width: 80px;">Salesman</td>
+                    <td>
+                      <select style="height: 30px;" placeholder="Select Area" class="area form-control form-control-sm"
+                        [(ngModel)]="appservice.S_Sales_Person" name="S_Sales_Person" #S_Sales_Person="ngModel" style="width:100%"
+                        aria-hidden="true">
+                        <option value="All">
+                          All
+                        </option>
+                        <option *ngFor="let data of this.appservice.User_Master_Rows" value="{{data.UM_User_Name}}">
+                          {{data.UM_User_Name}}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+
+
+
+                  <tr *ngIf="appservice.Rights_Name=='Admin'" >
+                    <td style="width: 80px;">Customer </td>
+                    <td>
+                      <select style="height: 30px;"  class="area form-control form-control-sm"
+                        [(ngModel)]="appservice.S_customer" name="S_customer" #S_customer="ngModel" style="width:100%"
+                        aria-hidden="true">
+                        <option value="0">
+                          All
+                        </option>
+                        <option *ngFor="let data of this.appservice.Ledger_Master_Rows" value="{{data.ID}}">
+                          {{data.Ledger_Name}}
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="appservice.get_OutStanding()"
+                        class="btn btn-info btn-sm">Search</button></td>
+                  </tr>
+                </table>
+               
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 res_table">
+          <div class="search-bar_Ext   disp" style="right: 50px;">
+        
+            <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text  itext"
+                (keydown.enter)="selected_row1(row_No,dt)" 
+                        (keydown.arrowup)="up()"  
+                        (keydown.arrowdown)="down()"  
+                placeholder="Search...">
+    
+          </div>
+  
+          <div   style="width: 100%;padding: 5px; text-align:center; ">  Selected Area : {{appservice.S_Area}}</div>
+
+        
+          <p-table #dt class="table table-striped custom-table" [value]="Open_Customer_Row"
+            selectionMode="single"[globalFilterFields]="appservice.Customerwise_out_GF">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>#</th>
+                <th [pSortableColumn]="'Loan_No'" >Loan No</th>
+                <th [pSortableColumn]="'Loan_Date'" >Loan Date</th>
+                <th [pSortableColumn]="'Code'">ID</th>
+
+                <th [pSortableColumn]="'Ledger_Name'">Borrower Name</th>
+                <th [pSortableColumn]="'Area'">Village</th>
+                <th [pSortableColumn]="'Phone_Number'" class="mhide">Phone No</th>
+                <th [pSortableColumn]="'Loan_Amount'">Loan Amount</th>
+                <th [pSortableColumn]="'Prin_Bal'" style="text-align: right;">Prin Bal</th>
+                <th [pSortableColumn]="'Intr_Bal'" style="text-align: right;">Intr Bal</th>
+                <th [pSortableColumn]="'Over_Due'" style="text-align: right;">Over Due</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" >
+            <tr   [className]="rowIndex==row_No ? 'rselected' : ''"  (click)="select_Customer(rowData)" class="trhover"  >
+                <td>{{rowIndex+1}}</td>
+                
+                <td >{{rowData.Loan_No}}</td>
+                <td >{{rowData.Loan_Date_}}</td>
+                <td >{{rowData.Code}}</td>
+
+                <td>{{rowData.Ledger_Name}}
+                <span class="mshow text-muted">{{rowData.Phone_Number}}</span>
+                </td>
+                <td >{{rowData.Area}}</td>
+                <td class="mhide">{{rowData.Phone_Number}}</td> 
+                <td style="text-align: right;">{{rowData.Loan_Amount}}</td>
+                <td style="text-align: right;">{{rowData.Prin_Bal}}</td>
+                <td style="text-align: right;">{{rowData.Intr_Bal}}</td>
+                <td style="text-align: right;">{{rowData.Over_Due}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+           <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Items : {{Open_Customer_Length}} </td>
+              <td style="text-align: right;     color: crimson;">Total Overdue :
+                {{appservice.sum_of(dt,'Over_Due')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mshow" >
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad">
+      
+      
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="m_2">
+          <div class="search-bar_Ext   disp" style="right: 50px;">
+        
+            <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text  itext"
+                (keydown.enter)="selected_row1(row_No,dt)" 
+                        (keydown.arrowup)="up()"  
+                        (keydown.arrowdown)="down()"  
+                placeholder="Search...">
+
+
+                <div class="right-corner"  style="right: 3px;line-height: 50px;" > 
+                  <div class="dropdown" style="display: inline-flex;">
+                   
+                   
+        
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                      aria-expanded="false">
+                      <i class='bx bx-filter'></i>
+                    </button>
+                    <div class="dropdown-menu" style="width: 325px;">
+                      <div style="background-color: teal;line-height: 35px; color: white; width: 100%; ">
+                        &nbsp;&nbsp;Search</div>
+                      <table>
+                       
+                     
+                        <tr >
+                          <td style="width: 80px;">Date </td>
+                          <td>
+                            <input  style="margin: 0px!important;" type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                              name="To_" #To_="ngModel">
+                          </td>
+                        </tr>
+        
+                        
+                        <tr>
+                          <td style="width: 80px;">Area </td>
+                          <td>
+                            <select class="area form-control form-control-sm" [(ngModel)]="appservice.S_Area" name="Area"
+                              #Area="ngModel" style="width:100%" aria-hidden="true">
+                              <option value="All">
+                                All
+                              </option>
+                              <option *ngFor="let data of appservice.Area_Row" value="{{data.label}}">
+                                {{data.label}}
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+      
+                        
+                        <tr *ngIf="appservice.Rights_Name=='Admin'">
+                          <td style="width: 80px;">Salesman</td>
+                          <td>
+                            <select style="height: 30px;" placeholder="Select Area" class="area form-control form-control-sm"
+                              [(ngModel)]="appservice.S_Sales_Person" name="S_Sales_Person" #S_Sales_Person="ngModel" style="width:100%"
+                              aria-hidden="true">
+                              <option value="All">
+                                All
+                              </option>
+                              <option *ngFor="let data of this.appservice.User_Master_Rows" value="{{data.UM_User_Name}}">
+                                {{data.UM_User_Name}}
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+      
+      
+      
+                        <tr *ngIf="appservice.Rights_Name=='Admin'" >
+                          <td style="width: 80px;">Customer </td>
+                          <td>
+                            <select style="height: 30px;"  class="area form-control form-control-sm"
+                              [(ngModel)]="appservice.S_customer" name="S_customer" #S_customer="ngModel" style="width:100%"
+                              aria-hidden="true">
+                              <option value="0">
+                                All
+                              </option>
+                              <option *ngFor="let data of this.appservice.Ledger_Master_Rows" value="{{data.ID}}">
+                                {{data.Ledger_Name}}
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+      
+      
+                        <tr>
+                          <td> </td>
+                          <td><button type="button" (click)="appservice.get_OutStanding()"
+                              class="btn btn-info btn-sm">Search</button></td>
+                        </tr>
+                      </table>
+                     
+                    </div>
+                  </div>
+                </div>
+    
+          </div>
+  
+          <div  *ngIf="appservice.S_Area!='All'" style="width: 100%;padding: 5px; text-align:center; ">  Selected Area : {{appservice.S_Area}}</div>
+
+        
+          <p-table #dt1 class="table table-striped custom-table table-borderless " [value]="appservice.Customerwise_Out"
+            selectionMode="single"[globalFilterFields]="appservice.Customerwise_out_GF">
+            <ng-template pTemplate="header">
+              <tr class="vs">
+                <th>#</th>
+               
+                <th [pSortableColumn]="'Customer_Name'">Customer Name</th>
+               
+                <th [pSortableColumn]="'Amount'" style="text-align: right;">Amount</th>
+                
+                
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" >
+              <tr   [className]="rowIndex==row_No ? ' vs rselected' : 'vs'"  class="trhover"  >
+                  <td style="width: 20px;">&nbsp;{{rowIndex+1}}</td>
+                  
+                 
+                  <td> <span  class="l1_txt"  (click)="select_Customer(rowData)" > {{rowData.Customer_Name}}</span>
+                    <br> <span class="l2_txt ">{{rowData.Area}}</span>
+                    <br> <a href="tel:{{rowData.Phone_No}}"> <li class="bx bx-phone"></li> <span class="l3_txt ">{{rowData.Phone_No}}</span></a>
+                  </td>
+           
+                 
+                  
+                  
+                      <td   (click)="select_Customer(rowData)"  style="text-align: right; font-weight: 800; color: #37517e;">{{rowData.Amount |currency:'INR':'symbol':'0.0-0'}}
+                        <br> <span class="l3_txt ">{{rowData.count}} Nos</span>
+                      </td>
+                 
+                </tr>
+              </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+           <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Items : {{appservice.Customerwise_Out.length}} </td>
+              <!-- <td style="text-align: right;     color: crimson;"> Amount :₹
+                {{appservice.Outstand_Amt | number:'1.0-0'}}</td> -->
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  
+  
+  
+  

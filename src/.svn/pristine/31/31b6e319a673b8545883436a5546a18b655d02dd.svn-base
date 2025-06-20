@@ -1,0 +1,198 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+    <div class="col-md-12 nopad mobile_hide">
+
+
+      <div class="w_79" style="position: fixed;z-index: 99; ">
+        <div class="tabs-header border-bottom">
+          <ul>
+
+            <li> <a style="display: inline-flex;">Ledger Group</a></li>
+
+
+          </ul>
+        </div>
+
+
+        <div class="right-corner">
+
+          <div class="dropdown" style="display: inline-flex;">
+
+
+            <a class="dropdown-toggle  serch_icon   mshow" data-toggle="tooltip" data-placement="bottom" title="search">
+
+              <i style="    font-size: 20px;" class='bx bx-search'></i>
+            </a>
+
+
+
+            <a style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle "
+              (click)="appservice.get_Ledger_Group()" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+
+              <i class='bx bx-rotate-left'></i>
+            </a>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-md-12 nopad">
+
+
+      <div class="spin_block" *ngIf="appservice.isload">
+
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="m_2 res_table">
+
+
+        <div class="search-bar_Ext mhide  show_bar " style="right: 60px;">
+
+          <li class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+          <input type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" class="search-form-control text"
+            placeholder="Search...">
+
+        </div>
+
+        <div class="row filter-row">
+          <div class="col-sm-6 col-md-2 col-xs-6">
+            <div class="form-group ">
+              <label class="control-label"> Under Group</label>
+              <select class="select2-option form-control " [(ngModel)]="add.Group_ID" name="Group_ID"
+                #Group_ID="ngModel" style="width:100%" aria-hidden="true">
+
+                <option value="0">
+                  Accounts
+                </option>
+                <option *ngFor="let summary of appservice.Ledger_Group" value={{summary.ID}}>
+                  {{summary.Ledger_Name}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-md-2 col-xs-6">
+            <div class="form-group ">
+              <label class="control-label"> Group Name<span class="text-danger">*</span></label>
+              <input class="form-control afocus" type="text" [(ngModel)]="add.Ledger_Name" name="Ledger_Name"
+                #Ledger_Name="ngModel">
+               
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-2 col-xs-6">
+            <label class="control-label">&nbsp;</label>
+
+            <button (click)="addData()" [disabled]="btndisable" class="btn btn-info btn-block" style="height: 35px">
+
+
+
+              <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+              <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+
+              Save
+            </button>
+          </div>
+
+        </div>
+
+
+        <p-table #dt [globalFilterFields]="['Ledger_Name','Customer','Created_Date','Group_ID']"
+          class="table table-striped custom-table" [value]="appservice.Ledger_Group">
+          <ng-template pTemplate="header">
+            <tr>
+
+
+
+              <th>#</th>
+
+              <th [pSortableColumn]="'Group_ID'"> Group ID
+
+              </th>
+              <th [pSortableColumn]="'Ledger_Name'" class="mhide">Ledger Name</th>
+
+
+              
+              <th [pSortableColumn]="'Created_Date'" class="mhide">Created Date</th>
+
+
+              <th *ngIf="appservice.img_visible" width=90></th>
+              <th></th>
+            </tr>
+
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+
+              <td>{{rowIndex+1}}</td>
+              <td>{{rowData.Group_ID}}
+
+              <td>{{rowData.Ledger_Name}}</td>
+
+
+
+              
+
+
+              <td class="mhide">{{rowData.Created_Date}}</td>
+
+
+
+
+             
+              <td class="text-right" style="white-space: pre">
+                <a href="javascript:" (click)="onEdit(rowData)" style="font-size: 18px;padding: 5px" title="Edit"><i class="bx bxs-pencil"></i>
+                </a>
+                <a title="Delete" style="font-size: 18px;padding: 5px;color: firebrick"
+                  (click)="onDelete(rowData.ID)"><i class="bx bxs-trash"></i>
+                </a>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+
+      </div>
+    </div>
+
+
+
+    <div class="col-md-12 nopad">
+
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+              
+              border: 1px solid #c8c8c8;">
+
+
+        <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;">Total Rows : {{appservice.Ledger_Group.length}} </td>
+            <td style="text-align: right;     color: crimson;"></td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+  </div>
+</div>

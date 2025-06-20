@@ -1,0 +1,294 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+$font-family: 'Nunito', sans-serif;
+$main-color: #e1000a;
+$back-color:#f9ecef;
+$black-color: #2a2a2a;
+
+$white-color: #ffffff;
+$font-size: 15px;
+$transition: .5s;
+
+//$main-color: #0bf53e;
+//$back-color:#edf9ec;
+
+
+$media: screen;
+$feature_min: min-width;
+$feature_max: max-width;
+$value_one: 576px;
+$value_two: 767px;
+$value_three: 768px;
+$value_four: 991px;
+$value_five: 992px;
+$value_six: 1199px;
+$value_seven: 1550px;
+
+
+
+/*dropdown-css*/
+.search{
+
+    table{
+background-color: white;
+
+    }
+tr{
+    .txt_icon
+    {
+       
+        text-align: center;
+    vertical-align: middle;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 20px;
+    padding-top: 6px;
+    background-color: #e1000a;
+    color: #f3f2f2;
+
+ 
+    }
+    &:nth-child(2) {
+        .txt_icon {
+            background-color: #727cf5;
+                color: $white-color;
+        }
+    }
+    &:nth-child(3) {
+        .txt_icon {
+            
+            background-color: #10b759;
+            color: $white-color;
+        }
+        
+    }
+    &:nth-child(4) {
+        .txt_icon {
+            background: rgba(255, 51, 102, .1);
+            color: #f36;
+        }
+        
+    }
+    &:nth-child(5) {
+        .txt_icon {
+            background: rgba(251, 188, 6, .1);
+            color: #fbbc06;
+        }
+
+    }
+}
+
+    .txt_name {
+    margin-bottom: 1px;
+    padding-top: 2px;
+    font-weight: 600;
+    color: #2a2a2a;
+    line-height: 1.4;
+    font-family: Nunito, sans-serif;
+    }
+
+    .sub_txt
+    {
+        color: #919191;
+    font-size: 14px;
+    margin-bottom: 0;
+    line-height: 1.4;
+    }
+
+
+}
+
+@media only #{$media} and ($feature_max : $value_two) {
+
+
+
+    .search-bar{
+        position: fixed;
+        top: 0px;
+        z-index: 10000;
+    }
+    
+.add_icon
+{
+ 
+font-size: 18px;
+
+}
+
+    .addbtn
+    {
+
+        width: 45px!important;
+        height: 45px!important;
+        background-color: #fbd8d7!important;
+        color: #e1000a!important;
+        border-radius: 50%!important;
+        -webkit-transition: .5s!important;
+        transition: .5s!important;
+        font-size: 22px!important;
+        position: fixed!important;
+        bottom: 10px!important;
+        right: 10px!important;;
+        z-index: 9999;
+        i{
+
+            position: absolute!important;;
+            left: 10px;
+            right: 0;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+
+    .addbtn1
+    {
+
+        width: 45px!important;
+        height: 45px!important;
+        background-color: #04406d !important;
+        color: rgb(245 245 245) !important;
+        border-radius: 50%!important;
+        -webkit-transition: .5s!important;
+        transition: .5s!important;
+        font-size: 22px!important;
+        position: fixed!important;
+        bottom: 45px!important;
+        right: 10px!important;;
+        z-index: 9999;
+        i{
+
+            position: absolute!important;;
+            left: 10px;
+            right: 0;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+}
+
+.right_shade
+{
+    box-shadow: 0 16px 24px -12px rgb(0 0 0 / 56%)!important;
+}
+
+
+
+
+.vcard {
+    border: 0;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    border-radius: 6px!important;
+    color: #333;
+    background: #fff;
+    width: 100%;
+    padding: 0px!important;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+
+    .card-header {
+        margin: 0 15px;
+        padding: 0!important;
+        position: relative;
+        text-align: right;
+        background-color: transparent;
+        border: none;
+    }
+
+
+ 
+    
+}
+
+.card-icon {
+    border-radius: 3px;
+    background-color: #999;
+    padding: 15px;
+    margin-top: -20px;
+    margin-right: 15px;
+    float: left;
+
+i{
+    font-size: 36px;
+    line-height: 56px;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    color: white;
+}
+}
+
+.card-category {
+    padding-top: 10px;
+    color: #999;
+    font-size: 16px;
+}
+
+.card-footer {
+    padding: 0;
+    padding-top: 10px;
+    margin: 0 15px 10px;
+    border-radius: 0;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    background-color: transparent!important;
+}
+
+.card-title{
+    margin-top: 15px;
+    color: #3c4858;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+.gshade{
+    background: linear-gradient(60deg,#66bb6a,#43a047);
+     box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(76 175 80 / 40%);
+}
+
+.oshade{  box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(255 152 0 / 40%);
+    background: linear-gradient(60deg,#ffa726,#fb8c00);
+
+}
+
+.bshade{ box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(0 188 212 / 40%);
+    background: linear-gradient(60deg,#26c6da,#00acc1);
+
+}
+
+.vshade{ background: linear-gradient(60deg,#6a3c88,#54198a);
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(133 49 171 / 40%);
+
+}
+.G_Search {
+    display: block;
+    width: 100%;
+    height: 30px;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fafafa;
+    background-clip: padding-box;
+    border: 0px solid #ced4da;
+    border-radius: 2.25rem;
+  }

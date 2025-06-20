@@ -1,0 +1,9 @@
+.scrl {
+    width: 100%; /* Or any fixed width */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap; /* Prevents line breaks */
+    border: 1px solid #ccc; /* Optional: for visual reference */
+}
+td{
+    padding: 20px;
+}

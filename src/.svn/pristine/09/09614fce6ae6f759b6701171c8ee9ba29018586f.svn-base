@@ -1,0 +1,115 @@
+import { Component, OnInit } from '@angular/core';
+  import { AppService } from 'src/app/app.service';
+  
+  import { Router, ActivatedRoute } from '@angular/router';
+  import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+  import { ToastrService } from 'ngx-toastr';
+  import { Location } from '@angular/common';
+  import { ConfirmationService } from 'primeng/api';
+  
+  @Component({
+    selector: 'app-bank-details',
+    templateUrl: './bank-details.component.html',
+    styleUrls: ['./bank-details.component.scss']
+  })
+  export class BankDetailsComponent implements OnInit {
+    
+    authType: string;
+  
+    ngOnInit() {
+    }
+    Rows = [];
+    cols: any[];
+    constructor(public confirmationService:ConfirmationService,private toastr: ToastrService, public appservice: AppService, private http: HttpClient,  private router: Router, private route: ActivatedRoute) {
+      this.display();
+  
+     
+    }
+    addReset() {
+      this.appservice.isadd = "0";
+      return this.router.navigate(['add-bank']);
+    }
+    onEdit(item) {
+      this.appservice.isadd = "1";
+      this.appservice.Edit_Row = item;
+      return this.router.navigate(['add-bank']);
+    }
+    onDelete(item) {
+      this.confirmationService.confirm({
+          message: 'Are you sure that you want to delete press Yes?',
+          accept: () => {
+            this.Delete(item) 
+          }
+      });
+    }
+    
+    Delete(item) {
+      this.appservice.get("Api/master/delete_Bank_Master?ID=" + item).subscribe((res: any) => {
+        var index = this.appservice.Bank_Master_Rows.findIndex(function (items, i) {
+          return items.ID === item
+        });
+        if (index > -1) {
+          this.appservice.Bank_Master_Rows.splice(index, 1);
+        }
+        this.appservice.Bank_Master_Rows = this.appservice.Bank_Master_Rows;
+        this.display();
+      });
+    }
+    display() {
+      this.Rows = this.appservice.Bank_Master_Rows;
+      this.cols = [
+        { field: 'Bank_Name', header: 'Bank Name', width: '' },
+        { field: 'Account_Number', header: 'Acc Number', width: '' },
+        { field: 'Account_Name', header: 'Acc Name', width: '' },
+        { field: 'Branch', header: 'Branch', width: '' },
+        { field: 'IFSC_Code', header: 'IFSC Code', width: '' }
+      ];
+    }
+  
+    public Excel_Data: any = {  'ID': '',
+    "item":'',
+    "Header":'',
+  };
+  
+    headers;
+  
+    export_excel()
+    {
+     
+      this.Excel_Data.items=this.Rows;
+      this.Excel_Data.Header=this.cols;
+      this.Excel_Data.Company=this.appservice.Company;
+      this.Excel_Data.User="vino";
+      this.Excel_Data.Report_Name="Bank Details";
+      
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+     
+      this.http.post(this.appservice.Server_URL + 'api/master/JsontToExcel', this.Excel_Data, { headers: this.headers })
+      .subscribe(
+        (val:string) => {
+         
+          if(val=="True")
+          {
+            var parm="User=vino&Company="+this.appservice.Company;
+            window.open(this.appservice.Server_URL+"Report/JsontToExcel?"+parm, "_blank");
+            this.toastr.success("Details Salved Success",'Msg');
+           
+          }
+        else
+        {
+          
+          console.log(val);
+          this.toastr.error( val,"Error", { timeOut: 3000 });
+        }
+        },
+        response => {
+          console.log(response);
+        this.toastr.error('Error ', response, {
+          timeOut: 3000
+        });
+  
+        });
+  
+    }
+  }
+  

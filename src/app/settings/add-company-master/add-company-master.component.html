@@ -1,0 +1,208 @@
+<div >
+
+
+    <div class="row">
+      <div class="col-md-12 nopad">
+        <div class="card content ">
+  
+            <div class=" Head ">
+  
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>
+                      Update Company details
+                    </h3>
+  
+                    <div class="dropdown">
+  
+                        <a (click)="appservice.back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                            <b>X</b>
+                        </a>
+  
+  
+                    </div>
+                </div>
+  
+            </div>
+  
+  
+            <div class="content_body">
+  
+              <div class="row" style="background-color: white;">
+                <div class="col-md-8 col-md-offset-2" >
+                  <form #addForm="ngForm" (ngSubmit)="updateCompany(addForm)">
+                  
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Company Name <span class="text-danger">*</span></label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Name" name="CM_Name" #CM_Name="ngModel">
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Industy Type</label>
+                          <select class="select2-option form-control "  [(ngModel)]="uptC.CM_Type" name="CM_Type"
+                          #CM_Type="ngModel" style="width:100%"   aria-hidden="true">
+                      
+                          <option *ngFor="let summary of rows" value={{summary.Type}}>
+                              {{summary.Type}}
+                          </option>
+                      
+                            </select>
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label>Address</label>
+                          <input class="form-control " type="text" [(ngModel)]="uptC.CM_Address1" name="CM_Address1" #CM_Address1="ngModel">
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <input class="form-control " type="text" [(ngModel)]="uptC.CM_Address2" name="CM_Address2" #CM_Address2="ngModel">
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          
+                          <input class="form-control " type="text" [(ngModel)]="uptC.CM_Address3" name="CM_Address3" #CM_Address3="ngModel">
+                        </div>
+                      </div>
+            
+                      <div class="col-sm-6 col-md-6 col-lg-3">
+            
+                        <div class="form-group">
+            
+                          <label class="control-label">Country <span class="text-danger">*</span> </label>
+                      
+                          <div >
+                      
+                            <select class="select2-option form-control " style="width:100%" name="client"  aria-hidden="true">
+                      
+                              <optgroup label="Country">
+                                <option value="6">India</option>
+                                <option value="4">Srilanka</option>
+                                <option value="5">UK</option>
+                                <option value="17">Pakistan</option>
+                              </optgroup>
+                      
+                            </select>
+                            
+                          </div>
+                      
+                          </div>
+                      
+            
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="form-group">
+                          <label>City</label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Address4" name="CM_Address4" #CM_Address4="ngModel">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="form-group">
+                          <label>State/Province</label>
+                          <select class="form-control select" [(ngModel)]="uptC.CM_State" name="CM_State" #CM_State="ngModel">
+                            <option value="California">California</option>
+                            <option value="Alaska">Alaska</option>
+                            <option value="Alabama">Alabama</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="form-group">
+                          <label>Postal Code</label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Address5" name="CM_Address5" #CM_Address5="ngModel">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+            
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>GST No</label>
+                              <input class="form-control" type="text" [(ngModel)]="uptC.CM_GST_No" name="CM_GST_No" #CM_GST_No="ngModel">
+                            </div>
+                          </div>
+            
+                          
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Email</label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Email_ID" name="CM_Email_ID" #CM_Email_ID="ngModel">
+                        </div>
+                      </div>
+            
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Phone Number</label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Phone_off" name="CM_Phone_off" #CM_Phone_off="ngModel">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+            
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>Primary Contact</label>
+                              <input class="form-control" type="text" [(ngModel)]="uptC.CM_Phone_Res" name="CM_Phone_Res"
+                                #CM_Phone_Res="ngModel">
+                            </div>
+                          </div>
+            
+            
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Mobile Number</label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Pan_No" name="CM_Pan_No"
+                            #CM_Pan_No="ngModel">
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label>Website Url</label>
+                          <input class="form-control" type="text" [(ngModel)]="uptC.CM_Sub_Head" name="CM_Sub_Head" #CM_Sub_Head="ngModel">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+            
+                          <div *ngIf="uptCompany" class="alert alert-info m-t-10" style="text-align: center;">
+                              <strong class="text-center">Saved Successfully</strong>
+                          </div>
+            
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 text-center m-t-20">
+                        <button type="submit" class="btn btn-primary">Save &amp; update</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+            
+                 <div class="col-md-4">
+                  
+                  <div class="form-group ">
+                    <label>Image</label>
+                      
+                </div>
+                
+                </div>
+              </div>
+            </div>
+  
+        </div>
+    </div>
+    </div>
+    
+   
+  </div>

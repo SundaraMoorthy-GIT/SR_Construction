@@ -1,0 +1,349 @@
+<div class="row">
+  <div class="col-md-12 nopad">
+    <div class="col-md-12 nopad mobile_hide">
+
+
+      <div class="w_79" style="position: fixed;z-index: 99; ">
+        <div class="tabs-header border-bottom">
+          <ul>
+
+            <li> <a style="display: inline-flex;">BOM Master</a></li>
+
+
+          </ul>
+        </div>
+
+
+        <div class="right-corner">
+
+          <div class="dropdown" style="display: inline-flex;">
+
+
+
+            <a class="dropdown-toggle  serch_icon   mshow" data-toggle="tooltip" data-placement="bottom" title="search">
+
+              <i style="    font-size: 20px;" class='bx bx-search'></i>
+            </a>
+
+
+
+            <a style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle "
+              (click)="appservice.get_BOM_Master()" data-toggle="tooltip" data-placement="bottom" title="Refresh">
+
+              <i class='bx bx-rotate-left'></i>
+            </a>
+
+            <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+              aria-expanded="false">
+              <i class='bx bx-filter'></i>
+
+            </button>
+
+            <div class="dropdown-menu" style="width: 325px;">
+              <div style="background-color: teal; color: white; width: 100%; ">
+                &nbsp;&nbsp;Search</div>
+              <table>
+
+
+                <tr>
+                  <td style="width: 80px;">Order by </td>
+                  <td>
+
+                    <select class="area form-control form-control-sm" [(ngModel)]="appservice.Item_Orderby_Name"
+                      name="Item_Orderby_Name" #Item_Orderby_Name="ngModel" style="width:100%" aria-hidden="true">
+
+                      <option value="Display_order">
+                        Display Order
+                      </option>
+                      <option value="Item_Name">
+                        Name
+                      </option>
+                      <option value="CreatedDate desc">
+                        Created Date
+                      </option>
+
+                    </select>
+
+                  </td>
+                </tr>
+
+
+
+
+
+
+
+
+                <tr>
+                  <td> </td>
+                  <td><button type="button" (click)="appservice.get_BOM_Master()"
+                      class="btn btn-info btn-sm">Search</button></td>
+                </tr>
+
+              </table>
+
+
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-md-12 nopad">
+
+
+      <div class="m_2 res_table">
+        <div class="search-bar_Ext mhide  show_bar " style="right: 110px;">
+          <li class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+          <input type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" class="search-form-control text"
+            placeholder="Search...">
+
+        </div>
+
+        <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+
+
+          <div class="row filter-row">
+
+            <div class="col-6 col-md-4">
+              <div class="form-group ">
+                <label class="control-label"> BOM Name</label>
+
+
+                <app-vindropdown class="form-control" (change)="get()"   (focusin)="focus_out()" [(ngModel)]="add.BOM_Name"  #BOM_Name="ngModel"
+                  [(inputModel)]="add.BOM_Name" [(label_)]="add.BOM_Name" [(values_)]="add.BOM_ID"
+                  [Row]="appservice.Item_Master_Rows" (inputModelChange)="add.BOM_Name= $event"
+                  (valueModelChange)="add.BOM_ID= $event">
+                </app-vindropdown>
+
+
+                <input class="form-control hidden" type="text" required [(ngModel)]="add.BOM_ID" name="BOM_ID"
+                  #BOM_ID="ngModel">
+
+              </div>
+            </div>
+
+
+            <div class="col-1  col-md-1">
+
+              <label class="control-label"> &nbsp;</label>
+            
+
+              <button type="button"  (click)="get()"   class="btn btn-secondary  rounded-pill" style="width: 100px;"
+              [disabled]="btndisable">
+              <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+
+              <i *ngIf="btndisable==false" class='bx bx-search'></i> Search 
+      </button>
+
+            </div>
+
+
+            <div class="col-3 col-md-3 nopad hidden">
+              <div class="form-group ">
+                <label class="control-label"> BOM Qty</label>
+                <input class="form-control" type="text" required [(ngModel)]="add.BOM_Qty" name="BOM_Qty"
+                  #BOM_Qty="ngModel">
+                <div *ngIf="addForm.submitted && BOM_Qty.invalid" class="invalid-feedback d-block ">
+                  <div class="error"> BOM Qty Should not entry</div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-3 col-md-3 hidden">
+              <div class="form-group ">
+                <label class="control-label"> Unit</label>
+
+                <select class="select2-option form-control " required [(ngModel)]="add.BOM_UOM" name="BOM_UOM"
+                  #BOM_UOM="ngModel" style="width:100%" aria-hidden="true">
+
+                  <option *ngFor="let summary of appservice.get_ref('UOM')" value={{summary.label}}>
+                    {{summary.label}}
+                  </option>
+
+                </select>
+                <div *ngIf="addForm.submitted && BOM_UOM.invalid" class="invalid-feedback d-block ">
+                  <div class="error"> UOM Unit Should not entry</div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+
+
+          <div class="row filter-row">
+
+            <div class="col-6 col-md-4">
+              <div class="form-group ">
+                <label class="control-label"> RM Name</label>
+
+                <app-vindropdown class="form-control" [(ngModel)]="add.RM_Name"  #BOM_Name="ngModel"
+                  [(inputModel)]="add.RM_Name" [(label_)]="add.RM_Name" [(values_)]="add.RM_ID"  (focusin)="focus()"  (focusout)="focus_out()"
+                  [Row]="appservice.Item_Master_RM_Rows" (inputModelChange)="add.RM_Name= $event"
+                  (valueModelChange)="add.RM_ID= $event">
+                </app-vindropdown>
+
+
+
+                <input class="form-control hidden" type="text" required [(ngModel)]="add.RM_ID" name="RM_ID" #RM_ID="ngModel">
+
+              </div>
+            </div>
+
+            <div class="col-3  col-md-2 nopad">
+              <div class="form-group ">
+                <label class="control-label"> RM Qty</label>
+                <input class="form-control" type="text" required [(ngModel)]="add.RM_Qty" name="RM_Qty"
+                  #RM_Qty="ngModel">
+                <div *ngIf="addForm.submitted && RM_Qty.invalid" class="invalid-feedback d-block ">
+                  <div class="error"> RM Qty Should not entry</div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-2  col-md-2">
+              <div class="form-group ">
+                <label class="control-label"> Unit</label>
+
+                <select class="select2-option form-control " required [(ngModel)]="add.RM_UOM" name="RM_UOM"
+                  #RM_UOM="ngModel" style="width:100%" aria-hidden="true">
+
+                  <option *ngFor="let summary of appservice.get_ref('UOM')" value={{summary.label}}>
+                    {{summary.label}}
+                  </option>
+
+                </select>
+                <div *ngIf="addForm.submitted && RM_UOM.invalid" class="invalid-feedback d-block ">
+                  <div class="error"> RM Unit Should not entry</div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-3  col-md-2 nopad">
+              <div class="form-group ">
+                <label class="control-label"> Order No</label>
+                <input class="form-control" type="text" required [(ngModel)]="add.RM_Order" name="RM_Order"
+                  #RM_Order="ngModel">
+               
+
+              </div>
+            </div>
+
+            
+            <div class="col-1  col-md-1">
+
+              <label class="control-label"> &nbsp;</label>
+            
+
+              <button type="submit"  class="btn btn-info  rounded-pill" style="width: 100px;"
+              [disabled]="btndisable">
+              <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true"></span>
+
+              <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save 
+      </button>
+
+            </div>
+
+          </div>
+
+        </form>
+
+        <div class="col-md-12 nopad">
+
+        <div class="spin_block" *ngIf="appservice.isload">
+
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+  
+        </div>
+        <p-table #dt class="table table-striped custom-table" [value]="appservice.BOM_Master_Rows"
+          [globalFilterFields]="appservice.BOM_Master_GF" selectionMode="single">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>RM Name</th>
+              <th>Qty</th>
+              <th>Order</th>
+              <th style="max-width: 40px;"></th>
+             
+            </tr>
+
+
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData">
+
+              <td>{{rowIndex+1}}</td>
+              <td>
+                {{rowData.RM_Name}}
+              </td>
+
+              <td>
+                {{rowData.RM_Qty}} {{rowData.RM_UOM}}
+              </td>
+
+              <td>
+                {{rowData.RM_Order}}
+              </td>
+              
+              <td style="text-align: center;">
+
+                <a class="dropdown-item d-flex align-items-center" (click)="onDelete(rowData.ID)">
+                  <i class='bx bx-trash' style="color: brown;font-size: 17px;font-weight: 700;"></i> 
+                </a> 
+              </td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-md-12 nopad">
+
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+              
+              border: 1px solid #c8c8c8;">
+
+
+        <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;">Total Rows : {{appservice.length_of(dt)}} </td>
+            <td style="text-align: right;     color: crimson;"></td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+  </div>
+</div>

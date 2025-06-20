@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { LoanCollectionEntryComponent } from './loan-collection-entry.component';
+
+describe('LoanCollectionEntryComponent', () => {
+  let component: LoanCollectionEntryComponent;
+  let fixture: ComponentFixture<LoanCollectionEntryComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ LoanCollectionEntryComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoanCollectionEntryComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

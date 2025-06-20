@@ -1,0 +1,412 @@
+<div class="row">
+
+    <div class="col-md-12 nopad hbar">
+        &nbsp; Material Issue
+        <a (click)="appservice.Open_Modal('Title','item_Master')" class="x pright45">
+            <li class="bx bx-calendar-week"></li>
+        </a>
+        <a (click)="appservice.back()" class="x pright15">
+            <b>X</b>
+        </a>
+    </div>
+</div>
+
+<div class="row shade">
+
+    <div class="col-md-5 nopad">
+
+        <table style="width: 100%;">
+
+            <tr *ngFor="let data of appservice.get_pos_field('Delivery_Challan','1TL')">
+                <td style="padding-left: 8px;width: 120px;">{{data.Name}} <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                <td>
+                    <select *ngIf="data.Type=='Select'" class="select2-option form-control" aria-hidden="true" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+                               <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                   {{row[data.Store_Value]}}
+                               </option>
+                             </select>
+
+                <div *ngIf="(data.Field=='dc_ledger_name')" style="width: 100%;display: inline-flex;">
+                    <div style="width: 90%;">
+                    <input  class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                        name="{{data.Field}}" #{{data.Field}}="ngModel">
+                    </div>
+                    <div style="width: 10%;">
+                        <a class="Plusi" (click)="get_customers()" data-toggle="tooltip" data-placement="bottom">
+                        <i class="bx bx-plus-circle in"></i>
+                      </a>
+                    </div>
+                    </div>
+                        <textarea *ngIf="(data.Type=='TextArea')" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel" rows="3"></textarea>
+                    <input *ngIf="!(data.Type=='Select' || data.Type=='TextArea' || data.Field=='dc_ledger_name' )" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                        name="{{data.Field}}" #{{data.Field}}="ngModel">
+
+                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")' class="invalid-feedback d-block">
+                        <div class="error"> {{data.Name}} Should not entry</div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <div class=" col-md-4 nopad">
+
+        <table style="width: 100%;">
+
+               <tr>
+                             <td>Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="appservice.header_Row.dc_branch" name="dc_branch" #dc_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && dc_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+            <tr [class]="data.Class" *ngFor="let data of appservice.get_pos_field('Delivery_Challan','2TM')">
+                <td style="padding-left: 8px;width: 120px;">{{data.Name}} <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                <td>
+                    <select *ngIf="data.Type=='Select'" class="select2-option form-control" aria-hidden="true" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+                           <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                               {{row[data.Store_Value]}}
+                           </option>
+                         </select>
+
+
+                    <input *ngIf="data.Type!='Select'" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+
+                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")' class="invalid-feedback d-block">
+                        <div class="error"> {{data.Name}} Should not entry</div>
+                    </div>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+    <div class=" col-md-3 nopad">
+
+        <table style="width: 100%;">
+
+            <tr [class]="data.Class" *ngFor="let data of appservice.get_pos_field('Delivery_Challan','3TR')">
+                <td style="width: 120px; padding-left: 8px;">{{data.Name}} <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                <td>
+                    <select *ngIf="data.Type=='Select'" class="select2-option form-control" aria-hidden="true" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+                           <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                               {{row[data.Store_Value]}}
+                           </option>
+                         </select>
+
+
+                    <input *ngIf="data.Type!='Select'" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+
+                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")' class="invalid-feedback d-block">
+                        <div class="error"> {{data.Name}} Should not entry</div>
+                    </div>
+                </td>
+            </tr>
+          
+        </table>
+
+    </div>
+
+</div>
+
+
+ 
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+
+        <div class="entry_table1">
+
+            <div class="header">
+                <div style="width:30px">#</div>
+                <div *ngFor="let data of rs" [style.width]="data.Width">{{data.Name}}</div>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="body" *ngFor="let rowData of appservice.Details_Row;index as i">
+                <div class="row_hover" style="width:30px">{{i+1}}</div>
+                <div *ngFor="let data of rs" class="in cell row_hover" [style.width]="data.Width">
+
+                        <label 
+                        [style.background-color]="(rowData.dc_sales_qty==rowData.dc_qty)?'#ffc1073b':''"
+                        [style.text-align]="data.Align"  style=" width: 100%; padding-right: 5px;"  *ngIf="(data.Type=='Label')">{{rowData[data.Field]}}</label>
+
+
+                        <input    
+                        [style.background-color]="(rowData.dc_sales_qty==rowData.dc_qty)?'#ffc1073b':''"
+
+                        *ngIf="!(data.Type=='Label')"
+                        [(ngModel)]="rowData[data.Field]"
+                        (change)="calc_details_Row(i)"
+                        (keyup)="calc_details_Row(i)" 
+                        [style.text-align]="data.Align" type="{{data.Type}}" class="in tbtext"
+                                style="width: 100%;" value="{{rowData[data.Field]}}">
+
+                                <span *ngIf="data.Field=='dc_qty'" style="font-size: 10px;
+                position: absolute;
+                right: 25px;
+                background: bottom;
+                padding-top: 23px;
+                font-family: monospace;
+                color: #005b9f;" > <span *ngIf="rowData.dc_sales_qty!=0">{{rowData.dc_sales_qty}}</span> </span>
+                               
+                </div>
+                
+
+                <div  class="del_bx row_hover">
+                     <li (click)="del_row(i)" class="bx bx-trash"></li>
+                </div>
+                <!-- <div class="del_bx row_hover">
+                        <li (click)="Open_Customer_Module1(rowData)" class="bx bxs-hand-up"></li>
+                         </div> -->
+        </div>
+
+
+        <div class="body">
+                <div style="width:30px"></div>
+                <div *ngFor="let data of rs ; index as i" class="cell" [style.width]="data.Width">
+
+
+
+                        <input *ngIf="data.Field=='dc_prod_code'" placeholder="Code"
+                                [(ngModel)]="appservice.Sales_Temp_Row.dc_prod_code" name="ID"
+                                #ID="ngModel"
+                                (keyup.enter)="get_by_Code(appservice.Sales_Temp_Row.dc_prod_code,'Code')"
+                                class="code in tbtext" type="text">
+
+                                <app-vindropdown *ngIf="data.Field=='dc_prod_name'" class="Name" 
+                                [(inputModel)]="appservice.Sales_Temp_Row.dc_prod_id" 
+                                [(label_)]="appservice.Sales_Temp_Row.dc_prod_name" 
+                                [(values_)]="appservice.Sales_Temp_Row.dc_prod_id" 
+                                [(Placeholder)]="place_holder" [Row]="appservice.Item_Master_Rows"
+                                (inputModelChange)="appservice.Sales_Temp_Row.dc_prod_name = $event" 
+                                (valueModelChange)="get_by_Code($event,'Name')" (keyup.enter)="out()">
+                            </app-vindropdown>
+
+                       
+                        <label [style.text-align]="data.Align"  style=" width: 100%; padding-right: 5px;"  *ngIf="(data.Type=='Label') ">{{appservice.Sales_Temp_Row[data.Field]}}</label>
+
+                        <input *ngIf="!((data.Field=='dc_prod_name') || (data.Type=='Label') || (data.Field=='dc_prod_code')) "
+                        [readonly]="data.IsEdit=='False'"   class="in tbtext {{data.Class}}" [(ngModel)]="appservice.Sales_Temp_Row[data.Field]"
+                         (keyup)="calc_tempdata()"  (keyup.enter)="out()"   [style.text-align]="data.Align"
+                                type="{{data.Type}}"   >
+
+                </div>
+
+                <div   class="add_bx">
+                        <li *ngIf="(appservice.Sales_Temp_Row.dc_qty+appservice.Sales_Temp_Row.dc_free)>0" tabindex="0"
+                        (keyup.enter)="add_data(appservice.Sales_Temp_Row)"
+                                (click)="add_data(appservice.Sales_Temp_Row)"
+                       class="bx bx-plus-circle in"></li>
+                </div>
+
+            
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+</div>
+
+<div class="row mshow">
+
+    <div class="cart-view" style="padding-left: 5px;padding-right: 5px;">
+            <div class="head_text"  *ngIf="!(((appservice.Details_Row | json) == '[]') ||  ((appservice.Details_Row | json) == null) )" >Items Details
+             
+                    <a  routerLink="/add-item" class="x pright15" >
+                            <li class="bx bx-plus-circle"> Add Items</li>
+                        </a>
+            </div> 
+
+
+
+    <div class="col-md-12 nopad">
+
+            
+            <table style="width: 100%;">
+                    
+            <tr class="border-bottom" *ngFor="let data of appservice.Details_Row;index as i">
+            
+                    <td style="max-width: 30px;">
+                  
+                    <div class="name">
+                            {{i+1}}
+                        </div>
+                    <div class="del_bx row_hover">
+                            <li (click)="del_row(i)" class="bx bx-trash"></li>
+                    </div> 
+                    </td>
+                    <td>
+                        <div class="name">
+                            {{data.dc_prod_name}}
+                        </div>
+                        <div class="desc">
+                            {{data.Category}} GST {{data.dc_gst_per}}%
+                        </div>
+
+                        
+                    </td>
+                    <td style="text-align: right; padding-right: 10px; ">
+                       
+                        <div class="mrp">
+                            Qty : <span >{{data.dc_qty}} X ₹ {{data.dc_rate}}</span>
+                        </div>
+
+                        <div class="price">
+                            ₹ {{data.dc_qty*data.dc_rate}}
+                        </div>
+
+                    </td>
+
+                   
+
+                </tr>
+            </table>
+                    
+
+
+</div>
+    </div>
+</div>
+
+<div class="row">
+
+
+
+    <div class=" col-md-5 nopad">
+
+        <table style="width: 100%;">
+
+            <tr *ngFor="let data of appservice.get_pos_field('Delivery_Challan','4BL')">
+                <td [class]="data.Class" style="padding-left: 8px;width: 120px;">{{data.Name}} <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                <td [class]="data.Class">
+                    <select *ngIf="data.Type=='Select'" class="select2-option form-control" aria-hidden="true" required="data.Validate=='True'" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                       {{row[data.Store_Value]}}
+                                   </option>
+                                 </select>
+
+
+                    <input *ngIf="data.Type!='Select'" class="form-control" [readonly]="data.IsEdit=='False'" required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}" #{{data.Field}}="ngModel">
+
+                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")' class="invalid-feedback d-block">
+                        <div class="error"> {{data.Name}} Should not entry</div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <div class="col-md-3 nopad"></div>
+
+
+    <div class="col-md-4 nopad">
+        <table *ngIf="appservice.header_Row.dc_sub_total>0" class="sum_row">
+            <tr *ngIf="appservice.header_Row.dc_sub_total!=appservice.header_Row.dc_net_amt">
+                <td class="left">Sub Total</td>
+                <td></td>
+                <td class="right">{{appservice.header_Row.dc_sub_total}}</td>
+            </tr>
+
+            <tr>
+                <td class="left">Discount</td>
+                <td><input  style="max-width: 40px;"  (keyup)="update_disc()"  value="0"  [(ngModel)]="appservice.header_Row.dc_disc_per" type="number" class="sum_text"/></td>
+                <td class="right">{{appservice.header_Row.dc_disc_amt}}</td>
+            </tr>
+
+            <tr *ngIf="appservice.header_Row.dc_sub_total!=appservice.header_Row.dc_taxable_amount">
+                <td class="left">Taxable</td>
+                <td></td>
+                <td class="right">{{appservice.header_Row.dc_taxable_amount}}</td>
+            </tr>
+
+
+            <tr *ngIf="appservice.header_Row.dc_igst_amt>0">
+                <td class="left">IGST</td>
+                <td></td>
+                <td class="right">{{appservice.header_Row.dc_igst_amt}}</td>
+            </tr>
+
+
+            <tr *ngIf="appservice.header_Row.dc_sgst_amt>0">
+                <td class="left">SGST</td>
+                <td></td>
+                <td class="right">{{appservice.header_Row.dc_sgst_amt}}</td>
+            </tr>
+
+
+            <tr *ngIf="appservice.header_Row.dc_cgst_amt>0">
+                <td class="left">CGST</td>
+                <td></td>
+                <td class="right">{{appservice.header_Row.dc_cgst_amt}}</td>
+            </tr>
+
+
+
+
+
+            <tr>
+                <td class="left">Net Amount</td>
+                <td></td>
+                <td class="right">{{appservice.header_Row.dc_net_amt}}</td>
+            </tr>
+
+
+        </table>
+    </div>
+
+
+    <div  *ngIf="!(((appservice.Details_Row | json) == '[]') ||  ((appservice.Details_Row | json) == null))" class="col-md-12 nopad" style="text-align: right;">
+        <input type="button" class="btn btn-secondary  rounded-pill" (click)="appservice.back()" style="margin: 10px;" value="Cancel">
+        <button (click)="Place_Order()" class="btn btn-info  rounded-pill" style="margin: 10px;" [disabled]="btndisable"> 
+                <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+                <i   *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save & Print
+        </button>
+
+    </div>
+</div>
+
+
+<div class="col-md-12 nopad mshow"  *ngIf="(((appservice.Details_Row | json) == '[]') ||  ((appservice.Details_Row | json) == null) )" >
+    <div class="w_79" style="  bottom: 0;
+        font-weight: 700;left: 0;
+        position: fixed;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="text-align: right;">
+                    <a [class.disabled]="isload"
+                        style="border-radius: 0px;color: white;"
+                        class="btn btn-secondary btn-block">
+Cancel
+                         </a>
+                </td>
+
+                <td style="color: white;">
+                    <a style="border-radius: 0px;" (click)="next()"
+                        class="btn btn-danger btn-block">Next</a>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>     

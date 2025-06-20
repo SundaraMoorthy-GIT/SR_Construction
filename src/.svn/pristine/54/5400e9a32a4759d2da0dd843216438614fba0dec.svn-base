@@ -1,0 +1,24 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-bank-balance',
+  templateUrl: './bank-balance.component.html',
+  styleUrls: ['./bank-balance.component.scss']
+})
+export class BankBalanceComponent implements OnInit {
+
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient,  private router: Router, private route: ActivatedRoute) {
+
+    this.appservice.get_dayBook_Amt();
+
+  }
+ 
+  ngOnInit(): void {
+  }
+
+}

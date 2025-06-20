@@ -1,0 +1,187 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+        <div class=" Head ">
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Add Tractor</h3>
+            <div class="dropdown">
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+            </div> 
+          </div>
+        </div>
+        <div class="content_body">
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+
+                          <tr>
+                            <td>Project Name <span class="text-danger">*</span></td>
+                        <td>
+    
+                            <input class="form-control" (focus)="get_customers()"  readonly type="text"required [(ngModel)]="add.tpt_projectname" name="tpt_projectname"
+                            #tpt_projectname="ngModel" >
+                            <!-- <li  (click)="get_customers()"   class="bx bx-search sicon"></li> -->
+                          <div *ngIf="addForm.submitted && tpt_projectname.invalid" class=" invalid-feedback d-block">
+                            <div class="error">Project Should not entry</div>
+                          </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Date<span class="text-danger"></span></td>
+                          <td><input class="form-control" type="date" [(ngModel)]="add.tpt_date" name="tpt_date" #tpt_date="ngModel" required>
+                          </td>
+                        </tr>
+                          <tr>
+                             <td>Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.tpt_branch" name="tpt_branch" #tpt_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && tpt_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+                        <tr>
+                          <td>Transport<span class="text-danger"></span></td>
+                          <td>
+                            <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Type_rows" 
+                            [(ngModel)]="add.tpt_transid"required   resetFilterOnHide="true" placeholder=" " name="tpt_transid" #tpt_transid="ngModel" [filter]="(appservice.W_width>500)"
+                            (ngModelChange)="onChange1(add.tpt_transid)">
+                 
+                           <ng-template let-car pTemplate="item">
+                             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                               <div>{{car.label}}</div>
+                             </div>
+                           </ng-template>
+                         </p-dropdown>
+                          </td>
+                        </tr> 
+                        <tr>
+                          <td>From<span class="text-danger"></span></td>
+                          <td>
+                            
+                        <p-dropdown [options]="appservice.TRM_From_Rows" [(ngModel)]="add.tpt_from" placeholder="" [editable]="true" name="tpt_from" #tpt_from="ngModel" [filter]="(appservice.W_width>500)">
+                          <ng-template let-car pTemplate="item">
+                            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                              <div>{{car.label}}</div>
+                            </div>
+                          </ng-template>
+                        </p-dropdown>
+                            <!-- <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.TRM_From_Rows" 
+                            [(ngModel)]="add.tpt_fromid"required   resetFilterOnHide="true" [editable]="true" placeholder=" " name="tpt_fromid" #tpt_fromid="ngModel" [filter]="(appservice.W_width>500)"
+                            (ngModelChange)="onChange2(add.tpt_fromid)">
+
+                 
+                           <ng-template let-car pTemplate="item">
+                             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                               <div>{{car.label}}</div>
+                             </div>
+                           </ng-template>
+                         </p-dropdown> -->
+                          </td>
+                        </tr> 
+                        <tr>
+                          <td>To<span class="text-danger"></span></td>
+                          <td>
+                            <p-dropdown [options]="appservice.TRM_To_Rows" [(ngModel)]="add.tpt_to" resetFilterOnHide="true" placeholder="" [editable]="true" name="tpt_to" #tpt_to="ngModel" [filter]="(appservice.W_width>500)">
+                              <ng-template let-car pTemplate="item">
+                                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                  <div>{{car.label}}</div>
+                                </div>
+                              </ng-template>
+                            </p-dropdown>
+                            <!-- <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="TRM_To_Rows1" 
+                            [(ngModel)]="add.tpt_toid"required   resetFilterOnHide="true" placeholder=" " name="tpt_toid" #tpt_toid="ngModel" [filter]="(appservice.W_width>500)"
+                            (ngModelChange)="onChange3(add.tpt_toid)">
+                 
+                           <ng-template let-car pTemplate="item">
+                             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                               <div>{{car.label}}</div>
+                             </div>
+                           </ng-template>
+                         </p-dropdown> -->
+                          </td>
+                        </tr> 
+                      <tr>
+                        <td>Material Name<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.tpt_material_name" name="tpt_material_name" #tpt_material_name="ngModel" required>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Type<span class="text-danger"></span></td>
+                      <div class="col-md-12 text-center" style="display: inline-flex;">
+
+                        <div class="form-check" style="padding-left: 35px;">
+
+                            <input class="form-check-input" type="radio" name="Manual_" [(ngModel)]="select_mode" #Manual_="ngModel" checked id="Manual_" style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="Load">
+                            <label class="form-check-label" for="Manual_">&nbsp;Load</label>
+                        </div>
+
+
+                        <div class="form-check" style="padding-left: 35px;">
+
+                            <input class="form-check-input" type="radio" name="Auto_" id="Auto_" [(ngModel)]="select_mode" #Auto_="ngModel" style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="Day">
+                            <label class="form-check-label" for="Auto_">&nbsp;Day</label>
+                        </div>
+                    </div>
+                  </tr>
+                      <tr>
+                        <td>Load/Rate<span class="text-danger"></span></td>
+                        <td  style="text-align: center;">
+                          <div style="display: inline-flex; width: 100%;">
+                              <div style="width: 50%;">
+                                <input class="form-control" type="number" [(ngModel)]="add.tpt_load" name="tpt_load" #tpt_load="ngModel" (input)="onSearchChange($event.target.value)" required>
+                              </div>
+                              <div style="width: 50%;">
+                                <input class="form-control" type="number" [(ngModel)]="add.tpt_narration2" name="tpt_narration2" (input)="onSearchChange($event.target.value)" #tpt_narration2="ngModel" required>
+                              </div>
+                            </div>
+                        </td>
+                      </tr>
+                      <!-- <tr>
+                        <td>Amount<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.tpt_amount" name="tpt_amount" #tpt_amount="ngModel" required>
+                        </td>
+                      </tr> -->
+                      <tr>
+                        <td>Remarks<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.tpt_remarks" name="tpt_remarks" #tpt_remarks="ngModel" required>
+                        </td>
+                      </tr>                 
+                                 
+                      
+                    </tbody>
+  
+                  </table>
+  
+                 <div class="invoice-btn-box text-right " style="padding-bottom:20px">          
+                  <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                        role="status" aria-hidden="true"></span>
+                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                    Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil" type="button" (click)="Back()">Cancel</button> &nbsp;&nbsp;
+                 </div>
+  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

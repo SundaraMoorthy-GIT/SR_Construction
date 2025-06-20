@@ -1,0 +1,194 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+declare let $: any;
+@Component({
+  selector: 'app-group-entry',
+  templateUrl: './group-entry.component.html',
+  styleUrls: ['./group-entry.component.scss']
+})
+export class GroupEntryComponent implements OnInit {
+
+ 
+  add: any = {};
+  public btndisable: boolean = false;
+  public btndisable1: boolean = false;
+
+  constructor(public appservice: AppService, private toastr: ToastrService, public confirmationService: ConfirmationService, private http: HttpClient) {
+   
+    if (this.appservice.isEdit)
+     {
+      this.add = appservice.Edit_Row;
+      this.appservice.get_Group_Member_Name(this.appservice.Edit_Row.Group_Code);
+      this.add.Start_Date = appservice.datefromat(this.appservice.Edit_Row.Start_Date);
+      this.add.End_Date = appservice.datefromat(this.appservice.Edit_Row.End_Date);
+     
+    }
+    else {
+      this.clear();
+     
+      this.add.ID = "0";
+     
+    }
+  }
+  
+  clear() {
+
+    this.appservice.get_fields_of('Group_Master').forEach((activity) => {
+      if (activity.Default_Value == "T_Date") {
+        this.add[activity.Field] = this.appservice.T_Date;
+      }
+      else {
+        this.add[activity.Field] = activity.Default_Value;
+      }
+    });
+    this.get_Group_Code();
+    this.add={'Ledger_Name':''}
+
+  }
+  get_Group_Code() {
+
+      
+    this.appservice.getc("Api/Collection_/get_Group_Code").subscribe((res: any) => {
+      this.add.Group_Code = res;
+      this.appservice.get_Group_Member_Name(this.add.Group_Code);
+    });
+  
+
+}
+onDelete(item) {
+  
+  this.confirmationService.confirm({
+    message: 'Are you sure that you want to delete press Yes?',
+    accept: () => {
+      this.Delete(item)
+    }
+  });
+}
+Delete(item) {
+this.appservice.get("Api/Collection_/delete_Group_Member_Details?ID=" + item).subscribe((res: any) => {
+  var index = this.appservice.Group_Member_Name.findIndex(function (items, i) {
+    return items.ID === item
+  });
+  if (index > -1) {
+    this.appservice.Group_Member_Name.splice(index, 1);
+  }
+  this.appservice.Group_Member_Name = this.appservice.Group_Member_Name;
+  this.appservice.get_Group_Member_Name(this.add.Group_Code);
+});
+}
+  Valid;
+  get_Ledger(ID,name)
+  {
+ 
+    try{
+    this.appservice.Selected_Customer = this.appservice.Ledger_Master_Rows.filter(e => e.ID == ID)[0];
+  
+    this.add1.Ledger_ID = this.appservice.Selected_Customer.ID;
+    this.add1.Ledger_Name = this.appservice.Selected_Customer.Ledger_Name;
+
+   
+    }catch{
+
+    }
+  }
+ 
+
+  addData(f) {
+
+    this.Valid = true;
+    this.appservice.get_fields_of('Group_Master').filter(e => String(e.Validate).toLocaleLowerCase() == "true").forEach((data) => {
+
+      if (this.add[data.Field] == "") {
+        this.Valid = false;
+        return;
+      }
+
+    });
+
+    this.add.Company = this.appservice.Company;
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Created_by = this.appservice.CREATED_BY;
+
+    this.add.Table_Name = "Group_Master";
+    if (this.Valid) {
+      this.btndisable = true;
+
+      this.http.post(this.appservice.Server_URL + 'api/Collection_/Post_Group_Master', this.add, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable = false;
+            
+
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.isEdit = false;
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+  }
+
+
+
+  add1:any={}
+
+  addMember() {
+
+
+    this.add1.Company = this.appservice.Company;
+    this.add1.Company_ID = this.appservice.Company;
+    this.add1.Created_by = this.appservice.CREATED_BY;
+
+    this.add1.ID = "0";
+
+    this.add1.Group_Code =   this.add.Group_Code;
+    this.add1.Table_Name = "Group_Member_Details";
+    this.btndisable1 = true;
+
+      this.http.post(this.appservice.Server_URL + 'api/Collection_/Post_Group_Member_Details', this.add1, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable1 = false;
+            
+
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+             
+              this.appservice.get_Group_Member_Name(this.add.Group_Code);
+              this.add1={};
+
+              
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+  
+  ngOnInit(): void {
+  }
+
+}

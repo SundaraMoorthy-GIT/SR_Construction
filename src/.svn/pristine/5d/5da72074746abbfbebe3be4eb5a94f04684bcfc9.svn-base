@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { UtilitiesComponent } from './utilities.component';
+import { UploadItemsComponent } from './upload-items/upload-items.component';
+import { UploadEmplyeesComponent } from './upload-emplyees/upload-emplyees.component';
+import { UploadSupplierComponent } from './upload-supplier/upload-supplier.component';
+
+const routes: Routes = [
+  { path: '', component: UtilitiesComponent },
+  { path: 'upload-item', component: UploadItemsComponent },
+  { path: 'upload-emplyees', component: UploadEmplyeesComponent },
+  { path: 'upload-supplier', component: UploadSupplierComponent },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class UtilitiesRoutingModule { }

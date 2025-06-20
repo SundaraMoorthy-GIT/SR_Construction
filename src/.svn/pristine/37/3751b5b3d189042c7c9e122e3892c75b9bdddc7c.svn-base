@@ -1,0 +1,218 @@
+
+
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Income Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel" required>
+                          <input class="form-control" type="text" [(ngModel)]="add.Adj_Type" name="Adj_Type" #Adj_Type="ngModel">
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Income No<span class="text-danger">*</span></td>
+                        <td>
+                          <input readonly class="form-control"required type="text" [(ngModel)]="add.Adj_No" name="Adj_No" #Adj_No="ngModel">
+                          <div *ngIf="addForm.submitted && Adj_No.invalid" class="invalid-feedback">
+                            <div class="error"> Income No Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Date<span class="text-danger">*</span></td>
+                        <td> 
+  
+                          <input     class="form-control" required type="date" [(ngModel)]="add.Adj_Date" name="Adj_Date" #Adj_Date="ngModel">
+                          <div *ngIf="addForm.submitted && Adj_Date.invalid" class="invalid-feedback">
+                            <div class="error"> Income Date Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Category<span class="text-danger">*</span></td>
+                        <td>
+                          <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="Exp_Category_" 
+                          [(ngModel)]="add.Category"required   resetFilterOnHide="true" placeholder=" " name="Category" #Category="ngModel" [filter]="(appservice.W_width>500)">
+               
+                         <ng-template let-car pTemplate="item">
+                           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                             <div>{{car.label}}</div>
+                           </div>
+                         </ng-template>
+                       </p-dropdown>
+                       <div *ngIf="addForm.submitted && Category.invalid" class="invalid-feedback">
+                         <div class="error">Category  Should not entry</div>
+                     </div>
+                        </td>
+                      </tr>
+  
+  
+  
+                      <tr>
+                        <td>Description<span class="text-danger">*</span></td>
+                        <td> 
+                          <input class="form-control" type="text"required [(ngModel)]="add.Narration1" name="Narration1" #Narration1="ngModel">
+                          <div *ngIf="addForm.submitted && Narration1.invalid" class="invalid-feedback">
+                            <div class="error">Remarks  Should not entry</div>
+                      
+                        </div></td>
+                      </tr>
+  
+  
+  
+                      <tr>
+                        <td>Amount<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control"required type="number" [(ngModel)]="add.Amount" name="Amount" #Amount="ngModel">
+                          <div *ngIf="addForm.submitted && Amount.invalid" class="invalid-feedback">
+                            <div class="error"> Amount  Should not entry</div>
+                        </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr >
+                        <td  style="width: 100px;" >Pay Mode</td>
+                        <td  style="text-align: center;">
+    
+    
+                            <select class="select2-option form-control " [(ngModel)]="add.Pay_Mode" name="Pay_Mode"
+                                #Pay_Mode="ngModel" style="width:100%" aria-hidden="true">
+    
+                                <option *ngFor="let data of appservice.get_ref('Pay_Mode')" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+    
+                            </select>
+    
+    
+    
+    
+    
+                        </td>
+    
+                    </tr>
+    
+    
+                    
+                 
+    
+                <tr style="padding: 0px" [className]="add.Pay_Mode==appservice.Cash_ID ? 'hidden' : ''">
+    
+                    <td colspan="2" style="padding: 0px!important;">
+                    <table style="width: 100%;">
+                        <tr  >
+                            <td style="width: 100px;">Rec. Bank</td>
+                            <td>
+                                
+                                <select class="select2-option form-control " [(ngModel)]="add.Received_Bank" name="Received_Bank"
+                                #Received_Bank="ngModel" style="width:100%" aria-hidden="true">
+        
+                                <option *ngFor="let data of Banks_" value={{data.value}}>
+                                    {{data.label}}
+                                </option>
+        
+                            </select>
+                        
+                        </td>
+                        </tr>
+        
+                        <tr [className]="add.Pay_Mode==appservice.Cheque_ID ? '' : 'hidden'">
+                            <td>Cheque No </td>
+                            <td> <input class="form-control" type="text" [(ngModel)]="add.Cheque_No"
+                                name="Cheque_No" #Cheque_No="ngModel"></td>
+                        </tr>
+        
+                        <tr [className]="add.Pay_Mode==appservice.Cheque_ID ? '' : 'hidden'" >
+                            <td>Cheque Date</td>
+                            <td><input class="form-control" type="text" [(ngModel)]="add.Cheque_Date"
+                                name="Cheque_Date" #Cheque_Date="ngModel"></td>
+                        </tr>
+        
+                        <tr [className]="add.Pay_Mode==appservice.Card_ID ? '' : 'hidden'">
+                            <td>Card Charge</td>
+                            <td><input class="form-control" type="text" [(ngModel)]="add.Card_Charge"
+                                name="Card_Charge" #Card_Charge="ngModel"></td>
+                        </tr>
+        
+                        <tr>
+                            <td>Remarks</td>
+                            <td> <input class="form-control" type="text" [(ngModel)]="add.Remarks" name="Remarks"
+                                #Remarks="ngModel"></td>
+                        </tr>
+                    </table>
+                </td>
+                </tr>
+  
+                   
+  
+  
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pill" type="submit" [disabled]="btndisable" type="submit"> 
+                      
+                      
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+  
+                      <i  *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pill" type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

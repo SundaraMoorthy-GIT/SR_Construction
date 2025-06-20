@@ -1,0 +1,25 @@
+
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { ConfirmationService } from 'primeng/api';
+
+
+
+@Component({
+  selector: 'app-item-master',
+  templateUrl: './item-master.component.html',
+  styleUrls: ['./item-master.component.scss']
+})
+export class ItemMasterComponent implements OnInit {
+
+
+  ngOnInit() {
+  }
+  constructor(public confirmationService: ConfirmationService, private toastr: ToastrService, public appservice: AppService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+   
+  }
+}

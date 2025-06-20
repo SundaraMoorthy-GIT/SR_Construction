@@ -1,0 +1,161 @@
+
+<div class="row " >
+
+
+  <div class="q-container">
+    <div class="header-section">
+        <div class="title">Dashboard Overview</div>
+        <div class="branch-selection">
+            <label for="branch">Branch</label>
+
+            <select id="branch" name="branch" [disabled]="appservice.isBarnchDisable"
+            [(ngModel)]="appservice.Branch_ID" name="Branch_ID" #Branch_ID="ngModel" >              
+             <option value="0">All</option>
+             <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                 {{data.label}}
+             </option>                                
+               </select> 
+
+           
+            <button class="refresh-button" (click)=" this.get_Branch_Profile();">
+                <i>&#x21bb;</i>
+            </button>
+        </div>
+    </div>
+    <div class="body-section">
+    
+<div class="row">
+    
+  
+
+  <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_To_collect()" >
+      <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+        <div class="card-header card-header-warning card-header-icon">
+          <div class="card-icon gshade">
+            <i class="bx bxs-truck"></i>
+          </div>
+          <p class="card-category">Today Vehicle</p>
+          <h3 class="card-title">{{Demand_Amt | number:'2.0-0':'en-IN'}} <!-- Open_Customer_Total Availabel_Customer-->
+            <small></small>
+          </h3>
+        </div>
+       
+      </div>
+    </div>
+
+    <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="Today_od()" >
+      <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+        <div class="card-header card-header-warning card-header-icon">
+          <div class="card-icon oshade">
+            <i class="bx bx-run"></i>
+          </div>
+          <p class="card-category">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today Running</p>
+          <h3 class="card-title">  {{OD_Amt | number:'2.0-0':'en-IN' }} 
+            <small></small>
+          </h3>
+        </div>
+       
+      </div>
+    </div>
+
+    <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_Today_Collect()" >
+      <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+        <div class="card-header card-header-warning card-header-icon">
+          <div class="card-icon vshade "style=" background: linear-gradient( 60deg, #883c74, #e81865);">
+            <i class="bx bx-timer"></i>
+          </div>
+          <p class="card-category">Today idle</p>
+          <h3 class="card-title"> {{appservice.Receipt_Row_Total | number:'2.0-0':'en-IN' }}
+            <small>&nbsp;</small>
+          </h3>
+        </div>
+        
+      </div>
+    </div>
+  
+  
+    <div class="col-6  col-lg-3 col-md-6 col-sm-6" (click)="load_Today_Issue()" >
+      <div class="vcard card-stats" style="padding: 0px !important;border-radius: 6px!important;">
+        <div class="card-header card-header-warning card-header-icon">
+          <div class="card-icon vshade"style="    background: linear-gradient( 60deg, #de9e11, #fbff07b8);">
+            <i class="bx bx-wrench"></i>
+          </div>
+          <p class="card-category">  Upcoming&nbsp;Services</p>
+          <h3 class="card-title"> {{appservice.Emi_Loan_Issue_Total | number:'2.0-0':'en-IN' }}
+            <small>&nbsp;</small>
+          </h3>
+        </div>
+       
+      </div>
+    </div>
+    
+
+    <div class="spin_block" *ngIf="appservice.isload">
+  
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+  
+    </div>
+    
+    <div class="col-md-6 jhead">
+
+      <table class="qb-table">
+        <thead>
+          <tr class="qb-table-header">
+            <th class="qb-table-header-cell">#</th>
+            <th class="qb-table-header-cell">Vehicle Profile</th>
+            <th class="qb-table-header-cell qb-right-align">Details&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="qb-table-row" *ngFor="let data of Profile_Row; let i = index">
+            <td class="qb-table-cell qb-index-cell">{{ i + 1 }}</td>
+            <td class="qb-table-cell">{{ data.Branch_Details }}</td>
+            <td class="qb-table-cell qb-right-align qb-bold">{{ data.Details | number:'2.0-0':'en-IN' }}&nbsp;&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+
+      
+    
+  
+   
+     
+  </div>
+    <div class="col-md-6 jhead">
+
+
+      <table class="qb-table">
+        <thead>
+          <tr class="qb-table-header">
+            <th class="qb-table-header-cell">#</th>
+            <th class="qb-table-header-cell">Upcoming&nbsp;Services</th>
+            <th class="qb-table-header-cell qb-right-align">Details&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="qb-table-row" *ngFor="let data of Profile_Row; let i = index">
+            <td class="qb-table-cell qb-index-cell">{{ i + 1 }}</td>
+            <td class="qb-table-cell">{{ data.Branch_Details }}</td>
+            <td class="qb-table-cell qb-right-align qb-bold">{{ data.Details | number:'2.0-0':'en-IN' }}&nbsp;&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+   
+     
+  </div>
+   
+    
+</div>
+    
+</div>
+  </div>
+
+
+
+
+
+</div>

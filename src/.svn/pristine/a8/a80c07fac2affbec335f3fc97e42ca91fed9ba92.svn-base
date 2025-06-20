@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { UploadEmplyeesComponent } from './upload-emplyees.component';
+
+describe('UploadEmplyeesComponent', () => {
+  let component: UploadEmplyeesComponent;
+  let fixture: ComponentFixture<UploadEmplyeesComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ UploadEmplyeesComponent ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UploadEmplyeesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

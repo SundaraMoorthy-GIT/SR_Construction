@@ -1,0 +1,5680 @@
+import { Injectable, Inject } from '@angular/core';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { DatePipe } from '@angular/common';
+import { Route } from '@angular/compiler/src/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+
+
+import { ToastrService } from 'ngx-toastr';
+import { DOCUMENT } from '@angular/common';
+declare let $: any;
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AppService {
+  public access_tocken = "";
+  //public Server_URL="http://192.168.43.232:86/";
+  // public Server_URL="http://192.168.43.232:86/";
+  // public Server_URL="http://192.168.43.232:86/";
+
+  //public Server_URL = "http://localhost:5837/";
+  public Server_URL = "http://localhost:5837/";
+ // public Server_URL = "http://localhost:5837/";
+
+  //public Server_URL = "http://localhost:5837/";
+  
+ // public Server_URL = "http://localhost:5837/";
+  //public Server_URL = "";
+  //public Server_URL = "http://localhost:5837/";
+  //public Server_URL = "http://localhost:81/";
+  //public Server_URL = "http `
+  //public Server_URL = "http://localhost:5837/";
+
+  //public Server_URL = "http://localhost:81/";
+  //public Server_URL = "http `
+  public Quotation_Format="Format1";
+  public System_mac_address="Not found"
+  public Area_Map: boolean = false;
+  public NT_Bill_Format = "NT_Format1"
+  public Bill_Format = "Format1"
+  public Bill_Format1 = "Format6";
+  public Vadi_Format = "Format1";
+  public NT_Sales_Disp_Text1 = "Open Invoice";
+public check_Unicod: boolean = false;
+
+  public Purchase_entry_page = "/Purchase/purchase-entry";
+  public Sales_Disp_Text1 = "Open Invoice";
+  public Sales_Disp_Text2 = "Open Invoice(with code)";
+  public Sales_Disp_Text2_Visblle: boolean = false;
+  public Sales_Disp_Text3_Visblle: boolean = false;
+
+  public TCS_Enable: boolean = true;
+  public Balance_SMS = "false";
+
+  public Sales_Entry_Page="/sales/sales-entry";
+
+  public key_value="";
+
+
+
+  public NT_Printer: string = "false";
+  public NT_Address: String = "http://localhost:5837/";
+
+  public DB_Vadi_display: boolean = false;
+  public Print_Button: boolean = false;
+
+  public Ledger_Update:boolean=true;
+  public Cust_Amt: boolean = false;
+  public Lfrom = "34";
+  public Top = 50;
+
+  public Logo_location = "Top_qubha";
+  public Logo_Name = "Qubha";
+  public Logo_location_Loin = "Chef";
+  public Logo_Sub_Name = "Soft";
+  public Phone_No = "9597436220";
+
+  public Qmenu: boolean = true;
+  public STamilName: boolean = false;
+  public Type_Based_Bill_No: boolean = false;
+  public Item_Rate_Update: boolean = true;
+  public Check_Stock: boolean = false;
+  
+  public Image_disp: boolean = false;
+  public Ledger_Type = "1";
+
+  public Group_Enable: boolean = false;
+  public Print_Bill: boolean = false;
+  
+  public Save_Print: boolean = false;
+  public Save_Print_Mobile: boolean = false;
+  public Save_New: boolean = false;
+
+  public  Stockbase_Sales: boolean = false;
+
+  public  mobile_menu: boolean = false;
+
+
+  //public Logo_Name = "GKDMK";
+  //public Logo_location = "GKDMK";
+  //public Logo_location_Loin = "GKDMK";
+
+
+  //public Logo_Name="Qubha";
+  //public Logo_location="Top_qubha";
+  //public Logo_location_Loin="Login_buhari";
+  Lable_Order_entry="Order Entry";
+  Lable_Takeaway="Takeaway";
+  Lable_Dining="Dining";
+  Lable_Purchase = "Purchase";
+  Lable_Sales = "Sales";
+  Lable_Receipt = "Receipt";
+  Lable_Payment = "Payment";
+  Lable_Expence = "Expence";
+  Lable_Daybook = "Day Book";
+  Lable_Receivable = "Receivable";
+  Lable_Payable = "Payable";
+  Lable_Item_Master = "Item Master";
+  Lable_Ledger = "LedgerMaster";
+  Lable_Reports = "Reports";
+  Lable_Minimum_Stock = "Minimum Stock";
+
+  public PRate_disp="user"
+  public U_Rights=""
+  public Ledger_Group_ = "1";
+
+  public Item_Group_ = "1";
+  public from_customer_page:boolean=false;
+
+
+  public isadd_Page:boolean=false;
+  constructor(@Inject(DOCUMENT) private document: Document, private toastr: ToastrService, public datePipe: DatePipe, public http: HttpClient, public router: Router, private _location: Location) {
+
+
+    if (this.getData()) {
+
+      this.data = JSON.parse(localStorage.getItem('User_Data'));
+
+      try {
+        this.Customer_Area = localStorage.getItem('Area');
+      } catch { }
+      this.Company = "_" + this.data.UM_Company;
+
+    }
+
+
+    this.W_height = window.innerHeight;
+
+    this.W_width = window.innerWidth;
+
+    var Today_Date = this.datePipe.transform(new Date(), "dd-MMM-yyyy");
+
+    this.T_Date = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+
+    this.T_Date_Time = this.datePipe.transform(new Date(), "yyyy-MM-ddTHH:mm");
+
+
+    this.Pay_Date = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+
+
+
+    this.Y_Date = this.datePipe.transform(new Date().getDate() - 1, "dd-MMM-yyyy");
+    this.Today_Date = Today_Date;
+
+
+  
+    this.S_From = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+    this.S_To = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+
+    this.From_Date = { formatted: Today_Date };
+    this.To_Date = { formatted: Today_Date };
+    this.Date = { formatted: Today_Date };
+    this.Date1 = { formatted: Today_Date };
+
+    this.Due_Date = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+    if (this.Logo_Name == "GKDMK") {
+      this.get_dmk_Data();
+    }
+    this.load_themes('');
+
+
+
+  }
+
+
+  public openModal: boolean = false;
+  Open_Modal(Title, page) {
+    this.openModal = true;
+    $('#small_Module').modal('show');
+  }
+
+  Close_Modal() {
+    this.openModal = false;
+    $('#small_Module').modal('hide');
+  }
+
+  public SM_Row = [];
+  public Header_Disp = "";
+
+  public add_item_name = "/add-items1";
+  btndisable: boolean = false;
+  isload: boolean = false;
+  public Company = "";
+  public CREATED_BY = "";
+  public Ref_ID = "0";
+  public isadd = "0";
+  public Edit_Row: any = {};
+  public Edit_Row1: any = {};
+
+  public Selected_Row: any = {};
+  public Default_ref_ID: string = "Role";
+  public URL_Location = "";
+  public Hotel_Reprint = "false";
+
+  public Condi_Sales = "";
+
+  public Checkin_Room_No = "";
+  public Room_CIN_ID = "";
+
+  public disp_category:boolean=false;
+
+  public Sales_Entry_Row_width =
+    {
+      ID: "5%",
+      Code: "10%",
+      Name: "23%",
+      Desc: "17%",
+      Rate: "15%",
+      Qty: "15%",
+      Amount: "15%"
+    };
+
+
+  public SER_Disp =
+    {
+      ID: true,
+      Code: false,
+      Name: true,
+      Desc: true,
+      Rate: true,
+      Qty: true,
+      Amount: true
+    };
+
+
+
+  public Sales_Temp_Row: any = {};
+  public Sales_Temp_Row1 = [];
+  public Proforma_Details_GF = ['Customer_Name', 'Bill_No'];
+  public BOM_Master_GF = [];
+
+  public Quatation_Details_GF = [];
+  public Ledger_Master_GF = [];
+  public Visitor_Master_GF = [];
+  public Action_Details_GF = [];
+  public Group_Details_GF = [];
+  public Loan_Issue_GF = [];
+  public EMI_Loan_Issue_GF = [];
+
+  public Item_Master_GF = [];
+  public Product_Master_GF = [];
+  public Purchase_Master_GF = [];
+  public Stock_Adjustment_GF = [];
+
+  public Purchase_Order_Details_GF = [];
+  public Member_Details_GF = [];
+  public Area_Street_Details_GF = [];
+  public Production_Details_GF = [];
+  public Employee_Details_GF = [];
+  public Vadi_Details_GF = [];
+
+  public Menu_Master_GF = ['Module', 'Type', 'Display_Name', 'Route_Link', 'Order_No', 'Icon', 'Remark'];
+
+  public Expense_Details_GF = ['Category_', 'Narration1', 'Amount'];
+  public Contra_Details_GF = [ 'Naration', 'Amount','From_Account','To_Account'];
+
+  public Sales_Details_GF = ['Customer_Name', 'Bill_No','Area'];
+  public Delivery_Details_GF = ['Customer_Name', 'DC_No'];
+
+  public Tharikar_Detail_GF = ['Customer_Name', 'Bill_No'];
+  public Dyeing_Detail_GF = ['Customer_Name', 'Bill_No'];
+
+
+  public Damage_Details_GF = ['Customer_Name', 'Damage_No'];
+  public Minimum_Stock_GF = ['Item_Name', 'Stock', 'Ledger_name', 'Reorder_Level','Min_stock'];
+
+  public Sales_Return_Details_GF = ['Customer_Name', 'Bill_No'];
+  public Billwise_Purchase_GF = ['Supplier_Name', 'Bill_No', 'Bill_Date', 'Phone_No', 'Amount'];
+  public Customerwise_GF = ['Customer_Name', 'Bill_No', 'Bill_Date','Area', 'Phone_No', 'Amount'];
+  public Billwise_Track_GF = ['Bill_No', 'Bill_Date', 'Profit', 'P_Value','S_Value','Supplier'];
+  public Itemwise_Track_GF = ['Item_Name','P_Qty' ,'S_Qty', 'Stock_Qty','Profit', 'P_Value','S_Value','Stock_Value'];
+  public Supplierwise_Track_GF = ['Supplier', 'S_Value', 'Profit', 'Stock_Value','P_Value'];
+  public Categorywise_Track_GF = ['Category','P_Qty' ,'S_Qty', 'Stock_Qty','Profit', 'P_Value','S_Value','Stock_Value'];
+  public Price_List_GF = ['Category', 'Item_Name', 'MRP', 'Rate','Wholesale_Rate'];
+  public Cash_Settlement_GF = ['Cash_Amt', 'Card_Amt','Bill_No', 'Bill_Date', 'Cheque_Amt','Credit_Amt,', 'Less_Amt'];
+
+  public Track_GF = ['Item_Name', 'Supplier','Bill_No', 'Bill_Date', 'Profit','S_Value', 'P_Value'];
+  public Visitor_GF = ['Visitor_Name', 'V_From_Time', 'Visitior_Status', 'Company_Name', 'Purpose','V_Person'];
+  public Approved_GF = ['Visitor_Name', 'V_From_Time', 'Visitior_Status', 'Company_Name', 'Purpose','V_Person'];
+
+  public Visitorwise_GF = ['Visitor_Name', 'Contact_No', 'Vistor_Type', 'Company_Name', 'V_Department','V_Person'];
+  public Departmentwise_GF = ['Visitor_Name', 'Vistor_Type', 'Company_Name', 'V_Department','V_Person'];
+  public Personwise_GF = ['Visitor_Name', 'Vistor_Type', 'Company_Name', 'V_Department','V_Person'];
+  public Purposewise_GF = ['Visitor_Name', 'Vistor_Type', 'Company_Name', 'V_Department','V_Person'];
+  public Daywise_GF = ['Visitor_Name', 'Vistor_Type', 'Company_Name', 'V_Department','V_Person'];
+
+  public Billwise_Sales_GF = ['Customer_Name', 'Bill_No', 'Bill_Date', 'Phone_No', 'Amount'];
+  public Delivery_Detail_GF = ['Customer_Name','Item_Name', 'Bill_No', 'Bill_Date', 'Phone_No', 'Amount'];
+
+  public Billwise_Profit_GF = ['Customer_Name', 'Bill_No', 'Bill_Date', 'Phone_No', 'Amount', 'Profit'];
+  public Itemwise_Purchase_GF = ['Item_Name', 'Amount', 'Qty'];
+  public Productwise_Sales_GF = ['Item_Name', 'Amount', 'Qty'];
+
+  public Itemwise_Sales_GF = ['Item_Name', 'Amount', 'Qty'];
+  public Itemwise_Profit_GF = ['Item_Name', 'Amount', 'Qty', 'Profit'];
+  public Userwise_Purchase_GF = ['User', 'Amount', 'count'];
+
+  public Userwise_Sales_GF = ['User', 'Amount', 'count'];
+  public Entrywise_col_GF = ['Ledger_Name', 'Bill_No', 'Amount', 'Receipt_No'];
+  public Day_book_GF = ['Nar_Type', 'Created_by', 'Pay_Mode_', 'CR_AMT'];
+  public Print_Bar_GF = ['Item_Name', 'Description', 'Uni_Code'];
+
+  public Daybook_Amt_GF = ['Bank', 'Amount'];
+
+  public Customer_ledger_GF = ['Customer_Name', 'Phone_No', 'Bill_No', 'Net_Amt'];
+  public Billwise_out_GF = ['Customer_Name', 'Amount', 'Phone_No'];
+  public Billwisepayable_out_GF = ['Customer_Name', 'Amount', 'Phone_No'];
+  public Loanwise_out_GF = ['Ledger_Name', 'Balance','Collected', 'Loan_Type','Loan_No','Loan_Date'];
+
+  public Customerwise_out_GF = ['Customer_Name', 'Amount', 'Phone_No'];
+  public Supplierwise_out_GF = ['Customer_Name', 'Amount', 'Phone_No'];
+
+  public Areawise_out_GF = ['Area', 'Amount', 'count'];
+  public Streetwise_out_GF = ['Street', 'Amount', 'count'];
+  public Group_Member_GF = ['Ledger_Name', 'Area'];
+
+  public Entrywise_exp_GF = ['Category_', 'Narration', 'Created_by'];
+  public Itemwise_exp_GF = ['Narration', 'Amount'];
+  public Typewise_exp_GF = ['Category', 'Amount'];
+  public Userwise_exp_GF = ['User', 'Amount'];
+  public Userwise_col_GF = ['Created_By', 'Amount'];
+  public Areawise_col_GF = ['Area', 'Amount'];
+  public Paymodewise_col_GF = ['Pay_Mode_', 'Amount'];
+  public Custemerwise_col_GF = ['Customer', 'Amount'];
+  public Entrywise_order_GF = ['Order_No', 'Date', 'Customer_Name', 'Contact_No', 'Amount'];
+  public Arearwise_sales_GF = ['Area', 'Amount'];
+  public Sales_Personwise_sales_GF = ['Sales_person', 'Amount'];
+
+  public Arearwise_Purchase_GF = ['Area', 'Amount'];
+
+  public Paymodewise_sales_GF = ['Pay_Mode', 'Amount'];
+  public Paymodewise_Purchase_GF = ['Pay_Mode', 'Amount'];
+  public Supplierwise_purchase_GF = ['Supplier_Name', 'count', 'Amount'];
+
+  public Customerwise_sales_GF = ['Customer_Name', 'count', 'Amount'];
+  public Customerwise_Profit_GF = ['Customer_Name', 'count', 'Amount', 'Profit'];
+  public Category_stock_GF = [ 'Category',  'Stock', 'Value'];
+
+  public Current_stock_GF = ['Item_Name', 'Description', 'Category', 'Rate', 'Stock', 'Value','MRP'];
+  public Itemwise_stock_GF = ['Vour_Type', 'Voucher_No', 'Voucher_Date_', 'Rate'];
+  public Stock_report_GF = ['Item_Name', 'Category', 'Opening', 'Rate', 'Inward', 'Outward', 'Closing'];
+
+
+ public Track_Report = [
+    { Menu: 'Billwise', Link: '/report/billwise-track', class: '' },
+    { Menu: 'Itemwise', Link: '/report/itemwise-track', class: '' },
+    { Menu: 'Supplierwise', Link: '/report/supplier-track', class: '' },
+    { Menu: 'Categorywise', Link: '/report/category-track', class: '' },
+    { Menu: 'Track Details', Link: '/report/product-track', class: '' },
+
+  ];
+
+  public Salse_Report = [
+    { Menu: 'Billwise', Link: '/report/billwise-sales', class: '' },
+    { Menu: 'Itemwise', Link: '/report/itemwise-sales', class: '' },
+    { Menu: 'Userwise', Link: '/report/userwise-sales', class: '' },
+    { Menu: 'Daywise', Link: '/report/daywise-sales', class: '' },
+    { Menu: 'Areawise', Link: '/report/areawise-sales', class: '' },
+    { Menu: 'Customerwise', Link: '/report/customerwise-sales', class: '' },
+    { Menu: 'Sales-personwise', Link: '/report/sales-personwise', class: '' },
+    { Menu: 'Paymodewise', Link: '/report/paymodewise-sales', class: '' },
+
+  ];
+  public Visitor_Report = [
+    { Menu: 'Visitorwise', Link: '/visitor/visitor-report', class: '' },
+    { Menu: 'Deportmentwise', Link: '/visitor/departmentwise-report', class: '' },
+    { Menu: 'Purposewise', Link: '/visitor/purposewise-report', class: '' },
+    { Menu: 'Personwise', Link: '/visitor/personwise-report', class: '' },
+    { Menu: 'Daywise', Link: '/visitor/daywise-report', class: '' },
+    
+  ];
+  public Delivery_Report = [
+    { Menu: 'Customerwise', Link: '/report/delivery-details', class: '' },
+    { Menu: 'Productwise', Link: '/report/product-wise', class: '' },
+    { Menu: 'Brandwise', Link: '/report/brandwise-sales', class: '' },
+   
+
+  ];
+   public Salse_Gst_Report = [
+    { Menu: 'Sales GST', Link: '/report/gst-report', class: '' },
+    { Menu: 'Sales GST(%)', Link: '/report/sales-gst-one', class: '' },
+   
+  ];
+  public Purchase_Report = [
+    { Menu: 'Billwise', Link: '/report/billwise-purchase', class: '' },
+    { Menu: 'Itemwise', Link: '/report/itemwise-purchase', class: '' },
+    { Menu: 'Userwise', Link: '/report/userwise-purchase', class: '' },
+    { Menu: 'Daywise', Link: '/report/daywise-purchase', class: '' },
+    { Menu: 'Areawise', Link: '/report/areawise-purchase', class: '' },
+    { Menu: 'supplierwise', Link: '/report/supplierwise-purchase', class: '' },
+    { Menu: 'Paymodewise', Link: '/report/paymodewise-purchase', class: '' },
+
+  ];
+  public Profit_Report = [
+    { Menu: 'Billwise-Profit', Link: '/Billwise-Profit', class: '' },
+    { Menu: 'Itemwise-Profit', Link: '/Itemwise-Profit', class: '' },
+    { Menu: 'Customerwise-Profit', Link: '/Customerwise-Profit', class: '' },
+    { Menu: 'Over-all-Profit', Link: 'Over-all', class: '' },
+
+  ];
+  public Outstanding_Report = [
+    { Menu: 'Billwise', Link: '/report/billwise-out' },
+    { Menu: 'Customerwise', Link: '/report/customerwise-out' },
+    { Menu: 'Areawise', Link: '/report/areawise-out' },
+    { Menu: 'Due daywise', Link: '/report/duedaywise-out' },
+    { Menu: 'Salespersonwise', Link: '/report/salespersonwise-out' },
+
+  ];
+  public Loanwise_Outstanding_Report = [
+    { Menu: 'Loanwise', Link: '/collection/loanwise-outstanding' },
+  
+
+  ];
+  public  Customer_Overview = [
+    { Menu: 'About', Link: '/collection/customer_overview' },
+    { Menu: 'Pending', Link: '/collection/overview-pending' },
+    { Menu: 'History', Link: '/collection/overview-transaction' },
+   
+  ];
+  public Payable_Outstanding_Report = [
+    { Menu: 'Billwise', Link: '/report/billwisepayable-out' },
+    { Menu: 'Supplierwise', Link: '/report/supplierwise-out' },
+
+  ];
+
+
+  public User_Role_Menu = [
+    { Menu: 'User Master', Link: '/user-details' },
+    { Menu: 'Role Master', Link: '/role-master' },
+    { Menu: 'Role Rights', Link: '/role-permissions' }
+
+  ];
+
+
+  public Order_Report = [
+    { Menu: 'Entrywise', Link: '/report/entrywise-order' },
+    { Menu: 'Itemwise', Link: '/report/itemwise-order' },
+    { Menu: 'Userwise', Link: '/report/userwise-order' },
+    { Menu: 'Daywise', Link: '/report/daywise-order' },
+    { Menu: 'Customerwise', Link: '/report/customerwise-order' },
+    { Menu: 'Areawise', Link: '/report/areawise-order' },
+
+  ];
+
+''
+  public Ledger_Report = [
+    { Menu: 'Day Book', Link: '/report/day-book', class: '' },
+
+  ];
+
+
+
+
+  public Stock_Report = [
+
+    { Menu: 'Current Stock', Link: '/report/current-stock', class: '' },
+    { Menu: 'Category Stock', Link: '/report/Categorywise-stock', class: '' },
+    { Menu: 'Itemwise Stock', Link: '/report/itemwise-stock', class: '' },
+    { Menu: 'Stock Report', Link: '/report/stock-report', class: '' }
+  ];
+
+
+
+
+  public Expense_Report = [
+    { Menu: 'Entrywise', Link: '/report/entrywise-exp' },
+    { Menu: 'Itemwise', Link: '/report/itemwise-exp' },
+    { Menu: 'Typewise', Link: '/report/typewise-exp' },
+    { Menu: 'Userwise', Link: '/report/userwise-exp' },
+    { Menu: 'Paymodewise', Link: '/report/paymodewise-exp' },
+    { Menu: 'Daywise', Link: '/report/daywise-exp' }
+  ];
+
+
+  public Collection_Report = [
+
+    { Menu: 'Entrywise', Link: '/report/entrywise-col' },
+    { Menu: 'Customerwise', Link: '/report/customerwise-col' },
+    { Menu: 'Userwise', Link: '/report/userwise-col' },
+    { Menu: 'Areawise', Link: '/report/areawise-col' },
+    { Menu: 'Paymodewise', Link: '/report/paymodewise-col' }
+
+  ];
+  public Customer_Profile = [
+
+    { Menu: 'Overview', Link: '/transaction/customer-overview' },
+    { Menu: 'Ledger', Link: '/transaction/customer-ledger' },
+    { Menu: 'Sales', Link: '/transaction/customer-sales' },
+    { Menu: 'Payment', Link: '/transaction/customer-payment' }
+
+  ];
+
+  public Dmk_Report = [
+
+    { Menu: 'Entrywise', Link: '/dmk/entrywise' },
+    { Menu: 'Statewise', Link: '/dmk/statewise' },
+    { Menu: 'Thoguthiwise', Link: '/dmk/thoguthiwise' },
+    { Menu: 'Districtwise', Link: '/dmk/districtwise' },
+
+  ];
+  public Customerwise_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Area', Name: 'Area', Align: '' },
+
+    { Field: 'Phone_No', Name: 'Phone No', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'Payment', Name: 'Payment', Align: 'right' }
+
+  ];
+  public Billwise_sales_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Date', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Phone_No', Name: 'Phone No', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Visitorwise_Export = [
+
+    { Field: 'Vistor_Type', Name: 'Vistor Type ', Align: '' },
+    { Field: 'Visitor_Name', Name: 'Visitor Name', Align: '' },
+    { Field: 'Company_Name', Name: 'Company Name', Align: '' },
+    { Field: 'Contact_No', Name: 'Phone No', Align: '' },
+    { Field: 'V_Department', Name: 'Department', Align: '' },
+    { Field: 'V_Person', Name: 'Person', Align: '' },
+    { Field: 'Purpose', Name: 'Purpose', Align: '' }
+
+
+  ];
+  public Departmentwise_Export = [
+    { Field: 'V_Department', Name: 'Department', Align: '' },
+
+    { Field: 'Visitor_Name', Name: 'Visitor Name', Align: '' },
+    { Field: 'Company_Name', Name: 'Company Name', Align: '' },
+    { Field: 'V_Person', Name: 'Person', Align: '' },
+
+
+  ];
+  public Personwise_Export = [
+
+    { Field: 'Vistor_Type', Name: 'Vistor Type ', Align: '' },
+    { Field: 'Visitor_Name', Name: 'Visitor Name', Align: '' },
+    { Field: 'Company_Name', Name: 'Company Name', Align: '' },
+    { Field: 'Contact_No', Name: 'Phone No', Align: '' },
+    { Field: 'V_Department', Name: 'Department', Align: '' },
+    { Field: 'V_Person', Name: 'Person', Align: '' },
+    { Field: 'Purpose', Name: 'Purpose', Align: '' }
+
+
+  ];
+  public Billwise_Track_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Date', Align: '' },
+    { Field: 'Supplier', Name: 'Supplier Name', Align: '' },
+    { Field: 'P_Value', Name: 'P Value', Align: 'right' },
+    { Field: 'S_Value', Name: 'S Value', Align: 'right' },
+    { Field: 'Stock_Value', Name: 'Stock Value', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+   public Track_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Date', Align: '' },
+    { Field: 'Supplier', Name: 'Supplier Name', Align: '' },
+     { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'P_Qty', Name: 'P Qty', Align: 'right' },
+    { Field: 'S_Qty', Name: 'S Qty', Align: 'right' },
+    { Field: 'Stock_Qty', Name: 'Stock Qty', Align: 'right' },
+
+    { Field: 'P_Value', Name: 'P Value', Align: 'right' },
+    { Field: 'S_Value', Name: 'S Value', Align: 'right' },
+    { Field: 'Stock_Value', Name: 'Stock Value', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+   public Supplierwise_Track_Export = [
+
+    { Field: 'Supplier', Name: 'Supplier Name', Align: '' },
+    { Field: 'P_Value', Name: 'P Value', Align: 'right' },
+    { Field: 'S_Value', Name: 'S Value', Align: 'right' },
+    { Field: 'Stock_Value', Name: 'Stock Value', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+  public Minimum_Stock_Export = [
+
+    { Field: 'Ledger_name', Name: 'Supplier Name', Align: '' },
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Reorder_Level', Name: 'Reorder Level', Align: 'right' },
+    { Field: 'Min_stock', Name: 'Min stock', Align: 'right' },
+    { Field: 'Stock', Name: 'Stock', Align: 'right' }
+
+
+  ];
+   public Itemwise_Track_Export = [
+
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'P_Qty', Name: 'P Qty', Align: 'right' },
+    { Field: 'S_Qty', Name: 'S Qty', Align: 'right' },
+    { Field: 'Stock_Qty', Name: 'Stock Qty', Align: 'right' },
+    { Field: 'P_Value', Name: 'P Value', Align: 'right' },
+    { Field: 'S_Value', Name: 'S Value', Align: 'right' },
+    { Field: 'Stock_Value', Name: 'Stock Value', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+  public Categorywise_Track_Export = [
+
+    { Field: 'Category', Name: 'Category', Align: '' },
+    { Field: 'P_Qty', Name: 'P Qty', Align: 'right' },
+    { Field: 'S_Qty', Name: 'S Qty', Align: 'right' },
+    { Field: 'Stock_Qty', Name: 'Stock Qty', Align: 'right' },
+    { Field: 'P_Value', Name: 'P Value', Align: 'right' },
+    { Field: 'S_Value', Name: 'S Value', Align: 'right' },
+    { Field: 'Stock_Value', Name: 'Stock Value', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+  public Delivery_Details_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Date', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Phone_No', Name: 'Phone No', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  
+  public Billwise_Purchase_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Date', Align: '' },
+    { Field: 'Supplier_Name', Name: 'Suppier Name', Align: '' },
+    { Field: 'Contact_No', Name: 'Phone No', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Billwise_Profit_Export = [
+
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Date', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Phone_No', Name: 'Phone No', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+  ];
+
+
+  public Daybook_Export = [
+
+    { Field: 'AC_Date', Name: 'Date', Align: ' ' },
+    { Field: 'Nar_Type', Name: 'Type', Align: ' ' },
+    { Field: 'Narration1', Name: 'Narration', Align: ' ' },
+    { Field: 'Pay_Mode_', Name: 'Pay Mode', Align: '' },
+    { Field: 'Created_by', Name: 'User', Align: 'right' },
+    { Field: 'CR_AMT', Name: 'Credit', Align: 'right' },
+    { Field: 'DB_AMT', Name: 'Debit', Align: 'right' }
+
+  ];
+
+  public Areawise_sales_Export = [
+    { Field: 'Area', Name: 'Area ', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+  public Sales_Personwise_sales_Export = [
+    { Field: 'Sales_person', Name: 'Sales Person ', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+  public Areawise_Purchase_Export = [
+    { Field: 'Area', Name: 'Area ', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+  public Paymodewise_sales_Export = [
+    { Field: 'Pay_Mode', Name: 'Pay Mode ', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+  public Paymodewise_Purchase_Export = [
+    { Field: 'Pay_Mode', Name: 'Pay Mode ', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+
+  public Productwise_sales_Export  = [
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'MRP', Name: 'MRP', Align: 'right' },
+    { Field: 'Qty', Name: 'Qty', Align: 'right' },
+    { Field: 'Free', Name: 'Free', Align: 'right' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'Extra_Qty', Name: 'Extra.Qty', Align: 'right' }
+
+  ];
+  public Itemwise_sales_Export = [
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Qty', Name: 'Quality', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Itemwise_Purchase_Export = [
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Qty', Name: 'Quality', Align: '' },
+    { Field: 'Amount', Name: 'P Amount', Align: 'right' },
+    { Field: 'S_Rate', Name: 'S Amount', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+  ];
+  public Itemwise_Profit_Export = [
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Qty', Name: 'Quality', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+  ];
+  public Userwise_sales_Export = [
+    { Field: 'User', Name: 'User', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Userwise_Purchase_Export = [
+    { Field: 'User', Name: 'User', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+
+  public Daywise_sales_Export = [
+    { Field: 'Date', Name: 'Date', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Daywise_Purchase_Export = [
+    { Field: 'Purchase_Date_', Name: 'Date', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+
+  public Customerwise_sales_Export = [
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+  public Supplierwise_purchase_Export = [
+    { Field: 'Supplier_Name', Name: 'Supplier Name', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+
+
+  ];
+  public Customerwise_Profit_Export = [
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'Profit', Name: 'Profit', Align: 'right' }
+
+
+  ];
+
+  public Sales_personwise_sales_Export = [
+    { Field: 'Date', Name: 'Date', Align: '' },
+    { Field: 'count', Name: 'Count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Loanwise_out_Export = [
+    { Field: 'Loan_No', Name: 'Loan No', Align: '' },
+    { Field: 'Loan_Date', Name: 'Loan Date', Align: '' },
+    { Field: 'Ledger_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Loan_Type', Name: 'Loan Type', Align: '' },
+    { Field: 'Collected', Name: 'Collected', Align: 'right' },
+    { Field: 'Balance', Name: 'Balance', Align: 'right' }
+
+  ];
+  public Billwise_out_Export = [
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Bill Date', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Phone_No', Name: 'Phone  No', Align: '' },
+    { Field: 'Bill_Amount', Name: 'Bill Amt', Align: 'right' },
+    { Field: 'Amount', Name: 'Due Amt', Align: 'right' }
+
+  ];
+  public Billwisepayable_out_Export = [
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Bill Date', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'Phone_No', Name: 'Phone  No', Align: '' },
+    { Field: 'Bill_Amount', Name: 'Bill Amt', Align: 'right' },
+    { Field: 'Amount', Name: 'Due Amt', Align: 'right' }
+
+  ];
+
+  public Customerwise_out_Export = [
+
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public Supplierwise_out_Export = [
+
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+  ];
+
+  public Areawise_out_Export = [
+    { Field: 'Area', Name: 'Area', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public Streetwise_out_Export = [
+    { Field: 'Street', Name: 'Street', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+
+  ];
+
+
+  public Duedaywise_out_Export = [
+
+    { Field: 'Dues', Name: 'Dues', Align: '' },
+    { Field: 'count', Name: 'Bills Count', Align: '' },
+    { Field: 'Amount', Name: 'Due Amt', Align: 'right' }
+
+  ];
+
+  public Salespersonwise_out_Export = [
+
+    { Field: 'Sales_Person', Name: 'Sales Man', Align: '' },
+    { Field: 'count', Name: 'Bills', Align: '' },
+    { Field: 'Amount', Name: 'Due Amt', Align: 'right' }
+  ];
+
+  public Itemwise_order_Export = [
+
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Qty', Name: 'Qty', Align: '' },
+    { Field: 'Net_Amt', Name: 'Amount', Align: 'right' }
+  ];
+
+  public Customerwise_order_Export = [
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+
+  public Areawise_order_Export = [
+
+    { Field: 'Area', Name: 'Area Name', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public Daywise_order_Export = [
+
+    { Field: 'Order_Date_', Name: 'Date', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public Userwise_order_Export = [
+
+    { Field: 'User', Name: 'User', Align: '' },
+    { Field: 'count', Name: 'count', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public Entrywise_order_Export = [
+
+    { Field: 'Order_No', Name: 'Order No', Align: '' },
+    { Field: 'Date', Name: 'Date    ', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name         ', Align: '' },
+    { Field: 'Contact_No', Name: 'Contact No', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+  ];
+
+  public Pending_order_Export = [
+
+    { Field: 'Order_No', Name: 'Order No', Align: '' },
+    { Field: 'Date', Name: 'Date    ', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name         ', Align: '' },
+    { Field: 'Contact_No', Name: 'Contact No', Align: '' },
+    { Field: 'Net_Amt', Name: 'Amount', Align: 'right' }
+  ];
+
+  public Itemwisepending_order_Export = [
+
+    { Field: 'Item_Name', Name: 'Item Name      ', Align: '' },
+    { Field: 'Bag', Name: ' Bag    ', Align: 'right' },
+    { Field: 'Pcs', Name: ' Kg     ', Align: 'right' },
+    { Field: 'qty', Name: ' Total Kg ', Align: 'right' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' }
+
+  ];
+  public Price_List_Export = [
+    { Field: 'Category', Name: 'Brand', Align: '' },
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Wholesale_Rate', Name: 'Wholesale Rate', Align: 'right' },
+    { Field: 'Rate', Name: 'Rate', Align: 'right' },
+    { Field: 'MRP', Name: 'MRP', Align: 'right' }
+
+  ];
+  public Cash_Settlement_Export = [
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Bill Date', Align: '' },
+    { Field: 'Cash_Amt', Name: 'Cash_Amt', Align: 'right' },
+    { Field: 'Cheque_Amt', Name: 'Cheque Amt', Align: 'right' },
+    { Field: 'Card_Amt', Name: 'Card Amt', Align: 'right' },
+    { Field: 'Gpay_Amt', Name: 'Gpay Amt', Align: 'right' },
+    { Field: 'Credit_Amt', Name: 'Credit Amt', Align: 'right' },
+    { Field: 'Less_Amt', Name: 'Less Amt', Align: 'right' }
+
+  ];
+  public Item_Master_Export = [
+    { Field: 'Display_order', Name: 'order', Align: '' },
+    { Field: 'Category', Name: 'Category', Align: '' },
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Description', Name: 'Tamil Name', Align: '' },
+    { Field: 'Bag_Qty', Name: 'Bag Qty', Align: '' },
+    { Field: 'Rate', Name: 'Rate', Align: '' }
+  ];
+  public Product_Master_Export = [
+    { Field: 'Display_order', Name: 'order', Align: '' },
+    { Field: 'Category', Name: 'Category', Align: '' },
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Description', Name: 'Tamil Name', Align: '' },
+    { Field: 'Bag_Qty', Name: 'Bag Qty', Align: '' },
+    { Field: 'Rate', Name: 'Rate', Align: '' }
+  ];
+  public BOM_Master_Export = [
+    { Field: 'BOM_Name', Name: 'BOM Name', Align: '' },
+    { Field: 'BOM_Qty', Name: 'BOM Qty', Align: '' },
+    { Field: 'RM_Name', Name: 'RM Name', Align: '' },
+    { Field: 'RM_Qty', Name: 'RM Qty', Align: '' },
+
+  ];
+
+
+
+  public Stock_report_Export = [
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'Category', Name: 'Category', Align: '' },
+    { Field: 'Rate', Name: 'Rate', Align: '' },
+    { Field: 'Opening', Name: 'Opening', Align: '' },
+    { Field: 'Inward', Name: 'Inward', Align: '' },
+    { Field: 'Outward', Name: 'Outward', Align: 'right' },
+    { Field: 'Closing', Name: 'Closing', Align: 'right' }
+
+  ];
+  public Curent_Stock_Export = [
+    { Field: 'Category', Name: 'Category', Align: '' },
+
+    { Field: 'Item_Name', Name: 'Item Name', Align: '' },
+    { Field: 'MRP', Name: 'MRP', Align: 'right' },
+    { Field: 'Rate', Name: 'Rate', Align: 'right' },
+    { Field: 'Stock', Name: 'Stock', Align: 'right' },
+    { Field: 'Value', Name: 'Value', Align: 'right' },
+
+
+  ];
+  public Category_Stock_Export = [
+    { Field: 'Category', Name: 'Category', Align: '' },
+
+    { Field: 'Stock', Name: 'Stock', Align: 'right' },
+    { Field: 'Value', Name: 'Value', Align: 'right' },
+
+
+  ];
+  public Itemwise_Stock_Export = [
+    { Field: 'Vour_Type', Name: 'Vour Type', Align: '' },
+    { Field: 'Voucher_No', Name: 'Voucher No', Align: '' },
+    { Field: 'Voucher_Date_', Name: 'Voucher Date', Align: '' },
+    { Field: 'Rate', Name: 'Rate', Align: '' },
+    { Field: 'Inward_Qty', Name: 'Inward Qty', Align: '' },
+    { Field: 'Outward_Qty', Name: 'Outward Qty', Align: 'right' },
+    { Field: 'Balance', Name: 'Balance', Align: 'right' },
+
+
+  ];
+  public Sales_Gst_Export = [
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Bill Date', Align: '' },
+    { Field: 'Customer_Name', Name: 'Customer Name', Align: '' },
+    { Field: 'GST_No', Name: 'GST No', Align: 'right' },
+    { Field: 'Taxable_Amount', Name: 'Taxable', Align: 'right' },
+    { Field: 'IGST_Amt', Name: 'IGST', Align: 'right' },
+    { Field: 'SGST_Amt', Name: 'SGST', Align: 'right' },
+    { Field: 'CGST_Amt', Name: 'CGST', Align: 'right' },
+    { Field: 'Tax_Amt', Name: 'Tax', Align: 'right' },
+    { Field: 'Net_Amt', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public B2C_Gst_Export = [
+    { Field: 'Bill_No', Name: 'Bill No', Align: '' },
+    { Field: 'Bill_Date', Name: 'Bill Date', Align: '' },
+    { Field: 'Supplier_Name', Name: 'Supplier Name', Align: '' },
+    { Field: 'GST_No', Name: 'GST No', Align: 'right' },
+    { Field: 'Taxable_Amount', Name: 'Taxable', Align: 'right' },
+    { Field: 'IGST_Amt', Name: 'IGST', Align: 'right' },
+    { Field: 'SGST_Amt', Name: 'SGST', Align: 'right' },
+    { Field: 'CGST_Amt', Name: 'CGST', Align: 'right' },
+    { Field: 'Tax_Amt', Name: 'Tax', Align: 'right' },
+    { Field: 'Net_Amt', Name: 'Amount', Align: 'right' }
+
+
+  ];
+  public Entrywise_Collection_Export = [
+    { Field: 'Receipt_No', Name: 'Receipt No', Align: '' },
+    { Field: 'RCDate_', Name: 'RC Date', Align: '' },
+    { Field: 'Bill_No', Name: 'Bill_No', Align: '' },
+    { Field: 'Ledger_Name', Name: 'Ledger Name', Align: '' },
+    { Field: 'Created_By', Name: 'Created By', Align: '' },
+    { Field: 'Pay_Mode_', Name: 'Pay Mode', Align: 'right' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+
+
+  ];
+  public Areawise_Collection_Export = [
+    { Field: 'Area', Name: 'Area', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+
+
+  ];
+  public Paymodewise_Collection_Export = [
+    { Field: 'Pay_Mode_', Name: 'Pay Mode', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+
+
+  ];
+  public Customerwise_Collection_Export = [
+    { Field: 'Ledger_Name', Name: 'Customer', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+
+
+  ];
+  public Userwise_Collection_Export = [
+    { Field: 'Created_By', Name: 'User', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+
+
+  ];
+  public Ledger_Master_Exel_Export = [
+    { Field: 'Ledger_Name', Name: 'Ledger Name', Align: '' },
+    { Field: 'Short_Name', Name: 'Short Name', Align: '' },
+    { Field: 'Phone_No', Name: 'Phone No', Align: '' },
+    { Field: 'Area', Name: 'Area', Align: '' },
+    { Field: 'Street', Name: 'Street', Align: '' },
+    { Field: 'Address', Name: 'Address', Align: '' },
+    { Field: 'Amount', Name: 'Amount', Align: 'right' },
+    { Field: 'VC_Number', Name: 'VC Number', Align: '' },
+    { Field: 'Join_Date', Name: 'Join Date', Align: '' },
+    { Field: 'Status', Name: 'Status', Align: '' }
+
+  ];
+  public Customer_Ledger_Export = [
+    { Field: 'Date', Name: 'Date', Align: 'center' },
+    { Field: 'Narration1', Name: 'Narration', Align: 'center' },
+    { Field: 'CR_Amt', Name: 'Credit', Align: 'right' },
+    { Field: 'DB_Amt', Name: 'Debit', Align: 'right' }
+
+  ];
+  public Quotation_Export = [];
+  public Purchase_Export = [];
+  public Adjustment_Export = [];
+
+  public Sales_Export = [];
+  public Delivery_Export = [];
+
+  public Tharikar_Export = [];
+  public Dyeing_Export = [];
+  public Damage_Export = [];
+
+  public Sales_Return_Export = [];
+
+  public Purchase_Order_Export = [];
+  public Member_Registration_Export = [];
+  public Proforma_Export = [];
+  public Ledger_Master_Export = [];
+  public Visitor_Master_Export = [];
+  public Visitor_Master_Export1 = [];
+
+  public Production_Export = [];
+  public Employee_Details_Export = [];
+
+
+
+
+  public Action_Details_Export = [];
+  public Group_Details_Export = [];
+  public Loan_Issue_Export = [];
+  public Emi_Loan_Issue_Export = [];
+
+
+  public img_visible: boolean = false;
+
+  
+  public Order_enty_type = "Type1";
+  public page_Name = "Order_Entry";
+
+  public from_customer: boolean = false;
+  public from_customer_Code = "";
+
+  public DF_Paymode = "244";
+  public DF_Checkin_by = "40";
+  public DF_Checkin_Type = "35";
+  public DF_Stay_purpose = "31";
+
+  public C_Sub_Total = 0;
+  public C_Delivery_Charges = 0;
+  public C_Taxable = 0;
+  public C_IGST = 0;
+  public C_SGST = 0;
+  public C_CGST = 0;
+  public C_Tax = 0;
+  public C_Total_Payable = 0;
+  public C_Savings = 0;
+
+  public Item_Category = [];
+  public Selected_item_Category = "";
+
+  public Date;
+  public Date1;
+  public From_Date;
+  public To_Date;
+
+  public User_Type = "Admin";
+  public Document_Type = "Front_Banner";
+  public Phone_Pattern = "^((\\+91-?)|0)?[0-9]{10}$";
+  public Receipt_Print="false";
+
+  public Side_Menu: boolean = false;
+  public Today_Date = "";
+  public S_From = "";
+  public S_To = "";
+  public S_Bill_Type = "All";
+  public S_Thari_Status = "All";
+  public Calibration_Standard ="";
+  public Category = "All";
+
+  public S_Pay_Mode = "0";
+  public S_Bill_Mode = "All";
+  public S_Area = "All"
+  public S_Sales_Order_by = "Bill_No";
+  public S_Stock = "All"
+  public S_Sales_Person = "All"
+
+
+  public Y_Date = "";
+  public data: any = {};
+  public Order_Status = "Pending";
+  public Search_User = "All";
+  public Approval_Status = "Pending";
+
+
+  public Customer_Area = "All";
+  public item_name_disp = "English";
+
+  public T_Date = "";
+  public T_Date_Time = "";
+
+  public Pay_Date="";
+
+
+  public back() {
+    this._location.back();
+  }
+
+
+  public datefromat(data) {
+    return this.datePipe.transform(data, "yyyy-MM-dd");
+  }
+
+  public datetimefromat(data) {
+    return this.datePipe.transform(data, "yyyy-MM-ddTHH:mm");
+  }
+  
+
+  public date_display(data) {
+    return this.datePipe.transform(data, "dd-MMM-yyyy");
+  }
+
+  public Rights_Name = "";
+  public Rights_ID = "";
+  public Emp_ID = "";
+ 
+
+  getData() {
+    return JSON.parse(localStorage.getItem('User_Data'));
+  }
+
+
+  Cash_ID = "";
+  Cheque_ID = "";
+  Card_ID = "";
+  Prow = [];
+  Pay_Mode_Rows = [];
+
+  get_pay_mode_ID() {
+
+    try {
+      this.Prow = this.Reference_Rows.filter(e => e.Ref_ID == "Pay_Mode");
+      this.Pay_Mode_Rows = this.Reference_Rows.filter(e => e.Ref_ID == "Pay_Mode");
+      this.Cash_ID = this.Prow.filter(e => e.RGV_vDesciption.toLowerCase() == "cash")[0].RGV_iID;
+      this.Cheque_ID = this.Prow.filter(e => e.RGV_vDesciption.toLowerCase() == "cheque")[0]["RGV_iID"];
+      this.Card_ID = this.Prow.filter(e => e.RGV_vDesciption.toLowerCase() == "card")[0]["RGV_iID"];
+      this.Pay_Mode = this.Cash_ID;
+    } catch { }
+  }
+
+
+  public pay_Mode_reset() {
+    this.Pay_Mode = this.Cash_ID;
+    this.Receiving_Bank = "0";
+    this.Cheque_No = "";
+    this.Cheque_Date = this.Today_Date;
+    this.Card_Charge = "";
+    this.Remarks = "";
+
+  }
+
+
+  public isEdit: boolean = false;
+  public Pay_Mode = "";
+  public Bill_Mode = "Cash";
+  public Receiving_Bank = "0";
+  public Cheque_No = "";
+  public Cheque_Date = this.Today_Date;
+  public Card_Charge = "";
+  public Remarks = "";
+
+
+
+  public Bill_No = "";
+  public Bill_Date = "";
+  public Due_Date = "";
+  public Place_of_Supply = "";
+  public Sales_Person = "";
+
+
+  public Pay_Mode_ID = "";
+  public User_Master_Rows = [];
+  get_User_Master() {
+    this.getc("Api/Common/get_User_Master").subscribe((res: any) => {
+      this.User_Master_Rows = JSON.parse(res).record;
+    });
+  }
+
+  public W_height = 0;
+  public W_width = 0;
+
+  lenth: number = 0;
+  public order_Rows = [];
+  public Orders_sort_by = "order_Date"
+
+  public Invoice_Row_total = 0;
+  public Invoice_Row_length = 0;
+  public Invoice_Row = [];
+  public RC_Bill_Amt_Check: boolean = true;
+
+
+  public Exp_Rows = [];
+  public Exp_Total = 0;
+  get_expense() {
+    this.isload = true;
+    this.Exp_Rows = [];
+    this.get("Api/Transaction/get_Adjustments?From=" + this.S_From + "&To=" + this.S_To + "&Type=Expense&Category=" + this.S_Exp_Category + "&Pay_Mode=" + this.S_Pay_Mode).subscribe((res: any) => {
+      this.Exp_Rows = JSON.parse(res).record;
+      this.isload = false;
+      try {
+        this.Exp_Total = 0;
+        this.Exp_Total = (this.Exp_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+      } catch
+      { }
+    });
+
+  }
+
+  public Income_Rows = [];
+  public Income_Total = 0;
+  get_Income() {
+    this.isload = true;
+    this.Income_Rows = [];
+    this.get("Api/Transaction/get_Adjustments?From=" + this.S_From + "&To=" + this.S_To + "&Type=Income&Category=" + this.S_Exp_Category + "&Pay_Mode=" + this.S_Pay_Mode).subscribe((res: any) => {
+      this.Income_Rows = JSON.parse(res).record;
+      this.isload = false;
+      try {
+        this.Income_Total = 0;
+        this.Income_Total = (this.Income_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+      } catch
+      { }
+    });
+
+  }
+
+  public Contra_Rows = [];
+  public Contra_Total = 0;
+  get_Contra() {
+    this.isload = true;
+    this.Contra_Rows = [];
+    this.get("Api/Transaction/get_Contra?From=" + this.S_From + "&To=" + this.S_To +  "&Pay_Mode=" + this.S_Pay_Mode).subscribe((res: any) => {
+      this.Contra_Rows = JSON.parse(res).record;
+      this.isload = false;
+      try {
+        this.Contra_Total = 0;
+        this.Contra_Total = (this.Contra_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+      } catch
+      { }
+    });
+
+  }
+
+  public Collection_Row = [];
+  public Customerwise_Coll_Row = [];
+  public Userwise_Coll_Row = [];
+  public Areawise_Coll_Row = [];
+  public Paymodewise_Coll_Row = [];
+
+  public Collection_Total_Amt = 0;
+
+
+
+  get_Collections_Details() {
+
+    this.isload = true;
+    this.get("Api/Collection_/get_Amount_Collection?From=" + this.S_From + "&To=" + this.S_To + "&Customer=" + this.S_customer + "&Area=" + this.S_Area + "&Pay_Mode=" + this.S_Pay_Mode + "&User=" + this.Search_User + "&order_by=Receipt_Date").subscribe((res: any) => {
+      this.Collection_Row = JSON.parse(res).record;
+      this.isload = false;
+
+
+
+      var Ledger_Name = [...new Set(this.Collection_Row.map(item => item.Ledger_Name))];
+      this.Customerwise_Coll_Row = [];
+      for (let data of Ledger_Name) {
+        var Amount_ = (this.Collection_Row.filter(e => e.Ledger_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Customerwise_Coll_Row.push({ Ledger_Name: data, Amount: Amount_ })
+      }
+      var Created_By = [...new Set(this.Collection_Row.map(item => item.Created_By))];
+      this.Userwise_Coll_Row = [];
+      for (let data of Created_By) {
+        var Amount_ = (this.Collection_Row.filter(e => e.Created_By == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Userwise_Coll_Row.push({ Created_By: data, Amount: Amount_ })
+      }
+      var Area = [...new Set(this.Collection_Row.map(item => item.Area))];
+      this.Areawise_Coll_Row = [];
+      for (let data of Area) {
+        var Amount_ = (this.Collection_Row.filter(e => e.Area == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Areawise_Coll_Row.push({ Area: data, Amount: Amount_ })
+      }
+      var Pay_Mode_ = [...new Set(this.Collection_Row.map(item => item.Pay_Mode_))];
+      this.Paymodewise_Coll_Row = [];
+      for (let data of Pay_Mode_) {
+        var Amount_ = (this.Collection_Row.filter(e => e.Area == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Paymodewise_Coll_Row.push({ Pay_Mode_: data, Amount: Amount_ })
+      }
+
+
+
+
+      try {
+
+        this.Collection_Total_Amt = (this.Collection_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      } catch
+      {
+
+      }
+
+
+    });
+  }
+
+
+
+
+  S_State = "All";
+  S_District = "All";
+  S_Thoguthi = "All";
+  S_Desgnation = "All";
+
+  Member_Data_Row = [];
+  Thoguthiwise_Member_Row = [];
+  Statewise_Member_Row = [];
+  Districtwise_Member_Row = [];
+
+  Total_Members = [];
+  get_Total_Members() {
+    this.isload = true;
+    this.getc("Api/Master/get_Total_Members").subscribe((res: any) => {
+      this.isload = false;
+      this.Total_Members = JSON.parse(res).record;
+    });
+  }
+
+  get_Member_Data() {
+
+    this.isload = true;
+    this.get("Api/Master/get_Member_Data?From=" + this.S_From + "&To=" + this.S_To + "&State=" + this.S_State + "&District=" + this.S_District + "&Thoguthi=" + this.S_Thoguthi + "&Desgnation=" + this.S_Desgnation + "&User=" + this.Search_User + "&Order=Name").subscribe((res: any) => {
+      this.Member_Data_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      var Thoguthi = [...new Set(this.Member_Data_Row.map(item => item.Thoguthi))];
+      this.Thoguthiwise_Member_Row = [];
+      for (let data of Thoguthi) {
+        var count = [...new Set((this.Member_Data_Row.filter(e => e.Thoguthi == data)).map(item => item.ID))].length;
+        this.Thoguthiwise_Member_Row.push({ 'Name': data, 'Count': count })
+      }
+
+
+      var State = [...new Set(this.Member_Data_Row.map(item => item.State))];
+      this.Statewise_Member_Row = [];
+      for (let data of State) {
+        var count = [...new Set((this.Member_Data_Row.filter(e => e.State == data)).map(item => item.ID))].length;
+        this.Statewise_Member_Row.push({ 'Name': data, 'Count': count })
+      }
+
+
+      var District = [...new Set(this.Member_Data_Row.map(item => item.District))];
+      this.Districtwise_Member_Row = [];
+      for (let data of District) {
+        var count = [...new Set((this.Member_Data_Row.filter(e => e.District == data)).map(item => item.ID))].length;
+        this.Districtwise_Member_Row.push({ 'Name': data, 'Count': count })
+      }
+
+    });
+  }
+
+
+
+
+  public Exp_Category = [];
+  public S_Exp_Category = "0";
+  public Expenses_Row = [];
+  public Exp_Category_Row = [];
+
+  public Exp_Userwise_Row = [];
+  public Exp_Paymodewise_Row = [];
+
+  public Exp_Daywise_Row = [];
+  public Exp_itemwise_Row = [];
+
+  public Total_Expense_Amount = 0;
+
+
+  get_Expense_Details() {
+
+    this.isload = true;
+    this.get("Api/Invoice/get_expenses?From=" + this.S_From + "&To=" + this.S_To + "&Type=Expense&Category=" + this.S_Exp_Category + "&Paymode=" + this.S_Pay_Mode + "&User=" + this.Search_User + "&order_by=Date").subscribe((res: any) => {
+      this.Expenses_Row = JSON.parse(res).record;
+      this.isload = false;
+
+
+
+      try {
+
+        this.Total_Expense_Amount = (this.Expenses_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      } catch
+      {
+
+      }
+
+
+      var Item = [...new Set(this.Expenses_Row.map(item => item.Category_))];
+      this.Exp_Category_Row = [];
+      for (let data of Item) {
+        var Amount_ = (this.Expenses_Row.filter(e => e.Category_ == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Exp_Category_Row.push({ Category: data, Qty: 0, Amount: Amount_ })
+      }
+
+
+      var Created_by = [...new Set(this.Expenses_Row.map(item => item.Created_by))];
+      this.Exp_Userwise_Row = [];
+      for (let data of Created_by) {
+        var Amount_ = (this.Expenses_Row.filter(e => e.Created_by == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Exp_Userwise_Row.push({ User: data, Qty: 0, Amount: Amount_ })
+      }
+
+
+      var Pay_Mode_ = [...new Set(this.Expenses_Row.map(item => item.Pay_Mode_))];
+      this.Exp_Paymodewise_Row = [];
+      for (let data of Pay_Mode_) {
+        var Amount_ = (this.Expenses_Row.filter(e => e.Pay_Mode_ == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Exp_Paymodewise_Row.push({ Pay_Mode_: data, Qty: 0, Amount: Amount_ })
+      }
+
+
+      var Date = [...new Set(this.Expenses_Row.map(item => item.Date))];
+      this.Exp_Daywise_Row = [];
+      for (let data of Date) {
+        var Amount_ = (this.Expenses_Row.filter(e => e.Date == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Exp_Daywise_Row.push({ Date: data, Qty: 0, Amount: Amount_ })
+      }
+
+
+
+
+      var Narration = [...new Set(this.Expenses_Row.map(item => item.Narration))];
+      this.Exp_itemwise_Row = [];
+      for (let data of Narration) {
+        var Amount_ = (this.Expenses_Row.filter(e => e.Narration == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        this.Exp_itemwise_Row.push({ Narration: data, Qty: 0, Amount: Amount_ })
+      }
+
+
+
+    });
+
+  }
+  public Delivery_Details_Row = [];
+  get_Delivery_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Delivery?From=" + this.S_From + "&To=" + this.S_To +"&Area=" + this.S_Area+"&Category=" + this.I_Category +"&Category2=" + this.I_Category2 + "&order_by=y.Bill_Date desc").subscribe((res: any) => {
+      this.Delivery_Details_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Delivery_Details_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Delivery_Details_Row.length;
+
+      } catch
+      {
+
+      }
+    });
+  }
+  public Brandwise_Sales_Row = [];
+  get_Brandwise_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Delivery?From=" + this.S_From + "&Bill_Type=" + this.S_Bill_Type + "&To=" + this.S_To + "&Bill_Mode=" + this.S_Bill_Mode + "&Pay_Mode=" + this.S_Pay_Mode + "&Sales_person=All&User=" + this.Search_User + "&Area=" + this.S_Area + "&Condi_Sales=" + this.Condi_Sales + "&order_by=x.Bill_Date desc").subscribe((res: any) => {
+      this.Brandwise_Sales_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Delivery_Details_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Delivery_Details_Row.length;
+
+      } catch
+      {
+
+      }
+    });
+  }
+
+  public Deleted_Order_GF = ['Table_', 'Item_Name', 'Created_by', 'Created_Date'];
+  public Variable_Settings_GF = ['ID', 'S_Variable', 'S_Value', 'S_Default'];
+
+
+  public Delete_Order_Details_Row = [];
+  public Delete_Order_Details() {
+    this.isload = true;
+    this.Delete_Order_Details_Row = [];
+    this.get("Api/Invoice/get_Delete_Order_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Created_Date").subscribe((res: any) => {
+      this.isload = false;
+      this.Delete_Order_Details_Row = JSON.parse(res).record;
+    });
+
+  }
+  public Cusomer_Details_Rowdata = "";
+
+  public Cusomer_Details_Row = [];
+  public Customer_Details() {
+    this.isload = true;
+    this.Cusomer_Details_Row = [];
+    this.get("Api/Invoice/get_Customer_Sales?Uni_Code=" + this.Cusomer_Details_Rowdata ).subscribe((res: any) => {
+      this.Cusomer_Details_Row = JSON.parse(res).record;
+      this.isload = false;
+
+    });
+
+  }
+ public Track_Sum_Row =[];
+ public Itemwise_Track_Row =[];
+ public Billwise_Track_Sum_Row =[];
+ public Product_Track_Row = [];
+ public Supplierwise_Track_Row =[];
+ public Categorywise_Track_Row =[];
+
+  get_Track_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Product_Track?From=" + this.S_From +  "&To=" + this.S_To +"&S_Stock=" + this.S_Stock+"&I_Category=" + this.I_Category+  "&order_by=y.Bill_Date,y.Bill_no,x.ID desc").subscribe((res: any) => {
+      this.Product_Track_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Product_Track_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Product_Track_Row.length;
+
+      } catch
+      {
+
+      }
+
+
+
+      var Item = [...new Set(this.Product_Track_Row.map(item => item.Item_Name))];
+      this.Itemwise_Track_Row = [];
+      for (let data of Item) {
+        var s_sum = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.S_Value), 0)).toFixed(2);
+        var Stock_sum = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Stock_Value), 0)).toFixed(2);
+        var Profit_sum = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Profit), 0)).toFixed(2);
+        var sum = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.P_Value), 0)).toFixed(2);
+        var P_Qty = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.P_Qty), 0)).toFixed(2);
+        var S_Qty = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.S_Qty), 0)).toFixed(2);
+        var Stock_Qty = (this.Product_Track_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Stock_Qty), 0)).toFixed(2);
+
+        var rs = this.Product_Track_Row.filter(e => e.Item_Name == data);
+
+        this.Itemwise_Track_Row.push({ 'Item_Name': data,'P_Qty': P_Qty,'S_Qty': S_Qty,'Stock_Qty': Stock_Qty, 'S_Value': s_sum,'P_Value': sum, 'Stock_Value': Stock_sum,'Profit': Profit_sum })
+      }
+      var Item = [...new Set(this.Product_Track_Row.map(item => item.Category))];
+      this.Categorywise_Track_Row = [];
+      for (let data of Item) {
+        var s_sum = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.S_Value), 0)).toFixed(2);
+        var Stock_sum = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.Stock_Value), 0)).toFixed(2);
+        var Profit_sum = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.Profit), 0)).toFixed(2);
+        var sum = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.P_Value), 0)).toFixed(2);
+        var P_Qty = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.P_Qty), 0)).toFixed(2);
+        var S_Qty = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.S_Qty), 0)).toFixed(2);
+        var Stock_Qty = (this.Product_Track_Row.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.Stock_Qty), 0)).toFixed(2);
+
+        var rs = this.Product_Track_Row.filter(e => e.Category == data);
+
+        this.Categorywise_Track_Row.push({ 'Category': data,'P_Qty': rs[0].P_Qty,'S_Qty': rs[0].S_Qty,'Stock_Qty': rs[0].Stock_Qty, 'S_Value': s_sum,'P_Value': sum, 'Stock_Value': Stock_sum,'Profit': Profit_sum })
+      }
+
+
+
+     
+      this.Supplierwise_Track_Row = [];
+      var Supplier = [...new Set(this.Product_Track_Row.map(item => item.Supplier))];
+      for (let data of Supplier) {
+        var s_sum = (this.Product_Track_Row.filter(e => e.Supplier == data).reduce((sum, current) => sum + parseFloat(current.S_Value), 0)).toFixed(2);
+        var Stock_sum = (this.Product_Track_Row.filter(e => e.Supplier == data).reduce((sum, current) => sum + parseFloat(current.Stock_Value), 0)).toFixed(2);
+        var Profit_sum = (this.Product_Track_Row.filter(e => e.Supplier == data).reduce((sum, current) => sum + parseFloat(current.Profit), 0)).toFixed(2);
+        var sum = (this.Product_Track_Row.filter(e => e.Supplier == data).reduce((sum, current) => sum + parseFloat(current.P_Value), 0)).toFixed(2);
+        var rs = this.Product_Track_Row.filter(e => e.Supplier == data);
+        this.Supplierwise_Track_Row.push({ 'Supplier': data,    'P_Value': sum,'S_Value': s_sum,'Stock_Value':Stock_sum,'Profit': Profit_sum});
+
+      }
+
+      
+      this.Billwise_Track_Sum_Row = [];
+      var Bill_No = [...new Set(this.Product_Track_Row.map(item => item.Bill_No))];
+      for (let data of Bill_No) {
+        var sum = (this.Product_Track_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.P_Value), 0)).toFixed(2);
+        var s_sum = (this.Product_Track_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.S_Value), 0)).toFixed(2);
+        var Stock_sum = (this.Product_Track_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Stock_Value), 0)).toFixed(2);
+        var Profit_sum = (this.Product_Track_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Profit), 0)).toFixed(2);
+
+        var rs = this.Product_Track_Row.filter(e => e.Bill_No == data);
+
+        this.Billwise_Track_Sum_Row.push({ 'Bill_No': data, 'Bill_Date': rs[0].Date,  'Supplier': rs[0].Supplier,  'P_Value': sum,'S_Value': s_sum,'Stock_Value':Stock_sum,'Profit': Profit_sum});
+
+
+      }
+       
+
+
+
+
+    });
+
+  }
+  
+ 
+  public Minimum_Stock_Row =[];
+  public Minimum_Stock_count=0;
+   get_Minimum_Stock_Details() {
+     this.isload = true;
+     this.get("Api/Invoice/get_Minimum_Stock?I_Ledger_Name=" + this.I_Ledger_Name+  "&order_by=Ledger_Name").subscribe((res: any) => {
+       this.Minimum_Stock_Row = JSON.parse(res).record;
+       this.isload = false;
+       try {
+        this.Minimum_Stock_count = this.Minimum_Stock_Row.length;
+      } catch { }
+ 
+ 
+     });
+ 
+   }
+   
+
+  public Sales_Personwise_Sum_Row=[];
+  public Itemwise_Sales_Row = [];
+  get_Sales_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Itemwise?From=" + this.S_From + "&Bill_Type=" + this.S_Bill_Type + "&To=" + this.S_To + "&Bill_Mode=" + this.S_Bill_Mode + "&Pay_Mode=" + this.S_Pay_Mode + "&Sales_person="+ this.S_Sales +"&User=" + this.Search_User + "&Area=" + this.S_Area + "&Condi_Sales=" + this.Condi_Sales + "&order_by=x.Bill_Date desc").subscribe((res: any) => {
+      this.Itemwise_Sales_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Itemwise_Sales_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Itemwise_Sales_Row.length;
+
+      } catch
+      {
+
+      }
+
+
+
+      var Item = [...new Set(this.Itemwise_Sales_Row.map(item => item.Item_Name))];
+      this.Item_wise_sales_Row = [];
+      for (let data of Item) {
+        var Amount_ = (this.Itemwise_Sales_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var Qty_ = (this.Itemwise_Sales_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Qty), 0)).toFixed(2);
+
+        this.Item_wise_sales_Row.push({ Item_Name: data, Qty: Qty_, Amount: Amount_ })
+      }
+
+
+      this.Areawise_Sales_Sum_Row = [];
+      var Area = [...new Set(this.Itemwise_Sales_Row.map(item => item.Area))];
+      for (let data of Area) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Area == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Areawise_Sales_Sum_Row.push({ 'Area': data, 'Amount': sum });
+      }
+      this.Sales_Personwise_Sum_Row = [];
+      var Sales_person = [...new Set(this.Itemwise_Sales_Row.map(item => item.Sales_person))];
+      for (let data of Sales_person) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Sales_person == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Sales_Personwise_Sum_Row.push({ 'Sales_person': data, 'Amount': sum });
+      }
+
+      this.userwise_Sales_Sum_Row = [];
+      var User = [...new Set(this.Itemwise_Sales_Row.map(item => item.User))];
+
+
+      for (let data of User) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.User == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_Sales_Row.filter(e => e.User == data)).map(item => item.Bill_No))].length;
+
+        this.userwise_Sales_Sum_Row.push({ 'User': data, 'count': count, 'Amount': sum });
+      }
+
+
+      this.Paymodewise_Sales_Sum_Row = [];
+      var Pay_Mode_ = [...new Set(this.Itemwise_Sales_Row.map(item => item.Bill_Mode))];
+      for (let data of Pay_Mode_) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Bill_Mode == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Paymodewise_Sales_Sum_Row.push({ 'Pay_Mode': data, 'Amount': sum });
+      }
+
+
+
+      this.Date_wise_sales_Row = [];
+      var Bill_Date_ = [...new Set(this.Itemwise_Sales_Row.map(item => item.Bill_Date_))];
+      for (let data of Bill_Date_) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Bill_Date_ == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_Sales_Row.filter(e => e.Bill_Date_ == data)).map(item => item.Bill_No))].length;
+
+        this.Date_wise_sales_Row.push({ 'Date': data, 'count': count, 'Amount': sum });
+      }
+      this.Customerwise_sales_Row = [];
+      var Customer_Name = [...new Set(this.Itemwise_Sales_Row.map(item => item.Customer_Name))];
+      for (let data of Customer_Name) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Customer_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_Sales_Row.filter(e => e.Customer_Name == data)).map(item => item.Bill_No))].length;
+
+        this.Customerwise_sales_Row.push({ 'Customer_Name': data, 'count': count, 'Amount': sum });
+      }
+
+
+      this.Billwise_Sales_Sum_Row = [];
+      var Bill_No = [...new Set(this.Itemwise_Sales_Row.map(item => item.Bill_No))];
+      for (let data of Bill_No) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Itemwise_Sales_Row.filter(e => e.Bill_No == data);
+
+        this.Billwise_Sales_Sum_Row.push({ 'Bill_No': data, 'Bill_Date_': rs[0].Bill_Date, 'Bill_Date': rs[0].Bill_Date_, 'Customer_Name': rs[0].Customer_Name, 'Phone_No': rs[0].Contact_No, 'Amount': sum });
+
+
+      }
+
+
+
+
+    });
+
+  }
+  public Deportmentwise_Row=[];
+  public Personwise_Row=[];
+
+  public Purposewise_Row=[];
+  public Visitorwise_Row = [];
+  get_Visitor_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Master/get_Visitorwise?From=" + this.S_From + "&To=" + this.S_To + "&Visitor="+this.S_Visitor_Type+"&Department=" + this.S_Department ).subscribe((res: any) => {
+      this.Visitorwise_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Visitorwise_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Visitorwise_Row.length;
+
+      } catch
+      {
+
+      }
+
+
+      this.Billwise_Sales_Sum_Row = [];
+      var Bill_No = [...new Set(this.Itemwise_Sales_Row.map(item => item.Bill_No))];
+      for (let data of Bill_No) {
+        var sum = (this.Itemwise_Sales_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Itemwise_Sales_Row.filter(e => e.Bill_No == data);
+
+        this.Billwise_Sales_Sum_Row.push({ 'Bill_No': data, 'Bill_Date_': rs[0].Bill_Date, 'Bill_Date': rs[0].Bill_Date_, 'Customer_Name': rs[0].Customer_Name, 'Phone_No': rs[0].Contact_No, 'Amount': sum });
+
+
+      }
+
+     
+
+      this.Purposewise_Row = [];
+      var Purpose = [...new Set(this.Visitorwise_Row.map(item => item.Purpose))];
+      for (let data of Purpose) {
+        var rs = this.Visitorwise_Row.filter(e => e.Purpose == data);
+
+        this.Purposewise_Row.push({ 'Purpose': data, });
+      }
+      this.Personwise_Row = [];
+      var V_Person = [...new Set(this.Visitorwise_Row.map(item => item.V_Person))];
+      for (let data of V_Person) {
+        var rs = this.Visitorwise_Row.filter(e => e.V_Person == data);
+        this.Personwise_Row.push({ 'V_Department': rs[0].V_Department,'V_Person': data, 'Visitor_Name': rs[0].Visitor_Name, 'Company_Name': rs[0].Company_Name });
+
+      }
+
+      
+
+
+      this.Deportmentwise_Row = [];
+      var V_Department = [...new Set(this.Visitorwise_Row.map(item => item.V_Department))];
+      for (let data of V_Department) {
+        var rs = this.Visitorwise_Row.filter(e => e.V_Department == data);
+        this.Deportmentwise_Row.push({ 'V_Department': data, 'Visitor_Name': rs[0].Visitor_Name, 'Company_Name': rs[0].Company_Name, 'V_Person': rs[0].V_Person });
+
+      }
+
+
+
+     
+     
+
+
+     
+
+
+
+    });
+
+  }
+  public Productwise_Row=[];
+
+  public Customerwise_Row=[];
+  public Itemwise_Sales_Row1 = [];
+  get_Deliverywise_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Customerwise?From=" + this.S_From + "&Bill_Type=" + this.S_Bill_Type + "&To=" + this.S_To + "&Bill_Mode=" + this.S_Bill_Mode + "&Pay_Mode=" + this.S_Pay_Mode + "&Sales_person=All&User=" + this.Search_User + "&Area=" + this.S_Area + "&Condi_Sales=" + this.Condi_Sales + "&order_by=x.Bill_Date desc").subscribe((res: any) => {
+      this.Itemwise_Sales_Row1 = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Itemwise_Sales_Row1.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Itemwise_Sales_Row1.length;
+
+      } catch
+      {
+
+      }
+
+
+
+      var Item = [...new Set(this.Itemwise_Sales_Row1.map(item => item.Item_Name))];
+      this.Productwise_Row = [];
+      for (let data of Item) {
+        var Amount_ = (this.Itemwise_Sales_Row1.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var Qty_ = (this.Itemwise_Sales_Row1.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Qty), 0)).toFixed(2);
+        var Free_ = (this.Itemwise_Sales_Row1.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Free), 0)).toFixed(2);
+
+        var rs = this.Itemwise_Sales_Row1.filter(e => e.Item_Name == data);
+
+        this.Productwise_Row.push({ Item_Name: data, Qty: Qty_, Amount: Amount_,MRP: rs[0].MRP,Free: Free_,Extra_Qty: rs[0].Extra_Qty  });
+      }
+
+
+      this.Customerwise_Row = [];
+      var Bill_No = [...new Set(this.Itemwise_Sales_Row1.map(item => item.Bill_No))];
+      for (let data of Bill_No) {
+        var sum = (this.Itemwise_Sales_Row1.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Itemwise_Sales_Row1.filter(e => e.Bill_No == data);
+
+        this.Customerwise_Row.push({ 'Bill_No': data, 'Bill_Date_': rs[0].Bill_Date, 'Bill_Date': rs[0].Bill_Date_, 'Customer_Name': rs[0].Customer_Name, 'Area': rs[0].Area, 'Phone_No': rs[0].Contact_No, 'Amount': sum,'Payment': rs[0].Payment, });
+
+
+      }
+
+
+      
+
+     
+
+
+
+     
+     
+
+
+     
+
+
+
+
+    });
+
+  }
+ 
+  public Billwise_Purchase_Sum_Row = [];
+  public Paymodewise_Purchase_Sum_Row = [];
+  public Date_wise_Purchase_Row = [];
+  public Supplierwise_Purchase = [];
+  public userwise_Purchase_Sum_Row = [];
+  public Areawise_Purchase_Sum_Row = [];
+  public Item_wise_purchase_Row = [];
+  public Itemwise_purchase_Row = [];
+  get_Purchase_Report() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Purchase_Report?From=" + this.S_From + "&To=" + this.S_To + "&Bill_Mode=" + this.S_Bill_Mode + "&Pay_Mode=" + this.S_Pay_Mode + "&Sales_person=All&User=" + this.Search_User + "&Area=" + this.S_Area + "&Condi_Sales=" + this.Condi_Sales + "&order_by=x.Purchase_Date desc").subscribe((res: any) => {
+      this.Itemwise_purchase_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Itemwise_purchase_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Itemwise_purchase_Row.length;
+
+      } catch
+      {
+
+      }
+
+
+
+      var Item = [...new Set(this.Itemwise_purchase_Row.map(item => item.Item_Name))];
+      this.Item_wise_purchase_Row = [];
+      for (let data of Item) {
+        var Amount_ = (this.Itemwise_purchase_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var Qty_ = (this.Itemwise_purchase_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Qty), 0)).toFixed(2);
+        var Profit_ = (this.Itemwise_purchase_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Profit), 0)).toFixed(2);
+        var S_Rate_ = (this.Itemwise_purchase_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.S_Rate), 0)).toFixed(2);
+
+        this.Item_wise_purchase_Row.push({ Item_Name: data, Qty: Qty_, Amount: Amount_,Profit:Profit_ ,S_Rate:S_Rate_})
+      }
+
+
+      this.Areawise_Purchase_Sum_Row = [];
+      var Area = [...new Set(this.Itemwise_purchase_Row.map(item => item.Area))];
+      for (let data of Area) {
+        var sum = (this.Itemwise_purchase_Row.filter(e => e.Area == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Areawise_Purchase_Sum_Row.push({ 'Area': data, 'Amount': sum });
+      }
+
+
+      this.userwise_Purchase_Sum_Row = [];
+      var User = [...new Set(this.Itemwise_purchase_Row.map(item => item.User))];
+
+
+      for (let data of User) {
+        var sum = (this.Itemwise_purchase_Row.filter(e => e.User == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_purchase_Row.filter(e => e.User == data)).map(item => item.Bill_No))].length;
+
+        this.userwise_Purchase_Sum_Row.push({ 'User': data, 'count': count, 'Amount': sum });
+      }
+
+
+      this.Paymodewise_Purchase_Sum_Row = [];
+      var Pay_Mode_ = [...new Set(this.Itemwise_purchase_Row.map(item => item.Bill_Mode))];
+      for (let data of Pay_Mode_) {
+        var sum = (this.Itemwise_purchase_Row.filter(e => e.Bill_Mode == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Paymodewise_Purchase_Sum_Row.push({ 'Pay_Mode': data, 'Amount': sum });
+      }
+
+
+
+      this.Date_wise_Purchase_Row = [];
+      var Purchase_Date_ = [...new Set(this.Itemwise_purchase_Row.map(item => item.Purchase_Date_))];
+      for (let data of Purchase_Date_) {
+        var sum = (this.Itemwise_purchase_Row.filter(e => e.Purchase_Date_ == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_purchase_Row.filter(e => e.Purchase_Date_ == data)).map(item => item.Purchase_No))].length;
+
+        this.Date_wise_Purchase_Row.push({ 'Purchase_Date_': data, 'count': count, 'Amount': sum });
+      }
+      this.Supplierwise_Purchase = [];
+      var Supplier_Name = [...new Set(this.Itemwise_purchase_Row.map(item => item.Supplier_Name))];
+      for (let data of Supplier_Name) {
+        var sum = (this.Itemwise_purchase_Row.filter(e => e.Supplier_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_purchase_Row.filter(e => e.Supplier_Name == data)).map(item => item.Bill_No))].length;
+
+        this.Supplierwise_Purchase.push({ 'Supplier_Name': data, 'count': count, 'Amount': sum });
+      }
+
+
+      this.Billwise_Purchase_Sum_Row = [];
+      var Purchase_No = [...new Set(this.Itemwise_purchase_Row.map(item => item.Purchase_No))];
+      for (let data of Purchase_No) {
+        var sum = (this.Itemwise_purchase_Row.filter(e => e.Purchase_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Itemwise_purchase_Row.filter(e => e.Purchase_No == data);
+
+        this.Billwise_Purchase_Sum_Row.push({ 'Purchase_No': data, 'Purchase_Date_': rs[0].Purchase_Date, 'Purchase_Date': rs[0].Purchase_Date_, 'Supplier_Name': rs[0].Supplier_Name, 'Contact_No': rs[0].Contact_No, 'Amount': sum });
+
+
+      }
+
+
+
+
+    });
+
+  }
+  public Over_all_Row = [];
+  public Customerwise_Profit_Row = [];
+  public Billwise_Profit_Sum_Row = [];
+  public Item_wise_profit_Row = [];
+  public Itemwise_Profit_Row = [];
+  get_Profit_Details() {
+    this.isload = true;
+    this.Invoice_Row_total = 0;
+    this.Invoice_Row_length = 0;
+    this.get("Api/Invoice/get_Itemwise_Profit?From=" + this.S_From + "&To=" + this.S_To + "&Bill_Mode=" + this.S_Bill_Mode + "&Pay_Mode=" + this.S_Pay_Mode + "&Sales_person=All&User=" + this.Search_User + "&Area=" + this.S_Area + "&Condi_Sales=" + this.Condi_Sales + "&order_by=x.Bill_Date desc").subscribe((res: any) => {
+      this.Itemwise_Profit_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+
+        this.Invoice_Row_total = (this.Itemwise_Profit_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Invoice_Row_length = this.Itemwise_Profit_Row.length;
+
+      } catch
+      {
+
+      }
+
+
+
+      var Item = [...new Set(this.Itemwise_Profit_Row.map(item => item.Item_Name))];
+      this.Item_wise_profit_Row = [];
+      for (let data of Item) {
+        var Amount_ = (this.Itemwise_Profit_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var Qty_ = (this.Itemwise_Profit_Row.filter(e => e.Item_Name == data).reduce((sum, current) => sum + parseFloat(current.Qty), 0)).toFixed(2);
+        var rs = this.Itemwise_Profit_Row.filter(e => e.Item_Name == data);
+
+        this.Item_wise_profit_Row.push({ Item_Name: data, Profit: rs[0].Profit, Qty: Qty_, Amount: Amount_ })
+      }
+
+
+
+
+      this.Customerwise_Profit_Row = [];
+      var Customer_Name = [...new Set(this.Itemwise_Profit_Row.map(item => item.Customer_Name))];
+      for (let data of Customer_Name) {
+        var sum = (this.Itemwise_Profit_Row.filter(e => e.Customer_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Itemwise_Profit_Row.filter(e => e.Customer_Name == data)).map(item => item.Bill_No))].length;
+        var rs = this.Itemwise_Profit_Row.filter(e => e.Customer_Name == data);
+
+        this.Customerwise_Profit_Row.push({ 'Customer_Name': data, 'count': count, 'Profit': rs[0].Profit, 'Amount': sum });
+      }
+
+
+      this.Billwise_Profit_Sum_Row = [];
+      var Bill_No = [...new Set(this.Itemwise_Profit_Row.map(item => item.Bill_No))];
+      for (let data of Bill_No) {
+        var sum = (this.Itemwise_Profit_Row.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Itemwise_Profit_Row.filter(e => e.Bill_No == data);
+
+        this.Billwise_Profit_Sum_Row.push({ 'Bill_No': data, 'Bill_Date_': rs[0].Bill_Date, 'Profit': rs[0].Profit, 'Bill_Date': rs[0].Bill_Date_, 'Customer_Name': rs[0].Customer_Name, 'Phone_No': rs[0].Contact_No, 'Amount': sum });
+
+
+      }
+
+
+
+
+    });
+
+  }get_Damage_Detail
+
+  public DB_Damage_Total = 0;
+  public Damage_Row = [];
+  get_Damage_Details() {
+    this.isload = true;
+    this.DB_Damage_Total = 0;
+    this.get("Api/Invoice/get_Damage_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Bill_Type=" + this.S_Bill_Type + "&order_by=Damage_Date,Damage_No").subscribe((res: any) => {
+      this.Damage_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+        this.DB_Damage_Total = this.Damage_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+
+
+S_Data="";
+  public Sales_Row1 = [];
+  get_Sale_Details1() {
+    this.isload = true;
+    this.DB_Sales_Total = 0;
+    this.get("Api/Invoice/get_Sale_Detail1?Data=" + this.S_Data + "").subscribe((res: any) => {
+      this.Sales_Row1 = JSON.parse(res).record;
+      this.isload = false;
+    });
+  }
+
+  public DB_Sales_Total = 0;
+  public Sales_Row = [];
+  get_Sale_Details() {
+    this.isload = true;
+    this.DB_Sales_Total = 0;
+    this.get("Api/Invoice/get_Sale_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Bill_Type=" + this.S_Bill_Type + "&Area=" + this.S_Area + "&order_by=Bill_Date,Bill_No").subscribe((res: any) => {
+      this.Sales_Row = JSON.parse(res).record;
+      this.isload = false;
+ 
+     
+      try {
+        this.DB_Sales_Total = this.Sales_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public Loan_Overview=[];
+  get_Customer_Details(data)
+  {
+    
+   this.get("Api/Collection_/get_Customer_Loan?ID="+data).subscribe((res: any) => {
+    this.Loan_Overview=JSON.parse(res).record;
+    });
+  }
+  public Group_Overview=[];
+  get_Group_Overview(data)
+  {
+    this.Group_Overview=[];
+ 
+   this.get("Api/Collection_/get_Group_Overview?ID="+data).subscribe((res: any) => {
+    this.Group_Overview=JSON.parse(res).record;
+    });
+  }
+  public Pending_Overview=[];
+  public Pending_Overview_T=0;
+  get_Pending_Overview(data)
+  {
+    this.Pending_Overview=[];
+ 
+    this.Pending_Overview_T=0;
+   this.get("Api/Collection_/get_Overview_pending?ID="+data).subscribe((res: any) => {
+    this.Pending_Overview=JSON.parse(res).record;
+
+    try {
+      this.Pending_Overview_T = this.Pending_Overview.reduce((sum, current) => sum + parseFloat(current.Bill_Amount), 0);
+    } catch { }
+   
+    });
+  }
+  public Group_Member_Row = [];
+  public Group_Member_Row_count = 0;
+
+  get_Group_Details() {
+    this.isload = true;
+    this.Group_Member_Row = [];
+    this.get("Api/Collection_/get_Group_Detail?Group_Status="+ this.Group_Status).subscribe((res: any) => {
+    this.Group_Member_Row = JSON.parse(res).record;
+    this.isload = false;
+    try {
+      this.Group_Member_Row_count = this.Group_Member_Row.length;
+
+    } catch { }
+
+
+  
+    });
+
+  }
+  public Group_Member_Code = [];
+  get_Group_Member_Code() {
+    this.isload = true;
+    this.Group_Member_Code = [];
+    this.get("Api/Collection_/get_Group_Member_Code?").subscribe((res: any) => {
+    this.Group_Member_Code = JSON.parse(res).record;
+    this.isload = false;
+
+    });
+
+  }
+  public Group_Member = [];
+  get_Group_Member(data) {
+    
+    this.isload = true;
+    this.Group_Member = [];
+    this.get("Api/Collection_/get_Action_Group_Member?Group_Code="+data).subscribe((res: any) => {
+    this.Group_Member = JSON.parse(res).record;
+
+     this.isload = false;
+
+    });
+
+  }
+  public Group_Member_Name = [];
+  get_Group_Member_Name(data) {
+ 
+    this.isload = true;
+    this.Group_Member_Name = [];
+    this.get("Api/Collection_/get_Group_Member1?Group_Code="+data).subscribe((res: any) => {
+    this.Group_Member_Name = JSON.parse(res).record;
+
+     this.isload = false;
+
+    });
+
+  }
+  public Dashboard_Row = [];
+  get_Dashboard() {
+    this.Dashboard_Row = [];
+    this.loading = true;
+
+    this.get("Api/Master/get_dashboard?").subscribe((res: any) => {
+      this.Dashboard_Row = JSON.parse(res).record;
+      this.loading = false;
+    });
+  }
+  public Install_No=[];
+  public Group_Bills_Out = [];
+  get_Group_Action_Billsout() {
+    this.isload = true;
+    this.Group_Bills_Out=[];
+    this.get("Api/Collection_/get_Action_Bill_Outs?Group_Code="+this.Group_Code+"&Install_No="+this.Install_No).subscribe((res: any) => {
+    this.Group_Bills_Out = JSON.parse(res).record;
+
+     this.isload = false;
+
+    });
+
+  }
+  public Loan_No=[];
+  public Loan_Bills_Out = [];
+  get_Loan_Issue_Billsout(data) {
+    this.isload = true;
+    this.Loan_Bills_Out=[];
+    this.get("Api/Collection_/get_LoanIssue_Bill_Outs?Loan_No="+data).subscribe((res: any) => {
+    this.Loan_Bills_Out = JSON.parse(res).record;
+
+     this.isload = false;
+
+    });
+
+  }
+  public EMI_Loan_No=[];
+  public EMI_Loan_Bills_Out = [];
+  get_EMI_Loan_Issue_Billsout(data) {
+
+    this.isload = true;
+    this.EMI_Loan_Bills_Out=[];
+    this.get("Api/Collection_/get_EMI_LoanIssue_Bill_Outs?EMI_Loan_No="+data).subscribe((res: any) => {
+    this.EMI_Loan_Bills_Out = JSON.parse(res).record;
+
+     this.isload = false;
+
+    });
+
+  }
+  public Action_Details_Row = [];
+  get_Action_Details() {
+    this.isload = true;
+    this.Action_Details_Row = [];
+
+    this.get("Api/Collection_/get_Action_Details?From=" + this.S_From + "&To=" + this.S_To).subscribe((res: any) => {
+      this.Action_Details_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+  
+  public Ledger_Document_List_count=0;
+  public Ledger_Document_List=[];
+  get_Ledger_Document(ID) {
+
+    this.Ledger_Document_List = [];
+    this.Ledger_Document_List_count=0;
+    this.get("Api/Master/get_Document_List?ID="+ID).subscribe((res: any) => {
+    this.Ledger_Document_List = JSON.parse(res).record;
+
+    try
+    {
+      this.Ledger_Document_List_count=this.Ledger_Document_List.length;
+
+    }catch{}
+   
+    });
+
+  }
+  public Emi_Loan_Issue_Row = [];
+  get_Emi_Loan_Issue_Details() {
+    this.isload = true;
+    this.Emi_Loan_Issue_Row = [];
+
+    this.get("Api/Collection_/get_Emi_Loan_Issue_Details?From=" + this.S_From + "&To=" + this.S_To).subscribe((res: any) => {
+      this.Emi_Loan_Issue_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+  public Loan_Issue_Row = [];
+  get_Loan_Issue_Details() {
+    this.isload = true;
+    this.Loan_Issue_Row = [];
+
+    this.get("Api/Collection_/get_Loan_Issue_Details?From=" + this.S_From + "&To=" + this.S_To).subscribe((res: any) => {
+      this.Loan_Issue_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+  public Sales_Gst_Row = [];
+  get_Sale_Gst_Details() {
+    this.isload = true;
+    this.get("Api/Invoice/get_Sale_Gst_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Bill_Type=" + this.S_Bill_Type + "&Area=" + this.S_Area + "&order_by=Bill_Date,Bill_No").subscribe((res: any) => {
+      this.Sales_Gst_Row = JSON.parse(res).record;
+      this.isload = false;
+ 
+     
+      try {
+        this.DB_Sales_Total = this.Sales_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public DB_Delivery_Total = 0;
+  public Delivery_Row = [];
+  get_Delivery_Challan_Details() {
+    this.isload = true;
+    this.DB_Delivery_Total = 0;
+    this.get("Api/Invoice/get_Delivery_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Bill_Type=" + this.S_Bill_Type + "&order_by=DC_Date,DC_No").subscribe((res: any) => {
+      this.Delivery_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+        this.DB_Delivery_Total = this.Delivery_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public DB_Dyeing_Total = 0;
+  public Dyeing_Row = [];
+  get_Dyeing_Details() {
+    this.isload = true;
+    this.DB_Tharikar_Total = 0;
+    this.get("Api/Invoice/get_Dyeing_Detail?From=" + this.S_From + "&To=" + this.S_To +  "&Thari_Status=" + this.S_Thari_Status +"&User=" + this.Search_User + "&order_by=Bill_Date,Bill_No").subscribe((res: any) => {
+      this.Dyeing_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+        this.DB_Dyeing_Total = this.Dyeing_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public Print_Total = 0;
+  public Print_Row = [];
+  get_Print_Details() {
+    this.isload = true;
+    this.Print_Total = 0;
+    this.get("Api/Invoice/get_Print_Barcode?From=" + this.S_From + "&To=" + this.S_To +"&Bill_Mode="+this.S_Bill_Mode ).subscribe((res: any) => {
+      this.Print_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+        this.Print_Total = this.Print_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public DB_Tharikar_Total = 0;
+  public Tharikar_Row = [];
+  get_Tharikar_Details() {
+    this.isload = true;
+    this.DB_Tharikar_Total = 0;
+    this.get("Api/Invoice/get_Tharikar_Detail?From=" + this.S_From + "&To=" + this.S_To +  "&Thari_Status=" + this.S_Thari_Status +"&User=" + this.Search_User + "&order_by=Bill_Date,Bill_No").subscribe((res: any) => {
+      this.Tharikar_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+        this.DB_Tharikar_Total = this.Tharikar_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public DB_Sales_Return_Total = 0;
+  public Sales_Return_Row = [];
+  get_Sale_Return_Details() {
+    this.isload = true;
+    this.DB_Sales_Return_Total = 0;
+    this.get("Api/Invoice/get_Sale_Return_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Return_No").subscribe((res: any) => {
+      this.Sales_Return_Row = JSON.parse(res).record;
+      this.isload = false;
+
+      try {
+        this.DB_Sales_Return_Total = this.Sales_Return_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  
+  public DB_Vadi_Total = 0;
+  public Vadi_No = [];
+  public Vadi_Details_Row = [];
+  get_Vadi_Details() {
+    this.isload = true;
+    this.DB_Vadi_Total = 0;
+    this.get("Api/Invoice/get_Vadi_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Vadi_Date,Vadi_No").subscribe((res: any) => {
+      this.Vadi_Details_Row = JSON.parse(res).record;
+
+      this.Vadi_No = this.Vadi_No;
+      this.isload = false;
+      try {
+        this.DB_Vadi_Total = this.Vadi_Details_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+  }
+  
+  public Production_Row = [];
+  get_Production_Details() {
+    this.isload = true;
+    this.get("Api/Invoice/get_Production_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Pro_No").subscribe((res: any) => {
+      this.Production_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+
+
+  public Production_issue_Row = [];
+  get_Production_issue_Details() {
+    this.isload = true;
+    this.get("Api/Invoice/get_Production_issue_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Pro_No").subscribe((res: any) => {
+      this.Production_issue_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+
+  public Proforma_Row = [];
+  get_P_Invoice_Details() {
+    this.isload = true;
+    this.get("Api/Invoice/get_P_Invoice_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Bill_No").subscribe((res: any) => {
+      this.Proforma_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+  public Quatation_Row = [];
+  get_Quatation_Details() {
+    this.isload = true;
+    this.get("Api/Invoice/get_Quotation_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Bill_No").subscribe((res: any) => {
+      this.Quatation_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+
+
+  public Ledger_Group = [];
+  get_Ledger_Group() {
+    this.isload = true;
+    this.getc("Api/Master/get_Ledger_Group").subscribe((res: any) => {
+      this.Ledger_Group = JSON.parse(res).record;
+      this.isload = false;
+      console.log()
+    });
+
+  }
+
+
+  public S_Group=0;
+  public S_Category=0;
+  public S_Brand=0;
+
+  public Item_Group = [];
+  get_Item_Group() {
+    this.isload = true;
+    this.getc("Api/Master/get_Item_Group").subscribe((res: any) => {
+      this.Item_Group = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+
+  public Category_Stock = [];
+  public Current_Stock = [];
+
+  get_Current_Stock_Details() {
+    this.isload = true;
+    this.get("Api/Reports/get_Currenct_Stock?From=" + this.S_From + "&To=" + this.S_To + "&Group="+this.S_Group+"&Category="+this.I_Category+"&Brand="+this.I_Brand).subscribe((res: any) => {
+      this.Current_Stock = JSON.parse(res).record;
+ 
+this.Current_Stock = JSON.parse(res).record;
+
+
+      this.Category_Stock = [];
+      var Category = [...new Set(this.Current_Stock.map(item => item.Category))];
+      for (let data of Category) {
+        var sum = (this.Current_Stock.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.Stock), 0)).toFixed(2);
+        var sum2 = (this.Current_Stock.filter(e => e.Category == data).reduce((sum, current) => sum + parseFloat(current.Value), 0)).toFixed(2);
+
+
+
+        this.Category_Stock.push({ 'Category': data, 'Stock': sum,'Value': sum2, });
+      }
+
+
+
+      this.isload = false;
+    });
+
+  }
+
+  public Stock_Report_Row = [];
+  get_Stock_Report() {
+    this.isload = true;
+    this.get("Api/Reports/get_Stock_Report?From=" + this.S_From + "&To=" + this.S_To + "").subscribe((res: any) => {
+      this.Stock_Report_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+
+
+
+
+
+  public S_Item_ID = "";
+  public S_Item_Name = "";
+  public Item_Stock = [];
+
+  get_Item_Stock_Details() {
+    this.isload = true;
+    this.get("Api/Reports/get_Item_Stock?Item_ID=" + this.S_Item_ID + "&From=" + this.S_From + "&To=" + this.S_To + "").subscribe((res: any) => {
+      this.Item_Stock = JSON.parse(res).record;
+      this.isload = false;
+      try {
+        this.Item_Stock[0].Balance = Number(this.Item_Stock[0].Inward_Qty) - Number(this.Item_Stock[0].Outward_Qty);
+        for (var i = 1; i < this.Item_Stock.length; i++) {
+          this.Item_Stock[i].Balance = (Number(this.Item_Stock[i - 1].Balance)) + (Number(this.Item_Stock[i].Inward_Qty) - Number(this.Item_Stock[i].Outward_Qty));
+        }
+
+      }
+      catch { }
+    });
+  }
+
+  public DB_Stock_Total = 0;
+  public Stock_Row = [];
+  get_Adjustment_Details() {
+    this.isload = true;
+    this.DB_Stock_Total = 0;
+    this.get("Api/Invoice/get_Stock_Adjustment_Detail?From=" + this.S_From + "&Bill_Type=" + this.S_Bill_Type + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Adj_No").subscribe((res: any) => {
+      this.Stock_Row = JSON.parse(res).record;
+      this.isload = false;
+      try {
+        this.DB_Stock_Total = this.Stock_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public DB_Purchase_Total = 0;
+  public Purchase_Row = [];
+  get_Purchase_Details() {
+    this.isload = true;
+    this.DB_Purchase_Total = 0;
+    this.get("Api/Invoice/get_Purchase_Detail?From=" + this.S_From + "&Bill_Type=" + this.S_Bill_Type + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=Purchase_No").subscribe((res: any) => {
+      this.Purchase_Row = JSON.parse(res).record;
+      this.isload = false;
+      try {
+        this.DB_Purchase_Total = this.Purchase_Row.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0);
+      } catch { }
+
+    });
+
+  }
+  public Purchase_Order_Row = [];
+  get_Purchase_Order_Details() {
+    this.isload = true;
+    this.get("Api/Invoice/get_Purchase_Order_Detail?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&order_by=PO_NO").subscribe((res: any) => {
+      this.Purchase_Order_Row = JSON.parse(res).record;
+      this.isload = false;
+    });
+
+  }
+
+
+  L = [];
+  get_Array(data) {
+    this.L = data.split(",");
+
+    return this.L;
+  }
+
+  Date_wise_sales_Row = [];
+  Item_wise_sales_Row = [];
+  Areawise_Sales_Sum_Row = [];
+  userwise_Sales_Sum_Row = [];
+  Paymodewise_Sales_Sum_Row = [];
+  Billwise_Sales_Sum_Row = [];
+  Customerwise_sales_Row = [];
+
+
+
+  public S_customer = "0";
+  public S_Sales = "All";
+  public S_Visitor_Type = "All";
+  public S_Department = "All";
+  public Group_Status = "All";
+
+  public Outstand_Amt = 0;
+  public Outstanding_Rows = [];
+  public selected_Out_customer: any = {}
+  public selected_Out_supplier: any = {}
+
+
+
+  
+  public DB_Customer_Total = 0;
+  public Billwise_Out = [];
+  public Customerwise_Out = [];
+  public Areawise_Out = [];
+  public Streetwise_Out = [];
+  public Sales_Personwise_Out = [];
+  public Duedays_Out = [];
+  get_OutStanding() {
+    this.isload = true;
+    this.DB_Customer_Total = 0;
+    this.get("Api/Collection_/get_Outstanding?Date=" + this.S_To +"&Customer="+this.S_customer+"&Area="+this.S_Area +"&Order_by=BillDate").subscribe((res: any) => {
+      this.isload = false;
+      this.Outstanding_Rows = JSON.parse(res).record;
+
+      this.Billwise_Out = [];
+      var Bill_No = [...new Set(this.Outstanding_Rows.map(item => item.Bill_No))];
+      for (let data of Bill_No) {
+        var sum = (this.Outstanding_Rows.filter(e => e.Bill_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Outstanding_Rows.filter(e => e.Bill_No == data);
+
+        this.Billwise_Out.push({ 'Bill_No': data, 'Bill_Date': rs[0].Bill_Date, 'Customer_Name': rs[0].Customer_Name, 'Phone_No': rs[0].Contact_No, 'Bill_Amount': rs[0].Bill_Amount, 'Amount': sum });
+
+      }
+
+
+
+
+      this.Customerwise_Out = [];
+      var Ledger_ID = [...new Set(this.Outstanding_Rows.map(item => item.Ledger_ID))];
+
+
+      console.log(Ledger_ID);
+      for (let data of Ledger_ID) {
+        var sum = (this.Outstanding_Rows.filter(e => e.Ledger_ID == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var count = [...new Set((this.Outstanding_Rows.filter(e => e.Ledger_ID == data)).map(item => item.Bill_No))].length;
+
+
+        var crow = this.Ledger_Master_Rows.filter(e => e.ID == data)[0];
+
+
+        try {
+          if (Number(sum) != 0) {
+            this.Customerwise_Out.push({ 'Customer_Name': crow.Ledger_Name, 'Customer_ID': crow.ID, 'Area': crow.Area, 'Street': crow.Street, 'Phone_No': crow.Phone_Number, 'count': count, 'Amount': sum });
+          }
+        } catch { }
+        try {
+          this.DB_Customer_Total = this.Outstanding_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0);
+        } catch { }
+      }
+
+
+      this.Areawise_Out = [];
+      var Area = [...new Set(this.Outstanding_Rows.map(item => item.Area))];
+      for (let data of Area) {
+        var sum = (this.Outstanding_Rows.filter(e => e.Area == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Outstanding_Rows.filter(e => e.Area == data)).map(item => item.Ledger_ID))].length;
+
+        this.Areawise_Out.push({ 'Area': data, 'count': count, 'Amount': sum });
+      }
+
+      this.Streetwise_Out = [];
+      var Street = [...new Set(this.Outstanding_Rows.map(item => item.Street))];
+      for (let data of Street) {
+        var sum = (this.Outstanding_Rows.filter(e => e.Street == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Outstanding_Rows.filter(e => e.Street == data)).map(item => item.Ledger_ID))].length;
+
+        this.Streetwise_Out.push({ 'Street': data, 'count': count, 'Amount': sum });
+      }
+
+
+
+      this.Sales_Personwise_Out = [];
+      var Sales_Person = [...new Set(this.Outstanding_Rows.map(item => item.Sales_Person))];
+      for (let data of Sales_Person) {
+        var sum = (this.Outstanding_Rows.filter(e => e.Sales_Person == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Outstanding_Rows.filter(e => e.Sales_Person == data)).map(item => item.Bill_No))].length;
+
+        this.Sales_Personwise_Out.push({ 'Sales_Person': data, 'count': count, 'Amount': sum });
+      }
+
+
+
+
+
+      this.Duedays_Out = [];
+      var Dues = [...new Set(this.Outstanding_Rows.map(item => item.Dues))];
+      for (let data of Dues) {
+        var sum = (this.Outstanding_Rows.filter(e => e.Dues == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.Outstanding_Rows.filter(e => e.Dues == data)).map(item => item.Bill_No))].length;
+
+        this.Duedays_Out.push({ 'Dues': data, 'count': count, 'Amount': sum });
+      }
+
+
+
+
+      try {
+
+        this.Outstand_Amt = (this.Outstanding_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      } catch
+      {
+
+      }
+
+
+    });
+  }
+  
+  public Loanwise_Out = [];
+  get_Loanwise_OutStanding() {
+    this.isload = true;
+    this.get("Api/Collection_/get_Loanwise_Outstanding?From=" + this.S_From + "&To=" + this.S_To).subscribe((res: any) => {
+      this.isload = false;
+    this.Loanwise_Out = JSON.parse(res).record;
+
+    
+
+
+      try {
+
+        this.Outstand_Amt = (this.Outstanding_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      } catch
+      {
+
+      }
+
+
+    });
+  }
+  public Payment_Out=[];
+  public Supplier_Outstand_Amt=0;
+  public Supplier_Out = [];
+  get_OutStanding_Supplier() {
+    this.isload = true;
+    this.get("Api/Collection_/get_Outstanding_Payment?Date=" + this.S_To +"&Customer="+this.S_customer+"&Area="+this.S_Area +"&Order_by=BillDate").subscribe((res: any) => {
+      this.isload = false;
+      this.Supplier_Out = JSON.parse(res).record;
+
+      this.Payment_Out = [];
+      var Ledger_ID = [...new Set(this.Supplier_Out.map(item => item.Ledger_ID))];
+
+
+      for (let data of Ledger_ID) {
+        var sum = (this.Supplier_Out.filter(e => e.Ledger_ID == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var count = [...new Set((this.Supplier_Out.filter(e => e.Ledger_ID == data)).map(item => item.Bill_No))].length;
+
+        var crow = this.Ledger_Master_Rows.filter(e => e.ID == data)[0];
+
+
+        try {
+          if (Number(sum) != 0) {
+            this.Payment_Out.push({ 'Customer_Name': crow.Ledger_Name, 'Customer_ID': crow.ID, 'Area': crow.Area, 'Street': crow.Street, 'Phone_No': crow.Phone_Number, 'count': count, 'Amount': sum });
+          }
+        } catch { }
+      }
+
+      try {
+
+        this.Supplier_Outstand_Amt = (this.Supplier_Out.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      } catch
+      {
+
+      }
+
+
+    });
+  }
+
+  public DB_payable = 0;
+  public Payable_Outstand_Amt = [];
+  public Supplierwise_Out = [];
+  public Billwise_Payable_Out = [];
+  public Payable_Outstanding_Rows = [];
+  get_Payable_OutStanding() {
+    this.isload = true;
+    this.DB_payable = 0;
+    this.get("Api/Invoice/get_Purchase_outstanding?Date=" + this.S_To + "&Sales_person=" + this.S_Sales_Person + "&Area=" + this.S_Area + "&Customer=0&Area_Map=" + this.Area_Map + "&Rights=" + this.Rights_Name + "&User_ID=" + this.Current_User.UM_ID + "&Order_by=Bill_Date").subscribe((res: any) => {
+      this.isload = false;
+
+      this.Payable_Outstanding_Rows = JSON.parse(res).record;
+
+      this.Billwise_Payable_Out = [];
+      var Purchase_No = [...new Set(this.Payable_Outstanding_Rows.map(item => item.Purchase_No))];
+      for (let data of Purchase_No) {
+        var sum = (this.Payable_Outstanding_Rows.filter(e => e.Purchase_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.Payable_Outstanding_Rows.filter(e => e.Purchase_No == data);
+
+        this.Billwise_Payable_Out.push({ 'Bill_No': rs[0].Bill_No, 'Purchase_No': data, 'Bill_Date': rs[0].Bill_Date_, 'Customer_Name': rs[0].Customer_Name, 'Phone_No': rs[0].Contact_No, 'Bill_Amount': rs[0].Bill_Amount, 'Amount': sum });
+      }
+      this.Supplierwise_Out = [];
+      var Ledger_ID = [...new Set(this.Payable_Outstanding_Rows.map(item => item.Ledger_ID))];
+
+
+      console.log(Ledger_ID);
+      for (let data of Ledger_ID) {
+        var sum = (this.Payable_Outstanding_Rows.filter(e => e.Ledger_ID == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var count = [...new Set((this.Payable_Outstanding_Rows.filter(e => e.Ledger_ID == data)).map(item => item.Bill_No))].length;
+
+        var crow = this.Ledger_Master_Rows.filter(e => e.ID == data)[0];
+
+
+        try {
+          if (Number(sum) != 0) {
+            this.Supplierwise_Out.push({ 'Customer_Name': crow.Ledger_Name, 'Customer_ID': crow.ID, 'Area': crow.Area, 'Street': crow.Street, 'Phone_No': crow.Phone_Number, 'count': count, 'Amount': sum });
+          }
+        } catch { }
+      }
+      try {
+
+        this.Payable_Outstand_Amt = (this.Payable_Outstanding_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      } catch
+      {
+
+      }
+      try {
+
+        this.DB_payable = (this.Payable_Outstanding_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0));
+
+
+      } catch
+      {
+
+      }
+
+
+
+    });
+
+  }
+
+
+
+
+
+
+  public S_Bank = "0";
+  public day_Book_Short_by = "AC_Date";
+  public cr = 0;
+  public db = 0;
+  public Total = 0;
+  public Rows = [];
+  public Day_Book_Row = [];
+  public get_day_Book() {
+    this.isload = true;
+    this.Day_Book_Row = [];
+    this.get("Api/Collection_/get_Daybook?From=" + this.S_From + "&To=" + this.S_To + "&Bank=" + this.S_Bank + "&Pay_Mode=" + this.S_Pay_Mode + "&User=" + this.Search_User + "&Order_by=" + this.day_Book_Short_by).subscribe((res: any) => {
+
+      this.Day_Book_Row = JSON.parse(res).record;
+      this.isload = false;
+      this.Total = 0;
+      this.cr = (this.Day_Book_Row.reduce((sum, current) => sum + parseFloat(current.CR_AMT), 0)).toFixed(2);
+      this.db = (this.Day_Book_Row.reduce((sum, current) => sum + parseFloat(current.DB_AMT), 0)).toFixed(2);
+      this.Total = this.cr - this.db;
+
+
+
+    });
+
+  }
+  public DayBook_amt_Row = [];
+  public get_dayBook_Amt() {
+    this.isload = true;
+    this.DayBook_amt_Row = [];
+    this.get("Api/invoice/get_daybook_Amt?From=").subscribe((res: any) => {
+
+      this.DayBook_amt_Row = JSON.parse(res).record;
+      this.isload = false;
+
+
+
+    });
+
+  }
+
+
+  public dashboard_data() {
+    this.get_Sale_Details();
+    this.get_Purchase_Details();
+    this.get_expense();
+    this.get_Recipts();
+   // this.get_Ledger_Master();
+    //this.get_Item_Master();
+    this.get_OutStanding();
+    this.get_Payable_OutStanding();
+    this.get_day_Book();
+    this.get_Payment();
+
+  }
+
+  public Receipt_Row = [];
+  public Receipt_Row_Total = 0;
+  public Receipt_Row_Cout = 0;
+  public DB_Receipt = 0;
+  get_Recipts() {
+    this.isload = true;
+    this.Receipt_Row_Total = 0;
+    this.DB_Receipt = 0;
+
+    this.get("Api/Collection_/get_Collection_Details?From=" + this.S_From + "&To=" + this.S_To).subscribe((res: any) => {
+      this.Receipt_Row = JSON.parse(res).record;
+      this.isload = false;
+      try {
+
+        this.Receipt_Row_Total = (this.Receipt_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Receipt_Row_Cout = this.Receipt_Row.length;
+      } catch { }
+      try {
+        this.DB_Receipt = this.Receipt_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0);
+      } catch { }
+
+    });
+
+  }
+
+
+  public DB_Payment = 0;
+  Payment_Details_Row = [];
+  Payment_Row_Total = 0;
+  Payment_Row_Cout = 0;
+  get_Payment() {
+    this.isload = true;
+    this.DB_Payment = 0;
+    this.get("Api/Collection_/get_Paid_Details?From=" + this.S_From + "&To=" + this.S_To).subscribe((res: any) => {
+      this.Payment_Details_Row = JSON.parse(res).record;
+      this.isload = false;
+      try {
+
+        this.Payment_Row_Total = (this.Payment_Details_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        this.Payment_Row_Cout = this.Payment_Details_Row.length;
+      } catch
+      {
+
+      }
+      try {
+
+        this.DB_Payment = (this.Payment_Details_Row.reduce((sum, current) => sum + parseFloat(current.Amount), 0));
+      } catch
+      {
+
+      }
+    });
+
+  }
+
+
+  public get_Daybook_Open_Row = [];
+  public get_Daybook_Open() {
+    this.isload = true;
+    this.Day_Book_Row = [];
+    this.get("Api/Invoice/get_Daybook_Open?From=" + this.S_From + "&To=" + this.S_To + "&Bank=" + this.S_Bank + "&Pay_Mode=" + this.S_Pay_Mode + "&User=" + this.Search_User + "&Order_by=" + this.day_Book_Short_by).subscribe((res: any) => {
+
+      this.isload = false;
+      this.get_Daybook_Open_Row = JSON.parse(res).record;
+    });
+
+  }
+
+
+
+
+  public isorder_Load = false;
+  public order_Rows_Total = 0;
+  get_orders() {
+    this.isorder_Load = true;
+    this.order_Rows_Total = 0;
+    this.isload = true;
+    this.get("Api/Invoice/get_Order_details?Status=" + this.Order_Status + "&From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Area=" + this.Customer_Area + "&Order_by=" + this.Orders_sort_by).subscribe((res: any) => {
+      this.isorder_Load = false;
+      this.isload = false;
+
+      
+      this.order_Rows = JSON.parse(res).record;
+      try {
+
+        this.order_Rows_Total = (this.order_Rows.reduce((sum, current) => sum + parseFloat(current.Net_Amt), 0)).toFixed(2);
+
+        this.lenth = this.order_Rows.length;
+      } catch
+      {
+        this.lenth = 0;
+      }
+    });
+
+
+  }
+
+
+
+  get_Orders1()
+  {
+    
+      
+      Promise.all([this.get("Api/Invoice/get_Order_details?Status=" + this.Order_Status + "&From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Area=" + this.Customer_Area + "&Order_by=" + this.Orders_sort_by).toPromise()]).then(([res]) => {
+        if (res) {
+
+        }
+      });
+    
+  }
+
+
+  load_themes(data) {
+    var d = "default.css";
+    try {
+      d = localStorage.getItem('Theme');
+    } catch { }
+
+    if (d != "default.css" && d != null) {
+
+      this.loadStyle(d);
+
+    }
+  }
+
+  loadStyle(styleName: string) {
+    const head = this.document.getElementsByTagName('head')[0];
+
+    let themeLink = this.document.getElementById(
+      'client-theme'
+    ) as HTMLLinkElement;
+    if (themeLink) {
+      themeLink.href = styleName;
+    } else {
+      const style = this.document.createElement('link');
+      style.id = 'client-theme';
+      style.rel = 'stylesheet';
+      style.href = `${styleName}`;
+
+      head.appendChild(style);
+    }
+  }
+
+  open_Quotation(data) {
+    
+    if(this.Quotation_Format=="Format1")
+    {
+    var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Quote_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Quote_No="+data.Quote_No;
+    window.open(this.Server_URL+"PDF/Export_Quotation_1?"+parm, "_blank");
+    }
+    else  if(this.Quotation_Format=="Format2"){
+      window.open(this.Server_URL+"report/Quotation?Bill_No="+data.Quote_No+"&Company="+this.Company, "_blank");
+ 
+     }
+     else  if(this.Quotation_Format=="Klisters"){
+      window.open(this.Server_URL+"report/Klisters_Quotation_Bill?Bill_No="+data.Quote_No+"&Company="+this.Company, "_blank");
+ 
+     }
+  }
+
+
+
+
+  public Itemwise_order = [];
+  public All_order_Rows = [];
+  public Entry_wise_Order = [];
+  public Areawise_Order = [];
+  public Userwise_Order = [];
+  public Cusomerwise_Order = [];
+  public Daywise_Order = [];
+
+
+
+  get_orders1() {
+    this.isorder_Load = true;
+    this.order_Rows_Total = 0;
+    this.isload = true;
+    this.get("Api/Invoice/get_Orders?Status=" + this.Order_Status + "&From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Area=" + this.Customer_Area + "&Order_by=x.order_Date").subscribe((res: any) => {
+      this.isorder_Load = false;
+      this.isload = false;
+      this.All_order_Rows = JSON.parse(res).record;
+
+      console.log(this.All_order_Rows);
+      this.Entry_wise_Order = [];
+      var Order_No = [...new Set(this.All_order_Rows.map(item => item.Order_No))];
+      for (let data of Order_No) {
+        var sum = (this.All_order_Rows.filter(e => e.Order_No == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var rs = this.All_order_Rows.filter(e => e.Order_No == data);
+
+        this.Entry_wise_Order.push({ 'Order_No': data, 'Date': rs[0].Order_Date_, 'Customer_Name': rs[0].Customer_Name, 'Contact_No': rs[0].Contact_No, 'Amount': sum });
+
+      }
+
+
+
+      var Item = [...new Set(this.All_order_Rows.map(item => item.Item_ID))];
+      this.Itemwise_order = [];
+      for (let data of Item) {
+        var Amount_ = (this.All_order_Rows.filter(e => e.Item_ID == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+        var Qty_ = (this.All_order_Rows.filter(e => e.Item_ID == data).reduce((sum, current) => sum + parseFloat(current.Qty), 0)).toFixed(2);
+
+
+        var rs = this.Item_Master_Rows.filter(e => e.ID == data);
+
+
+        this.Itemwise_order.push({ 'Bag_Qty': rs[0].Bag_Qty, 'Item_Name': rs[0].Item_Name, 'Disp_Order': rs[0].Display_Order, 'Qty': Qty_, 'Net_Amt': Amount_ })
+      }
+
+
+
+      this.Areawise_Order = [];
+      var Area = [...new Set(this.All_order_Rows.map(item => item.Area))];
+      for (let data of Area) {
+        var sum = (this.All_order_Rows.filter(e => e.Area == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.All_order_Rows.filter(e => e.Area == data)).map(item => item.Order_No))].length;
+
+        this.Areawise_Order.push({ 'Area': data, 'count': count, 'Amount': sum });
+      }
+
+
+      this.Userwise_Order = [];
+      var Created_by = [...new Set(this.All_order_Rows.map(item => item.Created_by))];
+      for (let data of Created_by) {
+        var sum = (this.All_order_Rows.filter(e => e.Created_by == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.All_order_Rows.filter(e => e.Created_by == data)).map(item => item.Order_No))].length;
+
+        this.Userwise_Order.push({ 'User': data, 'count': count, 'Amount': sum });
+      }
+
+      this.Cusomerwise_Order = [];
+      var Customer_Name = [...new Set(this.All_order_Rows.map(item => item.Customer_Name))];
+      for (let data of Customer_Name) {
+        var sum = (this.All_order_Rows.filter(e => e.Customer_Name == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.All_order_Rows.filter(e => e.Customer_Name == data)).map(item => item.Order_No))].length;
+
+        this.Cusomerwise_Order.push({ 'Customer_Name': data, 'count': count, 'Amount': sum });
+      }
+      this.Daywise_Order = [];
+      var Order_Date_ = [...new Set(this.All_order_Rows.map(item => item.Order_Date_))];
+      for (let data of Order_Date_) {
+        var sum = (this.All_order_Rows.filter(e => e.Order_Date_ == data).reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+        var count = [...new Set((this.All_order_Rows.filter(e => e.Order_Date_ == data)).map(item => item.Order_Date_))].length;
+
+        this.Daywise_Order.push({ 'Order_Date_': data, 'count': count, 'Amount': sum });
+      }
+
+
+
+    });
+
+
+  }
+
+  public Area_Row = [];
+
+  public Itemwise_Pending_Rows = [];
+  public Item_Pending_Total = 0;
+  public Item_Pending_Qty = 0;
+  get_items_pending() {
+    this.isload = true;
+    this.Item_Pending_Total = 0;
+    this.get("Api/Invoice/get_itemwise_Pending?Status=" + this.Order_Status + "&From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.Search_User + "&Area=" + this.Customer_Area + "&Order_by=i.Display_Order").subscribe((res: any) => {
+      this.isload = false;
+      this.Itemwise_Pending_Rows = JSON.parse(res).record;
+
+      this.Item_Pending_Total = (this.Itemwise_Pending_Rows.reduce((sum, current) => sum + parseFloat(current.Amount), 0)).toFixed(2);
+
+
+      this.Item_Pending_Qty = (this.Itemwise_Pending_Rows.reduce((sum, current) => sum + parseFloat(current.qty), 0)).toFixed(2);
+
+    });
+  }
+
+
+  public Selected_Company: any = {};
+  public Selected_Customer: any = {};
+  public Current_User: any = {};
+
+  public Order_No = "0";
+
+  public states = [
+    "Ariyalur",
+    "Chengalpattu",
+    "Chennai",
+    "Coimbatore",
+    "Cuddalore",
+    "Dharmapuri",
+    "Dindigul",
+    "Erode",
+    "Kallakurichi",
+    "Kanchipuram",
+    "Kanyakumari",
+    "Karur",
+    "Krishnagiri",
+    "Madurai",
+    "Mayiladuthurai",
+    "Nagapattinam",
+    "Namakkal",
+    "Nilgiris",
+    "Perambalur",
+    "Pudukkottai",
+    "Ramanathapuram",
+    "Ranipet",
+    "Salem",
+    "Sivaganga",
+    "Tenkasi",
+    "Thanjavur",
+    "Theni",
+    "Thoothukudi",
+    "Tiruchirappalli",
+    "Tirunelveli",
+    "Tirupattur",
+    "Tiruppur",
+    "Tiruvallur",
+    "Tiruvannamalai",
+    "Tiruvarur",
+    "Vellore",
+    "Viluppuram",
+    "Virudhunagar"
+  ];
+
+
+
+
+
+  get_Category() {
+
+    this.getc("Api/Master/get_Item_Category").subscribe((res: any) => {
+      this.Item_Category = JSON.parse(res).record;
+
+      console.log(this.Item_Category);
+
+    });
+  }
+
+  public Document_Upload_Rows = [];
+  get_Douments() {
+    this.getc("Api/Master/get_Document_Upload").subscribe((res: any) => {
+      this.Document_Upload_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+
+
+
+
+  public customerwise_Pending_Rows = [];
+  get_customerwise_pending() {
+    this.getc("Api/Invoice/get_customerwise_Pending").subscribe((res: any) => {
+      this.customerwise_Pending_Rows = JSON.parse(res).record;
+    });
+
+  }
+
+
+  public Field_Setting = [];
+  get_Field_Setting() {
+    this.getc("Api/Setting/get_Field_Setting").subscribe((res: any) => {
+      this.Field_Setting = JSON.parse(res).record;
+
+    });
+
+  }
+  public Field_Setting_Table_Row = [];
+  get_Field_Setting_Table() {
+    this.getc("Api/Setting/get_Field_Setting_Table").subscribe((res: any) => {
+      this.Field_Setting_Table_Row = JSON.parse(res).record;
+
+    });
+  }
+  public Bill_Format_Row = [];
+  get_Bill_Format() {
+    this.getc("Api/Setting/get_Bill_Format").subscribe((res: any) => {
+      this.Bill_Format_Row = JSON.parse(res).record;
+
+    });
+
+  }
+
+  F_Row = [];
+  get_fields_of(Table) {
+
+    this.F_Row = this.Field_Setting.filter(e => String(e.Table_Name).toLowerCase() == String(Table + "" + this.Company).toLowerCase()).filter(e => e.Visible == "True");
+    return this.F_Row.sort((a, b) => Number(a["Order_No"]) - Number((b["Order_No"])));
+
+  }
+
+  get_grid_fields_of(Table) {
+
+    this.F_Row = this.Field_Setting.filter(e => String(e.Table_Name).toLowerCase() == String(Table + "" + this.Company).toLowerCase()).filter(e => e.GVisible == "True");
+    return this.F_Row.sort((a, b) => Number(a["GOrder"]) - Number((b["GOrder"])));
+
+  }
+
+  get_pos_field(Table, pos) {
+
+    this.F_Row = this.Field_Setting.filter(e => String(e.Table_Name).toLowerCase() == String(Table + "" + this.Company).toLowerCase()).filter(e => e.Visible == "True");
+    this.F_Row = this.F_Row.filter(e => String(e.Posision).toLowerCase() == String(pos).toLowerCase());
+    return this.F_Row.sort((a, b) => Number(a["Order_No"]) - Number((b["Order_No"])));
+
+  }
+
+
+  public Advance_Booking_Rows = [];
+  get_Advance_Book() {
+    this.getc("Api/Transaction/get_Advance_Booking").subscribe((res: any) => {
+      this.Advance_Booking_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+  public get_datas() {
+
+    //this.get_Ledger_Master();
+
+
+  }
+
+  public Sales_Rows = [];
+  get_Sales_Rows() {
+    this.getc("Api/Transaction/get_Sales").subscribe((res: any) => {
+      this.Sales_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+  public Menus_Rows: any = {};
+
+
+  public Menu_Rows = [];
+  public Label_Menu_Rows = [];
+  get_Role_Rights(Role) {
+    this.get("Api/Setting/get_Menu_for_user?Rights=" + Role).subscribe((res: any) => {
+      this.Menu_Rows = JSON.parse(res).record;
+      this.Side_Menu = true;
+      try {
+        this.Label_Menu_Rows = this.Menu_Rows.filter(e => e.Type == "Label");
+        this.Label_Menu_Rows = this.Label_Menu_Rows.filter(e => e.Parent_ID == "0");
+        this.Label_Menu_Rows.sort((a, b) => Number(a["Order_No"]) - Number((b["Order_No"])));
+      } catch { }
+
+    });
+  }
+
+
+  get_ref(data) {
+
+    
+    try{
+    return this.Reference_Rows.filter(e => e.Ref_ID == data);
+    }catch{
+
+      return [];
+    }
+  }
+
+  get_child(parent) {
+    var data = this.Menu_Rows.filter(e => e.Parent_ID == parent).sort((a, b) => Number(a["Order_No"]) - Number((b["Order_No"])));
+
+    return data;
+  }
+
+  get_childs(parent) {
+    var data = this.Menu_Rows.filter(e => e.Module == parent).sort((a, b) => Number(a["Order_No"]) - Number((b["Order_No"])));
+
+    return data;
+  }
+
+  public Menu_data = "";
+  public Menu_Master_Rows = [];
+  public Parent_Menus = [];
+  get_Menu_Master() {
+    this.getc("Api/Setting/get_Menu_master").subscribe((res: any) => {
+      this.Menu_Master_Rows = JSON.parse(res).record;
+
+      this.Parent_Menus = this.Menu_Master_Rows.filter(e => e.Parent_ID == "0");
+
+
+
+    });
+  }
+
+
+  public Item_Master_Rows = [];
+  public company_master = [];
+
+
+
+  loading = false;
+
+  public Perment_Item_Master_Row = [];
+  public Reset_Item_Master_Row = [];
+
+
+  public Item_Orderby_Name = "Category,Item_Name";
+  public Item_Orderby_Product = "Item_Name";
+
+  get_Company_Master() {
+
+
+
+    this.getc("Api/Common/get_companys").subscribe((res: any) => {
+      this.company_master = JSON.parse(res).record;
+
+
+
+    });
+  }
+
+
+
+  public Items_Rows = [];
+  public I_Category = "All";
+  public I_Category2 = "All";
+  public I_Ledger_Name = "All";
+
+  public I_Brand = "All";
+  public I_Item = "";
+  public I_Group = "";
+
+  get_Items() {
+
+    this.loading = true;
+    this.isload = true;
+    this.Items_Rows = [];
+    this.get("Api/Master/get_Items?Category=" + this.I_Category + "&Brand=" + this.I_Brand + "&Item=" + this.I_Item + "&Order_by=" + this.Item_Orderby_Name).subscribe((res: any) => {
+      this.Items_Rows = JSON.parse(res).record;
+
+      this.loading = false;
+      this.isload = false;
+
+
+    });
+  }
+
+  public Item_Row_Cout = 0;
+  public Item_Master_RM_Rows=[];
+
+  public RM_all_item:boolean=true;
+  get_Item_Master() {
+
+    this.loading = true;
+    this.isload = true;
+    this.Item_Master_Rows = [];
+    this.get("Api/Master/get_Item_Master?Order_by=" + this.Item_Orderby_Name).subscribe((res: any) => {
+      this.Item_Master_Rows = JSON.parse(res).record;
+
+      this.Perment_Item_Master_Row = JSON.parse(res).record;
+      this.Reset_Item_Master_Row = JSON.parse(res).record;
+      
+
+
+      if(this.RM_all_item==true)
+      {
+        this.Item_Master_RM_Rows=this.Perment_Item_Master_Row;
+      }else
+      {
+        this.Item_Master_RM_Rows=this.Perment_Item_Master_Row.filter(e=>e.Item_Group=="2");
+      }
+      
+
+
+      this.loading = false;
+      this.isload = false;
+
+
+      try {
+        this.Item_Row_Cout = this.Item_Master_Rows.length;
+
+      } catch { }
+
+        this.Item_Category = [...new Set(this.Item_Master_Rows.map(item => item.Category))];
+
+      // console.log(this.Item_Category);
+    });
+  }
+  public Item_Master_Rows1=[];
+  get_Price_Item_Master1() {
+
+    this.loading = true;
+    this.isload = true;
+    this.Item_Master_Rows1 = [];
+    this.get("Api/Master/get_Price_List?I_Category=" + this.I_Category).subscribe((res: any) => {
+      this.Item_Master_Rows1 = JSON.parse(res).record;
+
+      this.Perment_Item_Master_Row = JSON.parse(res).record;
+      this.Reset_Item_Master_Row = JSON.parse(res).record;
+      
+
+
+     
+      
+
+
+      this.loading = false;
+      this.isload = false;
+
+
+      try {
+        this.Item_Row_Cout = this.Item_Master_Rows.length;
+
+      } catch { }
+
+        this.Item_Category = [...new Set(this.Item_Master_Rows.map(item => item.Category))];
+
+      // console.log(this.Item_Category);
+    });
+  }
+  public Cash_Settlement=[];
+
+  public Cash_Settlement_Rows=[];
+  get_Cash_Settlement() {
+
+    this.loading = true;
+    this.isload = true;
+    this.Cash_Settlement_Rows = [];
+    this.get("Api/Invoice/get_Cash_Settlement?From=" + this.S_From +  "&To=" + this.S_To  + "&Sales_person="+this.S_Sales+"&User=" + this.Search_User + "&Area=" + this.S_Area  + "&order_by=x.Bill_No desc").subscribe((res: any) => {
+
+      this.Cash_Settlement_Rows = JSON.parse(res).record;
+    
+
+
+     
+      
+
+
+      this.loading = false;
+      this.isload = false;
+
+
+     
+      // console.log(this.Item_Category);
+    });
+  }
+  public Reset_Product_Master_Rows=[];
+  public Perment_Product_Master_Rows=[];
+  public Product_Master_Rows=[];
+  public Product_Row_Cout = 0;
+  public Product_Master_RM_Rows=[];
+  get_Product_Master() {
+
+    this.loading = true;
+    this.isload = true;
+    this.Product_Master_Rows = [];
+    this.get("Api/Master/get_Product_Master?Order_by=" + this.Item_Orderby_Product).subscribe((res: any) => {
+      this.Product_Master_Rows = JSON.parse(res).record;
+
+      this.Perment_Product_Master_Rows = JSON.parse(res).record;
+      this.Reset_Product_Master_Rows = JSON.parse(res).record;
+      
+      this.Product_Master_RM_Rows=this.Perment_Product_Master_Rows.filter(e=>e.Item_Group=="2");
+      console.log( this.Product_Master_RM_Rows);
+      this.loading = false;
+      this.isload = false;
+
+
+      try {
+        this.Product_Row_Cout = this.Product_Master_Rows.length;
+
+      } catch { }
+
+      //   this.Item_Category = [...new Set(this.Item_Master_Rows.map(item => item.Category))];
+
+      // console.log(this.Item_Category);
+    });
+  }
+  public BOM_Master_Rows = [];
+  public FG_ID = "0";
+  get_BOM_Master() {
+    this.loading = true;
+    this.isload = true;
+    this.BOM_Master_Rows = [];
+    this.get("Api/Master/get_BOM_Master_By_FG?FG_ID=" + this.FG_ID + "&Order_by=RM_Order").subscribe((res: any) => {
+      this.BOM_Master_Rows = JSON.parse(res).record;
+      this.loading = false;
+      this.isload = false;
+    });
+  }
+
+  public Table_Master_Rows = [];
+  public Perment_Table_Master_Rows = [];
+  public Reset_Table_Master_Row = [];
+  public Table_Orderby_Name = "Name";
+
+
+  Num(data) {
+    return Number(data).toFixed(2);
+  }
+
+
+  get_Table_Master() {
+    this.loading = true;
+    this.isload = true;
+    this.Table_Master_Rows = [];
+    this.get("Api/Master/get_Table_Master?Order_by=" + this.Table_Orderby_Name).subscribe((res: any) => {
+      this.Table_Master_Rows = JSON.parse(res).record;
+      this.Perment_Table_Master_Rows = JSON.parse(res).record;
+      this.Reset_Table_Master_Row = JSON.parse(res).record;
+      this.loading = false;
+      this.isload = false;
+      //   this.Item_Category = [...new Set(this.Item_Master_Rows.map(item => item.Category))];
+
+      // console.log(this.Item_Category);
+    });
+  }
+
+  public Seraial_No_Settings_Rows = [];
+  public Perment_Seraial_No_Settings_Rows = [];
+  public Reset_Seraial_No_Settings_Row = [];
+  public Orderby_Name = "Name";
+
+  get_Seraial_No_Settings() {
+
+    this.loading = true;
+    this.isload = true;
+    this.Seraial_No_Settings_Rows = [];
+    this.get("Api/Setting/get_Seraial_No_Settings?Order_by=" + this.Orderby_Name).subscribe((res: any) => {
+      this.Seraial_No_Settings_Rows = JSON.parse(res).record;
+      this.Perment_Seraial_No_Settings_Rows = JSON.parse(res).record;
+      this.Reset_Seraial_No_Settings_Row = JSON.parse(res).record;
+      this.loading = false;
+      this.isload = false;
+      //   this.Item_Category = [...new Set(this.Item_Master_Rows.map(item => item.Category))];
+
+      // console.log(this.Item_Category);
+    });
+  }
+  public Variable_Settings_Rows = [];
+  public Perment_Variable_Settings_Rows = [];
+  public Reset_Variable_Settings_Row = [];
+
+  get_Variable_Settings() {
+
+    this.loading = true;
+    this.Variable_Settings_Rows = [];
+    this.getc("Api/Setting/get_variable_Settings").subscribe((res: any) => {
+      this.Variable_Settings_Rows = JSON.parse(res).record;
+      this.Perment_Variable_Settings_Rows = JSON.parse(res).record;
+      this.Reset_Variable_Settings_Row = JSON.parse(res).record;
+      this.loading = false;
+
+    });
+  }
+
+
+  public load_from_make_invoice:boolean=false;
+  public Stcok_Row = [];
+  public P_Stcok_Row = [];
+  public item_Category_ = "";
+  get_Item_Master1(id) {
+    this.Stcok_Row = [];
+    this.loading = true;
+    this.get("Api/Master/get_Item_Stock_bycustomer1?Ledger_ID=" + id + "&Category=" + this.item_Category_ + "&Check_Stock="+this.Check_Stock+"&Order_by= x.Category,Item_Name&Order_No="+this.Order_No).subscribe((res: any) => {
+      this.Stcok_Row = JSON.parse(res).record;
+      this.P_Stcok_Row = JSON.parse(res).record;
+      this.loading = false;
+      this.load_Temp_Order_Row()
+    });
+  }
+
+
+  load_Temp_Order_Row()
+  {
+
+    try {
+      var Qty=0;
+      var  Rate =0;
+      var  Free =0;
+      this.Stcok_Row.forEach(x => x.Model = "0");
+
+      for (var i = 0; i < this.Stcok_Row.length; i++) {
+        try {
+
+           Qty = this.Temp_Order_Row.filter(e => e.Uni_Code == this.Stcok_Row[i]["Uni_Code"]).filter(e => e.Item_ID == this.Stcok_Row[i]["Item_ID"])[0]["Order_Qty"];
+          Rate = this.Temp_Order_Row.filter(e => e.Uni_Code == this.Stcok_Row[i]["Uni_Code"]).filter(e => e.Item_ID == this.Stcok_Row[i]["Item_ID"])[0]["Order_Rate"];
+          Free = this.Temp_Order_Row.filter(e => e.Uni_Code == this.Stcok_Row[i]["Uni_Code"]).filter(e => e.Item_ID == this.Stcok_Row[i]["Item_ID"])[0]["Free"];
+          
+          Qty=parseFloat(Qty.toString());
+          Rate=parseFloat(Rate.toString());
+          Free=parseFloat(Free.toString());
+          
+        } catch {  
+
+          Qty=0;
+          Rate=0;
+          Free=0;
+         }
+
+         
+         if(Rate>0)
+         {
+         this.Stcok_Row[i]["Order_Rate"] = Rate;
+         }
+
+         if(Qty>0)
+         {
+          this.Stcok_Row[i]["Order_Qty"] = Qty;
+          this.Stcok_Row[i]["Model"] = Qty;
+          
+         }
+
+         if(Free>0)
+         {
+          this.Stcok_Row[i]["Free"] = Free;
+         }
+
+         
+      }
+    } catch { }
+
+
+    
+    this.Stcok_Row=this.Stcok_Row.sort((b, a) => Number(a["Model"]) - Number((b["Model"])));
+    
+
+  
+  }
+
+  public header_Row: any = {}
+  public Details_Row = [];
+  public Group_Code: any = {}
+
+  public Temp_Order_Row = [];
+
+  add_one: number = 1;
+  remove_one: number = -1;
+
+  public Tax_Type = "exclusive";
+  public GST_Type = "local";
+  public cart_item = [
+
+  ];
+
+  /*{
+  BAG: "1",
+  CGST_PER: 0,
+  CGST_TAX_AMT: 0,
+  CUS_FREE: "0",
+  DESCRIPTION: "bottle of 60 capsules",
+  DISC_AMT: "0",
+  DISC_PER: "0",
+  DISC_TYPE: "",
+  GST_PER: "0.00",
+  HSNCode: "-",
+  IGST_PER: 0,
+  IGST_TAX_AMT: 0,
+  ITEM_ID: "5",
+  ITEM_NAME: "Inlife Green Tea Extract 500mg ",
+  MRP: "0.00",
+  NET_AMT: 870,
+  NET_RATE: "290.00",
+  PURCHASE_RATE: "0.000",
+  Qty: 3,
+  RESALE_RATE: "0.00",
+  SALE_RATE: "290.00",
+  SGST_PER: 0,
+  SGST_TAX_AMT: 0,
+  SOC_FREE: "0",
+  TAXABLE_AMT: 870,
+  TAX_REVYES: "",
+  TAX_TYPE: "",
+  TAX_YESNO: "",
+  TOTAL_TAX: 0,
+  TOT_AMT: 870,
+  UNIT: "2"
+  },
+  {
+  BAG: "1",
+  CGST_PER: 0,
+  CGST_TAX_AMT: 0,
+  CUS_FREE: "0",
+  DESCRIPTION: "bottle of 60 capsules",
+  DISC_AMT: "0",
+  DISC_PER: "0",
+  DISC_TYPE: "",
+  GST_PER: "0.00",
+  HSNCode: "-",
+  IGST_PER: 0,
+  IGST_TAX_AMT: 0,
+  ITEM_ID: "5",
+  ITEM_NAME: "Inlife Green Tea Extract 500mg ",
+  MRP: "0.00",
+  NET_AMT: 870,
+  NET_RATE: "290.00",
+  PURCHASE_RATE: "0.000",
+  Qty: 3,
+  RESALE_RATE: "0.00",
+  SALE_RATE: "290.00",
+  SGST_PER: 0,
+  SGST_TAX_AMT: 0,
+  SOC_FREE: "0",
+  TAXABLE_AMT: 870,
+  TAX_REVYES: "",
+  TAX_TYPE: "",
+  TAX_YESNO: "",
+  TOTAL_TAX: 0,
+  TOT_AMT: 870,
+  UNIT: "2"
+  }
+  ];  
+  */
+
+
+  Clear_Cart() {
+
+    this.Selected_Customer = {};
+    this.cart_item = [];
+    try {
+      this.Item_Master_Rows.forEach(x => x.Order_Qty = "0");
+      // this.Item_Master_Rows.forEach(x => x.Rate = "0");
+      // this.Item_Master_Rows.forEach(x => x.Rate = "0");
+    } catch { }
+
+  }
+
+
+
+
+  Clear_Order_Cart() {
+
+    this.Selected_Customer = {};
+    this.cart_item = [];
+    try {
+      this.Item_Master_Rows.forEach(x => x.Order_Qty = "0");
+      this.Perment_Item_Master_Row.forEach(x => x.Order_Qty = "0");
+
+      this.Item_Master_Rows.forEach(x => x.Description = "");
+      this.Perment_Item_Master_Row.forEach(x => x.Description = "");
+
+    } catch { }
+
+  }
+
+
+
+
+  public assign = "Assign";
+
+  public Pack = "Pack";
+
+  add_item1(data, qty, pack, rate) {
+
+
+    var qty_ = 0;
+    var index = this.Item_Master_Rows.findIndex(function (item, i) {
+      return item.ID === data.ID
+    });
+
+
+    var bag_Qty = this.Item_Master_Rows[index]["Bag_Qty"];
+
+    if (index > -1) {
+
+      qty_ = (Number(pack) * Number(bag_Qty)) + Number(qty);
+
+
+      this.Item_Master_Rows[index]["Order_Qty"] = qty_;
+      this.Item_Master_Rows[index]["Rate"] = rate;
+      this.Item_Master_Rows[index]["Bag"] = pack;
+      this.Item_Master_Rows[index]["Qty"] = qty;
+
+      var inx = this.Perment_Item_Master_Row.findIndex(function (item, i) {
+        return item.ID === data.ID
+      });
+
+      this.Perment_Item_Master_Row[inx]["Order_Qty"] = qty_;
+
+
+      var ID = "";
+      ID = this.Item_Master_Rows[index]["ID"];
+      if (this.cart_item.length > 0) {
+        var Temp_Index = this.cart_item.findIndex(function (item, i) {
+          return item.ITEM_ID == ID;
+
+        });
+
+        if (Temp_Index > -1) {
+          this.cart_item.splice(Temp_Index, 1);
+        }
+      }
+    }
+
+
+
+
+    var Disc_Rate = rate;
+    var GST_per = data.GST_Per;
+    var Final_Rate = 0.00;
+    var Final_AMT = 0.00;
+    var IGST_AMT = 0.00;
+    var SGST_AMT = 0.00;
+    var CGST_AMT = 0.00;
+
+    var IGST_Per = 0.00;
+    var SGST_Per = 0.00;
+    var CGST_Per = 0.00;
+
+    if (this.Tax_Type.toLowerCase() == "inclusive") {
+      Final_Rate = (Number(Disc_Rate) / (100 + Number(GST_per))) * 100;
+      Final_AMT = ((Number(Disc_Rate) / (100 + Number(GST_per))) * 100) * Number(qty_);
+    }
+    else {
+      Final_Rate = Number(Disc_Rate);
+      Final_AMT = Number(Disc_Rate) * Number(qty_);
+    }
+
+    if (this.GST_Type.toLowerCase() == "local") {
+      IGST_AMT = 0.00;
+      SGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per) / 2);
+      CGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per) / 2);
+
+
+      IGST_Per = 0.00;
+      SGST_Per = (Number(GST_per) / 2);
+      CGST_Per = (Number(GST_per) / 2);
+    }
+    else {
+      IGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per));
+      SGST_AMT = 0.00;
+      CGST_AMT = 0.00;
+
+
+      IGST_Per = (Number(GST_per));
+      SGST_Per = 0.00;
+      CGST_Per = 0.00;
+    }
+
+
+
+
+
+    var Temp_data = {
+
+      'ITEM_ID': data.value,
+
+      'ITEM_CODE': data.Part_No,
+      'ITEM_NAME': data.label,
+      'DESCRIPTION': data.Description,
+      'HSNCode': data.HSN_Code,
+      'UNIT': data.UOM,
+      'BAG': '1',
+      'Qty': qty_,
+      'PURCHASE_RATE': data.Purchase_Rate,
+      'RESALE_RATE': data.Wholesale_Rate,
+      'SALE_RATE': rate,
+      'MRP': data.compareAtPrice,
+      'CUS_FREE': '0',
+      'SOC_FREE': '0',
+      'NET_RATE': rate,
+      'TOT_AMT': Number(rate) * Number(qty_),
+      'DISC_TYPE': '',
+      'DISC_PER': '0',
+      'DISC_AMT': '0',
+      'TAXABLE_AMT': Final_AMT,
+      'TAX_YESNO': '',
+      'TAX_REVYES': '',
+      'TAX_TYPE': '',
+      'Bag': pack,
+      'Pcs': qty,
+      'GST_PER': data.GST_Per,
+      'CGST_PER': CGST_Per,
+      'SGST_PER': SGST_Per,
+      'IGST_PER': IGST_Per,
+      'CGST_TAX_AMT': CGST_AMT,
+      'SGST_TAX_AMT': SGST_AMT,
+      'IGST_TAX_AMT': IGST_AMT,
+      'TOTAL_TAX': Number(CGST_AMT) + Number(SGST_AMT) + Number(IGST_AMT),
+      'NET_AMT': Number(Final_AMT) + Number(CGST_AMT) + Number(SGST_AMT) + Number(IGST_AMT)
+    }
+
+    if (qty_ > 0) {
+      this.cart_item.push(Temp_data)
+    }
+
+    this.cart_item.sort((a, b) => a["ITEM_NAME"].localeCompare(b["ITEM_NAME"]))
+
+    this.C_Sub_Total = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.NET_AMT), 0)).toFixed(2);
+
+    this.C_Taxable = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.TAXABLE_AMT), 0)).toFixed(2);
+    this.C_IGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.IGST_TAX_AMT), 0)).toFixed(2);
+    this.C_SGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.SGST_TAX_AMT), 0)).toFixed(2);
+    this.C_CGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.CGST_TAX_AMT), 0)).toFixed(2);
+    this.C_Tax = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.TOTAL_TAX), 0)).toFixed(2);
+
+    this.C_Total_Payable = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.NET_AMT), 0)).toFixed(2);
+
+    this.C_Savings = (this.cart_item.reduce((sum, current) => sum + ((parseFloat(current.MRP) - parseFloat(current.SALE_RATE)) * parseFloat(current.Qty)), 0)).toFixed(2);
+
+  }
+
+
+  add_item(data, qty) {
+
+
+
+
+    var qty_ = 0;
+    var index = this.Item_Master_Rows.findIndex(function (item, i) {
+      return item.ID === data.ID
+    });
+
+
+
+    if (index > -1) {
+
+      qty_ = Number(this.Item_Master_Rows[index]["Order_Qty"]) + Number(qty);
+
+      this.Item_Master_Rows[index]["Order_Qty"] = qty_;
+      var inx = this.Perment_Item_Master_Row.findIndex(function (item, i) {
+        return item.ID === data.ID
+      });
+
+      this.Perment_Item_Master_Row[inx]["Order_Qty"] = qty_;
+
+
+      var ID = "";
+      ID = this.Item_Master_Rows[index]["ID"];
+      if (this.cart_item.length > 0) {
+        var Temp_Index = this.cart_item.findIndex(function (item, i) {
+          return item.ITEM_ID == ID;
+
+        });
+
+        if (Temp_Index > -1) {
+          this.cart_item.splice(Temp_Index, 1);
+        }
+      }
+    }
+
+
+
+
+    var Disc_Rate = data.Rate;
+    var GST_per = data.GST_Per;
+    var Final_Rate = 0.00;
+    var Final_AMT = 0.00;
+    var IGST_AMT = 0.00;
+    var SGST_AMT = 0.00;
+    var CGST_AMT = 0.00;
+
+    var IGST_Per = 0.00;
+    var SGST_Per = 0.00;
+    var CGST_Per = 0.00;
+
+    if (this.Tax_Type.toLowerCase() == "inclusive") {
+      Final_Rate = (Number(Disc_Rate) / (100 + Number(GST_per))) * 100;
+      Final_AMT = ((Number(Disc_Rate) / (100 + Number(GST_per))) * 100) * Number(qty_);
+    }
+    else {
+      Final_Rate = Number(Disc_Rate);
+      Final_AMT = Number(Disc_Rate) * Number(qty_);
+    }
+
+    if (this.GST_Type.toLowerCase() == "local") {
+      IGST_AMT = 0.00;
+      SGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per) / 2);
+      CGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per) / 2);
+
+
+      IGST_Per = 0.00;
+      SGST_Per = (Number(GST_per) / 2);
+      CGST_Per = (Number(GST_per) / 2);
+    }
+    else {
+      IGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per));
+      SGST_AMT = 0.00;
+      CGST_AMT = 0.00;
+
+
+      IGST_Per = (Number(GST_per));
+      SGST_Per = 0.00;
+      CGST_Per = 0.00;
+    }
+
+
+
+
+
+
+
+
+    var Temp_data = {
+
+      'ITEM_ID': data.value,
+      'ITEM_CODE': data.Item_Code,
+      'ITEM_NAME': data.label,
+      'DESCRIPTION': data.Description,
+      'HSNCode': data.HSN_Code,
+      'UNIT': data.UOM,
+      'BAG': '1',
+      'Qty': qty_,
+      'PURCHASE_RATE': data.Purchase_Rate,
+      'RESALE_RATE': data.Wholesale_Rate,
+      'SALE_RATE': data.Rate,
+      'MRP': data.compareAtPrice,
+      'CUS_FREE': '0',
+      'SOC_FREE': '0',
+      'NET_RATE': data.Rate,
+      'TOT_AMT': Number(data.Rate) * Number(qty_),
+      'DISC_TYPE': '',
+      'DISC_PER': '0',
+      'DISC_AMT': '0',
+      'TAXABLE_AMT': Number(data.Rate) * Number(qty_),
+      'TAX_YESNO': '',
+      'TAX_REVYES': '',
+      'TAX_TYPE': '',
+      'Bag': '1',
+      'Pcs': '0',
+      'GST_PER': data.GST_Per,
+      'CGST_PER': CGST_Per,
+      'SGST_PER': SGST_Per,
+      'IGST_PER': IGST_Per,
+      'CGST_TAX_AMT': CGST_AMT,
+      'SGST_TAX_AMT': SGST_AMT,
+      'IGST_TAX_AMT': IGST_AMT,
+      'TOTAL_TAX': Number(CGST_AMT) + Number(SGST_AMT) + Number(IGST_AMT),
+      'NET_AMT': (Number(data.Rate) * Number(qty_)) + Number(CGST_AMT) + Number(SGST_AMT) + Number(IGST_AMT)
+    }
+
+    if (qty_ > 0) {
+      this.cart_item.push(Temp_data)
+    }
+
+    this.cart_item.sort((a, b) => a["ITEM_NAME"].localeCompare(b["ITEM_NAME"]))
+
+    this.C_Sub_Total = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.NET_AMT), 0)).toFixed(2);
+
+    this.C_Taxable = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.TAXABLE_AMT), 0)).toFixed(2);
+    this.C_IGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.IGST_TAX_AMT), 0)).toFixed(2);
+    this.C_SGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.SGST_TAX_AMT), 0)).toFixed(2);
+    this.C_CGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.CGST_TAX_AMT), 0)).toFixed(2);
+    this.C_Tax = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.TOTAL_TAX), 0)).toFixed(2);
+
+    this.C_Total_Payable = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.NET_AMT), 0)).toFixed(2);
+
+    this.C_Savings = (this.cart_item.reduce((sum, current) => sum + ((parseFloat(current.MRP) - parseFloat(current.SALE_RATE)) * parseFloat(current.Qty)), 0)).toFixed(2);
+
+  }
+
+
+  add_item2(data, qty, pack, rate) {
+
+
+    var qty_ = 0;
+    var index = this.Item_Master_Rows.findIndex(function (item, i) {
+      return item.ID == data.ID
+    });
+
+
+
+    var bag_Qty = this.Item_Master_Rows[index]["Bag_Qty"];
+
+    if (index > -1) {
+
+      qty_ = (Number(pack) * Number(bag_Qty)) + Number(qty);
+
+
+      this.Item_Master_Rows[index]["Order_Qty"] = qty_;
+      this.Item_Master_Rows[index]["Rate"] = rate;
+      this.Item_Master_Rows[index]["Bag"] = pack;
+      this.Item_Master_Rows[index]["Qty"] = qty;
+
+      var inx = this.Perment_Item_Master_Row.findIndex(function (item, i) {
+        return item.ID === data.ID
+      });
+
+      this.Perment_Item_Master_Row[inx]["Order_Qty"] = qty_;
+
+
+      var ID = "";
+      ID = this.Item_Master_Rows[index]["ID"];
+      if (this.cart_item.length > 0) {
+        var Temp_Index = this.cart_item.findIndex(function (item, i) {
+          return item.ITEM_ID == ID;
+
+        });
+
+        if (Temp_Index > -1) {
+          this.cart_item.splice(Temp_Index, 1);
+        }
+      }
+    }
+
+
+
+
+    var Disc_Rate = data.Rate;
+    var GST_per = data.GST_Per;
+    var Final_Rate = 0.00;
+    var Final_AMT = 0.00;
+    var IGST_AMT = 0.00;
+    var SGST_AMT = 0.00;
+    var CGST_AMT = 0.00;
+
+    var IGST_Per = 0.00;
+    var SGST_Per = 0.00;
+    var CGST_Per = 0.00;
+
+    if (this.Tax_Type.toLowerCase() == "inclusive") {
+      Final_Rate = (Number(Disc_Rate) / (100 + Number(GST_per))) * 100;
+      Final_AMT = ((Number(Disc_Rate) / (100 + Number(GST_per))) * 100) * Number(qty_);
+    }
+    else {
+      Final_Rate = Number(Disc_Rate);
+      Final_AMT = Number(Disc_Rate) * Number(qty_);
+    }
+
+    if (this.GST_Type.toLocaleUpperCase() == "local") {
+      IGST_AMT = 0.00;
+      SGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per) / 2);
+      CGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per) / 2);
+
+
+      IGST_Per = 0.00;
+      SGST_Per = (Number(GST_per) / 2);
+      CGST_Per = (Number(GST_per) / 2);
+    }
+    else {
+      IGST_AMT = ((Number(Final_Rate) * Number(qty_)) / 100) * (Number(GST_per));
+      SGST_AMT = 0.00;
+      CGST_AMT = 0.00;
+
+
+      IGST_Per = (Number(GST_per));
+      SGST_Per = 0.00;
+      CGST_Per = 0.00;
+    }
+
+
+
+
+
+    var Temp_data = {
+
+      'ITEM_ID': data.value,
+      'ITEM_CODE': data.Part_No,
+      'ITEM_NAME': data.label,
+      'DESCRIPTION': data.Description,
+      'HSNCode': data.HSN_Code,
+      'UNIT': data.UOM,
+      'BAG': '1',
+      'Qty': qty_,
+      'PURCHASE_RATE': data.Purchase_Rate,
+      'RESALE_RATE': data.Wholesale_Rate,
+      'SALE_RATE': rate,
+      'MRP': data.compareAtPrice,
+      'CUS_FREE': '0',
+      'SOC_FREE': '0',
+      'NET_RATE': rate,
+      'TOT_AMT': Number(rate) * Number(qty_),
+      'DISC_TYPE': '',
+      'DISC_PER': '0',
+      'DISC_AMT': '0',
+      'TAXABLE_AMT': Final_AMT,
+      'TAX_YESNO': '',
+      'TAX_REVYES': '',
+      'TAX_TYPE': '',
+      'Bag': pack,
+      'Pcs': qty,
+      'GST_PER': data.GST_Per,
+      'CGST_PER': CGST_Per,
+      'SGST_PER': SGST_Per,
+      'IGST_PER': IGST_Per,
+      'CGST_TAX_AMT': CGST_AMT,
+      'SGST_TAX_AMT': SGST_AMT,
+      'IGST_TAX_AMT': IGST_AMT,
+      'TOTAL_TAX': Number(CGST_AMT) + Number(SGST_AMT) + Number(IGST_AMT),
+      'NET_AMT': Number(Final_AMT) + Number(CGST_AMT) + Number(SGST_AMT) + Number(IGST_AMT)
+    }
+
+    if (qty_ > 0) {
+      this.cart_item.push(Temp_data)
+    }
+
+    this.cart_item.sort((a, b) => a["ITEM_NAME"].localeCompare(b["ITEM_NAME"]))
+
+    this.C_Sub_Total = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.NET_AMT), 0)).toFixed(2);
+
+    this.C_Taxable = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.TAXABLE_AMT), 0)).toFixed(2);
+    this.C_IGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.IGST_TAX_AMT), 0)).toFixed(2);
+    this.C_SGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.SGST_TAX_AMT), 0)).toFixed(2);
+    this.C_CGST = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.CGST_TAX_AMT), 0)).toFixed(2);
+    this.C_Tax = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.TOTAL_TAX), 0)).toFixed(2);
+
+    this.C_Total_Payable = (this.cart_item.reduce((sum, current) => sum + parseFloat(current.NET_AMT), 0)).toFixed(2);
+
+    this.C_Savings = (this.cart_item.reduce((sum, current) => sum + ((parseFloat(current.MRP) - parseFloat(current.SALE_RATE)) * parseFloat(current.Qty)), 0)).toFixed(2);
+
+  }
+
+
+
+  Search_Item_Category(data) {
+
+    console.log(data);
+    this.Selected_item_Category = data;
+    if (data == "All") {
+      this.Item_Master_Rows = this.Perment_Item_Master_Row;
+
+    }
+    else {
+      this.Item_Master_Rows = this.Perment_Item_Master_Row.filter(e => e.Category.toLowerCase().includes(data.toLowerCase()));
+    }
+
+  }
+
+
+
+  public Room_Check_OUT_Rows = [];
+  get_Room_Check_out() {
+    this.getc("Api/Transaction/get_Room_Check_OUT").subscribe((res: any) => {
+      this.Room_Check_OUT_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+
+
+  public Advance_Collection_Rows = [];
+  get_Advance_Collection() {
+    this.get("Api/Transaction/get_Advance_Collection?From=" + this.From_Date.formatted + "&To=" + this.To_Date.formatted).subscribe((res: any) => {
+      this.Advance_Collection_Rows = JSON.parse(res).record;
+    });
+  }
+
+  public Room_Check_IN_Rows = [];
+  get_Room_Check_IN() {
+    this.getc("Api/Transaction/get_Room_Check_IN").subscribe((res: any) => {
+      this.Room_Check_IN_Rows = JSON.parse(res).record;
+    });
+  }
+  public Schedule_count = 0;
+
+  public ledger_count = 0;
+  public Ledger_Order_by = "created_date desc";
+  public Ledger_Master_Rows = [];
+  public PLedger_Master_Rows = [];
+  public SLedger_Rows = [];
+  public LedgerLoad: boolean = false;
+
+  get_Ledger_Master() {
+    this.LedgerLoad = true;
+
+    this.isload = true;
+    this.Ledger_Master_Rows = [];
+    this.get("Api/Master/get_Ledger_Master1?Lfrom=" + this.Lfrom + "&Area=" + this.S_Area + "&Order=" + this.Ledger_Order_by).subscribe((res: any) => {
+      this.isload = false;
+      this.LedgerLoad = false;
+
+      this.Ledger_Master_Rows = JSON.parse(res).record;
+      this.PLedger_Master_Rows = JSON.parse(res).record;
+
+      this.ledger_Filter();
+      try {
+        this.ledger_count = this.Ledger_Master_Rows.length;
+      } catch { }
+    });
+  }
+   public visitor_count=0;
+  public Visior_Master_Rows = [];
+  public VisiorLoad: boolean = false;
+  public Pvisitor_Master_Rows=[];
+  get_Visitor_Master() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Visior_Master_Rows = [];
+    this.get("Api/Master/get_Visitor_Master?From=" + this.S_From + "&To=" + this.S_To + "&Status="+this.Approval_Status+"&User=" +this.Search_User ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Visior_Master_Rows = JSON.parse(res).record;
+      this.Pvisitor_Master_Rows = JSON.parse(res).record;
+
+      this.ledger_Filter();
+      try {
+        this.visitor_count = this.Visior_Master_Rows.length;
+      } catch { }
+     
+    });
+  }
+  public Visior_Master_Rows1 = [];
+  public VisiorLoad1: boolean = false;
+  public Pvisitor_Master_Rows1=[];
+  public Visior_approval_count=0;
+  get_Visitor_Master1() {
+    this.VisiorLoad = true;
+this.Visior_approval_count=0;
+    this.isload = true;
+    this.visitor_count=0;
+    this.Visior_Master_Rows1 = [];
+    this.get("Api/Master/get_Visitor_For_Approval?From=" + this.S_From + "&To=" + this.S_To + "&Status="+this.Approval_Status+"&Emp_ID=" + this.Emp_ID ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Visior_Master_Rows1 = JSON.parse(res).record;
+     
+      
+      try {
+        this.visitor_count = this.Visior_Master_Rows.length;
+        this.Visior_approval_count= this.Visior_Master_Rows.length;
+      } catch { }
+     
+    });
+  }
+
+
+  public filter_data="";
+
+  public Visitor_Approved_count=0;
+  public Visitor_Approved_Row=[];
+  get_Visitor_Approved() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Visior_Master_Rows1 = [];
+    this.get("Api/Master/get_Visitor_Approved?From=" + this.S_From + "&To=" + this.S_To + "&Status="+this.Approval_Status+"&Emp_ID=" + this.Emp_ID ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Visitor_Approved_Row = JSON.parse(res).record;
+      this.Visitor_Approved_count = this.Visitor_Approved_Row.length;
+
+     
+     
+    });
+  }
+
+
+
+  public Visitor_at_Gate_count1=0;
+  public Visitor_at_Gate_Row=[];
+  get_Visitor_at_Gate() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Visior_Master_Rows1 = [];
+    this.get("Api/Master/get_Visitor_at_gate?From=" + this.S_From + "&To=" + this.S_To + "&Status="+this.Approval_Status+"&Emp_ID=" + this.Emp_ID ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+     this.Visitor_at_Gate_count1=0;
+      this.Visitor_at_Gate_Row = JSON.parse(res).record;
+     
+     
+      try
+      {
+        this.Visitor_at_Gate_count1=this.Visitor_at_Gate_Row.length;
+      }catch{}
+     
+    });
+  }
+  public Visitor_at_Gate_count=0;
+  public Visitor_at_Gate_Row1=[];
+  get_Visitor_at_Gate1() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Visitor_at_Gate_Row1 = [];
+    this.get("Api/Master/get_Visitor_at_gate1?From=" + this.S_From + "&To=" + this.S_To + "&Status="+this.Approval_Status+"&Emp_ID=" + this.Emp_ID ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Visitor_at_Gate_Row1 = JSON.parse(res).record;
+      this.Visitor_at_Gate_count = this.Visitor_at_Gate_Row1.length;
+
+     
+     
+    });
+  }
+
+  public DB_Payment_count=0;
+  public DB_Paymemt_Row=[];
+  get_Dashboard_Payment() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.DB_Paymemt_Row = [];
+    this.get("Api/Collection_/get_Dashboard_Payment?" ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.DB_Paymemt_Row = JSON.parse(res).record;
+      this.DB_Payment_count = this.DB_Paymemt_Row.length;
+
+     
+     
+    });
+  }
+
+
+  public allowed_visitor:number=0;
+  public Visitor_allowed_Row=[];
+  get_Visitor_allowed() {
+    this.VisiorLoad = true;
+    this.allowed_visitor=0;
+    this.isload = true;
+    this.Visitor_at_Gate_Row1 = [];
+    this.get("Api/Master/get_Visitor_allowed?From=" + this.S_From + "&To=" + this.S_To + "&Status="+this.Approval_Status+"&Emp_ID=" + this.Emp_ID ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Visitor_allowed_Row = JSON.parse(res).record;
+      this.allowed_visitor=this.Visitor_allowed_Row.length;
+
+     
+     
+    });
+  }
+  public Checkin_count=0;
+  public Checkin_Visitor_Row=[];
+  get_Checkin_Visitor() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Checkin_Visitor_Row = [];
+    this.getc("Api/Master/get_Checkin_Visitor").subscribe((res: any) => {
+
+      this.isload = false;
+      this.VisiorLoad = false;
+      this.Checkin_count=0;
+      this.Checkin_Visitor_Row = JSON.parse(res).record;
+      try
+      {
+      this.Checkin_count = this.Checkin_Visitor_Row.length;
+      }catch{}
+
+     
+     
+    });
+  }
+  public Checkin_admin_count=0;
+  public Checkin_admin_Row=[];
+  get_Checkin_Admin() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Checkin_admin_Row = [];
+    this.get("Api/Master/get_Checkin_Visitor_admin?Emp_ID=" + this.Emp_ID).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Checkin_admin_Row = JSON.parse(res).record;
+      this.Checkin_admin_count = this.Checkin_admin_Row.length;
+
+     
+     
+    });
+  }
+
+
+  ago(value: any, args?: any): any {
+    if (value) {
+        const seconds = Math.floor((+new Date() - +new Date(value)) / 1000);
+        if (seconds < 29) // less than 30 seconds ago will show as 'Just now'
+            return 'Just now';
+        const intervals = {
+            'year': 31536000,
+            'month': 2592000,
+            'week': 604800,
+            'day': 86400,
+            'hour': 3600,
+            'minute': 60,
+            'second': 1
+        };
+        let counter;
+        for (const i in intervals) {
+            counter = Math.floor(seconds / intervals[i]);
+            if (counter > 0)
+                if (counter === 1) {
+                    return counter + ' ' + i + ' ago'; // singular (1 day ago)
+                } else {
+                    return counter + ' ' + i + 's ago'; // plural (2 days ago)
+                }
+        }
+    }
+    return value;
+}
+
+
+  public Checkout_admin_count=0;
+  public Checkout_admin_Row=[];
+  get_Checkout_Admin() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Checkout_admin_Row = [];
+    this.get("Api/Master/get_Checkout_Visitor_admin?Emp_ID=" + this.Emp_ID).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Checkout_admin_Row = JSON.parse(res).record;
+      this.Checkout_admin_count = this.Checkout_admin_Row.length;
+
+     
+     
+    });
+  }
+  public Checkout_count=0;
+  public Checkout_Visitor_Row=[];
+  get_Checkout_Visitor() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Checkout_Visitor_Row = [];
+    this.get("Api/Master/get_Checkout_Visitor?From=" + this.S_From + "&To=" + this.S_To + "&Visitor="+this.S_Visitor_Type+"&Department=" + this.S_Department ).subscribe((res: any) => {
+      this.isload = false;
+      this.VisiorLoad = false;
+
+      this.Checkout_Visitor_Row = JSON.parse(res).record;
+      this.Checkout_count = this.Checkout_Visitor_Row.length;
+
+     
+     
+    });
+  }
+  
+
+  
+
+
+
+
+
+
+
+  public Approved_Master_Rows = [];
+  public PApproved_Master_Rows=[];
+  get_Visitor_Approved_Master() {
+    this.VisiorLoad = true;
+
+    this.isload = true;
+    this.Approved_Master_Rows = [];
+    this.get("Api/Master/get_Approved_Master?From=" + this.S_From + "&To=" + this.S_To + "&Status=Approved&User=" + this.CREATED_BY ).subscribe((res: any) => {
+      
+      this.isload = false;
+      this.VisiorLoad = false;
+      this.visitor_count=0;
+      this.Approved_Master_Rows = JSON.parse(res).record;
+      this.PApproved_Master_Rows = JSON.parse(res).record;
+
+//      this.ledger_Filter();
+      try {
+        this.visitor_count = this.Approved_Master_Rows.length;
+      } catch { }
+     
+    });
+  }
+
+
+
+  ledger_Filter() {
+
+    this.SLedger_Rows = this.PLedger_Master_Rows.filter(e => e.Group_ID == this.Ledger_Type || e.Group_ID == "3");
+
+  }
+
+  public Member_Order_by = "Created_Date desc";
+  public Member_Details_Rows = [];
+  get_Member_Details() {
+    this.isload = true;
+    this.Member_Details_Rows = [];
+    this.get("Api/Master/get_Member_Details?From=" + this.S_From + "&To=" + this.S_To + "&User=" + this.CREATED_BY + "&Order=" + this.Member_Order_by).subscribe((res: any) => {
+      this.isload = false;
+      this.Member_Details_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+  public Room_Type_Rows = [];
+  get_Room_Type() {
+    this.getc("Api/Master/get_Room_Type").subscribe((res: any) => {
+      this.Room_Type_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+
+  Generate_Bill() {
+    this.isload = true;
+    this.get("Api/Transaction/Generate_Bill?Month=" + this.S_From + "&User=" + this.CREATED_BY).subscribe((res: any) => {
+      this.isload = false;
+      this.toastr.success("Generated Success");
+    });
+  }
+
+  Customer_Rows = [];
+  get_Customer() {
+    this.getc("Api/Master/get_ledger").subscribe((res: any) => {
+      this.Customer_Rows = JSON.parse(res).record;
+    });
+  }
+
+  Reference_Rows = [];
+  get_Reference() {
+
+
+    this.getc("Api/Master/get_reference").subscribe((res: any) => {
+      this.Reference_Rows = JSON.parse(res).record;
+      this.Area_Row = this.Reference_Rows.filter(e => e.Ref_ID == "Area");
+      this.Exp_Category = this.Reference_Rows.filter(e => e.Ref_ID == "Exp_Category");
+
+      this.get_pay_mode_ID();
+    });
+  }
+
+  public Room_Master_Rows = [];
+  get_rooms() {
+    this.getc("Api/Master/get_rooms").subscribe((res: any) => {
+      this.Room_Master_Rows = JSON.parse(res).record;
+
+
+    });
+  }
+
+
+
+
+
+  public sales_compare = "0.00";
+  public sales_compare_bar = 7.00;
+  public Sales_DB = [{ Date: this.Today_Date, Amount: 0, Qty: 0 }, { Date: this.Y_Date, Amount: 1, Qty: 1 }];
+  get_Sales_DB() {
+    this.get("Api/Invoice/get_Sales_DB?Length=7").subscribe((res: any) => {
+
+      if (res != "[]") {
+        this.Sales_DB = JSON.parse(res).record;
+
+
+        if (this.Sales_DB.length == 1) {
+          this.Sales_DB.push({ Date: this.Y_Date, Amount: this.Sales_DB[0]["Amount"], Qty: this.Sales_DB[0]["Qty"] });
+        }
+
+        this.sales_compare = ((((this.Sales_DB[0]["Amount"]) - this.Sales_DB[1]["Amount"]) / this.Sales_DB[1]["Amount"]) * 100).toFixed(2);
+        this.sales_compare_bar = Math.abs(Number(this.sales_compare));
+
+
+
+      }
+    });
+
+  }
+  public purchase_compare = "0.00";
+  public purchase_compare_bar = 7.00;
+  public purchase_DB = [{ Date: this.Today_Date, Amount: 0, Qty: 0 }, { Date: this.Y_Date, Amount: 1, Qty: 1 }];
+  get_purchase_DB() {
+    this.get("Api/Invoice/get_Purchase_DB?Length=7").subscribe((res: any) => {
+
+      if (res != "[]") {
+        this.purchase_DB = JSON.parse(res).record;
+
+
+        if (this.purchase_DB.length == 1) {
+          this.purchase_DB.push({ Date: this.Y_Date, Amount: this.purchase_DB[0]["Amount"], Qty: this.purchase_DB[0]["Qty"] });
+        }
+
+        this.purchase_compare = ((((this.purchase_DB[0]["Amount"]) - this.purchase_DB[1]["Amount"]) / this.purchase_DB[1]["Amount"]) * 100).toFixed(2);
+        this.purchase_compare_bar = Math.abs(Number(this.purchase_compare));
+
+
+
+      }
+    });
+
+  }
+  public Expence_compare = "0.00";
+  public Expence_compare_bar = 7.00;
+  public Expence_DB = [{ Date: this.Today_Date, Amount: 0, Qty: 0 }, { Date: this.Y_Date, Amount: 1, Qty: 1 }];
+  get_Expence_DB() {
+    this.get("Api/Invoice/get_Expence_DB?Length=7").subscribe((res: any) => {
+
+      if (res != "[]") {
+        this.Expence_DB = JSON.parse(res).record;
+
+
+        if (this.Expence_DB.length == 1) {
+          this.Expence_DB.push({ Date: this.Y_Date, Amount: this.Expence_DB[0]["Amount"], Qty: this.Expence_DB[0]["Qty"] });
+        }
+
+        this.Expence_compare = ((((this.Expence_DB[0]["Amount"]) - this.Expence_DB[1]["Amount"]) / this.Expence_DB[1]["Amount"]) * 100).toFixed(2);
+        this.Expence_compare_bar = Math.abs(Number(this.Expence_compare));
+
+
+
+      }
+    });
+
+  }
+  public Order_DB = [{ Date: this.Today_Date, Amount: 0, Qty: 0 }, { Date: this.Y_Date, Amount: 0, Qty: 0 }];
+  get_Order_DB() {
+
+    this.get("Api/Invoice/get_Order_DB?Length=7").subscribe((res: any) => {
+      if (res != "[]") {
+        this.Order_DB = JSON.parse(res).record;
+      }
+    });
+  }
+
+
+  public Pending_Order_DB = [{ Pending: 0, Delivery: 0, T_Pending: 0, T_Orders: 0, Y_Orders: 0, Y_Pending: 0, Y_Delivery: 0 }];
+  get_Pending_Order_DB() {
+
+    this.getc("Api/Invoice/get_Order_DB").subscribe((res: any) => {
+
+      if (res != "[]") {
+        this.Pending_Order_DB = JSON.parse(res).record;
+
+
+
+
+      }
+
+    });
+  }
+
+  public Collection_DB = [{ Date: this.Today_Date, Amount: 0, Qty: 0 }, { Date: this.Y_Date, Amount: 0, Qty: 0 }];;
+  get_Collection_DB() {
+    this.get("Api/Invoice/get_Collection_DB?Length=7").subscribe((res: any) => {
+      if (res != "[]") {
+        this.Collection_DB = JSON.parse(res).record;
+
+        if (this.Collection_DB.length == 1) {
+          this.Collection_DB.push({ Date: this.Y_Date, Amount: 0, Qty: 1 });
+        }
+      }
+    });
+  }
+
+  public DB_Data = [{ Sales: 0, Collection: 0, Expense: 0, Out_standing: 0 }];;
+  get_DB_Data() {
+    this.getc("Api/Invoice/get_DB_Data").subscribe((res: any) => {
+      if (res != "[]") {
+        this.DB_Data = JSON.parse(res).record;
+
+
+      }
+    });
+  }
+
+
+
+
+
+
+  Make_Delivery(Order_No) {
+    this.get("Api/Invoice/Make_Delivery?Order_No=" + Order_No).subscribe((res: any) => {
+
+      this.toastr.success("Delivered  Success..", 'Msg');
+      this.back();
+      this.get_orders();
+      this.get_Order_DB();
+      this.get_Pending_Order_DB();
+      this.Clear_Cart();
+
+    });
+  }
+
+
+
+
+  public Room_CIN_Details = [];
+
+  get_rooms_CIN_Details() {
+
+    this.getc("Api/Master/get_room_CIN_ID").subscribe((res: any) => {
+      this.Room_CIN_Details = JSON.parse(res).record;
+    });
+
+  }
+
+
+  view_Data(data) {
+    this.router.navigate(['view-order-details']);
+  }
+
+
+  public Bank_Master_Rows = [];
+  get_Bank_Master() {
+
+    this.getc("Api/Master/get_Bank_Master").subscribe((res: any) => {
+      this.Bank_Master_Rows = JSON.parse(res).record;
+    });
+  }
+
+
+
+
+
+  get_dmk_Data() {
+
+    this.get_Thoguthi_Master();
+    this.get_Ondriyam_Master();
+    this.get_Ondriyam_Peruratchi_Master();
+    this.get_Ondriyam_Peruratchi_Ward_Master();
+    this.get_Ondriyam_Ooratchi_Master();
+    this.get_Ondriyam_Ooratchi_Kilai_Master();
+    this.get_Nagaram_Master();
+    this.get_Nagaram_Ward_Master();
+    this.get_Total_Members();
+
+  }
+
+
+  public Thoguthi_Master_Rows = [];
+  get_Thoguthi_Master() {
+
+    this.getc("Api/Master/get_Thoguthi_Details").subscribe((res: any) => {
+      this.Thoguthi_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Area_Street_Rows = [];
+  get_Area_Street() {
+    this.isload = true;
+
+    this.getc("Api/Master/get_Area_Street_Details").subscribe((res: any) => {
+      this.Area_Street_Rows = JSON.parse(res).record;
+      this.isload = false;
+
+    });
+
+  }
+
+
+
+
+  public Copy_Type="ORIGINAL";
+
+public Printer_width="58";
+
+  Mobile_Print(data)
+  {
+    window.open(this.Server_URL+"report/Mobile_Print?User=Bill_Print&Company="+this.Company+"&Bill_No="+data.Bill_No+"&Format="+this.Printer_width+"&Blue_Address=", "_blank");
+  }
+
+
+  open_pdf(data) {
+
+    
+    if(this.Bill_Format=="Format1")
+    {
+      var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+      window.open(this.Server_URL+"report/Print_Sales_Bills_Tally_Foramt?"+parm,"_blank");
+      
+    }
+    else  if(this.Bill_Format=="Format2"){
+      var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+    window.open(this.Server_URL+"PDF/Export_Invoice_1?"+parm, "_blank");
+
+    }    else  if(this.Bill_Format=="Format3"){
+      var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+    window.open(this.Server_URL+"PDF/Export_Invoice_2?"+parm, "_blank");
+
+    }
+    else  if(this.Bill_Format=="Format4"){
+     window.open(this.Server_URL+"report/Print_Sales_Bills?Bill_No="+data.Bill_No+"&Company="+this.Company, "_blank");
+ 
+    }
+    else  if(this.Bill_Format=="Format5"){
+      window.open(this.Server_URL+"report/Print_Sales_Bills1?Bill_No="+data.Bill_No+"&Company="+this.Company, "_blank");
+     }
+     else  if(this.Bill_Format=="PRS"){
+      window.open(this.Server_URL+"report/PRS_Bill?User=" + this.CREATED_BY + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No+"&Company="+this.Company+"&Copy_Type="+this.Copy_Type, "_blank");
+ 
+     }
+     else  if(this.Bill_Format=="Osai"){
+      window.open(this.Server_URL+"report/Osai_Bill?User=" + this.CREATED_BY + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No+"&Company="+this.Company+"&Copy_Type="+this.Copy_Type, "_blank");
+ 
+     }
+     else  if(this.Bill_Format=="Klisters"){
+
+      window.open(this.Server_URL+"report/Klisters_Sales_Bill?User=" + this.CREATED_BY + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No+"&Company="+this.Company+"&Copy_Type="+this.Copy_Type, "_blank");
+
+ 
+     }
+    
+    
+  }
+  public DC_Format="Klisters";
+  open_delivery(data) {
+
+    
+    if(this.DC_Format=="Klisters1")
+    {
+      var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.DC_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+      window.open(this.Server_URL+"report/Klisters_Delivery_Bill?"+parm,"_blank");
+      
+    }
+    else  if(this.DC_Format=="Klisters"){
+      window.open(this.Server_URL+"report/Klisters_Delivery_Bill?Bill_No="+data.DC_No+"&Company="+this.Company, "_blank");
+ 
+     }
+    
+    
+  }
+  open_pdf_Non_Tax(data) {
+
+    
+    if(this.NT_Bill_Format=="NT_Format1")
+   {
+     var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+     window.open(this.Server_URL+"report/Print_Sales_Bills_Non_Tax?"+parm,"_blank");
+     
+   }
+   else  if(this.NT_Bill_Format=="Klisters"){
+    var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+    window.open(this.Server_URL+"report/Klisters_Non_Tax_Bill?"+parm,"_blank");
+    
+
+   }
+}
+public P_Invoice_Format="Format1"
+proforma_pdf(data) {
+  if(this.P_Invoice_Format=="Format1")
+{ ``
+  var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+  window.open(this.Server_URL+"PDF/Export_P_Invoice_1?"+parm, "_blank");
+}
+else  if(this.P_Invoice_Format=="Klisters"){
+  window.open(this.Server_URL+"report/Klisters_Proforma_Bill?Bill_No="+data.Bill_No+"&Company="+this.Company, "_blank");
+
+  
+
+ }
+}
+public Delivery_Format="Format1"
+Delivery_pdf(data) {
+  if(this.Delivery_Format=="Format2")
+{ 
+  var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.Bill_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&Bill_No="+data.Bill_No;
+  window.open(this.Server_URL+"PDF/Export_P_Invoice_1?"+parm, "_blank");
+}
+else  if(this.Delivery_Format=="Format1"){
+  window.open(this.Server_URL+"report/Print_Customerwise?Bill_No="+data.Bill_No+"&Company="+this.Company, "_blank");
+
+  
+
+ }
+}
+public PO_Format="Format1";
+open_purchase_pdf(data) {
+  if(this.PO_Format=="Format1")
+  {
+    var parm="User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name="+data.PO_No.replace(/[^a-zA-Z0-9 ]/g, "_")+"&File_Type=pdf&PO_No="+data.PO_No;
+  window.open(this.Server_URL+"PDF/Export_PO_1?"+parm, "_blank");
+
+  }
+ 
+  else  if(this.PO_Format=="Klisters"){
+    window.open(this.Server_URL+"report/Klisters_PO_Bill?PO_No="+data.PO_No+"&Company="+this.Company, "_blank");
+
+   }
+  
+ 
+}
+  get_street(Area) {
+
+    return this.Area_Street_Rows.filter(e => String(e.Area).toLowerCase() == String(Area).toLowerCase());
+  }
+  public Ondriyam_Master_Rows = [];
+  get_Ondriyam_Master() {
+
+    this.getc("Api/Master/get_Ondriyam_Details").subscribe((res: any) => {
+      this.Ondriyam_Master_Rows = JSON.parse(res).record;
+
+    });
+
+  }
+
+  get_Nagaram(data) {
+
+    var r = [];
+    if (this.Nagaram_Master_Rows) {
+      r = this.Nagaram_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(data).toLowerCase());
+    }
+
+    return r;
+  }
+
+
+  get_Nagaram_Ward(Thoguthi, data) {
+
+    var r = [];
+    if (this.Nagaram_Ward_Master_Rows) {
+      r = this.Nagaram_Ward_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(Thoguthi).toLowerCase());
+      r = r.filter(e => String(e.Nagaram).toLowerCase() == String(data).toLowerCase());
+
+    }
+
+    return r;
+  }
+
+
+  get_Ondriyam(data) {
+
+    var r = [];
+    if (this.Ondriyam_Master_Rows) {
+      r = this.Ondriyam_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(data).toLowerCase())
+    }
+
+    return r;
+
+  }
+
+
+
+  get_Peruratchi(Thoguthi, data) {
+    var r = [];
+    if (this.Ondriyam_Peruratchi_Master_Rows) {
+      r = this.Ondriyam_Peruratchi_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(Thoguthi).toLowerCase());
+      r = r.filter(e => String(e.Ondriyam).toLowerCase() == String(data).toLowerCase());
+    }
+
+
+    return r;
+  }
+
+
+  get_Peruratchi_Ward(Thoguthi, Ondriyam, data) {
+    var r = [];
+    if (this.Ondriyam_Peruratchi_Ward_Master_Rows) {
+      r = this.Ondriyam_Peruratchi_Ward_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(Thoguthi).toLowerCase());
+      r = r.filter(e => String(e.Ondriyam).toLowerCase() == String(Ondriyam).toLowerCase());
+      r = r.filter(e => String(e.Peruratchi).toLowerCase() == String(data).toLowerCase());
+    }
+    return r;
+  }
+
+
+  get_Ondriyam_Ooratchi(Thoguthi, data) {
+
+    console.log(Thoguthi, data)
+
+    console.log(this.Ondriyam_Ooratchi_Master_Rows)
+    var r = [];
+    if (this.Ondriyam_Ooratchi_Master_Rows) {
+      r = this.Ondriyam_Ooratchi_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(Thoguthi).toLowerCase());
+      r = r.filter(e => String(e.Ondriyam).toLowerCase() == String(data).toLowerCase());
+    }
+    console.log(r);
+    return r;
+  }
+
+
+
+  get_Ondriyam_Ooratchi_Kilai(Thoguthi, Ondriyam, data) {
+
+
+    var r = [];
+    if (this.Ondriyam_Ooratchi_Kilai_Master_Rows) {
+      r = this.Ondriyam_Ooratchi_Kilai_Master_Rows.filter(e => String(e.Thoguthi).toLowerCase() == String(Thoguthi).toLowerCase());
+      r = r.filter(e => String(e.Ondriyam).toLowerCase() == String(Ondriyam).toLowerCase());
+      r = r.filter(e => String(e.Ooratchi).toLowerCase() == String(data).toLowerCase());
+    }
+
+    return r;
+  }
+
+
+
+  public Ondriyam_Peruratchi_Master_Rows = [];
+  get_Ondriyam_Peruratchi_Master() {
+
+    this.getc("Api/Master/get_Ondriyam_Peruratchi_Details").subscribe((res: any) => {
+      this.Ondriyam_Peruratchi_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Ondriyam_Peruratchi_Ward_Master_Rows = [];
+  get_Ondriyam_Peruratchi_Ward_Master() {
+
+    this.getc("Api/Master/get_Ondriyam_Peruratchi_Ward_Details").subscribe((res: any) => {
+      this.Ondriyam_Peruratchi_Ward_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Ondriyam_Ooratchi_Master_Rows = [];
+  get_Ondriyam_Ooratchi_Master() {
+
+    this.getc("Api/Master/get_Ondriyam_Ooratchi_Details").subscribe((res: any) => {
+      this.Ondriyam_Ooratchi_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Ondriyam_Ooratchi_Kilai_Master_Rows = [];
+  get_Ondriyam_Ooratchi_Kilai_Master() {
+
+    this.getc("Api/Master/get_Ondriyam_Ooratchi_Kilai_Details").subscribe((res: any) => {
+      this.Ondriyam_Ooratchi_Kilai_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Nagaram_Master_Rows = [];
+  get_Nagaram_Master() {
+
+    this.getc("Api/Master/get_Nagaram_Details").subscribe((res: any) => {
+      this.Nagaram_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Nagaram_Ward_Master_Rows = [];
+  get_Nagaram_Ward_Master() {
+
+    this.getc("Api/Master/get_Nagaram_Ward_Details").subscribe((res: any) => {
+      this.Nagaram_Ward_Master_Rows = JSON.parse(res).record;
+    });
+
+  }
+  public Employee_Details_Rows = [];
+  get_Employee_Details() {
+
+    this.getc("Api/Master/get_Employee_Details").subscribe((res: any) => {
+      this.Employee_Details_Rows = JSON.parse(res).record;
+    });
+
+  }
+
+  get_Thoguthi(Data) {
+
+    var data = this.Thoguthi_Master_Rows.filter(e => String(e.District).toLowerCase() == String(Data).toLowerCase()).sort((a, b) => (a["Thoguthi"]) - ((b["Thoguthi"])));
+    return data;
+  }
+
+
+
+  pdfType = "Open";
+
+
+  get(url) {
+
+
+    this.access_tocken = this.tocken;
+    var reqHeader = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      'Authorization': 'Bearer ' + this.access_tocken
+    });
+
+
+    return this.http.get(this.Server_URL + "" + url + "&Company=" + this.Company, { headers: reqHeader })
+  }
+
+  getc(url) {
+
+    this.access_tocken = this.tocken;
+    var reqHeader = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.access_tocken
+    });
+
+    return this.http.get(this.Server_URL + "" + url + "?Company=" + this.Company, { headers: reqHeader });
+  }
+
+
+
+  d_get(url) {
+
+
+    this.access_tocken = this.tocken;
+    var reqHeader = new HttpHeaders({
+      'Content-Type': 'text/plain',
+      'Authorization': 'Bearer ' + this.access_tocken
+    });
+
+
+    return this.http.get(url + "&Company=" + this.Company, { headers: reqHeader })
+  }
+
+
+  public load_page(data) {
+    this.router.navigate([data], { replaceUrl: true });
+  }
+
+  public load_page1(data) {
+    this.router.navigate([data]);
+  }
+
+
+
+
+
+
+
+  post_data(data, Table) {
+
+    data.Company = this.Company;
+    data.Created_by = this.CREATED_BY;
+    data.Table_Name = Table;
+
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+    this.isload = true;
+    this.http.post(this.Server_URL + 'api/Master/Post_Data', data, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+          this.isload = false;
+          return val;
+        },
+        response => {
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+          return "Error Contact Admin";
+        });
+
+    //return "Problem"
+  }
+
+
+
+  public tocken = "";
+  get_Token() {
+
+
+
+    this.headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    this.isload = true;
+    this.http.post(this.Server_URL + 'token', 'grant_type=password&UserName=admin&Password=admin', { headers: this.headers })
+      .subscribe(
+        (val) => {
+          this.tocken = val['access_token'];
+
+        },
+        response => {
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+          return "Error Contact Admin";
+        });
+
+    //return "Problem"
+  }
+
+
+
+  public length_of(dt) {
+
+    var len = 0;
+    try {
+      len = dt.filteredValue.length;
+      return len
+    } catch { }
+
+
+    if (len == 0) {
+      try {
+        len = dt.value.length;
+      } catch { }
+    }
+
+    return len;
+  }
+
+
+
+  public sum_of(dt, field) {
+
+    var len = 0;
+    try {
+      len = dt.filteredValue.length;
+      return dt.filteredValue.reduce((sum, current) => sum + parseFloat(current[field]), 0);
+    } catch { }
+
+
+    if (len == 0) {
+      try {
+        len = dt.value.length;
+        return dt.value.reduce((sum, current) => sum + parseFloat(current[field]), 0);
+      } catch { }
+    }
+
+    return len;
+  }
+
+
+
+  public Excel_Data: any = {
+    'ID': '',
+    "item": '',
+    "Header": '',
+    "Footer": '',
+    "Left_Data": '',
+    "Right_Data": '',
+    "Report_Name": ''
+
+  };
+  headers;
+
+  export_excel() {
+
+    this.Excel_Data.Company = this.Company;
+    this.Excel_Data.User = this.CREATED_BY;
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+    this.http.post(this.Server_URL + 'api/master/JsontToExcel', this.Excel_Data, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+
+          if (val == "True") {
+
+            var parm = "User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name=" + this.File_Name + "&File_Type=xls";
+            window.open(this.Server_URL + "Report/JsontToExcel?" + parm, "_blank");
+            this.toastr.success("Data Exported  Successfully", 'Msg');
+
+          }
+          else {
+
+            console.log(val);
+            this.toastr.error(val, "Error", { timeOut: 3000 });
+          }
+        },
+        response => {
+          console.log(response);
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+
+        });
+
+  }
+  upload_excel() {
+
+    this.Excel_Data.Company = this.Company;
+    this.Excel_Data.User = this.CREATED_BY;
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+    this.http.post(this.Server_URL + 'api/master/JsontToExcel', this.Excel_Data, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+
+          if (val == "True") {
+
+            var parm = "User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name=" + this.File_Name + "&File_Type=xls";
+            window.open(this.Server_URL + "Report/JsontToExcel_Upload?" + parm, "_blank");
+            this.toastr.success("Data Exported  Successfully", 'Msg');
+
+          }
+          else {
+
+            console.log(val);
+            this.toastr.error(val, "Error", { timeOut: 3000 });
+          }
+        },
+        response => {
+          console.log(response);
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+
+        });
+
+  }
+
+  File_Name = "Data";
+
+  export_pdf() {
+
+
+    this.Excel_Data.Company_Data = JSON.parse(JSON.stringify(this.Current_User));
+    this.Excel_Data.Company = this.Company;
+    this.Excel_Data.User = this.CREATED_BY;
+
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+    this.http.post(this.Server_URL + 'api/master/JsontToExcel', this.Excel_Data, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+
+          if (val == "True") {
+            var parm = "User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name=" + this.File_Name + "&File_Type=pdf";
+            window.open(this.Server_URL + "PDF/Export_Pdf?" + parm, "_blank");
+            this.toastr.success("Data Exported  Successfully", 'Msg');
+
+          }
+          else {
+
+            console.log(val);
+            this.toastr.error(val, "Error", { timeOut: 3000 });
+          }
+        },
+        response => {
+          console.log(response);
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+
+        });
+
+  }
+
+  Ledger_ID = "0";
+  Ledger_cr = 0;
+  Ledger_db = 0;
+  Ledger_Total = 0;
+  Ledger_File_Name = "Data";
+  public BILLNO;
+  export_pdf1() {
+
+
+    this.Excel_Data.Company_Data = JSON.parse(JSON.stringify(this.Current_User));
+    this.Excel_Data.Company = this.Company;
+    this.Excel_Data.User = this.CREATED_BY;
+
+    this.Excel_Data.Ledger_ID = this.Ledger_ID
+    this.Excel_Data.From = this.S_From;
+    this.Excel_Data.To = this.S_To;
+    this.Excel_Data.cr = this.Ledger_cr;
+
+    this.Excel_Data.db = this.Ledger_db;
+    this.Excel_Data.Total = this.Ledger_Total;
+
+
+    this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+
+    this.http.post(this.Server_URL + 'api/master/JsontToExcel', this.Excel_Data, { headers: this.headers })
+      .subscribe(
+        (val: string) => {
+
+          if (val == "True") {
+            var parm = "User=" + this.CREATED_BY + "&Company=" + this.Company + "&File_Name=" + this.File_Name + "&File_Type=pdf";
+            window.open(this.Server_URL + "PDF/Export_Pdfx?" + parm, "_blank");
+            this.toastr.success("Data Exported  Successfully", 'Msg');
+
+          }
+          else {
+
+            console.log(val);
+            this.toastr.error(val, "Error", { timeOut: 3000 });
+          }
+        },
+        response => {
+          console.log(response);
+          this.toastr.error('Error ', response, {
+            timeOut: 3000
+          });
+
+        });
+
+  }
+
+}

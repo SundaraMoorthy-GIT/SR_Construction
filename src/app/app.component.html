@@ -1,0 +1,45 @@
+<ng-container   *ngIf="!(location == '/authentication/login'  || location == '/authentication/login-with-image' || location == '/authentication/register' || location == '/authentication/register-with-image' || location == '/authentication/forgot-password' || location == '/authentication/forgot-password-with-image' || location == '/authentication/reset-password' || location == '/authentication/reset-password-with-image' || location == '/authentication/lock-screen' || location == '/authentication/lock-screen-with-image' || location == '/miscellaneous/not-authorized' || location == '/miscellaneous/not-authorized-with-image' || location == '/miscellaneous/maintenance' || location == '/miscellaneous/maintenance-with-image' || location == '/miscellaneous/coming-soon' || location == '/miscellaneous/coming-soon-with-image' || location == '/error/errorv1' || location == '/error/errorv2' || location == '/error/errorv3' || location == '/error/errorv4')">
+  <app-sidebar ></app-sidebar>
+  <!-- Start Main Content Wrapper Area -->
+  <div  [@routeAnimations]="prepareRoute(outlet)"  class="main-content d-flex flex-column">
+    <app-header ></app-header>
+      <router-outlet  #outlet="outlet" ></router-outlet>
+      <div class="flex-grow-1"></div>
+    <!-- <app-footer></app-footer> -->
+  </div>
+  
+
+  
+
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+  
+</ng-container>
+
+<ng-container *ngIf="(location == '/authentication/login'  || location == '/authentication/login-with-image' || location == '/authentication/register' || location == '/authentication/register-with-image' || location == '/authentication/forgot-password' || location == '/authentication/forgot-password-with-image' || location == '/authentication/reset-password' || location == '/authentication/reset-password-with-image' || location == '/authentication/lock-screen' || location == '/authentication/lock-screen-with-image' || location == '/miscellaneous/not-authorized' || location == '/miscellaneous/not-authorized-with-image' || location == '/miscellaneous/maintenance' || location == '/miscellaneous/maintenance-with-image' || location == '/miscellaneous/coming-soon' || location == '/miscellaneous/coming-soon-with-image' || location == '/error/errorv1' || location == '/error/errorv2' || location == '/error/errorv3' || location == '/error/errorv4')">
+  <router-outlet></router-outlet>
+</ng-container>
+
+
+<div class="modal fade basicModalLG" id="small_Module"  data-backdrop="static" data-keyboard="false"  role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Item Master</h5>
+              <button type="button" class="close"  (click)="appservice.Close_Modal()">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" style="padding-top: 0px;
+          padding-bottom: 0px;">
+           
+             <app-add-item1></app-add-item1>
+          </div>
+
+          <div class="modal-footer hidden">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+      </div>
+  </div>
+</div>

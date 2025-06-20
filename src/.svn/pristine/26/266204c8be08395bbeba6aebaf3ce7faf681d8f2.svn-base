@@ -1,0 +1,50 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+
+@Component({
+  selector: 'app-table-master',
+  templateUrl: './table-master.component.html',
+  styleUrls: ['./table-master.component.scss']
+})
+export class TableMasterComponent implements OnInit {
+
+  constructor(public confirmationService: ConfirmationService,public appservice:AppService, private router: Router, private route: ActivatedRoute) { 
+
+
+  }
+  addReset() {
+    this.appservice.isadd = "0";
+    return this.router.navigate(['/master/add-table']);
+  }
+  onEdit(item) {
+    this.appservice.isEdit =true;
+    this.appservice.Edit_Row = item;
+    return this.router.navigate(['/master/add-table']);
+  }
+    onDelete(item) {
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to delete press Yes?',
+        accept: () => {
+          this.Delete(item)
+        }
+      });
+  }
+  Delete(item) {
+    this.appservice.get("Api/master/delete_Table_Master?ID=" + item).subscribe((res: any) => {
+      var index = this.appservice.Table_Master_Rows.findIndex(function (items, i) {
+        return items.ID === item
+      });
+      if (index > -1) {
+        this.appservice.Table_Master_Rows.splice(index, 1);
+      }
+      this.appservice.Table_Master_Rows = this.appservice.Table_Master_Rows;
+      this.appservice.get_Table_Master();
+    });
+  }
+ 
+  ngOnInit(): void {
+  }
+
+}

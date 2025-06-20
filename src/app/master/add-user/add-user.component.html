@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>User Details</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+          <div class="col-md-6 nopad">
+  
+            <form #addForm="ngForm" (ngSubmit)="addData(addForm)" novalidate>
+                <div class="form-group hidden">
+                    <label>ID <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" [(ngModel)]="add.UM_ID" name="UM_ID" #UM_ID="ngModel" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name <span class="text-danger">*</span></label>
+                    <input class="form-control"type="text"required [(ngModel)]="add.UM_Full_Name" name="UM_Full_Name"
+                        #UM_Full_Name="ngModel">
+                        <div *ngIf="addForm.submitted && UM_Full_Name.invalid" class="invalid-feedback d-block">
+                          <div class="error"> Full Name Should not entry</div>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label>User Name <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" required [(ngModel)]="add.UM_User_Name" name="UM_User_Name"
+                        #UM_User_Name="ngModel">
+                        <div *ngIf="addForm.submitted && UM_User_Name.invalid" class="invalid-feedback d-block ">
+                          <div class="error"> User Name Should not entry</div>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label>Password<span class="text-danger">*</span> </label>
+                    <input class="form-control" type="text" required [(ngModel)]="add.UM_Password" name="UM_Password"
+                        #UM_Password="ngModel">
+                        <div *ngIf="addForm.submitted && UM_Password.invalid" class="invalid-feedback d-block ">
+                          <div class="error"> Password Should not entry</div>
+                      </div>
+                        
+                </div>
+                <div class="form-group">
+                    <label>Rights<span class="text-danger">*</span> </label>
+
+                    <select class="select2-option form-control " required  [(ngModel)]="add.UM_Rights" name="UM_Rights" #UM_Rights="ngModel" style="width:100%"   aria-hidden="true">
+                
+                    <option *ngFor="let summary of Rights_Row" value={{summary.value}}>
+                        {{summary.label}}
+                    </option>                  
+                
+                      </select> 
+                      <div *ngIf="addForm.submitted && UM_Rights.invalid" class="invalid-feedback d-block ">
+                        <div class="error"> Rights Should not entry</div>
+                    </div>   
+                </div>
+                <div class="form-group">
+                  <label>Enable Edit<span class="text-danger">*</span> </label>
+
+                  <select class="select2-option form-control " required  [(ngModel)]="add.UM_Edit" name="UM_Edit" #UM_Edit="ngModel" style="width:100%"   aria-hidden="true">
+              
+                    <option value="Yes">
+                      Yes
+                    </option>
+                    <option value="No">
+                      No
+                    </option>
+                    </select> 
+                    <div *ngIf="addForm.submitted && UM_Edit.invalid" class="invalid-feedback d-block ">
+                      <div class="error"> Enable Edit Should not entry</div>
+                  </div>   
+              </div>
+              <div class="form-group">
+                <label>Enable Delete<span class="text-danger">*</span> </label>
+
+                <select class="select2-option form-control " required  [(ngModel)]="add.UM_Delete" name="UM_Delete" #UM_Delete="ngModel" style="width:100%"   aria-hidden="true">
+                  <option value="Yes">
+                    Yes
+                  </option>
+                  <option value="No">
+                    No
+                  </option>
+                  </select> 
+                  <div *ngIf="addForm.submitted && UM_Delete.invalid" class="invalid-feedback d-block ">
+                    <div class="error"> Enable Delete Should not entry</div>
+                </div>   
+            </div>
+                
+                <div class="form-group hidden">
+                    <label>UMCompany </label>
+                    <input class="form-control" type="text" [(ngModel)]="add.UM_Company" name="UM_Company"
+                        #UM_Company="ngModel">
+                </div>
+                <div class="form-group hidden">
+                    <label>Created by</label>
+                    <input class="form-control" type="text" [(ngModel)]="add.Created_by" name="Created_by"
+                        #Created_by="ngModel">
+                </div>
+                <div class="m-t-20 text-center">
+                    <div *ngIf="addValidation" class="alert alert-danger m-t-10">
+                        <strong>Warning!</strong> Must Fill all Mandatory Fields.
+                    </div>
+                    <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                          role="status" aria-hidden="true"></span>
+                      <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                      Save </button> 
+                        <button class="btn btn-default" type="button" (click)="Back()">Cancel</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

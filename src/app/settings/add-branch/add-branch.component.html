@@ -1,0 +1,143 @@
+   <div class="row">
+    <div class="Qlayout">
+        <div class="Qhead">
+            <div class="left_text ml-3">
+                <span (click)="appservice.back()" class="bx bx-left-arrow-alt arrow mshow"> </span>
+                <span>Add Branch</span>
+            </div>
+            <div class="right_text ">
+                <a (click)="appservice.back()" class="x mhide"> <b>X</b>
+                </a>
+            </div>
+        </div>
+        <div class="Qbody">
+            <div class="col-md-12 ">
+                <div class="content_body">
+                    <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                        novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-table table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr class="hidden">
+                                                <td>ID <span class="text-danger">*</span></td>
+                                                <td><input class="form-control" type="text" [(ngModel)]="add.ID"
+                                                        name="ID" #ID="ngModel"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Branch Name<span class="text-danger">*</span></td>
+                                                <td>
+                                                  <input class="form-control"type="text"required [(ngModel)]="add.Branch_Name" name="Branch_Name"
+                                                  #Branch_Name="ngModel">
+                                                  <div *ngIf="addForm.submitted && Branch_Name.invalid" class="invalid-feedback d-block">
+                                                    <div class="error">Branch Name Should Not Be Empty</div>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Branch Address<span class="text-danger">*</span></td>
+                                                <td>
+                                                  <textarea class="form-control" type="text" rows="3" required [(ngModel)]="add.Branch_Address" name="Branch_Address"
+                                                    #Branch_Address="ngModel">
+                                                </textarea>
+                                                    <div *ngIf="addForm.submitted && Branch_Address.invalid" class="invalid-feedback d-block ">                            
+                                                    <div class="error">Branch Address Should Not Be Empty</div>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>City<span class="text-danger">*</span> </td>
+                                                <td>
+                                                  <input class="form-control" type="text" required [(ngModel)]="add.City" name="City"
+                                                  #City="ngModel">
+                                                  <div *ngIf="addForm.submitted && City.invalid" class="invalid-feedback d-block ">
+                                                    <div class="error"> City Should Not Be Empty</div>
+                                                </div>                 
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>State<span class="text-danger">*</span> </td>
+                                                <td>
+                                                  <input class="form-control" type="text" required [(ngModel)]="add.State" name="State"
+                                                  #State="ngModel">
+                                                  <div *ngIf="addForm.submitted && State.invalid" class="invalid-feedback d-block ">
+                                                    <div class="error"> State Should Not Be Empty</div>
+                                                </div>           
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pincode<span class="text-danger">*</span> </td>
+                                                <td>
+                                                  <input class="form-control" type="text" required [(ngModel)]="add.Pincode" name="Pincode"
+                                                  #Pincode="ngModel">
+                                                  <div *ngIf="addForm.submitted && Pincode.invalid" class="invalid-feedback d-block ">
+                                                    <div class="error"> Pincode Should Not Be Empty</div>
+                                                </div>             
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                              <td>Email</td>
+                                              <td>
+                                                <input class="form-control" type="Mail" [(ngModel)]="add.Email"
+                                                name="Email" #Email="ngModel"
+                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                                style="text-transform: lowercase;">                                               
+                                                    <div *ngIf="Email.touched"></div>
+                                                    <p style="color: red;" *ngIf="Email.errors?.pattern">This is not
+                                                        a valid Email</p>
+                                 
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                            <td>Mobile No<span class="text-danger">*</span></td>
+                                            <td>
+                                              <input class="form-control" type="tel" required [(ngModel)]="add.Mobile_No" name="Mobile_No"
+                                              #Mobile_No="ngModel"pattern="^[6-9][0-9]{9}$" maxlength="10" minlength="10">                                              
+                                              <div *ngIf="addForm.submitted && Mobile_No.invalid" class="invalid-feedback d-block ">
+                                                <div class="error"> Mobile No Should Not Be Empty</div>
+                                            </div>                      
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                          <td>Phone No<span class="text-danger">*</span></td>
+                                          <td>
+                                            <input class="form-control" type="tel" required [(ngModel)]="add.Phone_No" name="Phone_No"
+                                            #Phone_No="ngModel"  pattern="^[6-9][0-9]{9}$" maxlength="10" minlength="10">
+                                            <div *ngIf="addForm.submitted && Phone_No.invalid" class="invalid-feedback d-block ">
+                                              <div class="error"> Phone No Should Not Be Empty</div>
+                                          </div>                        
+                                          </td>
+                                      </tr>
+                                      <!-- <tr>
+                                        <td>Manager<span class="text-danger">*</span></td>
+                                        <td>
+                                          <select class="form-control" type="text" [(ngModel)]="add.Manager" name="Manager"
+                        #Manager="ngModel">
+                        <option *ngFor="let data of Manager_Name_Row" value="{{data.label}}">{{data.label}}</option>
+                    </select>
+                        <div *ngIf="addForm.submitted && Manager.invalid" class="invalid-feedback d-block ">
+                          <div class="error">Manager Should Not Be Empty</div>
+                      </div>            
+                                        </td>
+                                    </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+                                    <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+                                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                            role="status" aria-hidden="true"></span>
+                                        <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                        Save </button> &nbsp;&nbsp;
+                                    <button class="btn btn-secondary rounded-pil " type="button"
+                                        (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

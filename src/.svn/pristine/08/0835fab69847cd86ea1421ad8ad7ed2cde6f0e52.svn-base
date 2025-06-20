@@ -1,0 +1,151 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+declare let $: any;
+@Component({
+  selector: 'app-action-entry',
+  templateUrl: './action-entry.component.html',
+  styleUrls: ['./action-entry.component.scss']
+})
+export class ActionEntryComponent implements OnInit {
+  add: any = {};
+  public btndisable: boolean = false;
+
+
+
+  
+
+  constructor(public appservice: AppService, private toastr: ToastrService, private http: HttpClient) {
+   this.appservice.get_Group_Member_Code();
+   this.appservice.get_Group_Action_Billsout();
+
+    if (this.appservice.isEdit) {
+      this.add = appservice.Edit_Row;
+
+      try {
+        this.add.Action_Date = appservice.datefromat(this.appservice.Edit_Row.Action_Date);
+        this.add.Due_Date = appservice.datefromat(this.appservice.Edit_Row.Due_Date);
+      this.appservice.get_Group_Member(this.add.Group_Code);
+      } catch{ }
+    }
+    else {
+      this.clear();
+      this.get_Group_Code();
+
+      this.add.ID = "0";
+    }
+
+
+  }
+
+  clear() {
+
+    this.appservice.get_fields_of('Action_Details').forEach((activity) => {
+      if (activity.Default_Value == "T_Date") {
+        this.add[activity.Field] = this.appservice.T_Date;
+      }
+      else {
+        this.add[activity.Field] = activity.Default_Value;
+      }
+    });
+  }
+  get_Group_Install_No(data) {
+
+    this.appservice.get("Api/Collection_/get_Group_Install_No?Group_Code="+data).subscribe((res: any) => {
+  
+    this.add.Install_No= res;
+
+    });
+
+  }
+  get_Group(code) {
+    this.appservice.Selected_Customer = this.appservice.Group_Member_Code.filter(e => e.Group_Code == code)[0];
+
+
+    this.add.Group_Name=this.appservice.Selected_Customer.Group_Name;
+    this.add.Group_Members=this.appservice.Selected_Customer.Group_Members;
+
+    this.add.Chit_Value=this.appservice.Selected_Customer.Chit_Amount;
+    this.appservice.get_Group_Member(code);
+
+    this.get_Group_Install_No(code);
+  }
+  Calc_Sum(Amt){
+   
+      this.add.Balance_Amount=Number(this.add.Chit_Value)-Number( this.add.Bid_Amount);
+      this.add.Div_Amount =(parseFloat(this.add.Bid_Amount)/parseFloat(this.add.Group_Members)).toFixed(2);
+    
+  }
+ 
+  get_Group_Code() {
+
+      
+    this.appservice.getc("Api/Collection_/get_Group_Code").subscribe((res: any) => {
+      this.appservice.header_Row.Group_Code = res;
+    });
+  
+
+}
+
+
+  Valid;
+ 
+
+  addData(f) {
+
+    this.Valid = true;
+    this.appservice.get_fields_of('Action_Details').filter(e => String(e.Validate).toLocaleLowerCase() == "true").forEach((data) => {
+
+      if (this.add[data.Field] == "") {
+        this.Valid = false;
+        return;
+      }
+
+    });
+
+    this.add.Company = this.appservice.Company;
+    this.add.Company_ID = this.appservice.Company;
+    this.add.Created_by = this.appservice.CREATED_BY;
+    this.add.Group_Code = this.add.Group_Code;
+    this.add.Install_No = this.add.Install_No;
+
+    this.add.Table_Name = "Action_Details";
+    if (this.Valid) {
+      this.btndisable = true;
+
+      this.http.post(this.appservice.Server_URL + 'api/Collection_/Post_Action_Details', this.add, { headers: this.appservice.headers })
+        .subscribe(
+          (val: string) => {
+            this.btndisable = false;
+           
+
+            if ( JSON.parse(val)[0]["status"] == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.Group_Code=this.add.Group_Code;
+              this.appservice.Install_No=this.add.Install_No;
+              this.add.ID=JSON.parse(val)[0]["ID"];
+              this.appservice.get_Group_Action_Billsout();
+              this.appservice.isEdit = false;
+            }
+            else {
+              this.toastr.error( JSON.parse(val)[0]["status"], "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+
+          });
+
+    }
+  }
+  ngOnInit(): void {
+  }
+
+}

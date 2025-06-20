@@ -1,0 +1,837 @@
+<div class="row">
+
+    <div class="col-md-12 nopad hbar">
+            &nbsp; Sales
+                <a (click)="appservice.back()" class="x pright15">
+                    <b>X</b>
+                </a>
+
+                
+    </div>
+
+    
+</div>
+
+
+<div class="row shade">
+
+    <div class="col-md-5 nopad">
+
+            <table style="width: 100%;">
+
+                    <tr *ngFor="let data of appservice.get_pos_field('Sales','1TL')">
+                            <td style="padding-left: 8px;width: 120px;">{{data.Name}} <span
+                                            *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                            <td>
+
+                                    <select *ngIf="(data.Type=='Select')" class="select2-option form-control"
+                                            aria-hidden="true" required="data.Validate=='True'"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+                                            <option *ngFor="let row of appservice.get_ref(data.Options)"
+                                                    value={{row.label}}>
+                                                    {{row[data.Store_Value]}}
+                                            </option>
+                                    </select>
+
+
+                                    <input *ngIf="data.Field=='sal_ledger_name'" class="form-control"
+                                            (focus)="get_customers()" [readonly]="data.IsEdit=='False'"
+                                            required="data.Validate=='True'" type="{{data.Type}}"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+
+
+                                    <input *ngIf="!(data.Type=='Select' || data.Field=='sal_ledger_name')"
+                                            class="form-control" [readonly]="data.IsEdit=='False'"
+                                            required="data.Validate=='True'" type="{{data.Type}}"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+
+                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")'
+                                            class="invalid-feedback d-block">
+                                            <div class="error"> {{data.Name}} Should not entry</div>
+                                    </div>
+                            </td>
+                    </tr>
+
+            </table>
+
+    </div>
+
+
+    <div class=" col-md-4 nopad">
+
+            <table style="width: 100%;">
+
+                    <tr *ngFor="let data of appservice.get_pos_field('Sales','2TM')">
+                            <td style="padding-left: 8px;width: 120px;">{{data.Name}} <span
+                                            *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                            <td>
+                                    <select *ngIf="(data.Field=='sal_bill_type')" class="select2-option form-control"
+                                            aria-hidden="true" required="data.Validate=='True'"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" (change)="get_Bill_No()" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+                                            <option *ngFor="let row of appservice.get_ref(data.Options)"
+                                                    value={{row.label}}>
+                                                    {{row[data.Store_Value]}}
+                                            </option>
+                                    </select>
+
+
+                                    <select *ngIf="(data.Type=='Select' && data.Field!='sal_bill_type')" class="select2-option form-control"
+                                            aria-hidden="true" required="data.Validate=='True'"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+                                            <option *ngFor="let row of appservice.get_ref(data.Options)"
+                                                    value={{row.label}}>
+                                                    {{row[data.Store_Value]}}
+                                            </option>
+                                    </select>
+
+                                    <input *ngIf="data.Type!='Select'" class="form-control"
+                                            [readonly]="data.IsEdit=='False'" required="data.Validate=='True'"
+                                            type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                                            name="{{data.Field}}" #{{data.Field}}="ngModel">
+
+                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")'
+                                            class="invalid-feedback d-block">
+                                            <div class="error"> {{data.Name}} Should not entry</div>
+                                    </div>
+                            </td>
+                    </tr>
+
+            </table>
+
+    </div>
+
+    <div class=" col-md-3 nopad">
+
+            <table style="width: 100%;">
+
+                    <tr *ngFor="let data of appservice.get_pos_field('Sales','3TR')">
+                            <td style="width: 120px; padding-left: 8px;">{{data.Name}} <span
+                                            *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                            <td>
+                                    <select *ngIf="data.Type=='Select'" class="select2-option form-control"
+                                            aria-hidden="true" required="data.Validate=='True'"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+                                            <option *ngFor="let row of appservice.get_ref(data.Options)"
+                                                    value={{row.label}}>
+                                                    {{row[data.Store_Value]}}
+                                            </option>
+                                    </select>
+
+
+                                    <input *ngIf="data.Type!='Select'" class="form-control"
+                                             [readonly]="data.IsEdit=='False'"
+                                            required="data.Validate=='True'" type="{{data.Type}}"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+
+                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")'
+                                            class="invalid-feedback d-block">
+                                            <div class="error"> {{data.Name}} Should not entry</div>
+                                    </div>
+                            </td>
+                          
+                    </tr>
+           
+                    <tr *ngIf="appservice.Customer_Balance>0">
+                            <td style="padding-left: 8px;width: 150px;">Balance</td>
+                            
+                                    <td>
+                                        <div style="width: 100%;display: inline-flex;">
+                                            <div style="width: 100%;">
+                                                    <input style="background-color: #ffd4dc;"class="form-control" type="text" readonly [(ngModel)]="appservice.Customer_Balance" name="Customer_Balance" #Customer_Balance="ngModel"(click)="Open_Customer_Module(appservice.header_Row.Ledger_ID)">
+                                               
+
+                                            </div>
+
+                                            <div style="width: 50px;line-height: 30px;padding-top: 6px; color: white; background-color: #e75252;;text-align: center;font-size: 20px;font-weight: 800;" (click)="Open_Customer_Module(appservice.header_Row)"><li class="bx bxs-hand-up
+                                                    "></li> </div>
+                                        
+                                        </div>
+                                    </td>
+                        </tr>
+              
+
+            </table>
+
+    </div>
+
+</div>
+
+<div *ngIf="appservice.loading==true" class="row">
+
+    <div class="spinner-grow spinner-grow-sm text-primary " role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+</div>
+
+
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+            <div class="entry_table1">
+
+                    <div class="header">
+                            <div style="width:30px">#</div>
+                            <div *ngFor="let data of rs"  class="{{data.Class}}"  [style.width]="data.Width">{{data.Name}}</div>
+                            <div style="width: 40px;"></div>
+                    </div>
+
+                    <div class="body" *ngFor="let rowData of appservice.Details_Row;index as i">
+                            <div class="row_hover" style="width:30px">{{i+1}}</div>
+                            <div *ngFor="let data of rs" class="in cell row_hover {{data.Class}}" [style.width]="data.Width"  [style.background-color]="(rowData.Profit>=0)? '':'#ffe8ec' ">
+                          
+                                    <label [style.text-align]="data.Align" [style]="data.Style" class="{{data.Class}}"   style=" width: 100%; padding-right: 5px;"  *ngIf="(data.Type=='Label') ">{{rowData[data.Field]}}</label>
+
+                            
+
+                                    <input  *ngIf="data.Type!='Label'" [readonly]="data.IsEdit=='False'" [(ngModel)]="rowData[data.Field]" (change)="calc_details_Row(i)"
+                            (keyup)="calc_details_Row(i)" [style]="data.Style" [style.text-align]="data.Align"
+                                            type="{{data.Type}}" class="in tbtext {{data.Class}}" style="width: 100%;"
+                                            value="{{rowData[data.Field]}}">
+                            </div>
+
+                            <div class="del_bx row_hover">
+                                    <li (click)="del_row(i)" class="bx bx-trash"></li>
+                            </div>
+                           
+                            <!-- <div class="del_bx row_hover">
+                             <li (click)="Open_Customer_Module1(rowData)" class="bx bxs-hand-up"></li>
+                              </div> -->
+                    </div>
+
+
+                    <div class="body">
+                            <div style="width:30px"></div>
+                            <div *ngFor="let data of rs ; index as i" class="cell" [style.width]="data.Width">
+
+
+
+                                    <input *ngIf="data.Field=='sal_prod_code'" placeholder="Code"
+                                            [(ngModel)]="appservice.Sales_Temp_Row.sal_prod_code" name="ID"
+                                            #ID="ngModel" [style]="data.Style"
+                                            (keyup.enter)="get_by_Code(appservice.Sales_Temp_Row.sal_prod_code,'Code')"
+                                            class="code in tbtext " type="text">
+
+
+                                    <app-vindropdown *ngIf="(data.Field=='sal_prod_name' && appservice.Stockbase_Sales==false)" 
+                                            class="Name "  
+                                            [(inputModel)]="appservice.Sales_Temp_Row.sal_prod_id"
+                                            [(label_)]="appservice.Sales_Temp_Row.sal_prod_name"
+                                            [(values_)]="appservice.Sales_Temp_Row.sal_prod_id"
+                                            [(Placeholder)]="place_holder" [Row]="appservice.Item_Master_Rows"
+                                            (inputModelChange)="appservice.Sales_Temp_Row.sal_prod_name = $event"
+                                            (keyup.enter)="out()" 
+                                            (valueModelChange)="get_by_Code($event,'Name')">
+                                    </app-vindropdown>
+
+                                    <app-vingrid *ngIf="(data.Field=='sal_prod_name' && appservice.Stockbase_Sales==true)" 
+                                    class="Name "  
+                                    [(inputModel)]="appservice.Sales_Temp_Row.sal_prod_name"
+                                    [(label_)]="appservice.Sales_Temp_Row.sal_prod_name"
+                                    [(values_)]="appservice.Sales_Temp_Row.sal_prod_name"
+                                    [(Placeholder)]="place_holder" [Row]="Stock_Row"
+                                    (inputModelChange)="appservice.Sales_Temp_Row.sal_prod_name = $event"
+                                    (keyup.enter)="out()" 
+                                    (keyup)="check()"
+                                    (valueModelChange)="get_by_Code_S($event,'Name')">
+                            </app-vingrid>
+
+
+                                    
+                            <label [style.text-align]="data.Align" [style]="data.Style"
+                             class="{{data.Class}}"   style=" width: 100%; padding-right: 5px;"  *ngIf="(data.Type=='Label') ">{{appservice.Sales_Temp_Row[data.Field]}}</label>
+
+                             <input *ngIf="!((data.Field=='sal_prod_name') || (data.Type=='Label')  ||  (data.Field=='sal_prod_code'))"
+                       
+                            
+                             class="in tbtext {{data.Class}}"    [readonly]="data.IsEdit=='False'"  [(ngModel)]="appservice.Sales_Temp_Row[data.Field]"
+                             (keyup.enter)="out()"  (keyup)="calc_tempdata()" [style.text-align]="data.Align" [style]="data.Style"
+                                            type="{{data.Type}}">
+
+                            </div>
+
+                            <div class="add_bx">
+                                    <li *ngIf="appservice.Sales_Temp_Row.sal_qty>0" tabindex="0"
+                                            (keyup.enter)="add_data(appservice.Sales_Temp_Row)"
+                                            (click)="add_data(appservice.Sales_Temp_Row)"
+                                            class="bx bx-plus-circle in"></li>
+                            </div>
+
+
+
+
+
+                    </div>
+            </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+
+
+
+<div class="row mshow">
+
+    <div class="cart-view" style="padding-left: 5px;padding-right: 5px;">
+            <div class="head_text"  *ngIf="!(((appservice.Details_Row | json) == '[]') ||  ((appservice.Details_Row | json) == null) )" >Items Details
+             
+                    <a  routerLink="/add-item1" class="x pright15" >
+                            <li class="bx bx-plus-circle"> Add Items</li>
+                        </a>
+            </div> 
+
+
+
+    <div class="col-md-12 nopad">
+
+            
+            <table style="width: 100%;">
+                    
+            <tr class="border-bottom" *ngFor="let data of appservice.Details_Row;index as i">
+            
+                    <td style="max-width: 30px;">
+                  
+                    <div class="name">
+                            {{i+1}}
+                        </div>
+                    <div class="del_bx row_hover">
+                            <li (click)="del_row(i)" class="bx bx-trash"></li>
+                    </div> 
+                    </td>
+                    <td>
+                        <div class="name">
+                            {{data.sal_prod_name}}
+                        </div>
+                        <div class="desc">
+                            {{data.sal_category}} GST {{data.sal_gst_per}}%
+                        </div>
+
+                        
+                    </td>
+                    <td style="text-align: right; padding-right: 10px; ">
+                       
+                        <div class="mrp">
+                            Qty : <span >{{data.sal_qty}} X ₹ {{data.sal_final_price}}</span>
+                        </div>
+
+                        <div class="price">
+                            ₹ {{data.sal_qty*data.sal_final_price}}
+                        </div>
+
+                    </td>
+
+                   
+
+                </tr>
+            </table>
+                    
+
+
+</div>
+    </div>
+</div>
+
+
+<div class="row">
+
+
+    <div class=" col-md-5 nopad">
+
+            <table style="width: 100%;">
+
+                    <tr *ngFor="let data of appservice.get_pos_field('Sales','4BL')">
+                            <td style="padding-left: 8px;width: 120px;">{{data.Name}} <span
+                                            *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+
+                            <td>
+                                    <select *ngIf="data.Type=='Select'" class="select2-option form-control"
+                                            aria-hidden="true" required="data.Validate=='True'"
+                                            [(ngModel)]="appservice.header_Row[data.Field]" name="{{data.Field}}"
+                                            #{{data.Field}}="ngModel">
+                                            <option *ngFor="let row of appservice.get_ref(data.Options)"
+                                                    value={{row.label}}>
+                                                    {{row[data.Store_Value]}}
+                                            </option>
+                                    </select>
+
+
+                                    <input *ngIf="data.Type!='Select'" class="form-control {{data.Class}}"
+                                            [readonly]="data.IsEdit=='False'" required="data.Validate=='True'"
+                                            type="{{data.Type}}" [(ngModel)]="appservice.header_Row[data.Field]"
+                                            name="{{data.Field}}" #{{data.Field}}="ngModel">
+
+                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (appservice.header_Row[data.Field]=="")'
+                                            class="invalid-feedback d-block">
+                                            <div class="error"> {{data.Name}} Should not entry</div>
+                                    </div>
+                            </td>
+                    </tr>
+                  
+            </table>
+
+            <table *ngIf="Sales_Return_Rows_Len>0" class="table" style="max-width: 800px ;" >
+                    <tr>
+                
+                
+                
+                      <th>#</th>
+                      <th> Bill No  </th>
+                      <th> Bill Date  </th>
+                      <th> Amount  </th>
+                      <th>   </th>
+
+                    </tr>
+                
+                    <tr *ngFor="let rowData of Sales_Return_Rows">
+                
+                      <td> </td>
+                      <td (click)="Print_Bill(rowData)"style="color: blue;">{{rowData.Bill_No}} </td>
+                      <td>{{rowData.Bill_Date}} </td>
+                      <td>{{rowData.Net_Amt}} </td>
+                      <td><input type="checkbox"    [(ngModel)]="rowData.Compnay_Name"  name="Compnay_Name" #Compnay_Name="ngModel"  >                           </td>
+                    
+                 
+                
+                     
+             
+                    </tr>
+                 </table>
+                 <br>
+                 <div *ngIf="Sales_Return_Rows_Len>0"class="invoice-btn-box text-center " style="padding-bottom:20px">
+
+                   <button class="btn btn-info rounded-pil" [disabled]="btndisable2" >
+
+
+                       <span *ngIf="btndisable2==true" class="spinner-border spinner-border-sm"
+                           role="status" aria-hidden="true"></span>
+                       <i *ngIf="btndisable2==false" class='bx bx-paper-plane'></i>
+                       Save </button> &nbsp;&nbsp;
+                
+               </div>
+            <table *ngIf="Retrun_Row_len>0" class="table table-bordered table-sm" >
+                    <caption style="text-align: center;"><button  (click)="return_apply()" class="btn btn-info">Apply</button>
+                    &nbsp;        <button  (click)="return_Remove()" class="btn btn-danger">Remove</button>
+                    </caption>
+                    <tr>
+                            <th>Type</th>
+                            <th>Bill_No</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
+                    </tr>
+
+                    <tr *ngFor="let data of Retrun_Row">
+                            <td >{{data.Return_Type}}</td>
+                            <td >{{data.Remarks}}</td>
+                            <td >{{data.Item_Name}}</td>
+                            <td style="text-align: right;">{{data.Qty}}</td>
+                            <td style="text-align: right;">{{data.Net_Amt}}</td>
+                    </tr>
+            </table>
+
+
+            <table *ngIf="Retrun_Row_len1>0" class="table table-bordered table-sm" >
+                    <caption style="text-align: center;"><button  (click)="return_Remove()" class="btn btn-danger">Remove</button></caption>
+                    <tr>
+                            <th>Type</th>
+                            <th>Bill_No</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
+                    </tr>
+
+                    <tr *ngFor="let data of Retrun_Row1">
+                            <td >{{data.Return_Type}}</td>
+                            <td >{{data.Remarks}}</td>
+                            <td >{{data.Item_Name}}</td>
+                            <td style="text-align: right;">{{data.Qty}}</td>
+                            <td style="text-align: right;">{{data.Net_Amt}}</td>
+                    </tr>
+            </table>
+
+
+
+    </div>
+   
+    <div class="col-md-1 nopad"></div>
+
+
+    <div class="col-md-6 nopad">
+            <table *ngIf="appservice.header_Row.sal_sub_total>0" class="sum_row">
+
+                   
+
+                    <tr *ngIf="appservice.header_Row.sal_sub_total!=appservice.header_Row.sal_net_amt">
+                            <td class="left">Sub Total</td>
+                            <td></td>
+                            <td class="right">{{appservice.header_Row.sal_sub_total}}</td>
+                    </tr>
+
+                    <!-- <tr *ngIf="appservice.header_Row.sal_sub_total!=appservice.header_Row.sal_net_amt">
+                            <td class="left">Packing & Forward</td>
+                            <td><input  style="max-width: 40px;"  (keyup)="Calc_Sum()"  value="0"  [(ngModel)]="appservice.header_Row.PF_Per" type="number" class="sum_text"/></td>
+                            <td class="right"><input  (keyup)="Calc_Sum()"  value="0"  [(ngModel)]="appservice.header_Row.PF_Amt" style="max-width: 120px;"   type="number" class="sum_text"/></td>
+                    </tr>
+
+                    <tr *ngIf="appservice.header_Row.Sub_Total!=appservice.header_Row.Net_Amt">
+                            <td class="left">Freight Charges</td>
+                            <td ><input  style="max-width: 40px;" type="number"  (keyup)="Calc_Sum()"  value="0"  [(ngModel)]="appservice.header_Row.Freight_Per" class="sum_text"/></td>
+                            <td class="right"><input  (keyup)="Calc_Sum()"  value="0" style="max-width: 120px;"   [(ngModel)]="appservice.header_Row.Freight_Amt"  type="number" class="sum_text"/></td>
+                    </tr> -->
+
+                    <tr *ngIf="appservice.header_Row.sal_disc_amt>0">
+                            <td class="left">Discount</td>
+                            <td></td>
+                            <!-- <td>{{appservice.header_Row.Disc_Per}}</td> -->
+                            <td class="right">{{appservice.header_Row.sal_disc_amt}}</td>
+                    </tr>
+
+                    <tr *ngIf="appservice.header_Row.sal_sub_total!=appservice.header_Row.sal_taxable_amount">
+                            <td class="left">Taxable</td>
+                            <td></td>
+                            <td class="right">{{appservice.header_Row.sal_taxable_amount}}</td>
+                    </tr>
+
+
+                    <tr *ngIf="appservice.header_Row.sal_igst_amt>0">
+                            <td class="left">IGST</td>
+                            <td></td>
+                            <!-- <td>{{appservice.header_Row.sal_igst_amt}}</td> -->
+                            <td class="right">{{appservice.header_Row.sal_igst_amt}}</td>
+                    </tr>
+
+
+                    <tr *ngIf="appservice.header_Row.sal_sgst_amt>0">
+                            <td class="left">SGST</td>
+                            <td></td>
+                            <!-- <td>{{appservice.header_Row.SGST_Per}}</td> -->
+                            <td class="right">{{appservice.header_Row.sal_sgst_amt}}</td>
+                    </tr>
+
+
+                    <tr *ngIf="appservice.header_Row.sal_cgst_amt>0">
+                            <td class="left">CGST</td>
+                            <td></td>
+                            <!-- <td>{{appservice.header_Row.CGST_Per}}</td> -->
+                            <td class="right">{{appservice.header_Row.sal_cgst_amt}}</td>
+                    </tr>
+<!-- 
+                    <tr *ngIf="appservice.Sales_Profit==true && appservice.Rights_Name_=='Admin'">
+                            <td class="left">Profit</td>
+                            <td></td>
+                            <td class="right">{{appservice.header_Row.Profit}}</td>
+                    </tr> -->
+
+
+
+                    <tr>
+                            <td class="left">Net Amount</td>
+                            <td></td>
+                            <td class="right">{{appservice.header_Row.sal_net_amt}}</td>
+                    </tr>
+
+                    <tr *ngIf="appservice.header_Row.Return_Amount>0">
+                            <td class="left">Retrun </td>
+                            <td></td>
+                            <td class="right">{{appservice.header_Row.Return_Amount}}</td>
+                    </tr>
+
+                    <tr *ngIf="appservice.header_Row.Return_Amount>0" >
+                            <td class="left">Balance </td>
+                            <td></td>
+                            <td class="right">{{appservice.header_Row.Net_Amt-appservice.header_Row.Return_Amount |number:'2.0-0'}}</td>
+                    </tr>
+
+
+            </table>
+    </div>
+
+    <div  *ngIf="!(((appservice.Details_Row | json) == '[]') ||  ((appservice.Details_Row | json) == null))"    class="col-md-12 nopad" style="text-align: right;">
+            <input type="button" class="btn btn-secondary  rounded-pill" (click)="appservice.back()"
+                    style="margin: 10px;" value="Cancel">
+            <button (click)="Place_Order()" class="btn btn-info  rounded-pill" style="margin: 10px;"
+                    [disabled]="btndisable">
+                    <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status"
+                            aria-hidden="true"></span>
+
+                    <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i> Save & Print
+            </button>
+           
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+         
+    </div>
+</div>       
+
+
+<div class="col-md-12 nopad mshow"  *ngIf="(((appservice.Details_Row | json) == '[]') ||  ((appservice.Details_Row | json) == null) )" >
+    <div class="w_79" style="  bottom: 0;
+        font-weight: 700;left: 0;
+        position: fixed;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="text-align: right;">
+                    <a [class.disabled]="isload"
+                        style="border-radius: 0px;color: white;"
+                        class="btn btn-secondary btn-block">Cancel
+                         </a>
+                </td>
+
+                <td style="color: white;">
+                    <a style="border-radius: 0px;" (click)="next()"
+                        class="btn btn-danger btn-block">Next</a>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>                              
+<div class="modal fade basicModalLG" id="Customer_Module"  style="    z-index: 9999999;" data-backdrop="static" data-keyboard="false"  role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Customer Pending</h5>
+          
+                <button type="button" class="close"  (click)="Close_Customer_Module()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding-top: 0px;
+            padding-bottom: 0px;min-height: 500px;">
+            <br>
+   <div class="col-md-12 nopad">
+    
+     <div >{{Ledger_Name}}</div>
+     <div class="hidden">{{Ledger_ID}}</div>
+
+     <div style="position:absolute; right: 70px;
+     top: 5px;">
+     
+     <button type="button" (click)="export_excel()"
+            class="btn btn-success btn-sm">Excel</button>  </div>
+     <div style="position:absolute; right: 4px;
+     top: 5px;">
+     
+     
+     <button type="button"(click)="Customer_Pending_pdf(Ledger_ID)" 
+            class="btn btn-danger btn-sm">PDF</button>  </div>
+     <div>{{Phone_Number}} </div>
+   </div>
+             <p-table responsiveLayout="scroll"#dt1 class="table table-striped custom-table" [value]="Customer_Balance"
+             selectionMode="single" [globalFilterFields]="appservice.Sales_Details_GF">
+             <ng-template pTemplate="header">
+               <tr class="fsize">
+                    <th>#</th>
+                  <th>Bill No</th>
+                  <th>Date</th>
+                  <th>Days</th>
+                  <th>Bill Amount</th>
+                  <th>Due Amount</th>
+                 
+                 
+               </tr>
+             </ng-template>
+             <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+               <tr class="fsize" >
+                    <td>{{rowIndex+1}}</td>
+                    <td>{{rowData.label}}</td>
+                    <td>{{rowData.Bill_Date}}</td>
+                    <td>{{rowData.days}}</td>
+                    <td style="text-align:right ;">{{rowData.Net_Amt}}</td>
+                    <td style="text-align:right ;">{{rowData.Bill_Amount}}</td>
+   
+                 
+                
+               </tr>
+             
+             </ng-template>
+            
+           </p-table>
+          
+        
+         
+  
+  
+          </div>
+          <div class="modal-footer ">
+            <table style="width: 100%;">
+                    <tr *ngIf="Due_Amt>0"> 
+                            <td colspan="4">Total  </td>
+                           
+      
+                            <td style=" text-align: right;color: crimson;"> Bill Amount:
+                              {{Due_Amt}}</td>
+      
+                              <td style=" text-align: right; color: crimson;"> Due Amount:
+                                {{Bill_Amt}}</td>
+        
+                            
+                          </tr>
+            </table>              
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal fade basicModalLG" id="Customer_Module1"  style="    z-index: 9999999;" data-backdrop="static" data-keyboard="false"  role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Detail</h5>
+                <button type="button" class="close"  (click)="Close_Customer_Module1()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding-top: 0px;
+            padding-bottom: 0px;min-height: 500px;">
+     
+     <label style="    font-weight: 800;">Purchase Details</label>
+
+             <p-table responsiveLayout="scroll"#dt1 class="table table-striped custom-table" [value]="Uni_Code_Purchase"
+             selectionMode="single" [globalFilterFields]="appservice.Sales_Details_GF">
+             <ng-template pTemplate="header">
+               <tr class="fsize">
+                    <th>#</th>
+                  <th>Item Name</th>
+                  <th>MRP</th>
+                  <th>Qty</th>
+                  <th>P Rate</th>
+                  <th>S Rate</th>
+                  <th>MRP(%)</th>
+                  <th>Disc per</th>
+                  <th>Disc Amt</th>
+                  <th>GST(%)</th>
+                  <th>Amount</th>
+
+                 
+               </tr>
+             </ng-template>
+             <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+               <tr class="fsize" >
+                    <td>{{rowIndex+1}}</td>
+                    <td>{{rowData.Item_Name}}</td>
+                    <td>{{rowData.MRP}}</td>
+                    <td>{{rowData.Qty}}</td>
+                    <td style="text-align:right ;">{{rowData.Unit_Price}}</td>
+                    <td style="text-align:right ;">{{rowData.Sale_Rate}}</td>
+
+                    <td style="text-align:right ;">{{rowData.MRP_Disc_Per}}</td>
+                    <td style="text-align:right ;">{{rowData.Disc_Per}}</td>
+
+                    <td style="text-align:right ;">{{rowData.Disc_Amt}}</td>
+                    <td style="text-align:right ;">{{rowData.GST_Per}}</td>
+                   
+                    <td style="text-align:right ;">{{rowData.Net_Amt}}</td>
+
+                 
+                
+               </tr>
+             
+             </ng-template>
+            
+           </p-table>
+          <br>
+          <br>
+          <label style="    font-weight: 800;">Sales Details</label>
+           <p-table responsiveLayout="scroll"#dt1 class="table table-striped custom-table" [value]="Uni_Code_Sales"
+           selectionMode="single" [globalFilterFields]="appservice.Sales_Details_GF">
+           <ng-template pTemplate="header">
+             <tr class="fsize">
+                  <th>#</th>
+                  <th>Bill No</th>
+                  <th>Bill Date</th>
+
+                <th>Item Name</th>
+                <th>MRP</th>
+
+                <th>Qty</th>
+                <th>P Rate</th>
+                <th>She</th>
+
+                <th>S Rate</th>
+                <th>Free</th>
+
+                <th>Disc per</th>
+                <th>Disc Amt</th>
+                <th>GST(%)</th>
+                <th>Amount</th>
+
+               
+             </tr>
+           </ng-template>
+           <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+             <tr class="fsize" >
+                  <td>{{rowIndex+1}}</td>
+                  <td>{{rowData.Bill_No}}</td>
+                  <td>{{rowData.Bill_Date}}</td>
+
+                  <td>{{rowData.Item_Name}}</td>
+                  <td style="text-align:right ;">{{rowData.MRP}}({{rowData.MRP_Disc_Per}}%)</td>
+
+                  <td>{{rowData.Qty}}</td>
+                  <td style="text-align:right ;">{{rowData.Purchase_Rate}}</td>
+                  <td style="text-align:right ;">{{rowData.Scheme}}</td>
+
+                  <td style="text-align:right ;">{{rowData.Unit_Price}}</td>
+                  <td style="text-align:right ;">{{rowData.Free}}</td>
+
+                  <td style="text-align:right ;">{{rowData.Disc_Per_}}</td>
+
+                  <td style="text-align:right ;">{{rowData.Disc_Amt_}}</td>
+                  <td style="text-align:right ;">{{rowData.GST_Per}}</td>
+                 
+                  <td style="text-align:right ;">{{rowData.Net_Amt}}</td>
+
+               
+              
+             </tr>
+           
+           </ng-template>
+          
+         </p-table>
+         
+  
+  
+          </div>
+          <div class="modal-footer ">
+            <table style="width: 100%;">
+                    <tr *ngIf="Due_Amt>0"> 
+                            <td colspan="4">Total  </td>
+                           
+      
+                            <td style=" text-align: right;color: crimson;"> Bill Amount:
+                              {{Due_Amt}}</td>
+      
+                              <td style=" text-align: right; color: crimson;"> Due Amount:
+                                {{Bill_Amt}}</td>
+        
+                            
+                          </tr>
+            </table>              
+          </div>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,484 @@
+
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+        <div class="col-md-12 nopad mobile_hide">
+       
+            <div class="w_79" style="position: fixed;z-index: 99; ">
+            
+              <div class="tabs-header border-bottom">
+                <ul>
+                    <li > <a> Contractor Master</a></li>                        
+                </ul>
+              </div>
+      
+            
+    
+              <div class="right-corner">
+
+                <div class="dropdown" style="display: inline-flex;">
+    
+                  <a class="dropdown-toggle   addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+                  title="Add New">
+    
+                  <i class='bx bx-list-plus'></i>
+                </a>
+                <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+                title="search" >
+               
+                  <i style="    font-size: 20px;" class='bx bx-search'></i> 
+                </a>
+    
+    
+                <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle " (click)="this.get_contractor_master(this.add.selectionMode)" data-toggle="tooltip" data-placement="bottom"
+                title="Refresh">
+    
+                <i class='bx bx-rotate-left'></i>
+              </a>
+    
+    
+                  <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class='bx bx-filter'></i>
+                  </button>
+    
+                  <div class="dropdown-menu" style="width: 325px;">
+                    <div style="background-color: teal; color: white; width: 100%; ">
+                      &nbsp;&nbsp;Search</div>
+                    <table>
+                      <tr>
+                        <td style="width: 80px;">Order by </td>
+                        <td>
+    
+                          <select class="area form-control form-control-sm" [(ngModel)]="order_by"
+                            name="Ledger_Order_by" #Ledger_Order_by="ngModel" style="width:100%" aria-hidden="true">
+    
+                            <option value="Con_Address asc">
+                              Address
+                            </option>
+    
+                            <option value="con_name asc">
+                              Name
+                            </option>
+    
+                            <option value="convert(varchar,Con_date,112) desc">
+                              Created Date
+                            </option>
+    
+    
+                          </select>
+    
+                        </td>
+                      </tr>
+    
+    
+                      <tr>
+                        <td> </td>
+                        <td><button type="button" (click)="this.get_contractor_master(this.add.selectionMode)"
+                            class="btn btn-info btn-sm">Search</button></td>
+                      </tr>
+    
+                    </table>
+    
+    
+                    <!-- <div  class="search_Footer border-top" style="color: green;"> 
+                      <div (click)="export_excel(dt)"  class="buttons">
+                        <span><li class="bx bx-download"></li></span>
+                       <span> Export Excel</span>
+                       
+                      </div>
+    
+                     
+                      <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+                        <span><li class="bx bx-download"></li></span>
+                       <span> Export PDF</span>
+                       
+                      </div>
+    
+    
+                  </div> -->
+                 
+    
+    
+                  </div>
+    
+                </div>
+    
+              </div>
+    
+            </div>
+          </div>
+        
+
+        <div class="col-md-12 nopad">
+            <div class="spin_block" *ngIf="appservice.isload">
+              <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
+            <div class="m_2 res_table">
+              <div class="search-bar_Ext mhide  show_bar " style="right: 120px;">
+            
+                <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+      
+                    <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                    class="search-form-control text"
+                    placeholder="Search...">
+        
+              </div>
+      
+              <div class="col-md-12 text-center" style="display: inline-flex;">
+                <div class="form-check"  style="padding-left: 35px;">
+    
+                  <input class="form-check-input" type="radio" 
+                  name="Active"  
+                  [(ngModel)]="add.select_mode"
+                       #Active="ngModel"  checked="true"
+                  id="Active" style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="A"
+                  (click)="this.get_contractor_master('A')">
+                  <label class="form-check-label" for="Active">&nbsp;Active</label>
+              </div>
+            
+              <div class="form-check"  style="padding-left: 35px;">
+      
+                  <input class="form-check-input" type="radio" 
+                  name="Inactive" id="Inactive" 
+                  [(ngModel)]="add.select_mode"
+                       #Inactive="ngModel" 
+                  style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="D"
+                  (click)="this.get_contractor_master('D')">
+                  <label class="form-check-label" for="Inactive">&nbsp;Inactive</label>
+              </div>
+            </div>
+              <p-table #dt class="table table-striped custom-table" [value]="appservice.contractor_Master_Rows"
+              selectionMode="single"[globalFilterFields]="appservice.contractor_Master_col_GF">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>#</th>
+                  <th [pSortableColumn]="'Name'">Contractor</th>
+                  <th [pSortableColumn]="'Address'" >Address</th>
+                  <th>Address 2</th>
+                  <th [pSortableColumn]="'ContactNo'">ContactNo</th>
+                  <th >GST No</th>
+                  <th >State</th>
+                  <th style="text-align: right;">OB</th>
+                  <th >Date</th>
+                  <th >Created By</th>
+                  <th ></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr>
+                  <td>{{rowIndex+1}}</td>
+                 
+                  <td >{{rowData.Con_Name}}</td>
+                  <td >{{rowData.Con_Address}}</td>
+                  <td >{{rowData.Con_Addr2}}</td>
+                  <td >{{rowData.Con_ContactNo}}</td>
+                  <td >{{rowData.Con_GSTIN}}</td>
+                  <td >{{rowData.Con_State}}</td>
+                  <td style="text-align: right;">{{rowData.Con_OB}}</td>
+                  <td >{{rowData.CDate}} </td>
+                  <td >{{rowData.Emp_CreatedBy}} </td>
+                  <td style="text-align: center;" *ngIf="add.select_mode=='A'">
+      
+                    <div class="dropdown">
+                      <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                       
+                      
+                        <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                          <i class='bx bx-edit-alt'></i> Edit
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData)" >
+                          <i class='bx bx-trash'></i> Delete
+                        </a>
+    
+                      </div>
+                    </div>
+    
+                  </td>
+                  <td style="text-align: center;" *ngIf="add.select_mode=='D'">
+  
+                    <div class="dropdown">
+                      <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item d-flex align-items-center" (click)="onActive(rowData)">
+                          <i class='bx bx-edit-alt'></i> Active
+                        </a>
+                        
+                      </div>
+                    </div>
+  
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+        
+          
+            </div>
+          </div>
+          <div class="col-md-12 nopad">
+            <div class="w_79" style="  bottom: 0;
+                    font-weight: 700;
+                    color: #333333;
+                    background-color: #f4f4f4;
+                    padding: 0.571em 0.857em;
+                    position: fixed;
+                    bottom: 0;
+                    border: 1px solid #c8c8c8;">
+               <table style="width: 100%;">
+                <tr>
+                  <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+                  
+                </tr>
+              </table>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!-- Mobile responsive  -->
+<div class="row mshow">
+    
+  <div class="col-md-12 nopad">
+    <div class="search-bar_Ext   disp" style="right: 50px;">
+        
+      <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+          <label class="h_txex">Contractor Master</label>
+  
+  
+          <div class="right-cornerN" >
+          <div class="dropdown" style="display: inline-flex;">
+            
+            <a class="dropdown-toggle   addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+              title="Add New">
+  
+              <i class='bx bx-list-plus'></i>
+            </a>
+            
+       <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+       title="search" style="padding-right:12px;padding-top: 1px;" (click)="showSearch = !showSearch">
+      
+         <i  class='bx bx-search cons py-2'></i> 
+       </a>
+
+            
+          <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle mshow "
+          (click)="this.get_contractor_master('A')" data-toggle="tooltip" data-placement="bottom"
+         title="Refresh">
+  
+         <i class='bx bx-rotate-left cons py-2'></i>
+       </a>
+       <a  style="padding-top: 10px;padding-right: 10px;" class="dropdown-toggle  mhide"
+       (click)="this.get_contractor_master('D')" data-toggle="tooltip" data-placement="bottom"
+      title="Refresh">
+      <i class='bx bx-rotate-left cons py-2'></i>
+    </a>
+            <button class="dropdown-toggle  mshow" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+              aria-expanded="false">
+              <i class='bx bx-filter cons py-2'></i>
+            </button>
+  
+      <div class="dropdown-menu" style="width: 325px;">
+        <div style="background-color: teal; color: white; width: 100%; ">
+          &nbsp;&nbsp;Search</div>
+          <table>
+            <tr>
+              <td style="width: 80px;">Order by </td>
+              <td>
+
+                <select class="area form-control form-control-sm" [(ngModel)]="order_by"
+                  name="Ledger_Order_by" #Ledger_Order_by="ngModel" style="width:100%" aria-hidden="true">
+
+                  <option value="Con_Address asc">
+                    Address
+                  </option>
+
+                  <option value="con_name asc">
+                    Name
+                  </option>
+
+                  <option value="convert(varchar,Con_date,112) desc">
+                    Created Date
+                  </option>
+
+
+                </select>
+
+              </td>
+            </tr>
+
+
+            <tr>
+              <td> </td>
+              <td><button type="button" (click)="this.get_contractor_master(this.add.selectionMode)"
+                  class="btn btn-info btn-sm">Search</button></td>
+            </tr>
+
+          </table>
+  
+  
+        <div  class="search_Footer border-top" style="color: green;"> 
+          <div (click)="export_excel(dt)"  class="buttons">
+            <span><li class="bx bx-download"></li></span>
+           <span> Export Excel</span>
+           
+          </div>
+  
+         
+          <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+            <span><li class="bx bx-download"></li></span>
+           <span> Export PDF</span>
+           
+          </div>
+  
+  
+      </div>
+     
+  
+  
+      </div>
+        
+        </div>
+        </div>
+  
+    </div>
+  </div>
+  
+  
+  
+    <div class="col-md-12 nopad">
+  
+  
+      <div class="spin_block" *ngIf="appservice.isload">
+  
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+  
+      </div>
+      <div class="search-bar_Ext mhide  show_bar " style="right: 80px;"
+      [ngClass]="{ 'mhide': !showSearch, 'disp': showSearch }">
+      
+        <li  class="bx bx-left-arrow-alt mshow  search_back" (click)="showSearch = !showSearch"></li>
+     
+            <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+            class="search-form-control text"
+            placeholder="Search...">
+     
+      </div>
+  
+     
+  
+      <div>
+  
+        <div class="col-md-12 text-center" style="display: inline-flex;">
+          <div class="form-check"  style="padding-left: 35px;">
+
+            <input class="form-check-input" type="radio" 
+            name="Active"  
+            [(ngModel)]="add.select_mode"
+                 #Active="ngModel"  checked="true"
+            id="Active" style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="A"
+            (click)="this.get_contractor_master('A')">
+            <label class="form-check-label" for="Active">&nbsp;Active</label>
+        </div>
+      
+        <div class="form-check"  style="padding-left: 35px;">
+
+            <input class="form-check-input" type="radio" 
+            name="Inactive" id="Inactive" 
+            [(ngModel)]="add.select_mode"
+                 #Inactive="ngModel" 
+            style="padding-left: 10px; margin-top: 4px;margin-left: -14px; " value="D"
+            (click)="this.get_contractor_master('D')">
+            <label class="form-check-label" for="Inactive">&nbsp;Inactive</label>
+        </div>
+      </div>
+        <p-table #dt1 class="table table-striped custom-table" 
+        [value]="appservice.contractor_Master_Rows"
+        selectionMode="single"[globalFilterFields]="appservice.contractor_Master_col_GF">
+        <ng-template pTemplate="header">
+            <tr class="vs">
+              <th>#</th>
+                <th ></th>
+                
+                <th ></th>
+            </tr>
+  
+         
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+            <tr class="vs1" [pSelectableRow]="rowData">
+  
+              <td style="width: 50px;"><img style="width: 100%;" src="../../assets/img/empty.png"/></td>
+              <td> <span class="l1_txt">Contractor : {{rowData.Con_Name}} </span>
+                <br><span class="l2_txt">Address : {{rowData.Con_Address}} </span>
+                <br><span class="l3_txt">Address 2 : {{rowData.Con_Addr2}} </span>
+                <br><span class="l3_txt">Contact No : {{rowData.Con_ContactNo}} </span>
+                <br><span class="l3_txt">GST No : {{rowData.Con_GSTIN}} </span>
+                <br><span class="l3_txt">State : {{rowData.Con_State}} </span>
+                <br><span class="l3_txt">OB : {{rowData.Con_OB}} </span>
+                <br><span class="l3_txt">Date : {{rowData.CDate}} </span>
+                <br><span class="l3_txt">Created By : {{rowData.Emp_CreatedBy}} </span>
+            </td>
+               
+                <td style="text-align: right;">
+  
+                  <div class="dropdown">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                      aria-haspopup="true" aria-expanded="false">
+                      <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                    </button> &nbsp;
+                    &nbsp;
+                  
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                        <i class='bx bx-edit-alt'></i> Edit
+                      </a>
+                      <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData)" >
+                        <i class='bx bx-trash'></i> Delete
+                      </a>
+  
+                    </div>
+                  </div> 
+                </td>
+  
+            </tr>
+        </ng-template>
+    </p-table>
+  
+      </div>
+    </div>
+    <div class="col-md-12 nopad">
+      <div class="w_79" style="  bottom: 0;
+              font-weight: 700;
+              color: #333333;
+              background-color: #f4f4f4;
+              padding: 0.571em 0.857em;
+              position: fixed;
+              bottom: 0;
+          
+              
+              border: 1px solid #c8c8c8;">
+        <table style="width: 100%;">
+          <tr>
+            <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+
+            
+          </tr>
+        </table>
+      </div>
+  </div>
+  </div>

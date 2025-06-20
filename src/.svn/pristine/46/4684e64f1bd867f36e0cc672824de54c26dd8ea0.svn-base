@@ -1,0 +1,179 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-add-item',
+  templateUrl: './add-item.component.html',
+  styleUrls: ['./add-item.component.scss']
+})
+
+export class AddItemComponent implements OnInit {
+  
+  ngOnInit() { }
+  public rows = [];
+  public add: any = {};
+  public addValidation: boolean = false;
+  headers;
+  data;
+  isadd = "0";
+  public Room_Types = [];
+  public Room_Floor = [];
+  public item_Cateogry = [];
+
+  public btndisable:boolean=false;
+  constructor(private _location: Location, public appservice: AppService, private toastr: ToastrService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  
+
+    this.get_Units();
+    this.get_Item_Category();
+
+    this.add.ID="0";
+  
+    this.isadd = appservice.isadd;
+    if (this.isadd == "0") {
+      this.add.ID = "0";
+      this.add.ID="0";
+    }
+    else {
+      this.add = appservice.Edit_Row;
+    }
+
+  this.server=appservice.Server_URL+"Api/Master/UploadItemImage?ID="+this.add.ID+"&Company="+appservice.Company+"&Name="+this.add.Item_Name+"&Description="+this.add.Description;
+   
+  }
+
+
+
+
+  public Units = [];
+  get_Units() {
+
+    this.Units = this.appservice.Reference_Rows.filter(e => e.Ref_ID=="UOM");
+    this.add.UOM=this.Units[0]["value"];
+  }
+
+
+  public Item_Category1 = [];
+  get_Item_Category() {
+    this.Item_Category1 = this.appservice.Reference_Rows.filter(e => e.Ref_ID=="Item_Category");
+    
+  }
+
+  addData(f) {
+
+    f.form.value.Company = this.appservice.Company;
+    
+    if (f.invalid === true)
+      this.addValidation = true;
+    else {
+      this.addValidation = false;
+      this.headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
+      
+    this.btndisable=true;
+      this.http.post(this.appservice.Server_URL + 'api/master/insert_Item_Master', f.form.value, { headers: this.headers })
+        .subscribe(
+          (val: string) => {
+
+            this.btndisable=false;
+            if (val == "True") {
+              this.toastr.success("Details Salved Success", 'Msg');
+              this.appservice.get_Item_Master();
+
+              this.cat_=this.add.Category;
+              this.uom_=this.add.UOM;
+
+              this.Clear();
+             
+              
+              f.submitted=false;
+              if (this.isadd != "0") {
+                this._location.back();
+              }
+            }
+            else {
+              this.toastr.error(val, "Error", { timeOut: 3000 });
+            }
+          },
+          response => {
+            this.toastr.error('Error ', response, {
+              timeOut: 3000
+            });
+          });
+    }
+  }
+  Back() {
+    this._location.back();
+  }
+
+
+
+  
+
+  uploadedFiles: any[] = [];
+
+  server;
+  onUpload(event) {
+      for(let file of event.files) {
+          this.uploadedFiles.push(file);
+      }
+
+      this.toastr.success("File Uploaded  Success", 'Msg');
+      
+  }
+
+uom_="";
+  cat_="";
+  Clear() {
+    this.add =
+      {
+        'ID': '0',
+        'Category':this.cat_,
+        'UOM':this.uom_,
+        'Part_No':'',
+        'Item_Name':'',
+        'Part_Name_Lag':'',
+        'Size':'',
+        'HSN_Code':'',
+        'Rate':'0',
+        'MRP':'0',
+        'GST_Per':'0',
+        'Wholesale_Rate':'0',
+        'Min_Stack_Level':'',
+        'Store':'',
+        'ReorderLevel':'0',
+        'Model':'',
+        'Type':'',
+        'Remarks':'',
+        'Expiry':'',
+        'Min_Stock':'0',
+        'Item_Lock':'',
+        'Note':'',
+        'Sub_Group':'',
+        'Description':'',
+        'Current_Stock':'0',
+        'Vendor_Stock':'0',
+        'Reserved':'0',
+        'PR_Pending':'0',
+        'PO_Pending':'0',
+        'L_type':'',
+        'Parcel_Rate':'0',
+        'Purchase_Rate':'0',
+        'badges':'',
+        'rating':'',
+        'reviews':'',
+        'features':'',
+        'options':'',
+        'Brand':'',
+        
+        'compareAtPrice':'0',
+        'User':'',
+        'CreatedDate':'',
+        'Status':'',
+        'Bag_Qty':'1'
+             }; 
+  }
+}

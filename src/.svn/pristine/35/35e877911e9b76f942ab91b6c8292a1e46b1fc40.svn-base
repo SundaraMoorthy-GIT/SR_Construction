@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppService } from 'src/app/app.service';
+
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
+})
+export class HeaderComponent implements OnInit {
+
+  data :any={
+    'UM_Full_Name':''
+  }
+    constructor(public router:Router,public appservice:AppService) {
+     
+      this.data=JSON.parse(localStorage.getItem('User_Data'));
+   
+    
+
+     }
+     addReset() {
+      this.appservice.isadd = "0";
+      return this.router.navigate(['/change-password']);
+    }
+
+     lenth:number=0;
+
+     logout()
+     {
+      localStorage.clear();
+   
+      this.appservice.Company="";
+      this.router.navigate(['/'], { replaceUrl: true });
+     }
+
+    ngOnInit() {
+    }
+
+   
+}

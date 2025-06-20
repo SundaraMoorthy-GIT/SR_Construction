@@ -1,0 +1,450 @@
+
+<div class="row mhide">
+  <div class="col-md-12 nopad">
+     <div class="col-md-12 nopad mobile_hide">
+
+
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+          <div class="tabs-header border-bottom">
+            <ul>
+
+              <li  > <a  style="display: inline-flex;"> <span style="   
+               font-size: 23px; color:#4788ff" class="bx bx-group"></span>Group Details</a></li>
+           
+
+            </ul>
+          </div>
+          <div class="right-corner" style="margin-top: -1px;padding-top: 0px;">  
+            <div class="dropdown" style="display: inline-flex;">
+
+              <button class="dropdown-toggle mhide abutton" type="button" (click)="addReset()" title="Add New" >
+                <i style="font-size: 19px;" class='bx bx-list-plus'></i> 
+                <span >Add New</span>
+              </button>
+              <a class="dropdown-toggle  mshow addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+                title="Add New">
+  
+                <i class='bx bx-list-plus'></i>
+              </a>
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" >
+             
+                <i style="    font-size: 20px;" class='bx bx-search'></i> 
+              </a>
+              <button class="dropdown-toggle mhide mbutton" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+              aria-expanded="false" >
+              <i style="font-size: 19px;" class='bx bx-dots-vertical'></i> 
+              <span
+               >More</span>
+            </button>
+            <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle mshow "
+            (click)="appservice.get_Group_Details()" data-toggle="tooltip" data-placement="bottom"
+           title="Refresh">
+
+           <i class='bx bx-rotate-left'></i>
+         </a>
+        
+              <button class="dropdown-toggle  mshow" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button>
+
+        <div class="dropdown-menu" style="width: 325px;">
+          <div style="background-color: teal; color: white; width: 100%; ">
+            &nbsp;&nbsp;Search</div>
+          <table>
+
+           
+            <tr>
+              <td style="width: 80px;">Status </td>
+              <td>
+                <select class="area form-control form-control-sm" [(ngModel)]="appservice.Group_Status" name="Group_Status"
+                  #Group_Status="ngModel" style="width:100%" aria-hidden="true">
+                  <option value="All">
+                    All
+                  </option>
+                  <option *ngFor="let data of appservice.get_ref('Group_Status')" value="{{data.label}}">
+                    {{data.label}}
+                  </option>
+                </select>
+              </td>
+            </tr>
+ 
+
+
+
+            
+         
+
+
+         
+
+
+           
+
+
+            <tr>
+              <td> </td>
+              <td><button type="button" (click)="appservice.get_Group_Details()"
+                  class="btn btn-info btn-sm">Search</button></td>
+            </tr>
+
+          </table>
+
+
+          <div  class="search_Footer border-top" style="color: green;"> 
+            <div (click)="export_excel(dt)"  class="buttons">
+              <span><li class="bx bx-download"></li></span>
+             <span> Export Excel</span>
+             
+            </div>
+
+           
+            <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+              <span><li class="bx bx-download"></li></span>
+             <span> Export Pdf</span>
+             
+            </div>
+
+
+        </div>
+       
+
+
+        </div>
+          
+          </div>
+          </div>
+          
+
+
+
+        
+
+        </div>
+      </div>
+    
+
+  
+      <div class="col-md-12 nopad">
+
+
+        <div class="spin_block" *ngIf="appservice.isload">
+
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="search-bar_Ext mhide  show_bar " style="right: 260px;">
+      
+          <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+              <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+              class="search-form-control text"
+              placeholder="Search...">
+  
+        </div>
+
+       
+
+        <div class="m_2 res_table">
+
+
+          <p-table #dt class="table table-striped custom-table" 
+          [value]="appservice.Group_Member_Row" 
+          [globalFilterFields]="appservice.Group_Details_GF"
+          selectionMode="single">
+          <ng-template pTemplate="header">
+              <tr>
+                <th>#</th>
+                  <th *ngFor="let col of appservice.get_grid_fields_of('Group_Master')"
+                  [ngStyle]="{'text-align': col.Align}"  [pSortableColumn]="col.field"
+                  [style]="col.Style"  class="{{col.Class}}"                      
+                    style="white-space: pre">
+                      {{col.Name}}
+
+                  </th>
+                  <th ></th>
+              </tr>
+
+           
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+              <tr [pSelectableRow]="rowData">
+
+                <td>{{rowIndex+1}}</td>
+                  <td *ngFor="let col of appservice.get_grid_fields_of('Group_Master')"
+                  [ngStyle]="{'text-align': col.Align}"  [pSortableColumn]="col.field"
+                  [style]="col.Style"  class="{{col.Class}}" >   
+                  {{car[col.Field]}}
+                  <span class="mshow text-muted" *ngFor="let l of appservice.get_Array(col.Mobile_Field)"> {{car[l]}}</span>
+
+                  </td>
+                  <td style="text-align: center;">
+
+                    <div class="dropdown">
+                      <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-badge-check' style="color: #4788ff;"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                       
+                        <a class="dropdown-item d-flex align-items-center" (click)="onEdit(rowData)">
+                          <i class='bx bx-edit-alt'></i> Edit
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center"(click)="onDelete(rowData.ID)" >
+                          <i class='bx bx-trash'></i> Delete
+                        </a>
+  
+                      </div>
+                    </div>
+  
+                  </td>
+
+              </tr>
+          </ng-template>
+      </p-table>
+
+        </div>
+      </div>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Group : {{appservice.length_of(dt)}} </td>
+              <td style="text-align: right;     color: crimson;"> Amount :
+                {{appservice.sum_of(dt,'Chit_Amount')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+  
+   
+  </div>
+</div>
+
+
+<div class="row mshow">
+  <div class="col-md-12 nopad">
+    <div class="search-bar_Ext   disp" style="right: 50px;">
+        
+      <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+          <label class="h_txex">Group Details</label>
+
+
+          <div class="right-cornerN" >  
+            
+            <div class="dropdown" style="display: inline-flex;">             
+              <a class="dropdown-toggle  mshow addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+                title="Add New">
+  
+                <i class='bx bx-list-plus'></i>
+              </a>
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" >
+             
+                <i style="    font-size: 20px;" class='bx bx-search'></i> 
+              </a>
+              <button class="dropdown-toggle mhide mbutton" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+              aria-expanded="false" >
+              <i style="font-size: 19px;" class='bx bx-dots-vertical'></i> 
+              <span
+               >More</span>
+            </button>
+            <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle mshow "
+            (click)="appservice.get_Group_Details()" data-toggle="tooltip" data-placement="bottom"
+           title="Refresh">
+
+           <i class='bx bx-rotate-left'></i>
+         </a>
+        
+              <button class="dropdown-toggle  mshow" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false">
+                <i class='bx bx-filter'></i>
+              </button>
+
+        <div class="dropdown-menu" style="width: 325px;">
+          <div style="background-color: teal; color: white; width: 100%; ">
+            &nbsp;&nbsp;Search</div>
+          <table>
+
+           
+            <tr>
+              <td style="width: 80px;">Status </td>
+              <td>
+                <select class="area form-control form-control-sm" [(ngModel)]="appservice.Group_Status" name="Group_Status"
+                  #Group_Status="ngModel" style="width:100%" aria-hidden="true">
+                  <option value="All">
+                    All
+                  </option>
+                  <option *ngFor="let data of appservice.get_ref('Group_Status')" value="{{data.label}}">
+                    {{data.label}}
+                  </option>
+                </select>
+              </td>
+            </tr>
+          
+
+
+
+         
+         
+
+
+           
+
+
+            <tr>
+              <td> </td>
+              <td><button type="button" (click)="appservice.get_Group_Details()"
+                  class="btn btn-info btn-sm">Search</button></td>
+            </tr>
+
+          </table>
+
+
+          <div  class="search_Footer border-top" style="color: green;"> 
+            <div (click)="export_excel(dt)"  class="buttons">
+              <span><li class="bx bx-download"></li></span>
+             <span> Export Excel</span>
+             
+            </div>
+
+           
+            <div (click)="export_pdf(dt)"  class="buttons " style="color: red;">
+              <span><li class="bx bx-download"></li></span>
+             <span> Export Pdf</span>
+             
+            </div>
+
+
+        </div>
+       
+
+
+        </div>
+          
+          </div>
+          </div>
+
+    </div>
+  </div>
+    
+
+  
+      <div class="col-md-12 nopad">
+
+
+        <div class="spin_block" *ngIf="appservice.isload">
+
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="search-bar_Ext mhide  show_bar " style="right: 260px;">
+      
+          <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+
+              <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+              class="search-form-control text"
+              placeholder="Search...">
+  
+        </div>
+
+       
+
+        <div class="m_2">
+
+
+          <p-table #dt1 class="table table-striped custom-table" 
+          [value]="appservice.Group_Member_Row" 
+          [globalFilterFields]="appservice.Group_Details_GF"
+          selectionMode="single">
+          <ng-template pTemplate="header">
+              <tr class="vs">
+                <th>#</th>
+                  <th></th>
+                  <th ></th>
+              </tr>
+
+           
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+              <tr class="vs" [pSelectableRow]="rowData">
+
+                <td style="width: 30px;">{{rowIndex+1}}</td>
+                  <td > <span class="l1_txt">{{rowData.Group_Code}} / {{rowData.Group_Name}}</span>
+                    <br><span class="l2_txt">{{rowData.Group_Members}}-Members , {{rowData.Chit_Month}}-Months</span>                               
+                    <br><span class="l3_txt">{{rowData.Created_Date  }} </span>                               
+
+                   <br> <span style="    display: flex;">
+                    <a class="dropdown-item "  style="padding: 0px; color: darkblue;" (click)="onEdit(rowData)">
+                      <i class='bx bx-edit-alt'></i> Edit
+                    </a>
+                    <a class="dropdown-item  " style="padding: 0px; color: darkred;"  (click)="onDelete(rowData.ID)" >
+                      <i class='bx bx-trash'></i> Delete
+                    </a>
+                  </span>
+
+                  </td>
+
+                  <td  style="text-align: right; color: darkviolet;"> <span class="l1_txt">{{rowData.Chit_Amount  |currency:'INR':'symbol':'0.0-0'}} &nbsp; </span>
+                    <br><span class="badge badge-success ng-star-inserted">{{rowData.Group_Status}} </span>&nbsp;&nbsp;&nbsp;
+                    
+                  </td>
+                 
+                 
+
+              </tr>
+          </ng-template>
+      </p-table>
+
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="col-md-12 nopad">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Group : {{appservice.length_of(dt)}} </td>
+              <td style="text-align: right;     color: crimson;"> Amount :
+                {{appservice.sum_of(dt,'Chit_Amount')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+  
+   
+  
+</div>
+

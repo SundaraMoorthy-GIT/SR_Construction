@@ -1,0 +1,35 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ReportRoutingModule } from './report-routing.module';
+import { ReportComponent } from './report.component';
+import { BillwiseOutComponent } from './Outstanding/billwise-out/billwise-out.component';
+import { CustomerwiseOutComponent } from './Outstanding/customerwise-out/customerwise-out.component';
+import { AreawiseOutComponent } from './Outstanding/areawise-out/areawise-out.component';
+import { SalespersonwiseOutComponent } from './Outstanding/salespersonwise-out/salespersonwise-out.component';
+import { DuedaywiseOutComponent } from './Outstanding/duedaywise-out/duedaywise-out.component';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { OutStandingCustomersComponent } from './Outstanding/out-standing-customers/out-standing-customers.component';
+import { DayBookComponent } from './Ledger/day-book/day-book.component';
+import { CustomerLedgerComponent } from './Ledger/customer-ledger/customer-ledger.component';
+import { EntrywiseColComponent } from './Collection/entrywise-col/entrywise-col.component';
+import { CustomerwiseColComponent } from './Collection/customerwise-col/customerwise-col.component';
+import { AreawiseColComponent } from './Collection/areawise-col/areawise-col.component';
+import { UserwiseColComponent } from './Collection/userwise-col/userwise-col.component';
+import { PaymodewiseColComponent } from './Collection/paymodewise-col/paymodewise-col.component';
+import { OutstandingSupplierComponent } from './outstanding-supplier/outstanding-supplier.component';
+import { SupplierLedgerComponent } from './Ledger/supplier-ledger/supplier-ledger.component';
+import { BankBalanceComponent } from './bank-balance/bank-balance.component';
+@NgModule({
+  declarations: [ReportComponent,BillwiseOutComponent,EntrywiseColComponent,UserwiseColComponent,SupplierLedgerComponent,PaymodewiseColComponent,AreawiseColComponent,CustomerwiseColComponent,OutStandingCustomersComponent,DayBookComponent,CustomerLedgerComponent, CustomerwiseOutComponent, AreawiseOutComponent, SalespersonwiseOutComponent, DuedaywiseOutComponent,OutstandingSupplierComponent, BankBalanceComponent],
+  imports: [
+    CommonModule,
+    ReportRoutingModule,
+    FormsModule,
+
+    SharedModule,
+
+  ]
+})
+export class ReportModule { }

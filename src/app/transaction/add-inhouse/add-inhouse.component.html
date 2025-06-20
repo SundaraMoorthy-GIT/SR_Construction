@@ -1,0 +1,142 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>InHouse Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_id" name="oc_id" #oc_id="ngModel" required>
+                        </td>
+                      </tr>
+  
+                      <tr class="hidden">
+                        <td>oc_no <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_no" name="oc_no" #oc_no="ngModel" required>
+                        </td>
+                      </tr>
+                      <tr>
+                          <td>Date <span class="text-danger"></span></td>
+                          <td><input class="form-control"  type="date"
+                              [(ngModel)]="add.oc_date" name="oc_date" #oc_date="ngModel"></td>
+                      </tr>
+                      <!-- <tr>
+                        <td>Project Name <span class="text-danger">*</span></td>
+                    <td>
+
+                        <input class="form-control" (focus)="get_customers()"  readonly type="text"required [(ngModel)]="add.oc_projectname" name="oc_projectname"
+                        #oc_projectname="ngModel">
+                        <li  (click)="get_customers()"   class="bx bx-search sicon"></li>
+                      <div *ngIf="addForm.submitted && oc_projectname.invalid" class=" invalid-feedback d-block">
+                        <div class="error">Project Should not entry</div>
+                      </div>
+                      </td>
+                    </tr> -->
+                    <tr>
+                        <td>From Branch<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.oc_vtype" name="oc_vtype" #oc_vtype="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="Deposit"> Deposit</option>
+                            <option  value="Deposit-Return"> Deposit-Return</option>
+                        </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>To Branch<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.oc_vtype" name="oc_vtype" #oc_vtype="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="Deposit"> Deposit</option>
+                            <option  value="Deposit-Return"> Deposit-Return</option>
+                        </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>From Bank<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.oc_vtype" name="oc_vtype" #oc_vtype="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="Deposit"> Deposit</option>
+                            <option  value="Deposit-Return"> Deposit-Return</option>
+                        </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>To Bank<span class="text-danger"></span></td>
+                        <td> <select class="select2-option form-control "  [(ngModel)]="add.oc_vtype" name="oc_vtype" #oc_vtype="ngModel" style="width:100%"   aria-hidden="true">
+                            <option  value="Deposit"> Deposit</option>
+                            <option  value="Deposit-Return"> Deposit-Return</option>
+                        </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Remarks<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_remarks" required
+                            name="oc_remarks" #oc_remarks="ngModel">
+                        </td>
+                      </tr>
+                      <tr class="hidden" >
+                        <td>Image</td>
+                        <td>
+                          <p-fileUpload name="myfile[]" url="{{server}}" (onUpload)="onUpload($event)"
+                            multiple="multiple" maxFileSize="1000000">
+                            <ng-template pTemplate="content">
+                              <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                              </ul>
+                            </ng-template>
+                          </p-fileUpload>
+                        </td>
+                      </tr>
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit"> <i class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+              <!-- <div class="col-sm-6">
+                <img   [src]="get_image()"/>
+    
+               </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

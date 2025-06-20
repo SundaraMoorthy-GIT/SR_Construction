@@ -1,0 +1,147 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+
+        <div class="search-bar">
+            <table style="width: 100%;">
+                <tr style="width:100%;height: 50px;">
+                    <td class="search-bal-li">
+                        <li (click)="appservice.back()" class="bx bx-left-arrow-alt"
+                            style=" font-size: 30px; line-height: 50px;"></li>
+                    </td>
+                    <td><input [(ngModel)]="txt_search" name="txt_search" #txt_search1="ngModel" type="text"
+                            (keyup)="search_data(txt_search)" id="Customer_Search_bar" class="search-form-control"
+                            placeholder="Search..."></td>
+
+                    <td class="search-bal-li">
+
+                        <div class="dropdown">
+                          
+                                <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class='bx bx-filter'></i>
+                                </button>
+                                <div class="dropdown-menu" style="width: 325px;">
+                                    <div style="background-color: teal; color: white; width: 100%; ">
+                                        &nbsp;&nbsp;Search</div>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td style="width: 80px;">Area </td>
+                                            <td>
+
+
+                                                
+                                                <select style="height: 30px;"  (change)="filter(appservice.Customer_Area)" placeholder="Select Area" class="area form-control"  [(ngModel)]="appservice.Customer_Area" name="Area" #Area="ngModel" style="width:100%"   aria-hidden="true">
+  
+                                                    <option  value="All">
+                                                        All
+                                                    </option>
+                                                    <option *ngFor="let data of Area_Row" value={{data.label}}>
+                                                        {{data.label}}
+                                                    </option>
+                                                
+                                                      </select>
+
+                                            </td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td> </td>
+                                            <td><button type="button"  (click)="filter(appservice.Customer_Area)"
+                                                    class="btn btn-info btn-sm">Search</button></td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                           
+                        </div>
+
+                    </td>
+
+                    <td class="search-bal-li mspacee">
+
+
+                        <div class="dropdown">
+                            <a class="dropdown-toggle   addbtn" routerLink="/add-customer" data-toggle="tooltip"
+                                data-placement="bottom" title="Add Customer">
+
+                                <i class='bx bx-list-plus'></i>
+                            </a></div>
+
+
+                    </td>
+
+                    <td class="search-bal-li mspacee">
+
+
+                        <div class="dropdown">
+                            <a class="dropdown-toggle   addbtn"  (click)="appservice.get_Ledger_Master()" data-toggle="tooltip"
+                                data-placement="bottom" title="Add Customer">
+
+                                <i class='bx bx-rotate-left'></i>
+                            </a></div>
+
+
+                    </td>
+
+
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div *ngIf="appservice.LedgerLoad==true" class="row">
+
+   
+    <div style="text-align: center;width: 100%;">
+        <div><br><br>Customer Loading...</div>
+        
+    <div class="spinner-grow spinner-grow-sm text-primary " role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div *ngIf="appservice.Customer_Area!='All'"  style="width: 100%;padding: 5px; text-align:center; ">  Selected Area : {{appservice.Customer_Area}}</div>
+        <div class="search">
+            <table class="table">
+                
+                <tbody>
+                    <tr *ngFor="let data of Row" (click)="select_customer(data)">
+                        <td style="max-width: 70px;">
+                            <div class="text-uppercase txt_icon"> {{data.Ledger_Name | slice:0:1}} </div>
+                        </td>
+                        <td s>
+                            <div class="txt_name text-uppercase"> {{data.Ledger_Name}} </div>
+                            <div class="sub_txt " style="font-size: 11px;"> {{data.Short_name}} {{data.Address1}} {{data.Address2}}
+                                {{data.Address3}}</div>
+                                <div class="sub_txt text-uppercase" *ngIf="appservice.Customer_Area=='All'"> {{data.Area}}  </div>
+
+
+
+                        </td>
+                        <td style="text-align: right;">{{data.Phone_Number}}
+                            <div class="sub_txt  " style="font-size: 10px;"> {{data.Order}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

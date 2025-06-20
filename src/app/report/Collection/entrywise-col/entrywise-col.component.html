@@ -1,0 +1,643 @@
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+        <div class="col-md-12 nopad mobile_hide">
+            <div class="w_79" style="position: fixed; z-index: 99">
+                <div class="tabs-header border-bottom">
+                    <ul>
+                        <li
+                            *ngFor="let data of appservice.Collection_Report"
+                            [className]="
+                                appservice.URL_Location == data.Link
+                                    ? 'active'
+                                    : ''
+                            "
+                            class=""
+                        >
+                            <a (click)="appservice.load_page(data.Link)">{{
+                                data.Menu
+                            }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="right-corner">
+                    <div class="dropdown" style="display: inline-flex">
+                        <a
+                            class="dropdown-toggle serch_icon mshow"
+                            data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="search"
+                        >
+                            <i style="font-size: 20px" class="bx bx-search"></i>
+                        </a>
+
+                        <button
+                            class="dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            title="more"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            <i class="bx bx-filter"></i>
+                        </button>
+
+                        <div class="dropdown-menu" style="width: 325px">
+                            <div
+                                style="
+                                    background-color: teal;
+                                    color: white;
+                                    width: 100%;
+                                "
+                            >
+                                &nbsp;&nbsp;Search
+                            </div>
+                            <table>
+                                <tr>
+                                    <td style="width: 80px">From</td>
+                                    <td>
+                                        <input
+                                            type="date"
+                                            class="area form-control form-control-sm"
+                                            [(ngModel)]="appservice.S_From"
+                                            name="From_"
+                                            #From_="ngModel"
+                                        />
+                                    </td>
+                                </tr>
+                                 
+
+
+                                <tr>
+                                    <td style="width: 80px">To</td>
+                                    <td>
+                                        <input
+                                            type="date"
+                                            class="area form-control form-control-sm"
+                                            [(ngModel)]="appservice.S_To"
+                                            name="To_"
+                                            #To_="ngModel"
+                                        />
+                                    </td>
+                                </tr>
+                                      <tr>
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+
+                                <tr>
+                                    <td style="width: 80px">Area</td>
+                                    <td>
+                                        <select
+                                            class="area form-control form-control-sm"
+                                            [(ngModel)]="appservice.S_Area"
+                                            name="Area"
+                                            #Area="ngModel"
+                                            style="width: 100%"
+                                            aria-hidden="true"
+                                        >
+                                            <option value="All">All</option>
+                                            <option
+                                                *ngFor="
+                                                    let data of appservice.Area_Row
+                                                "
+                                                value="{{ data.label }}"
+                                            >
+                                                {{ data.label }}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="appservice.Rights_Name == 'Admin'">
+                                    <td style="width: 80px">User</td>
+                                    <td>
+                                        <select
+                                            style="height: 30px"
+                                            placeholder="Select Area"
+                                            class="area form-control form-control-sm"
+                                            [(ngModel)]="appservice.Search_User"
+                                            name="Search_User"
+                                            #Search_User="ngModel"
+                                            style="width: 100%"
+                                            aria-hidden="true"
+                                        >
+                                            <option value="All">All</option>
+
+                                            <option
+                                                *ngFor="
+                                                    let data of this.appservice
+                                                        .User_Master_Rows
+                                                "
+                                                value="{{ data.UM_User_Name }}"
+                                            >
+                                                {{ data.UM_User_Name }}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width: 80px">Customer</td>
+                                    <td>
+                                        <select
+                                            style="height: 30px"
+                                            class="area form-control form-control-sm"
+                                            [(ngModel)]="appservice.S_customer"
+                                            name="S_customer"
+                                            #S_customer="ngModel"
+                                            style="width: 100%"
+                                            aria-hidden="true"
+                                        >
+                                            <option value="0">All</option>
+                                            <option
+                                                *ngFor="
+                                                    let data of this.appservice
+                                                        .Ledger_Master_Rows
+                                                "
+                                                value="{{ data.ID }}"
+                                            >
+                                                {{ data.Ledger_Name }}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            (click)="
+                                                appservice.get_Collections_Details()
+                                            "
+                                            class="btn btn-info btn-sm"
+                                        >
+                                            Search
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div
+                                class="search_Footer border-top"
+                                style="color: green"
+                            >
+                                <div (click)="export_excel()" class="buttons">
+                                    <span
+                                        ><li class="bx bx-download"></li
+                                    ></span>
+                                    <span> Export Excel</span>
+                                </div>
+
+                                <div
+                                    (click)="export_pdf(dt)"
+                                    class="buttons"
+                                    style="color: red"
+                                >
+                                    <span
+                                        ><li class="bx bx-download"></li
+                                    ></span>
+                                    <span> Export PDF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 nopad">
+            <div class="spin_block" *ngIf="appservice.isload">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="m_2 res_table">
+                <div class="search-bar_Ext mhide show_bar" style="right: 50px">
+                    <li class="bx bx-left-arrow-alt mshow search_back"></li>
+
+                    <input
+                        type="text"
+                        (input)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                        "
+                        class="search-form-control text"
+                        placeholder="Search..."
+                    />
+                </div>
+
+                <p-table
+                    #dt
+                    class="table table-striped custom-table"
+                    [value]="appservice.Collection_Row"
+                    selectionMode="single"
+                    [globalFilterFields]="appservice.Entrywise_col_GF"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>#</th>
+                            <th [pSortableColumn]="'Receipt_No'">RC No</th>
+                            <th class="mhide">RC Date</th>
+                            <th class="mhide">Bill No</th>
+                            <!-- <th [pSortableColumn]="'Code'">ID</th> -->
+
+                            <th [pSortableColumn]="'Ledger_Name'">Party</th>
+                            <th>User</th>
+                            <th>Pay Mode</th>
+                            <th style="text-align: right">Bill Amt</th>
+                            <th style="text-align: right">Pending Amt</th>
+                            <!-- <th style="text-align: right;">Process Amt</th> -->
+
+                            <th style="text-align: right">Amount</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template
+                        pTemplate="body"
+                        let-rowData
+                        let-rowIndex="rowIndex"
+                    >
+                        <tr>
+                            <td>{{ rowIndex + 1 }}</td>
+
+                            <td>{{ rowData.Receipt_No }}</td>
+                            <td class="mhide">{{ rowData.RCDate_ }}</td>
+                            <td class="mhide">{{ rowData.Bill_No }}</td>
+                            <!-- <td >{{rowData.Code}}</td> -->
+
+                            <td>{{ rowData.Ledger_Name }}</td>
+                            <td>{{ rowData.Created_By }}</td>
+                            <td>{{ rowData.Pay_Mode_ }}</td>
+                            <td style="text-align: right">
+                                {{ rowData.Intrest_Amt }}
+                            </td>
+                            <td style="text-align: right">
+                                {{ rowData.Principal_Amt }}
+                            </td>
+                            <!-- <td style="text-align: right;">{{rowData.Process_Amt}}</td> -->
+
+                            <td style="text-align: right">
+                                {{ rowData.Amount }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <div class="col-md-12 nopad">
+            <div
+                class="w_79"
+                style="
+                    bottom: 0;
+                    font-weight: 700;
+                    color: #333333;
+                    background-color: #f4f4f4;
+                    padding: 0.571em 0.857em;
+                    position: fixed;
+                    bottom: 0;
+
+                    border: 1px solid #c8c8c8;
+                "
+            >
+                <table style="width: 100%">
+                    <tr>
+                        <td style="color: darkslategray">
+                            Total Items : {{ appservice.length_of(dt) }}
+                        </td>
+                        <td style="text-align: right; color: crimson">
+                            Amount :
+                            {{
+                                appservice.sum_of(dt, "Amount")
+                                    | number : "1.0-0"
+                            }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mshow">
+  <div class="col-md-12 nopad">
+      <div class="search-bar_Ext mshow disp" style="display: inline-flex">
+          <li
+              style="color: #37517e"
+              (click)="appservice.back()"
+              class="bx bx-left-arrow-alt mshow search_back"
+          ></li>
+
+          <label class="h_txex mshow" style="line-height: 40px">Paid  </label>
+          <div class="right_text">
+              <div class="dropdown" style="display: inline-flex">
+                  <input
+                      type="text"
+                      (input)="
+                          dt1.filterGlobal($event.target.value, 'contains')
+                      "
+                      class="G_Search"
+                      placeholder="Search..."
+                  />
+
+                  <button
+                      class="dropdown-toggle"
+                      type="button"
+                      data-toggle="dropdown"
+                      title="more"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                  >
+                      <i class="bx bx-filter m_white"></i>
+                  </button>
+
+                  <div class="dropdown-menu" style="width: 325px">
+                      <div
+                          style="
+                              background-color: teal;
+                              color: white;
+                              width: 100%;
+                          "
+                      >
+                          &nbsp;&nbsp;Search
+                      </div>
+                      <table>
+                        <tr>
+                            <td style="width: 80px">From</td>
+                            <td>
+                                <input
+                                    type="date"
+                                    class="area form-control form-control-sm"
+                                    [(ngModel)]="appservice.S_From"
+                                    name="From_"
+                                    #From_="ngModel"
+                                />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 80px">To</td>
+                            <td>
+                                <input
+                                    type="date"
+                                    class="area form-control form-control-sm"
+                                    [(ngModel)]="appservice.S_To"
+                                    name="To_"
+                                    #To_="ngModel"
+                                />
+                            </td>
+                        </tr>
+                         <tr>
+                  <td style="width: 80px;">Branch</td>
+                  <td>
+                    <select style="height: 30px;" [disabled]="btndisable" placeholder="Select Branch Name" class="area form-control"
+                      [(ngModel)]="appservice.Branch_ID" name="Area" #Area="ngModel" style="width:100%" aria-hidden="true">
+                      <option value="0">
+                        All
+                      </option>
+                      <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                        {{data.label}}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+
+
+                        <tr>
+                            <td style="width: 80px">Area</td>
+                            <td>
+                                <select
+                                    class="area form-control form-control-sm"
+                                    [(ngModel)]="appservice.S_Area"
+                                    name="Area"
+                                    #Area="ngModel"
+                                    style="width: 100%"
+                                    aria-hidden="true"
+                                >
+                                    <option value="All">All</option>
+                                    <option
+                                        *ngFor="
+                                            let data of appservice.Area_Row
+                                        "
+                                        value="{{ data.label }}"
+                                    >
+                                        {{ data.label }}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="appservice.Rights_Name == 'Admin'">
+                            <td style="width: 80px">User</td>
+                            <td>
+                                <select
+                                    style="height: 30px"
+                                    placeholder="Select Area"
+                                    class="area form-control form-control-sm"
+                                    [(ngModel)]="appservice.Search_User"
+                                    name="Search_User"
+                                    #Search_User="ngModel"
+                                    style="width: 100%"
+                                    aria-hidden="true"
+                                >
+                                    <option value="All">All</option>
+
+                                    <option
+                                        *ngFor="
+                                            let data of this.appservice
+                                                .User_Master_Rows
+                                        "
+                                        value="{{ data.UM_User_Name }}"
+                                    >
+                                        {{ data.UM_User_Name }}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 80px">Customer</td>
+                            <td>
+                                <select
+                                    style="height: 30px"
+                                    class="area form-control form-control-sm"
+                                    [(ngModel)]="appservice.S_customer"
+                                    name="S_customer"
+                                    #S_customer="ngModel"
+                                    style="width: 100%"
+                                    aria-hidden="true"
+                                >
+                                    <option value="0">All</option>
+                                    <option
+                                        *ngFor="
+                                            let data of this.appservice
+                                                .Ledger_Master_Rows
+                                        "
+                                        value="{{ data.ID }}"
+                                    >
+                                        {{ data.Ledger_Name }}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button
+                                    type="button"
+                                    (click)="
+                                        appservice.get_Collections_Details()
+                                    "
+                                    class="btn btn-info btn-sm"
+                                >
+                                    Search
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+
+                      <div
+                          class="search_Footer border-top"
+                          style="color: green"
+                      >
+                          <div (click)="export_excel()" class="buttons">
+                              <span>
+                                  <li class="bx bx-download"></li>
+                              </span>
+                              <span> Export Excel</span>
+                          </div>
+                          <div
+                              (click)="export_excel()"
+                              class="buttons"
+                              style="color: red"
+                          >
+                              <span>
+                                  <li class="bx bx-download"></li>
+                              </span>
+                              <span> Export PDF</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-12 nopad mobile_hide">
+          <div class="w_79" style="position: fixed; z-index: 99">
+              <div class="tabs-header border-bottom" style="float: none">
+                  <ul>
+                      <li
+                          *ngFor="let data of appservice.Collection_Report"
+                          [className]="
+                              appservice.URL_Location == data.Link
+                                  ? 'active'
+                                  : ''
+                          "
+                          class=""
+                      >
+                          <a (click)="appservice.load_page(data.Link)">{{
+                              data.Menu
+                          }}</a>
+                      </li>
+                  </ul>
+              </div>
+              <div class="col-md-12 nopad">
+                  <div class="table-wrapper">
+                      <p-table
+                      #dt1
+                      class="table table-striped custom-table"
+                      [value]="appservice.Collection_Row"
+                      selectionMode="single"
+                      [globalFilterFields]="appservice.Entrywise_col_GF"
+                          selectionMode="single"
+                      >
+                          <ng-template pTemplate="header">
+                              <tr class="vs">
+                                  <th></th>
+                                  <th style="text-align: right"></th>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-car>
+                              <tr class="vs" [pSelectableRow]="rowData">
+                                  <td>
+                                    <span class="l1_txt"
+                                    >Party : {{ rowData.Ledger_Name }}
+                                </span>
+                                <br />
+                                      <span class="l2_txt"
+                                          >RC No : {{ rowData.Receipt_No }}
+                                      </span>
+                                      <br /><span class="l3_txt"
+                                          >RC Date : {{ rowData.RCDate_ }} 
+                                      </span>
+                                      <br /><span class="l3_txt"
+                                      >User : {{ rowData.Created_By }} 
+                                      <br />
+                                      Pay Mode : {{ rowData.Pay_Mode_ }}
+                                  </span>
+                                  </td>
+                                  <td style="text-align: right">
+                                     <span
+                                          class="l1_txt"
+                                          style="color: darkred"
+                                          >{{
+                                              rowData.Amount
+                                                  | currency
+                                                      : "INR"
+                                                      : "symbol"
+                                                      : "0.0-0"
+                                          }}
+                                      </span>
+                                  </td>
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </div>
+
+                  <div class="col-md-12 nopad">
+                      <div
+                          class="w_79"
+                          style="
+                              bottom: 0;
+                              font-weight: 700;
+                              color: #333333;
+                              background-color: #f4f4f4;
+                              padding: 0.571em 0.857em;
+                              position: fixed;
+                              bottom: 0;
+                              border: 1px solid #c8c8c8;
+                          "
+                      >
+                          <table style="width: 100%">
+                             
+                                <tr>
+                                  <td style="color: darkslategray">
+                                      Total Items : {{ appservice.length_of(dt) }}
+                                  </td>
+                                  <td style="text-align: right; color: crimson">
+                                      Amount :
+                                      {{
+                                          appservice.sum_of(dt, "Amount")
+                                              | number : "1.0-0"
+                                      }}
+                                  </td>
+                              </tr>
+                        
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

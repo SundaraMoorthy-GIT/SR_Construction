@@ -1,0 +1,197 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Estimation Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.est_id" name="est_id" #est_id="ngModel" required>
+                        </td>
+                      </tr>
+  
+                      <tr class="hidden">
+                        <td>Est_No <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.est_unino" name="est_unino" #est_unino="ngModel" required>
+                        </td>
+                      </tr>
+                      <tr class="hidden">
+                          <td>Date <span class="text-danger"></span></td>
+                          <td><input class="form-control"  type="date"
+                              [(ngModel)]="add.est_date" name="est_date" #est_date="ngModel"></td>
+                      </tr>
+                          <tr>
+                             <td>Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.est_branch" name="est_branch" #est_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && est_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+                      <tr>
+                          <td>Tender Date <span class="text-danger"></span></td>
+                          <td><input class="form-control"  type="date"
+                              [(ngModel)]="add.est_tenderdate" name="est_tenderdate" #est_tenderdate="ngModel"></td>
+                      </tr>
+                      <tr >
+                        <td>Department <span class="text-danger"></span></td>
+                            <td>
+                                <select class="select2-option form-control "  [(ngModel)]="add.est_deptid" name="est_deptid" #est_deptid="ngModel" style="width:100%"   aria-hidden="true"
+                                (ngModelChange)="onChange(add.est_deptid)">
+      
+                                    <option *ngFor="let summary of Dept_Row" value={{summary.value}}>
+                                        {{summary.label}}
+                                    </option>
+                                </select>
+                            </td>
+                    </tr>
+                    <tr >
+                      <td>Office <span class="text-danger"></span></td>
+                          <td>
+                            <input class="form-control" type="text" [(ngModel)]="add.est_office" required
+                            name="est_office" #est_office="ngModel">
+                          </td>
+                  </tr>
+                    <tr>
+                        <td>Project Name<span class="text-danger"></span></td>
+                            <td>
+                              <input class="form-control" type="text" [(ngModel)]="add.est_projectname" required
+                              name="est_projectname" #est_projectname="ngModel">
+                            </td>
+                    </tr>
+                    <tr>
+                      <td>Name Of Work<span class="text-danger"></span></td>
+                          <td>
+                            <input class="form-control" type="text" [(ngModel)]="add.est_nameofwork" required
+                            name="est_nameofwork" #est_nameofwork="ngModel">
+                          </td>
+                  </tr>
+                    <tr>
+                        <td>Agreement Date <span class="text-danger"></span></td>
+                        <td><input class="form-control"  type="date"
+                            [(ngModel)]="add.est_agreementdate" name="est_agreementdate" #est_agreementdate="ngModel"></td>
+                    </tr>
+                    <tr>
+                        <td>Completion Date <span class="text-danger"></span></td>
+                        <td><input class="form-control"  type="date"
+                            [(ngModel)]="add.est_completiondate" name="est_completiondate" #est_completiondate="ngModel"></td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+  
+          <div class="form-table table-responsive">
+              <table class="table table-bordered">
+                  <tbody>
+                    <tr >
+                      <td>Tax Type <span class="text-danger"></span></td>
+                          <td>
+                              <select class="select2-option form-control "  [(ngModel)]="add.est_tax_type" name="est_tax_type" #est_tax_type="ngModel" style="width:100%"   aria-hidden="true">
+    
+                                  <option *ngFor="let summary of Tax_Type_Row" value={{summary.label}}>
+                                      {{summary.label}}
+                                  </option>
+                              </select>
+                          </td>
+                  </tr>
+                      <tr>
+                        <td>Amount<span class="text-danger"></span></td>
+                        <td><input class="form-control" (keyup)="Calc_Sum()" type="number" [(ngModel)]="add.est_amount" required
+                            name="est_amount" #est_amount="ngModel">
+                        </td>
+                      </tr>
+                      <tr >
+                        <td>Tax Value <span class="text-danger"></span></td>
+                            <td>
+                                <select class="select2-option form-control "  [(ngModel)]="add.est_tax_per" name="est_tax_per" #est_tax_per="ngModel" style="width:100%"   aria-hidden="true">
+      
+                                    <option *ngFor="let summary of Tax_Value_Row" value={{summary.label}}>
+                                        {{summary.label}}
+                                    </option>
+                                </select>
+                            </td>
+                    </tr>
+                    <tr>
+                      <td>Taxable Amount<span class="text-danger"></span></td>
+                      <td><input class="form-control" type="number" [(ngModel)]="add.est_taxable_amount" required
+                          name="est_taxable_amount" #est_taxable_amount="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tax Amount<span class="text-danger"></span></td>
+                      <td><input class="form-control" type="number" [(ngModel)]="add.est_tax_amt" required
+                          name="est_tax_amt" #est_tax_amt="ngModel">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Net Amount<span class="text-danger"></span></td>
+                      <td><input class="form-control" type="number" [(ngModel)]="add.est_net_amt" required
+                          name="est_net_amt" #est_net_amt="ngModel">
+                      </td>
+                    </tr>
+  
+                    </tbody>
+  
+                  </table>
+                </div>
+  
+              </div>
+              <br><br>
+                  <div class="col-sm-6">
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit"> <i class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+
+              </div>
+            </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

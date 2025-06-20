@@ -1,0 +1,102 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+declare let $: any;
+
+@Component({
+  selector: 'app-add-table',
+  templateUrl: './add-table.component.html',
+  styleUrls: ['./add-table.component.scss']
+})
+export class AddTableComponent implements OnInit {
+
+ 
+  add:any={};
+  public btndisable:boolean=false;
+  constructor(public appservice:AppService,private toastr: ToastrService, private http: HttpClient) {
+
+  
+    if(this.appservice.isEdit)
+    {
+      this.add=appservice.Edit_Row;
+    }
+    else
+    {
+      this.clear();
+      this.add.ID="0";
+
+    }
+
+
+   }
+
+   clear()
+   {
+     
+    this.appservice.get_fields_of('Table_Master').forEach((activity) => {
+      if(activity.Default_Value=="T_Date")
+      {
+        this.add[activity.Field]=this.appservice.T_Date;
+      }
+     
+      else{
+      this.add[activity.Field]=activity.Default_Value;
+      }
+    });
+
+    
+   }
+
+  
+   addData(f)
+   {
+    
+      this.add.Company=this.appservice.Company;
+      this.add.Company_ID=this.appservice.Company;
+      this.add.Created_by=this.appservice.CREATED_BY;
+      this.add.Table_Name="Table_Master";
+      if (f.invalid === false)
+      {
+  
+      this.btndisable=true;
+            this.http.post(this.appservice.Server_URL + 'api/Master/Post_Data', this.add, { headers: this.appservice.headers })
+              .subscribe(
+                (val: string) => {
+                  this.btndisable=false;
+
+                  if(val=="True")
+                  { this.toastr.success("Details Salved Success", 'Msg');
+
+                  if(this.appservice.isEdit)
+                  {
+                    this.appservice.back();
+
+                  }
+                  else
+                  {
+                  this.appservice.isEdit=false;
+                  this.appservice.get_Table_Master();
+                  $(".cls_0").focus();
+                  f.submitted=false;
+                  this.clear();
+                  }
+                }
+                else{
+                  this.toastr.error(val, "Error", { timeOut: 3000 });
+                }
+                },
+                response => {
+                  this.toastr.error('Error ', response, {
+                    timeOut: 3000
+                  });
+                  
+                });
+     
+    }
+   }
+
+  ngOnInit(): void {
+  }
+
+}

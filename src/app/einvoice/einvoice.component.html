@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>E Invoice</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="appservice.back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+            <div class="row hidden">
+                <div class="col-md-12">
+                <div class="d-flex test my-2">
+                    <div class="col-6">
+                        <h6 class="d-block">Invoice Number<span class="text-danger"></span></h6>
+                        <input class="form-control" type="text" [(ngModel)]="Doc_No" name="Doc_No"
+                            #Q_No="ngModel"  readonly>
+                       
+                    </div>
+                    <div class="col-6">
+                        <h6 class="d-block">Invoice Date<span class="text-danger"></span></h6>
+                        <input class="form-control" type="text" [(ngModel)]="Doc_Date" name="Doc_Date"
+                        #Q_No="ngModel"  readonly>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="invoice-btn-box " style="padding:10px">
+             <button class="btn btn-secondary rounded-pil" type="button" 
+                 (click)="GetAuthToken()">Get Auth Token </button> &nbsp;&nbsp;
+             <button class="btn btn-secondary rounded-pil " type="button" 
+              (click)="GetGen_DC_EWB()">Generate E Invoice</button>  &nbsp;&nbsp;
+             <!-- <button class="btn btn-secondary rounded-pil " type="button" 
+              (click)="Get_DC_CancelEWB()">Cancel E Invoice</button>  &nbsp;&nbsp; -->
+             <!-- <button class="btn btn-secondary rounded-pil " type="button" >Update Vehicle No.</button>  &nbsp;&nbsp; -->
+             <button class="btn btn-secondary rounded-pil " type="button" 
+              (click)="appservice.back()" >Cancel</button>  &nbsp;&nbsp;
+            </div>
+          <form #addForm="ngForm"  (keydown.enter)="$event.preventDefault()" novalidate>
+<!--   
+            <div *ngIf="ewaybill" class="row">
+              <div class="col-md-12">
+              <div class="d-flex test my-2">
+                  <div class="col-6">
+                      <h6 class="d-block">IRN No<span class="text-danger">*</span></h6>
+                      <input class="form-control" type="text" [(ngModel)]="IRN_No" name="IRN_No"
+                          #IRN_No="ngModel"  readonly>
+                     
+                  </div>
+                  <div class="col-6">
+                      <h6 class="d-block">Cancel Reason<span class="text-danger">*</span></h6>
+                      <select class="form-control" type="text" [(ngModel)]="cancelrsncode"
+                      name="cancelrsncode" #Q_No="ngModel" required>
+                      <option value="1">Duplicate</option>
+                      <option value="2">Order Cancelled</option>
+                      <option value="3">Data Entry mistake</option>
+                      <option value="4">Others</option>
+                      </select>
+                      
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12">
+            <h6 class="d-block">Cancel Remarks<span class="text-danger">*</span></h6>
+            <input class="form-control" type="text" [(ngModel)]="cancelrmrk" name="cancelrmrk"
+            #Q_No="ngModel"  >
+            
+        </div>
+      </div> -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-12">
+                        <h6>E Invoice API Responce in Json<span class="text-danger"></span></h6>
+                        <textarea class="form-control" type="text" [(ngModel)]="rtbresponce"
+                            name="rtbresponce" #Question_Name="ngModel" rows="5" autofocus></textarea>
+                       
+                    </div>
+                    <div class="col-12">
+                        <h6><span class="text-danger"></span></h6>
+                        <textarea class="form-control" type="text" [(ngModel)]="richtextbox1"
+                            name="richtextbox1" #Question_Name="ngModel" rows="8" autofocus></textarea>
+                       
+                    </div>
+
+                    
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

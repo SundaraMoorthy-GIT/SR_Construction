@@ -1,0 +1,86 @@
+
+<div class="row">
+    <div class="col-md-12 nopad">
+    <div class="card content ">
+
+        <div class=" Head ">
+            <div class="card-header  d-flex justify-content-between align-items-center">
+                <h3>Reference Master</h3>
+
+                <div class="dropdown">
+                    <button class="dropdown-toggle mhide abutton" type="button" (click)="addReset()" title="Add New" >
+                        <i style="font-size: 19px;" class='bx bx-list-plus'></i> 
+                        <span >Add New</span>
+                      </button>
+                    <a class="dropdown-toggle mshow"  (click)="addReset()"  data-toggle="tooltip" data-placement="bottom" title="Add New" routerlink="">
+                        <i class='bx bx-list-plus'></i>
+                    </a>
+
+                 
+                  
+                </div>
+            </div>
+
+        </div>
+
+        <div class="content_body">
+            <div >
+
+
+                <div class="form-grosup">
+                    <label>Reference Type &nbsp;&nbsp;&nbsp;</label>
+                   
+                <p-dropdown [options]="Type_rows"    [(ngModel)]="selectedCar"  name="ID" #ID="ngModel"   filter="true"  (onChange)="onChange(selectedCar)">
+                    <ng-template let-item pTemplate="selectedItem">
+                        <span >{{item.label}}</span>
+                    </ng-template>
+                    <ng-template let-car pTemplate="item">
+                        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                            <div >{{car.label}}</div>
+                        </div>
+                    </ng-template>
+                  
+                </p-dropdown>
+                <br>
+              </div>
+
+              
+          
+          
+          
+          <div style="padding-top: 5px">
+            <p-table class="table table-striped custom-table" [value]="Rows" [columns]="cols" [paginator]="true" [rows]="10"  [resizableColumns]="true" sortMode="multiple" selectionMode="single" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let col of cols"  [pSortableColumn]="col.field"  width="{{col.width}}">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        </th>
+                        <th width=90>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-car >
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of cols">
+                                {{car[col.field]}}
+                        </td>
+          
+                        <td class="text-right">
+                          <a href="javascript:" style="font-size: 18px;padding: 5px" title="Edit" (click)="onEdit(rowData)"><i
+                              class="bx bxs-pencil m-r-5"></i>
+                          </a>
+                          <a title="Delete" style="font-size: 18px;padding: 5px;color: firebrick" (click)="onDelete(rowData.RGV_iID)"><i
+                              class="bx bxs-trash"></i>
+                          </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+          </div>
+          </div>
+            <br>
+        </div>
+    </div>
+</div>
+</div>
+

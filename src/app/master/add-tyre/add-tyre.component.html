@@ -1,0 +1,160 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content c_pad_5">
+            <div class=" Head  mhide">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Tyre Master</h3>
+  
+                    <div class="dropdown">
+  
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+  
+  
+                    </div>
+                </div>
+  
+            </div>
+  
+            <div class="content_body">
+  
+  
+  
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+  
+                    <div class="row">
+                        <div class="col-sm-6">
+  
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.ty_id" name="ty_id"
+                                                    #ty_id="ngModel" ></td>
+                                        </tr>
+                                      <tr >
+                                          <td>Tyre No <span  class="text-danger"></span>
+                                          </td>
+                                          <td>
+                                                  <input class="form-control" type="text" [(ngModel)]="add.ty_no" name="ty_no"
+                                              #ty_no="ngModel" >
+                                          </td>
+                                      </tr>
+                                      <tr >
+                                          <td>Tyre Reference No <span  class="text-danger"></span>
+                                          </td>
+                                          <td>
+                                                  <input class="form-control" type="text" [(ngModel)]="add.ty_refno" name="ty_refno"
+                                              #ty_refno="ngModel" >
+                                          </td>
+                                      </tr>
+                                      <tr >
+                                          <td>Type <span  class="text-danger"></span>
+                                          </td>
+                                          <td><select class="area form-control form-control-sm" [(ngModel)]="add.ty_type"
+                                            name="ty_type" #ty_type="ngModel" style="width:100%" aria-hidden="true">
+                                            <option value="New"> New</option>
+                                            <option value="Re-Belted">  Re-Belted  </option>
+                                            <option value="Old"> Created Date </option>
+                                          </select>
+                                          </td>
+                                      </tr>
+                                      <tr >
+                                        <td>Brand <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.ty_Brand" name="ty_Brand"
+                                            #ty_Brand="ngModel" >
+                                        </td>
+                                    </tr>
+                                      <tr >
+                                          <td>Size <span  class="text-danger"></span>
+                                          </td>
+                                          <td><input class="form-control" type="text" [(ngModel)]="add.ty_size" name="ty_size"
+                                              #ty_size="ngModel" >
+                                          </td>
+                                      </tr>
+                                      
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+  
+                          <div class="form-table table-responsive">
+                              <table class="table table-bordered">
+                                  <tbody>
+                                    <!-- <tr>
+                                        <td>Supplier <span class="text-danger"></span></td>
+                                        <td>
+                                            <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.Ledger_Rows1" 
+                                            [(ngModel)]="add.ty_ledger_id"   resetFilterOnHide="true" placeholder=" " name="ty_ledger_id" #ty_ledger_id="ngModel" [filter]="(appservice.W_width>500)"
+                                            (ngModelChange)="onChange(add.ty_ledger_id)">
+                                 
+                                           <ng-template let-car pTemplate="item">
+                                             <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                                               <div>{{car.label}}</div>
+                                             </div>
+                                           </ng-template>
+                                         </p-dropdown>
+                                            </td>
+                                    </tr> -->
+                                    <tr >
+                                        <td>Supplier  <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.ty_ledger_name" name="ty_ledger_name"
+                                            #ty_ledger_name="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Purchase Invoice <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.ty_purno" name="ty_purno"
+                                            #ty_purno="ngModel" >
+                                        </td>
+                                    </tr>
+                                        <tr>
+                                            <td>Purchase Date<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="date" [(ngModel)]="add.ty_purdate"required name="ty_purdate"
+                                                    #ty_purdate="ngModel" >
+                                                </td>
+                                        </tr>
+                                    <tr >
+                                        <td>Amount <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.ty_amount" name="ty_amount"
+                                            #ty_amount="ngModel" >
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          
+                      </div>
+                      <br><br>
+                          <div class="col-sm-6">
+                         
+                              <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+  
+                                  <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+  
+  
+                                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                          role="status" aria-hidden="true"></span>
+                                      <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                      Save </button> &nbsp;&nbsp;
+                                  <button class="btn btn-secondary rounded-pil " type="button"
+                                      (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                              </div>
+  
+                              </div>
+                    </div>
+                   
+                </form>
+              
+            </div>
+        </div>
+    </div>

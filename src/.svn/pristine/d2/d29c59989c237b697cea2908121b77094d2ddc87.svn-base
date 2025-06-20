@@ -1,0 +1,35 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+@Component({
+  selector: 'app-upload-supplier',
+  templateUrl: './upload-supplier.component.html',
+  styleUrls: ['./upload-supplier.component.scss']
+})
+export class UploadSupplierComponent implements OnInit {
+
+  public add:any ={};
+  public btndisable:boolean=false;
+
+  constructor(private _location: Location, public appservice: AppService,private toastr: ToastrService, public http: HttpClient) 
+   { }
+  
+   export_excel()
+   {
+    this.appservice.Ledger_Master_Export =  this.appservice.get_fields_of('Ledger_Master');
+ 
+    this.appservice.Excel_Data.Header=this.appservice.Ledger_Master_Export;
+    this.appservice.Excel_Data.items=this.appservice.Ledger_Master_Rows
+    this.appservice.upload_excel();
+  
+   }
+ 
+ 
+ 
+  ngOnInit(): void {
+  }
+
+}

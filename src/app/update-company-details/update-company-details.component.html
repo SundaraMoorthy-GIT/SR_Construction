@@ -1,0 +1,240 @@
+<div>
+
+
+  <div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+
+        <div class=" Head ">
+
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>
+              Update Company details
+            </h3>
+
+            <div class="dropdown">
+
+              <a (click)="appservice.back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="content_body">
+
+          <div class="row" style="background-color: white;">
+            <div class="col-md-8 col-md-offset-2">
+              <form #addForm="ngForm" (ngSubmit)="updateCompany(addForm)">
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Company Name <span class="text-danger">*</span></label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Name" name="CM_Name"
+                        #CM_Name="ngModel">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Address</label>
+                      <input class="form-control " type="text" [(ngModel)]="uptC.CM_Address1" name="CM_Address1"
+                        #CM_Address1="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <input class="form-control " type="text" [(ngModel)]="uptC.CM_Address2" name="CM_Address2"
+                        #CM_Address2="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+
+                      <input class="form-control " type="text" [(ngModel)]="uptC.CM_Address3" name="CM_Address3"
+                        #CM_Address3="ngModel">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6 col-md-6 ">
+                    <div class="form-group">
+                      <label>State</label>
+                      <select class="form-control select" [(ngModel)]="uptC.CM_State" name="CM_State"
+                        #CM_State="ngModel">
+                        <option value="California">Tamil Nadu</option>
+                        <option value="Alaska">Karnataka</option>
+                        <option value="Alabama">Kerala</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-6 ">
+                    <div class="form-group">
+                      <label>Pin Code</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Address5" name="CM_Address5"
+                        #CM_Address5="ngModel">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>GST No</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_GST_No" name="CM_GST_No"
+                        #CM_GST_No="ngModel">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Email_ID" name="CM_Email_ID"
+                        #CM_Email_ID="ngModel">
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Phone Number</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Phone_off" name="CM_Phone_off"
+                        #CM_Phone_off="ngModel">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Mobile No</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Phone_Res" name="CM_Phone_Res"
+                        #CM_Phone_Res="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Bank Name</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Bank_Name" name="CM_Bank_Name"
+                        #CM_Bank_Name="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Acc Name</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Acc_Name" name="CM_Acc_Name"
+                        #CM_Acc_Name="ngModel">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Account No</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Acc_Number" name="CM_Acc_Number"
+                        #CM_Acc_Number="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>IFSC Code</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_IFSC" name="CM_IFSC"
+                        #CM_IFSC="ngModel">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Branch</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Branch" name="CM_Branch"
+                        #CM_Branch="ngModel">
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Sales Footer</label>
+                      <input class="form-control" type="text" [(ngModel)]="uptC.CM_Sales_Footer" name="CM_Sales_Footer"
+                        #CM_Sales_Footer="ngModel">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Sales Term</label>
+                      <textarea  rows="4" class="form-control"  [(ngModel)]="uptC.CM_Sales_Term" name="CM_Sales_Term"
+                        #CM_Sales_Term="ngModel"></textarea>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+
+                    <div *ngIf="uptCompany" class="alert alert-info m-t-10" style="text-align: center;">
+                      <strong class="text-center">Saved Successfully</strong>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 text-center m-t-20">
+                    <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                          role="status" aria-hidden="true"></span>
+                      <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                  
+                    Save &amp; update</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-md-4">
+              <img   [src]="get_Company_image()"/>
+            
+              
+
+              <div class="form-group ">
+                <label>Upload Company Logo</label>
+                <p-fileUpload name="myfile[]" url="{{server}}" (onUpload)="onUpload($event)" multiple="multiple"
+                  maxFileSize="1000000">
+                  <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                      <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                    </ul>
+                  </ng-template>
+                </p-fileUpload>
+              </div>
+              <img   [src]="get_Company_sign()"/>
+
+              <div class="form-group ">
+                <label>Upload Company signature</label>
+                <p-fileUpload name="myfile[]" url="{{server_sign}}" (onUpload)="onUpload($event)" multiple="multiple"
+                  maxFileSize="1000000">
+                  <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                      <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                    </ul>
+                  </ng-template>
+                </p-fileUpload>
+              </div>
+
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

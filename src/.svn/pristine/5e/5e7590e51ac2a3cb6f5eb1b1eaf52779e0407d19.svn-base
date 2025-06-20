@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mobile_hide">
+       
+        <div class="w_79" style="position: fixed;z-index: 99; ">
+        
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li  *ngFor="let data of appservice.User_Role_Menu"   [className]="appservice.URL_Location==data.Link ? 'active' : ''"  class="" > <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a></li>
+                    
+            </ul>
+          </div>
+  
+        
+
+          <div class="right-corner">
+  
+            <div class="dropdown" style="display: inline-flex;">
+
+              <a class="dropdown-toggle   addbtn1" (click)="addReset()" data-toggle="tooltip" data-placement="bottom"
+              title="Add New">
+
+              <i class='bx bx-list-plus'></i>
+            </a>
+             <a  style="padding-left: 10px;padding-right: 10px;" class="dropdown-toggle "
+               (click)="this.display()" data-toggle="tooltip" data-placement="bottom"
+              title="Refresh">
+
+              <i class='bx bx-rotate-left'></i>
+            </a>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 res_table">
+          <div class="search-bar_Ext mhide  show_bar " style="right: 50px;">
+        
+            <li  class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+                <input  type="text"  (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text"
+                placeholder="Search...">
+    
+          </div>
+  
+  
+  
+          
+            <p-table #dt class="table table-striped custom-table" [value]="Rows" [columns]="cols"
+                >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let col of cols" [pSortableColumn]="col.field" width="{{col.width}}"
+                            style="white-space: pre">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                ariaLabelDesc="Activate to sort in descending order"
+                                ariaLabelAsc="Activate to sort in ascending order">
+                            </p-sortIcon>
+                        </th>
+                        <th width=90>Action</th>
+                    </tr>
+
+                   
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-car>
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of cols">
+                            {{car[col.field]}}
+                        </td>
+                        <td class="text-right" style="white-space: pre">
+                            <a href="javascript:" style="font-size: 18px;padding: 5px" title="Edit"
+                                (click)="onEdit(rowData)"><i class="bx bxs-pencil m-r-5"></i>
+
+                            </a>
+                            <a title="Delete" style="font-size: 18px;padding: 5px;color: firebrick"
+                                (click)="onDelete(rowData.UM_ID)"><i class="bx bxs-trash m-r-5"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+      
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+

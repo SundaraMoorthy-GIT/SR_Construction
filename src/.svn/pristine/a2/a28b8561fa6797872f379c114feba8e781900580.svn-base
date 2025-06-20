@@ -1,0 +1,30 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { ConfirmationService } from 'primeng/api';
+
+
+
+@Component({
+  selector: 'app-company-master',
+  templateUrl: './company-master.component.html',
+  styleUrls: ['./company-master.component.scss']
+})
+export class CompanyMasterComponent implements OnInit {
+
+  constructor(public confirmationService: ConfirmationService, private toastr: ToastrService, public appservice: AppService, private http: HttpClient, private router: Router, private route: ActivatedRoute) 
+    { 
+      this.appservice.get_Company_Master();
+    }
+    addReset() {
+      this.appservice.isadd = "0";
+      return this.router.navigate(['/settings/add-company-master']);
+    }
+
+  ngOnInit(): void {
+  }
+
+}

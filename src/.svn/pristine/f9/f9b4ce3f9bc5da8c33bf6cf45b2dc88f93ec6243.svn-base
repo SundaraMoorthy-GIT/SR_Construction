@@ -1,0 +1,240 @@
+<!-- Top Navbar Area -->
+<nav id="navbar" [ngClass]="appservice.mobile_menu==true? 'navbar top-navbar navbar-expand is-sticky nohead': ' navbar top-navbar navbar-expand is-sticky'">
+    <div class="collapse navbar-collapse" id="navbarSupportContent">
+        <div class="responsive-burger-menu d-block d-lg-none">
+            <span class="top-bar"></span>
+            <span class="middle-bar"></span>
+            <span class="bottom-bar"></span>
+        </div>
+        <span class="head  hb_title"  >&nbsp;&nbsp; </span>
+        <ul class="navbar-nav left-nav align-items-center" style="    margin-top: -10px;
+        margin-left: 10px;">
+           
+
+          
+<li style="FONT-FAMILY: system-ui;
+FONT-WEIGHT: 700;
+color: #000000b5;
+padding-top: 4px;" class="mshow"> {{this.appservice.Header_Disp}}</li>
+
+            <li *ngIf="appservice.Qmenu" class="nav-item dropdown apps-box mhide">
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class='bx bxs-plus-circle' ></i>
+                </a>
+
+                <div class="dropdown-menu">
+                   
+                    
+                    <div class="dropdown-body border">
+                        <div style="width: 100%;display: flex;">
+                        <div style="width: 50%;">
+                        <div   *ngFor="let child of appservice.get_childs('Master')"  style="padding-bottom: 5px;">
+
+                        
+
+                            <a routerLink="{{child.Route_Link}}"  style="color: #7e7e7e;
+                            padding: 5px 18px!important;
+                            position: relative;
+                            z-index: 1;
+                            font-size: 15px;
+                            text-decoration: none; 
+                            cursor: pointer;
+                            font-weight: 500;"   >
+                                
+                               
+                                 <i class='{{child.Icon}}'></i> {{child.Display_Name}}
+                            </a>
+
+                        </div>
+                    </div>
+                    <div style="width: 50%;">
+                        <div   *ngFor="let child of appservice.get_childs('Transaction')"  style="padding-bottom: 5px;">
+
+                        
+
+                            <a routerLink="{{child.Route_Link}}"  style="color: #7e7e7e;
+                            padding: 5px 18px!important;
+                            position: relative;
+                            z-index: 1;
+                            font-size: 15px;
+                            text-decoration: none; 
+                            cursor: pointer;
+                            font-weight: 500;"   >
+                                
+                               
+                                 <i class='{{child.Icon}}'></i> {{child.Display_Name}}
+                            </a>
+
+                        </div>
+                    </div></div>
+                   
+                    </div>
+
+                    
+                </div>
+            </li>
+          
+        </ul>
+
+        <form class="nav-search-form d-none ml-auto d-md-block">
+           <div style="line-height: 45px;">&nbsp;</div>
+        </form>
+
+        <ul class="navbar-nav right-nav align-items-center"  
+        style="right: 0px;
+        position: absolute;"
+        >
+           <li></li>
+
+           
+
+            <li class="nav-item notification-box dropdown">
+                <a  routerLink="notification" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="notification-btn">
+                        <i class='bx bx-bell'></i>
+
+                        <span class="badge badge-secondary">{{appservice.lenth}}</span>
+                    </div>
+                </a>
+
+               
+            </li>
+
+            <li class="nav-item dropdown profile-nav-item">
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="menu-profile">
+                        <span style="font-size: 17px;" class="name">Hi! {{data.UM_Full_Name}}</span>
+                        <img src="assets/img/user1.jpg" class="rounded-circle" alt="image">
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-header d-flex flex-column align-items-center">
+                        <div class="figure mb-3">
+                            <img src="assets/img/user1.jpg" class="rounded-circle" alt="image">
+                        </div>
+
+                        <div class="info text-center">
+                            <span class="name">{{data.UM_Full_Name}}</span>
+                            <p class="mb-3 email">{{data.UM_User_Name}}</p>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-body">
+                        <ul class="profile-nav p-0 pt-3">
+                            <li class="nav-item">
+                                <a routerLink="/user-profile" class="nav-link">
+                                    <i class='bx bx-user'></i> <span style="color: #000;"> Profile</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a routerLink="/settings/theme-setting" class="nav-link">
+                                    <i class='bx bxs-paint'></i> <span  style="color: #000;">Themes</span>
+                                </a>
+                            </li>
+
+                         
+
+                            <li class="nav-item">
+                                <a  class="nav-link" routerLink="/change-password">
+                                    <i class='bx bx-cog'></i> <span  style="color: #000;">Change Password</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown-footer">
+                        <ul class="profile-nav">
+                            <li class="nav-item">
+                                <a (click)="logout()" class="nav-link">
+                                    <i class='bx bx-log-out'></i> <span  style="color: #000;">Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div  class="mhide" style="height: 30px;line-height: 40px;
+position: fixed;
+top: 0;
+left: 0;
+z-index: -1;
+right: 0;
+text-align: center;">
+<img src="..\..\assets\img\HD.PNG" style="  opacity: 25%;   max-width: 100%;
+height: auto;
+width: 350px;
+height: 50px;">
+
+<div style="position: relative;
+
+text-align: center;
+top: -52px;
+z-index: 999999;
+font-size: 20px;
+font-weight: 900;
+color: #52297f;
+opacity: 65%;">{{this.appservice.Header_Disp}}</div>
+</div>
+  
+</nav>
+
+
+
+
+<!-- End Top Navbar Area -->
+
+
+
+
+
+<div  *ngIf="appservice.mobile_menu==true"  class="bottommenu-area border-top">
+
+    <div class="sidemenu-body">
+        <ul class="sidemenu-nav "  style="width: 100%;text-align:center!important; padding: 0px!important; "  >
+                     
+            
+            
+            
+            <li class="nav-item" routerLinkActive="active" style="float: left; width: 25%; align-items: center; ">
+                <a routerLink="/collection/collection-home" class="nav-link" style="padding: 2px 2px;">
+                    <span class="icon"><i class='bx bx-grid-alt'></i></span><br>
+                    <span class="menu-title">Home</span>
+                </a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" style="float: left; width: 25%; align-items: center; ">
+                <a routerLink="/master/ledger-details" class="nav-link" style="padding: 2px 2px;">
+                    <span class="icon"><i class='bx bx-user'></i></span><br>
+                    <span class="menu-title">Customer</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item" routerLinkActive="active" style="float: left; width: 25%; align-items: center; ">
+                <a routerLink="/collection/loan-issue-details" class="nav-link" style="padding: 2px 2px;">
+                    <span class="icon"><i class='bx bx-dice-6'></i></span><br>
+                    <span class="menu-title">Loan</span>
+                </a>
+            </li>
+
+
+            
+
+            <li class="nav-item" routerLinkActive="active" style="float: left; width: 25%; align-items: center; ">
+                <a  class="nav-link" style="padding: 2px 2px;">
+                    <span class="icon"><i class='bx bx-menu'></i></span><br>
+                    <span class="menu-title">More</span>
+                </a>
+            </li>
+
+           
+
+
+            
+        </ul>
+    </div>
+    </div>

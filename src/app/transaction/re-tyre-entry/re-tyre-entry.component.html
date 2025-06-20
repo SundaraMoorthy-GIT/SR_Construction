@@ -1,0 +1,162 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Tyre Re_Rate Entry</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.oc_id" name="oc_id" #oc_id="ngModel" required>
+                        </td>
+                      </tr>
+                      <tr>
+                          <td>Date <span class="text-danger"></span></td>
+                          <td><input class="form-control"  type="date"
+                              [(ngModel)]="add.trr_date" name="trr_date" #trr_date="ngModel"></td>
+                      </tr>
+                        <tr>
+                             <td style="padding-left: 8px;width: 120px;">Branch Name<span class="text-danger">*</span></td>
+                              <td>
+                               <select class="select2-option form-control" [disabled]="btndisable1" required 
+                                [(ngModel)]="add.trr_branch" name="trr_branch" #trr_branch="ngModel" style="width:100%"   aria-hidden="true" >              
+                                <option *ngFor="let data of appservice.Branch_Name_Rows" value={{data.value}}>
+                                                    {{data.label}}
+                                </option>                                
+                                </select>  
+                                <div *ngIf="addForm.submitted && trr_branch.invalid" class="invalid-feedback d-block ">
+                                 <div class="error">Branch Name Should Not Be Empty</div>
+                                  </div>  
+                              </td>
+                          </tr>
+                      <tr>
+                        <td>Vehicle No<span class="text-danger"></span></td>
+                        <td>
+                          <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.Transport_Rows" 
+                          [(ngModel)]="add.trr_vehicle_id"   resetFilterOnHide="true" placeholder=" " 
+                          name="trr_vehicle_id" #trr_vehicle_id="ngModel" [filter]="(appservice.W_width>500)"
+                          (ngModelChange)="onChange(add.trr_vehicle_id)">
+               
+                         <ng-template let-car pTemplate="item">
+                           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                             <div>{{car.label}}</div>
+                           </div>
+                         </ng-template>
+                       </p-dropdown>
+                       <div *ngIf="addForm.submitted && trr_vehicle_id.invalid" class="invalid-feedback d-block">
+                         <div class="error">Vehicle Should not entry</div>
+                     </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Tyre No<span class="text-danger"></span></td>
+                        <td>
+                          <p-dropdown [style]="{'width':'100%','height':'35px'}" [options]="appservice.Tyre_Master_Rows" 
+                          [(ngModel)]="add.trr_tyre_id"required   resetFilterOnHide="true" placeholder=" " 
+                          name="trr_tyre_id" #trr_tyre_id="ngModel" [filter]="(appservice.W_width>500)"
+                          (ngModelChange)="onChange1(add.trr_tyre_id)">
+               
+                         <ng-template let-car pTemplate="item">
+                           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                             <div>{{car.label}}</div>
+                           </div>
+                         </ng-template>
+                       </p-dropdown>
+                       <div *ngIf="addForm.submitted && trr_tyre_id.invalid" class="invalid-feedback d-block">
+                         <div class="error">Category  Should not entry</div>
+                     </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Tyre Position<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.trr_position" required
+                            name="trr_position" #trr_position="ngModel">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Tyre Assembled area<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.trr_area" required
+                            name="trr_area" #trr_area="ngModel">
+                        </td>
+                      </tr>
+                      <tr>
+                          <td>Assemble Date <span class="text-danger"></span></td>
+                          <td><input class="form-control"  type="date"
+                              [(ngModel)]="add.trr_asmdate" name="trr_asmdate" #trr_asmdate="ngModel"></td>
+                      </tr>
+                      <tr>
+                          <td>Dis-Assemble Date <span class="text-danger"></span></td>
+                          <td><input class="form-control"  type="date"
+                              [(ngModel)]="add.trr_dsmdate" name="trr_dsmdate" #trr_dsmdate="ngModel"></td>
+                      </tr>
+                      <tr>
+                        <td>Qty<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="number" [(ngModel)]="add.trr_qty" required
+                            name="trr_qty" #trr_qty="ngModel">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>KM<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="number" [(ngModel)]="add.trr_km" required
+                            name="trr_km" #trr_km="ngModel">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Amount<span class="text-danger"></span></td>
+                        <td><input class="form-control" type="number" [(ngModel)]="add.trr_amount" required
+                            name="trr_amount" #trr_amount="ngModel">
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" type="submit"> <i class='bx bx-paper-plane'></i> Save </button> &nbsp;&nbsp;
+                 <button class="btn btn-secondary rounded-pil " type="button" (click)="Back()">Cancel</button>  &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,56 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { VisitorComponent } from './visitor.component';
+import { AppointmentEntryComponent } from './appointment-entry/appointment-entry.component';
+import { AppointmentApprovalComponent } from './appointment-approval/appointment-approval.component';
+import { VisitorCheckinComponent } from './visitor-checkin/visitor-checkin.component';
+import { VisitorListComponent } from './visitor-list/visitor-list.component';
+import { AdminDashbordComponent } from './admin-dashbord/admin-dashbord.component';
+import { GateDashboardComponent } from './gate-dashboard/gate-dashboard.component';
+import { VisitorDetailsComponent } from './visitor-details/visitor-details.component';
+import { ApprovalEntryComponent } from './approval-entry/approval-entry.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { ApprovedListComponent } from './approved-list/approved-list.component';
+import { AddApprovedListComponent } from './add-approved-list/add-approved-list.component';
+import { VisitorTypeReportComponent } from './visitor-type-report/visitor-type-report.component';
+import { DeportmentwiseReportComponent } from './deportmentwise-report/deportmentwise-report.component';
+import { PersonwiseReportComponent } from './personwise-report/personwise-report.component';
+import { PurposewiseReportComponent } from './purposewise-report/purposewise-report.component';
+import { DaywiseReportComponent } from './daywise-report/daywise-report.component';
+import { UserMasterComponent } from './user-master/user-master.component';
+import { AddUserMasterComponent } from './add-user-master/add-user-master.component';
+import { AllowInsideComponent } from './allow-inside/allow-inside.component';
+import { NewVisitorComponent } from './new-visitor/new-visitor.component';
+
+const routes: Routes = [
+  { path: '', component: VisitorComponent },
+  { path: 'user-master', component: UserMasterComponent },
+  { path: 'add-user-master', component: AddUserMasterComponent },
+  { path: 'allow-inside', component: AllowInsideComponent },
+  { path: 'new-visitor', component: NewVisitorComponent },
+
+  { path: 'appointment-entry', component: AppointmentEntryComponent },
+  { path: 'appointment-approval', component: AppointmentApprovalComponent },
+  { path: 'visitor-checkin', component: VisitorCheckinComponent },
+  { path: 'visitor-checkout', component: VisitorListComponent },
+  { path: 'visitor-admin', component: AdminDashbordComponent },
+  { path: 'visitor-gate', component: GateDashboardComponent },
+  { path: 'visitor-user', component: UserDashboardComponent },
+  { path: 'approved-list', component: ApprovedListComponent },
+  { path: 'add-approved-list', component: AddApprovedListComponent },
+  { path: 'visitor-details', component: VisitorDetailsComponent },
+  { path: 'approval-entry', component: ApprovalEntryComponent },
+  { path: 'visitor-report', component: VisitorTypeReportComponent },
+  { path: 'departmentwise-report', component: DeportmentwiseReportComponent },
+  { path: 'personwise-report', component: PersonwiseReportComponent },
+  { path: 'purposewise-report', component: PurposewiseReportComponent },
+  { path: 'daywise-report', component: DaywiseReportComponent },
+
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class VisitorRoutingModule { }

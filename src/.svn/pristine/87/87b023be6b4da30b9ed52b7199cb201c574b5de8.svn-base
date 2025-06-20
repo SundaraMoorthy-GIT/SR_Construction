@@ -1,0 +1,68 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+import { ConfirmationService } from 'primeng/api';
+
+
+@Component({
+  selector: 'app-admin-dashbord',
+  templateUrl: './admin-dashbord.component.html',
+  styleUrls: ['./admin-dashbord.component.scss']
+})
+export class AdminDashbordComponent implements OnInit {
+
+  constructor(public confirmationService:ConfirmationService,private toastr: ToastrService, public appservice: AppService, private http: HttpClient,  private router: Router, private route: ActivatedRoute)  {
+
+    this.appservice.get_Visitor_Master1();
+
+    this.appservice.get_Visitor_Approved();
+
+
+    this.appservice.get_Checkin_Admin();
+    this.appservice.get_Checkout_Admin();
+
+    this.appservice.get_Visitor_at_Gate();
+   }
+
+
+   load_approval_Entry()
+   {
+     this.router.navigate(['visitor/approval-entry']);
+   }
+
+ 
+   onEdit_App(item) {
+    
+    this.appservice.isEdit =true;
+    this.appservice.Edit_Row = item;
+    this.appservice.Details_Row=[];
+    this.appservice.get("Api/Master/get_Visiting_Member?ID=" + this.appservice.Edit_Row.ID  ).subscribe((res: any) => {
+      this.appservice.Details_Row= JSON.parse(res).record;
+
+      return this.router.navigate(['visitor/approval-entry']);
+    });    
+    
+  }
+
+
+   onEdit(item) {
+    
+    this.appservice.isEdit =true;
+    this.appservice.Edit_Row = item;
+    this.appservice.Details_Row=[];
+    this.appservice.get("Api/Master/get_Visiting_Member?ID=" + this.appservice.Edit_Row.ID  ).subscribe((res: any) => {
+      this.appservice.Details_Row= JSON.parse(res).record;
+
+      return this.router.navigate(['visitor/allow-inside']);
+    });   
+    
+  }
+
+  ngOnInit(): void {
+  }
+
+}

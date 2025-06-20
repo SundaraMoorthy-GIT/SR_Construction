@@ -1,0 +1,158 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+      <div class="card content ">
+  
+        <div class=" Head ">
+  
+  
+  
+          <div class="card-header  d-flex justify-content-between align-items-center">
+            <h3>Gmail Setting</h3>
+  
+            <div class="dropdown">
+  
+              <a (click)="Back()" style="font-size: 20px;font-weight: 900;cursor: pointer;color:black">
+                <b>X</b>
+              </a>
+  
+  
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="content_body">
+  
+  
+  
+          <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()" novalidate>
+  
+  
+  
+            <div class="row">
+  
+              <div class="col-sm-6">
+  
+                <div class="form-table table-responsive">
+                  <table class="table table-bordered">
+  
+  
+                    <tbody>
+                      <tr class="hidden">
+                        <td>ID <span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID" #ID="ngModel" required>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>Email From<span class="text-danger">*</span></td>
+                        <td>
+                          <input class="form-control ng-touched" type="text" [(ngModel)]="add.Email_From" required
+                            name="Email_From" #Email_From="ngModel">
+                          <div *ngIf="addForm.submitted && Email_From.invalid" class="invalid-feedback d-block">
+                            <div class="error">Email From Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>From Name<span class="text-danger">*</span></td>
+                        <td> <input class="form-control" type="text" [(ngModel)]="add.From_Name" required
+                            name="From_Name" #From_Name="ngModel">
+                          <div *ngIf="addForm.submitted && From_Name.invalid" class="invalid-feedback d-block">
+                            <div class="error">Email From Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>SMTP Host<span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.SMTP_Host" required
+                            name="SMTP_Host" #SMTP_Host="ngModel">
+                          <div *ngIf="addForm.submitted && SMTP_Host.invalid" class="invalid-feedback d-block">
+                            <div class="error">SMTP Host Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+  
+  
+                      <tr>
+                        <td>SMTP User<span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.SMTP_User" required
+                            name="SMTP_User" #SMTP_User="ngModel">
+                          <div *ngIf="addForm.submitted && SMTP_User.invalid" class="invalid-feedback d-block">
+                            <div class="error">SMTP User Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>SMTP Password<span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.SMTP_Password" required
+                            name="SMTP_Password" #SMTP_Password="ngModel">
+                          <div *ngIf="addForm.submitted && SMTP_Password.invalid" class="invalid-feedback d-block">
+                            <div class="error">SMTP Password Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>SMTP Port<span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.SMTP_Port" required
+                            name="SMTP_Port" #SMTP_Port="ngModel">
+                          <div *ngIf="addForm.submitted && SMTP_Port.invalid" class="invalid-feedback d-block">
+                            <div class="error">SMTP Port Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>SMTP Security<span class="text-danger">*</span></td>
+                        <td><input class="form-control" type="text" [(ngModel)]="add.SMTP_Security" required
+                            name="SMTP_Security" #SMTP_Security="ngModel">
+                          <div *ngIf="addForm.submitted && SMTP_Security.invalid" class="invalid-feedback d-block">
+                            <div class="error">SMTP Security Should not Empty</div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                      <td>SMTP Domain<span class="text-danger">*</span></td>
+                      <td><input class="form-control" type="text" [(ngModel)]="add.SMTP_Domain" required
+                        name="SMTP_Domain" #SMTP_Domain="ngModel">
+                      <div *ngIf="addForm.submitted && SMTP_Domain.invalid" class="invalid-feedback d-block">
+                        <div class="error">SMTP Domain Should not Empty</div>
+                      </div>
+                    </td>
+                    </tr>
+
+  
+  
+  
+                      
+  
+                    </tbody>
+  
+                  </table>
+  
+                  <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+              
+                    <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+
+
+                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                            role="status" aria-hidden="true"></span>
+                        <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                        Save </button> &nbsp;&nbsp;
+                    <button class="btn btn-secondary rounded-pil " type="button"
+                        (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                </div>
+  
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

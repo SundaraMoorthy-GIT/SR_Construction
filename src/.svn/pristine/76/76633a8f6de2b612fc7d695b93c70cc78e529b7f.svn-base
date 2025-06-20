@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+
+            <div class=" Head ">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Repost</h3>
+
+                    
+                  
+
+                    <a (click)="appservice.back()" class="x">
+                        <b>X</b>
+                    </a>
+
+
+                    
+                </div>
+
+            </div>
+
+            <div class="content_body">
+
+
+                <div  >
+                    <div class="d-table" style="width:100%;">
+                        <div class="d-table-cell">
+                            <div class="maintenance-content" style="box-shadow:none">
+                              
+                                <a style="height: 100px; width: 100px;" class="logo">
+                                    <img src="assets/img/Repost.png" alt="image">
+                                </a>
+                               
+                                <p>Repost Clear all data and restore all transaction newly</p>
+                
+                                <button (click)="get_repost()" class="btn btn-info  rounded-pill" style="background-color: #984326;"style="margin: 10px;height: 40px;" 
+                                   [disabled]="btndisable" > 
+                                 <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  
+                        <i   *ngIf="btndisable==false"style="font-size: 20px;"class='bx bx-repost'></i> Repost
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

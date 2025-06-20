@@ -1,0 +1,163 @@
+body {
+   
+    color: #212529!important;
+    background-color: #fff!important;
+}
+
+.top-navbar.navbar.is-sticky
+{box-shadow: none!important;;
+    background:#f7f7f7!important;
+    border: 1px solid #eee!important;
+}
+
+
+.sidemenu-area .sidemenu-body{
+    box-shadow: none!important;;
+    background: #eee!important;;
+    border-right: 1px solid #e4e4e4!important;;
+}
+
+
+.tabs-header ul .active {
+    color: #15a02c!important;
+    border-bottom: 2px solid #15a02c;
+}
+
+
+.tabs-header ul{
+   
+    li:hover {
+        color: #15a02c!important;
+    border-bottom: 2px solid #15a02c !important;
+    }
+}
+
+
+.main-content {
+    padding-right: 16px;
+    padding-left: 266px;
+    padding-top: 57px;
+
+    
+    &.hide-sidemenu-area {
+        padding-left: 70px;
+    }
+}
+
+
+
+
+
+
+@media only screen  and (max-width: 1199px)
+{
+.main-content {
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-top: 57px;
+    
+}
+
+.w_79 {
+    width: 100%!important;
+}
+
+.search-bar_Ext {
+    top: 58px!important;
+}
+
+}
+
+
+@media only screen and (max-width: 576px)
+{
+
+    .search-bar_Ext {
+        top: 0px!important;
+    }
+}
+
+
+.w_79 {
+    width: calc(100% - 250px);
+}
+
+.search-bar_Ext {
+    top: 58px;
+}
+
+.navbar-expand .navbar-collapse {
+    
+    padding-left: 10px;
+}
+
+.sidemenu-area .sidemenu-header {
+    background: #eee!important;;
+    border-bottom: 1px solid #e6e5e5!important;
+    background-color: #eee!important;
+    border-right: 1px solid #e4e4e4!important;
+    box-shadow: none!important;
+}
+
+.sidemenu-nav .nav-item.active .nav-link {
+    background-color: #15a02c!important;
+    color: white!important;
+}
+
+.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item 
+{
+.nav-link
+{
+    &:hover {
+ 
+        &::before {
+           
+            background-color: #FF7F00!important;
+            width: 3px;
+        }
+       
+    }
+}
+&.mm-active, &.active {
+    .nav-link {
+       
+       &::before {
+        background-color: #FF7F00!important;
+            width: 3px;
+        }
+      
+        
+    }
+}
+}
+
+.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item .nav-link .icon
+{
+    
+
+    color: black;
+    &:hover{
+        color: white;
+        
+    }
+}
+
+
+.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item.active .nav-link .icon {
+    color: white;
+    
+}
+
+.sidemenu-area .sidemenu-body .sidemenu-nav .nav-item .nav-link {
+    color: black;
+    &:hover {
+        background-color: #15a02c!important;
+        color: white!important;
+    .icon {
+        
+        color: white;
+    }
+
+    }
+}
+

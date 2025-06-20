@@ -1,0 +1,48 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { CollectionComponent } from './collection.component';
+import { LoanIssueEntryComponent } from './loan-issue-entry/loan-issue-entry.component';
+import { LoanIssueDetailsComponent } from './loan-issue-details/loan-issue-details.component';
+import { LoanCollectionEntryComponent } from './loan-collection-entry/loan-collection-entry.component';
+import { LoanCollectionDetailsComponent } from './loan-collection-details/loan-collection-details.component';
+import { EmiLoanIssueComponent } from './emi-loan-issue/emi-loan-issue.component';
+import { EmiLoanCollectionComponent } from './emi-loan-collection/emi-loan-collection.component';
+import { GroupDetailsComponent } from './group-details/group-details.component';
+import { GroupEntryComponent } from './group-entry/group-entry.component';
+import { ActionDetailsComponent } from './action-details/action-details.component';
+import { ActionEntryComponent } from './action-entry/action-entry.component';
+import { CollectionHomeComponent } from './collection-home/collection-home.component';
+import { CustomerOverviewComponent } from './customer-overview/customer-overview.component';
+import { OverviewPendingComponent } from './overview-pending/overview-pending.component';
+import { OverviewTransactionComponent } from './overview-transaction/overview-transaction.component';
+import { LoanwiseOutstandingComponent } from './loanwise-outstanding/loanwise-outstanding.component';
+import { EmiLoanDetailsComponent } from './emi-loan-details/emi-loan-details.component';
+
+const routes: Routes = [
+  { path: 'loan-issue', component: LoanIssueEntryComponent },
+  { path: 'loan-issue-details', component: LoanIssueDetailsComponent },
+  { path: 'loan-collection', component: LoanCollectionEntryComponent },
+  { path: 'loan-collection-details', component: LoanCollectionDetailsComponent },
+  { path: 'emi-loan-issue', component: EmiLoanIssueComponent },
+  { path: 'emi-loan-issue-details', component: EmiLoanDetailsComponent },
+
+  { path: 'emi-loan-collection', component: EmiLoanCollectionComponent },
+  { path: 'customer_overview', component: CustomerOverviewComponent },
+  { path: 'overview-pending', component: OverviewPendingComponent },
+  { path: 'overview-transaction', component: OverviewTransactionComponent },
+  { path: 'loanwise-outstanding', component: LoanwiseOutstandingComponent },
+
+  { path: 'group_details', component: GroupDetailsComponent },
+  { path: 'action_details', component: ActionDetailsComponent },
+  { path: 'action_entry', component: ActionEntryComponent },
+  { path: 'group-entry', component: GroupEntryComponent },
+  { path: 'collection-home', component: CollectionHomeComponent },
+
+  { path: '', component: CollectionComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class CollectionRoutingModule { }

@@ -1,0 +1,62 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AppService } from 'src/app/app.service';
+@Component({
+  selector: 'app-collection-home',
+  templateUrl: './collection-home.component.html',
+  styleUrls: ['./collection-home.component.scss']
+})
+export class CollectionHomeComponent implements OnInit {
+
+  constructor(public appservice:AppService,private router: Router,) {
+    this.appservice.get_OutStanding_Supplier();
+    this.appservice.get_day_Book();
+    this.appservice.get_OutStanding();
+    this.appservice.get_Group_Details();
+    this.appservice.get_Dashboard_Payment();
+    this.appservice.get_Recipts();
+    this.appservice.get_Payment();
+
+  }
+    load_Group_details()
+  {
+    this.router.navigate(['collection/group_details']);
+  }
+
+
+ 
+  
+  load_Amt_Hand()
+  {
+    this.router.navigate(['report/day-book']);
+  }
+  load_To_collect()
+  {
+    this.router.navigate(['report/Outstanding-customer']);
+  }
+  load_To_Pay()
+  {
+    this.router.navigate(['report/outstanding_supplier']);
+  }
+  load_Today_Payment()
+  {
+    this.router.navigate(['transaction/payment-details']);
+  }
+  load_Today_Collect()
+  {
+    this.router.navigate(['transaction/receipt-details']);
+  }
+  load_Bank_Balance()
+  {
+    this.router.navigate(['report/bank-balance']);
+  }
+  ngOnInit(): void {
+    this.appservice.mobile_menu=true;
+  }
+
+  
+  ngOnDestroy() {
+    this.appservice.mobile_menu=false;
+  }
+
+}

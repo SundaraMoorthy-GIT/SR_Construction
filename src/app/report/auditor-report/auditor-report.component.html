@@ -1,0 +1,358 @@
+<div class="row mhide">
+    <div class="col-md-12 nopad">
+  
+      <div class="col-md-12 nopad mhide">
+        <div class="w_79" style="position: fixed;z-index: 100;">
+          <div class="tabs-header border-bottom">
+            <ul>
+              <li *ngFor="let data of appservice.Auditor_purchase_report"
+                  [class.active]="appservice.URL_Location==data.Link">
+                <a (click)="appservice.load_page(data.Link)">{{data.Menu}}</a>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="right-corner">
+            <div class="dropdown" style="display: inline-flex;">
+              <a class="dropdown-toggle serch_icon mhide" data-toggle="tooltip" data-placement="bottom" title="search">
+                <i style="font-size: 20px;" class='bx bx-search'></i>
+              </a>
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true" aria-expanded="false">
+                <a (click)="appservice.back()" style="font-size: 20px; font-weight: 900; cursor: pointer; color: black">
+                  <b class="px-2 text-muted">X</b>
+                </a>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 res_table">
+          <div class="search-bar_Ext mhide show_bar" style="right: 80px;">
+            <!-- <li class="bx bx-left-arrow-alt mhide search_back"></li> -->
+            <input type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" class="search-form-control text" placeholder="Search...">
+          </div>
+  
+          <table class="py-2 ">
+            <tr>
+              <td class="mhide">
+                <label style="font-size: 15px;" class="font-weight-bold">From :</label>
+              </td>
+              <td>
+                <input type="date" style="max-width:160px;" class="form-control form-control-sm" [(ngModel)]="appservice.S_From" name="From_" #From_="ngModel">
+              </td>
+              <td class="mhide">
+                <label style="font-size: 15px;" class="font-weight-bold">To :</label>
+              </td>
+              <td>
+                <input type="date" style="max-width:160px;" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To" name="To_" #To_="ngModel">
+              </td>
+              <td class="mhide">
+                <span style="font-size: 11px;">&nbsp;</span>
+                <button type="button" (click)="appservice.get_Auditor_pruchase_Reports()" class="btn btn-info btn-sm">Search</button>
+                <span style="font-size: 10px;">&nbsp;&nbsp;&nbsp;</span>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            
+              <td class="float-right">
+                <button type="button" (click)="export_pdf(dt)" class="btn btn-danger btn-sm">PDF</button>
+              </td>
+              <td class="float-right">
+                <button type="button" (click)="export_excel(dt)" class="btn-success btn-sm">Excel</button>
+              </td>
+            </tr>
+          </table>
+  
+          <div >
+          <p-table #dt class="table table-striped custom-table"
+           [value]="appservice.Pur_Details_Row1" selectionMode="single"
+            [globalFilterFields]="appservice.Pur_Details_GF">
+            <ng-template pTemplate="header">
+              <tr class="pt-3">
+                <th class="mhide">#</th>
+                <th>Supplier</th>
+                <th>GstNO</th>
+                <th>Bill No</th>
+                <th>Bill Date</th>
+                <th>HSNCode</th>
+                <th>Qty</th>
+                <th>UOM</th>
+                <th>INVOICE Amount</th>
+                <th>GST Per</th>
+                <th>Taxable Amount</th>
+                <th>IGST Amount</th>
+                <th>CGST Amount</th>
+                <th>SGST Amount</th>
+                <!-- <th>Amount</th> -->
+              </tr>
+              <tr>
+                <th class="mhide"></th>
+                <th>
+                  <p-columnFilter field="pur_ledger_name" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                    <ng-template pTemplate="header">
+                        <div class="px-3 pt-3 pb-0">
+                            <span class="font-bold">Agent Picker</span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-multiSelect [ngModel]="value" [options]="appservice.representatives" placeholder="Any" (onChange)="filter($event.value)" optionLabel="value"
+                        optionValue="value">
+                            <ng-template let-option pTemplate="item">
+                                <div class="inline-block vertical-align-middle">
+                                    <span class="ml-1 mt-1">{{ option.value }}</span>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                    </ng-template>
+                </p-columnFilter>
+                </th>
+                
+                <th>
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'pur_gst_no', 'contains')">
+                </th>
+                <th>
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'pur_bill_no', 'contains')">
+                </th>
+                <th>
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'pur_bill_date', 'contains')">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'pur_hsn_code', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'pur_qty', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'UOM', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'INV_Value', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'pur_gst_per', 'contains')">
+                  </th>
+                <th>
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'Taxable_amount', 'contains')">
+                </th>
+                <th>
+                  <input pInputText type="text" (input)="dt.filter($event.target.value, 'igst_amt', 'contains')">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'sgst_amt', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'cgst_amt', 'contains')">
+                  </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+              <tr>
+                <td>{{rowIndex + 1}}</td>
+                <td>{{rowData.pur_ledger_name}}</td>
+                <td>{{rowData.pur_gst_no}}</td>
+                <td>{{rowData.pur_bill_no}}</td>
+                <td>{{rowData.pur_bill_date}}</td>
+                <td>{{rowData.pur_hsn_code}}</td>
+                <td>{{rowData.pur_qty}}</td>
+                <td>{{rowData.UOM}}</td>
+                <td>{{rowData.INV_Value}}</td>
+                <td>{{rowData.pur_gst_per}}</td>
+                <td>{{rowData.Taxable_amount}}</td>
+                <td>{{rowData.igst_amt}}</td>
+                <td>{{rowData.sgst_amt}}</td>
+                <td>{{rowData.cgst_amt}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        </div>
+      </div>
+  
+      <div class="col-md-12 nopad mhide">
+        <div class="w_79" style="bottom: 0; font-weight: 700; color: #333333; background-color: #f4f4f4; padding: 0.571em 0.857em; position: fixed; bottom: 0; border: 1px solid #c8c8c8;">
+          <table style="width: 100%;">
+            <tr>
+                <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+                <td style="text-align: right;     color: crimson;"> Amount :
+                  {{appservice.sum_of(dt,'INV_Value')| number:'1.0-0'}}</td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  
+  <div class="row mshow">
+    <div class="col-md-12 nopad">
+  
+      <div class="search-bar_Ext   disp" style="right: 50px;">
+    
+    
+        <li style="color: #37517e;" (click)="appservice.back()" class="bx bx-left-arrow-alt mshow  search_back"></li>
+  
+        <label class="h_txex"> Auditor purchase Report</label>
+  
+          <div class="right-cornerN">
+            <div class="dropdown"style="display: inline-flex;">
+              
+              <a class="dropdown-toggle  serch_icon   mshow"  data-toggle="tooltip" data-placement="bottom"
+              title="search" style="padding-right:12px;padding-top: 1px;" (click)="showSearch = !showSearch">
+        
+                <i class='bx bx-search cons py-2'></i> 
+              </a>
+
+  
+              <button class="dropdown-toggle" type="button" data-toggle="dropdown" title="more" aria-haspopup="true"
+                aria-expanded="false" style="padding-right:11px;">
+                
+                <i class='bx bx-filter cons py-2'></i>
+              </button>
+              <div class="dropdown-menu" style="width: 325px;">
+                <div style="background-color: teal; color: white; width: 100%; ">
+                  &nbsp;&nbsp;Search</div>
+                <table>
+                 
+               
+                  <tr>
+                    <td style="width: 80px;">From </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_From"
+                        name="From_" #From_="ngModel">
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td style="width: 80px;">To </td>
+                    <td>
+                      <input type="date" class="area form-control form-control-sm" [(ngModel)]="appservice.S_To"
+                        name="To_" #To_="ngModel">
+                    </td>
+                  </tr>
+  
+                  <tr>
+                    <td> </td>
+                    <td><button type="button" (click)="appservice.get_Auditor_pruchase_Reports()"
+                        class="btn btn-info btn-sm">Search</button>&nbsp;</td>
+                  </tr>
+                </table>
+                <div  class="search_Footer border-top" style="color: green;"> 
+                  <div (click)="export_excel(dt1)"  class="buttons">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export Excel</span>
+                   
+                  </div>
+      
+                 
+                  <div (click)="export_pdf(dt1)"  class="buttons " style="color: red;">
+                    <span><li class="bx bx-download"></li></span>
+                   <span> Export PDF</span>
+                   
+                  </div>
+      
+      
+              </div>
+             
+              </div>
+            </div>
+          </div>
+  
+       
+      </div>
+  
+      <div class="col-md-12 nopad">
+        <div class="spin_block" *ngIf="appservice.isload">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="m_2 ">
+        
+          <div class="search-bar_Ext mhide  show_bar " style="right: 80px;"
+          [ngClass]="{ 'mhide': !showSearch, 'disp': showSearch }">
+          
+            <li  class="bx bx-left-arrow-alt mshow  search_back" (click)="showSearch = !showSearch"></li>
+  
+                <input  type="text"  (input)="dt1.filterGlobal($event.target.value, 'contains')" 
+                class="search-form-control text"
+                placeholder="Search...">
+    
+          </div>
+         
+          <p-table #dt1 class="table table-striped custom-table mshow" [value]="appservice.Pur_Details_Row1"style="margin:top -100px;"
+          selectionMode="single"[globalFilterFields]="appservice.Pur_Details_GF">
+          <ng-template pTemplate="header">
+            <tr class="vs">
+              <th style="text-align: center">Details</th>
+              <th style="text-align: center">Amount</th>
+              
+              
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-car let-rowIndex="rowIndex">
+            <tr class="vs"  [pSelectableRow]="rowData">
+                <td> <span class="l1_txt">{{rowData.pur_ledger_name}}  </span>
+                  <br><span class="l2_txt">Gst NO : {{rowData.pur_gst_no}}</span>
+                  <br><span class="l2_txt">Bill No : {{rowData.pur_bill_no}}</span>
+                  <br><span class="l2_txt">Bill Date : {{rowData.pur_bill_date}}</span>
+                  <br><span class="l3_txt">HSNCode : {{rowData.pur_hsn_code}} </span>
+                  <br><span class="l3_txt">Qty : {{rowData.pur_qty}} </span>
+                  <br><span class="l3_txt">UOM : {{rowData.UOM}} </span>
+                  <br><span class="l3_txt">GST Per : {{rowData.pur_gst_per}} </span>
+                  <br><span class="l3_txt">Taxable Amount : {{rowData.Taxable_amount}} </span>
+                  <br><span class="l3_txt">IGST Amount : {{rowData.igst_amt}} </span>
+                  <br><span class="l3_txt">CGST Amount : {{rowData.sgst_amt}} </span>
+                  <br><span class="l3_txt">SGST Amount : {{rowData.cgst_amt}} </span>
+                </td>
+                  <td style="text-align: right;">
+                      <span class="l1_txt" style="color: darkred;" >{{rowData.INV_Value |currency:'INR':'symbol':'0.0-0'}} </span>
+      
+                  </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        </div>
+      </div>
+     
+      <div  class="col-md-12 nopad mshow">
+        <div class="w_79" style="  bottom: 0;
+                font-weight: 700;
+                color: #333333;
+                background-color: #f4f4f4;
+                padding: 0.571em 0.857em;
+                position: fixed;
+                bottom: 0;
+            
+                
+                border: 1px solid #c8c8c8;">
+           <table style="width: 100%;">
+            <tr>
+              <td style="color: darkslategray;">Total Items : {{appservice.length_of(dt)}} </td>
+              <td style="text-align: right;     color: crimson;"> Amount :
+                {{appservice.sum_of(dt,'INV_Value')| number:'1.0-0'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

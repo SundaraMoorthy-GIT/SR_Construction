@@ -1,0 +1,134 @@
+import { Component, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-sales-dashboard',
+  templateUrl: './sales-dashboard.component.html',
+  styleUrls: ['./sales-dashboard.component.scss']
+})
+export class SalesDashboardComponent implements OnInit {
+
+  constructor(public appservice:AppService,private router: Router,) {
+    this.appservice.get_Minimum_Stock_Details();
+
+}
+addBank_detais() {
+  return this.router.navigate(['report/bank-balance']);
+}
+addPurchase() {
+  this.appservice.isadd = "0";
+  return this.router.navigate([this.appservice.Purchase_entry_page]);
+}
+addPurchase_detais() {
+  return this.router.navigate(['Purchase/purchase-details']);
+}
+load_sales()
+{
+  this.router.navigate([this.appservice.Sales_Entry_Page]);
+}
+load_sales_details()
+{
+  this.router.navigate(['sales-details']);
+}
+
+Print() {
+  return this.router.navigate(['sales/print-page']);
+
+}
+
+
+Print_Stock_Detais()
+{
+
+
+  window.open(this.appservice.Server_URL+"report/Print_Stock_Report?Date="+this.appservice.S_From+"&Company="+this.appservice.Company, "_blank");
+
+}
+
+
+Print_Bill_Detais()
+{
+  window.open(this.appservice.Server_URL+"report/Print_Bill_Details?Date="+this.appservice.S_From+"&Company="+this.appservice.Company, "_blank");
+}
+
+add_receipt()
+   {
+    this.router.navigate(['/transaction/add-receipt-details']);
+   }
+   add_receipt_details()
+   {
+    this.router.navigate(['/transaction/receipt-details']);
+   }
+   
+   add_payment()
+   {
+    this.router.navigate(['/transaction/add-payment']);
+   }
+   add_payment_details()
+   {
+    this.router.navigate(['/transaction/payment-details']);
+   }
+   add_Expense()
+   {
+     this.appservice.isadd="0";
+     this.router.navigate(['/transaction/add-expense']);
+   }
+   add_Expense_details()
+   {
+     this.router.navigate(['/transaction/expense-details']);
+   }
+   add_Receivable_out()
+   {
+    this.router.navigate(['/report/customerwise-out']);
+   }
+   add_payable_out()
+   {
+    this.router.navigate(['/report/supplierwise-out']);
+   }
+
+
+   add_Reports()
+   {
+    this.router.navigate(['/report']);
+   }
+   add_Item() {
+    this.appservice.isadd = "0";
+    this.appservice.isEdit=false;
+    return this.router.navigate(['/add-items1']);
+  }
+  add_Item_Detais()
+   {
+    this.router.navigate(['/master/item-master1']);
+   }
+   Stock_Detais()
+   {
+    this.router.navigate(['/report/minimum-stock']);
+   }
+  add_Ledger() {
+    this.appservice.isadd = "0";
+    this.appservice.Edit_Row ={};
+    this.appservice.isEdit=false;
+    return this.router.navigate(['master/ledger-entry']);
+  }
+  add_Ledger_Detais()
+   {
+    this.router.navigate(['/master/ledger-details']);
+   }
+  add_Day()
+  {
+   this.router.navigate(['/report/day-book']);
+  }
+  add_Vadi_Details()
+  {
+   this.router.navigate(['/transaction/vadi-details']);
+  }
+  add_Vadi_Entry()
+  {
+   this.router.navigate(['/transaction/vadi-entry']);
+  }
+ngOnInit() {
+    
+    
+}
+}

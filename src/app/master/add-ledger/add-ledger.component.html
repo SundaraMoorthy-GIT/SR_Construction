@@ -1,0 +1,168 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content c_pad_5">
+            <div class=" Head  mhide">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Ledger Master</h3>
+  
+                    <div class="dropdown">
+  
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+  
+  
+                    </div>
+                </div>
+  
+            </div>
+  
+            <div class="content_body">
+  
+  
+  
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+  
+                    <div class="row">
+                        <div class="col-sm-6">
+  
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.cus_id" name="cus_id"
+                                                    #cus_id="ngModel" ></td>
+                                        </tr>
+                                      <tr >
+                                        <td>Code  <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_code" name="cus_code"
+                                            #cus_code="ngModel" >
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>{{appservice.Customer_details}} Name<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_name"required name="cus_name"
+                                                #cus_name="ngModel" >
+                                                <div *ngIf="addForm.submitted && cus_name.invalid" class="invalid-feedback  d-block">
+                                                    <div class="error"> {{appservice.Customer_details}} Name  Should not entry</div>
+                                                </div>
+                                            </td>
+                                    </tr>
+                                        <tr>
+                                            <td>Address<span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.cus_address1"required name="cus_address1"
+                                                    #cus_address1="ngModel" >
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address 2 <span class="text-danger"></span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.cus_address2" name="cus_address2"
+                                                    #cus_address2="ngModel" ></td>
+                                        </tr>
+                                      <tr >
+                                          <td>City <span  class="text-danger"></span>
+                                          </td>
+                                          <td>
+                                                  <input class="form-control" type="text" [(ngModel)]="add.cus_city" name="cus_city"
+                                              #cus_city="ngModel" >
+                                          </td>
+                                      </tr>
+                                      <tr >
+                                          <td>Pincode <span  class="text-danger"></span>
+                                          </td>
+                                          <td>
+                                                  <input class="form-control" type="text" [(ngModel)]="add.cus_pincode" name="cus_pincode"
+                                              #cus_pincode="ngModel" >
+                                          </td>
+                                      </tr>
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+  
+                          <div class="form-table table-responsive">
+                              <table class="table table-bordered">
+                                  <tbody>
+                                    <tr >
+                                        <td>Contact Person <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_contactperson" name="cus_contactperson"
+                                            #cus_contactperson="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Contact Number <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_contactno" name="cus_contactno"
+                                            #cus_contactno="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>GST Number <span  class="text-danger"></span>
+                                        </td>
+                                        <td><input class="form-control" type="text" [(ngModel)]="add.cus_gstin" name="cus_gstin"
+                                            #cus_gstin="ngModel" >
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td>State/code <span  class="text-danger"></span>
+                                        </td>
+                                        
+                                        <td  style="text-align: center;">
+                                            <div style="display: inline-flex; width: 100%;">
+                                                <div style="width: 80%;">
+                                            <select class="select2-option form-control " [(ngModel)]="add.cus_state" name="cus_state"
+                                                #cus_state="ngModel" (ngModelChange)="onChange(add.cus_state)" style="width:100%" aria-hidden="true">
+                                                <option  value="0"> </option>
+                                                <option *ngFor="let data of State_Row" value={{data.label}}>
+                                                    {{data.label}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div style="width: 20%;">
+                                            <input class="form-control" type="text" [(ngModel)]="add.cus_scode" name="cus_scode"
+                                                #cus_scode="ngModel" disabled="true">
+                                        </div>
+                                    </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="hidden">
+                                        <td>Opening Balance<span class="text-danger">*</span></td>
+                                        <td><input class="form-control" type="number" value="0" [(ngModel)]="add.cus_ob" name="cus_ob"
+                                                #cus_ob="ngModel" >
+                                            </td>
+                                    </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          
+                      </div>
+                      <br><br>
+                          <div class="col-sm-6">
+                         
+                              <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+  
+                                  <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+  
+  
+                                      <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                          role="status" aria-hidden="true"></span>
+                                      <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                      Save </button> &nbsp;&nbsp;
+                                  <button class="btn btn-secondary rounded-pil " type="button"
+                                      (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                              </div>
+  
+                              </div>
+                    </div>
+                   
+                </form>
+              
+            </div>
+        </div>
+    </div>

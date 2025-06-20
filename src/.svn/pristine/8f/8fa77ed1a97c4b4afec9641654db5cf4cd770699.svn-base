@@ -1,0 +1,25 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { PurposewiseReportComponent } from './purposewise-report.component';
+
+describe('PurposewiseReportComponent', () => {
+  let component: PurposewiseReportComponent;
+  let fixture: ComponentFixture<PurposewiseReportComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ PurposewiseReportComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PurposewiseReportComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

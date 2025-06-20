@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-md-12 nopad">
+        <div class="card content ">
+  
+            <div class=" Head ">
+  
+  
+  
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3>Table</h3>
+  
+                    <div class="dropdown">
+  
+                        <a (click)="appservice.back()" class="x">
+                            <b>X</b>
+                        </a>
+  
+  
+                    </div>
+                </div>
+  
+            </div>
+  
+            <div class="content_body">
+  
+  
+  
+                <form #addForm="ngForm" (ngSubmit)="addData(addForm)" (keydown.enter)="$event.preventDefault()"
+                    novalidate>
+  
+                    <div class="row">
+                        <div class="col-sm-6">
+  
+                            <div class="form-table table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr class="hidden">
+                                            <td>ID <span class="text-danger">*</span></td>
+                                            <td><input class="form-control" type="text" [(ngModel)]="add.ID" name="ID"
+                                                    #ID="ngModel" required></td>
+                                        </tr>
+  
+  
+  
+                                        <tr *ngFor="let data of  appservice.get_pos_field('Table_Master','1TL')">
+                                            <td>{{data.Name}}  <span *ngIf="data.Validate=='True'" class="text-danger">*</span></td>
+  
+                                            <td>
+  
+  
+                                              <select  *ngIf="(data.Type=='Select' && data.Field=='Item_Group')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let s of appservice.Item_Group" value={{s.ID}}>
+                                                       {{s.Table_Name}}
+                                                   </option>
+                                                 </select>
+  
+  
+                                                <select  *ngIf="(data.Type=='Select' && data.Field!='Item_Group')" class="select2-option form-control"  aria-hidden="true"
+                                                 required="data.Validate=='True'" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel">
+                                                   <option *ngFor="let row of appservice.get_ref(data.Options)" value={{row.label}}>
+                                                       {{row[data.Store_Value]}}
+                                                   </option>
+                                                 </select>
+  
+                                                
+                                                <input *ngIf="data.Type!='Select'" class="form-control cls_0"   [readonly]="data.IsEdit=='False'"  required="data.Validate=='True'" type="{{data.Type}}" [(ngModel)]="add[data.Field]"
+                                                    name="{{data.Field}}" #{{data.Field}}="ngModel"   >
+                                                
+                                                    <div *ngIf='addForm.submitted && (data.Validate=="True") && (add[data.Field]=="")' class="invalid-feedback d-block">
+                                                        <div class="error"> {{data.Name}} Should not entry</div>
+                                                    </div>  
+                                                </td>
+                                        </tr>
+  
+  
+  
+                                    </tbody>
+                                </table>
+  
+  
+                                <div class="invoice-btn-box text-right " style="padding-bottom:20px">
+  
+                                    <button class="btn btn-info rounded-pil" [disabled]="btndisable" type="submit">
+  
+  
+                                        <span *ngIf="btndisable==true" class="spinner-border spinner-border-sm"
+                                            role="status" aria-hidden="true"></span>
+                                        <i *ngIf="btndisable==false" class='bx bx-paper-plane'></i>
+                                        Save </button> &nbsp;&nbsp;
+                                    <button class="btn btn-secondary rounded-pil " type="button"
+                                        (click)="appservice.back()">Cancel</button> &nbsp;&nbsp;
+                                </div>
+  
+                            </div>
+                        </div>
+  
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
